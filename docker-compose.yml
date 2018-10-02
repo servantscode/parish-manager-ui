@@ -1,17 +1,23 @@
 version: '3'
 services:
-  person-svc:
-    image: "servantscode/person-svc:latest"
+  parish-manager:
+    image: "servantscode/parish-manager:latest"
     ports:
-     - "80:8080"
-  postgres:
-    image: "postgres"
-    ports:
-     - "5432:5432"
-    volumes:
-     - postgres:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: "SuperSecret"
+     - "8080:80"
+#  person-svc:
+#    image: "servantscode/person-svc:latest"
+#    ports:
+#     - "8080:8080"
+#  postgres:
+#    image: "postgres"
+#    ports:
+#     - "5432:5432"
+#    volumes:
+#     - postgres:/var/lib/postgresql/data
+#    environment:
+#      POSTGRES_PASSWORD: "SuperSecret"
 
-volumes:
-  postgres:
+#volumes:
+#  postgres:
+#    external: 
+#      name: person-svc_postgres

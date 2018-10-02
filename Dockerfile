@@ -1,7 +1,8 @@
 #Dockerfile
 
-FROM httpd:2.4
+FROM nginx:latest
 
 MAINTAINER Greg Leitheiser <greg@servantscode.org>
 
-COPY ./dist/parish-manager-ui/ /usr/local/apache2/htdocs
+COPY docker/nginx.conf /etc/nginx/conf.d/
+COPY dist/parish-manager-ui /usr/share/nginx/html
