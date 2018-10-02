@@ -1,6 +1,6 @@
-<div *ngIf="person">
 <h2>{{person.name | uppercase}}</h2>
-<div><span>id: </span>{{person.id}}</div>
+<div *ngIf="person.id > 0"><span>id: </span>{{person.id}}</div>
+<div *ngIf="!(person.id > 0)"><span>id: </span>New</div>
 <div><label>name: <input [(ngModel)]="person.name" placeholder="name"></label></div>
-<button (click)="goBack()">go back</button>
-</div>
+<button (click)="save()">Save</button>
+<button (click)="goBack()">Go Back</button>

@@ -6,7 +6,13 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './message.service';
 
 import { Person } from '../person';
-import { PEOPLE } from '../mock-people';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +36,22 @@ export class PersonService {
     return this.http.get<Person>(this.url + `/${id}`).pipe(
         tap(person => this.log('Found person' + person.id)),
         catchError(this.handleError('getPerson', null))
+      );
+  }
+
+  createPerson(person: Person): Observable<Person> {
+    this.messageService.add(`PersonService: creating a person`);
+    return this.http.post<Person>(this.url, person, httpOptions).pipe(
+        tap(person => this.log('created person' + person.id)),
+        catchError(this.handleError('createPerson', null))
+      );
+  }
+
+  updatePerson(person: Person): Observable<Person> {
+    this.messageService.add(`PersonService: updating a person`);
+    return this.http.put<Person>(this.url, person, httpOptions).pipe(
+        tap(person => this.log('Updated person' + person.id)),
+        catchError(this.handleError('updatePerson', null))
       );
   }
 

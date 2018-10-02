@@ -27,8 +27,8 @@ help: ## This help.
 
 # DOCKER TASKS
 # Build the container
-#	ng build -c production
 build: ## Build the container
+	ng build -c production
 	docker.exe build -t servantscode/$(APP_NAME) .
 
 build-nc: ## Build the container without caching
