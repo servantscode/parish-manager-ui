@@ -1,9 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Person } from '../person';
 import { PersonService } from '../services/person.service';
+
+export enum KEY_CODE {
+  ENTER = 13
+}
 
 @Component({
   selector: 'app-person-detail',
@@ -22,13 +26,20 @@ export class PersonDetailComponent implements OnInit {
     this.getPerson();
   }
 
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {    
+    if (event.keyCode === KEY_CODE.ENTER) {
+      this.save();
+    }
+  }
+
   getPerson(): void {
+    this.person = new Person();
+
     const id = +this.route.snapshot.paramMap.get('id');
     if(id > 0) {
       this.personService.getPerson(id).
         subscribe(person => this.person = person);
-    } else {
-      this.person = new Person();
     }
   }
 
@@ -39,10 +50,16 @@ export class PersonDetailComponent implements OnInit {
   save(): void {
     if(this.person.id > 0) {
       this.personService.updatePerson(this.person).
-        subscribe(person => this.person = person);
+        subscribe(person => {
+          this.person = person;
+          this.location.back();
+        });
     } else {
       this.personService.createPerson(this.person).
-        subscribe(person => this.person = person);      
+        subscribe(person => {
+          this.person = person;
+          this.location.back();
+        });      
     }
   }
 }

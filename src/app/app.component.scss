@@ -1,55 +1,57 @@
 /* Application-wide Styles */
-h1 {
-  color: #369;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 250%;
+.header {
+  background: #666666;
+  color: #ffffff;
+  h1 {
+    font-family: "Eras Bold ITC", "Eras ITC", Arial, Verdana, sans-serif ; 
+    line-height: 1.5;
+  }
+
+  div {
+    padding:5px 10px 3px 10px;
+  }
+  
+  .logo {
+    height: 40px;
+    margin-top: -6px;
+    padding-left: 20px;
+    padding-right: 10px;
+  }
 }
+
 h2, h3 {
   color: #444;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Eras Medium ITC", "Eras ITC", Arial, Helvetica, sans-serif;
   font-weight: lighter;
 }
+
+.page {
+  display: table;
+  width: 100%;
+}
+.content,
+.nav {
+  display: table-cell;
+}
+
+.nav {
+  width: 150px;
+}
+
+.content {
+  width: 100%;
+}
+
 body {
   margin: 2em;
 }
+
 body, input[text], button {
   color: #888;
-  font-family: Cambria, Georgia;
+  font-family: "Eras Medium ITC", "Eras ITC", Arial, Verdana, sans-serif; 
 }
+
 /* everywhere else */
 * {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Eras Medium ITC", "Eras ITC", Arial, Verdana, sans-serif; 
 }
-
-@mixin transform($property) {
-    -webkit-transform: $property;
-    transform: $property;
-    -ms-transform: $property;
-} 
-
-@mixin spinme($duration) {
-    animation-name: spinner;
-    animation-duration: $duration;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-}
-
-@keyframes spinner {
-  0% {
-    @include transform(rotate(0deg));
-    font-weight: bold;
-  }
-  50% {
-    font-weight:normal;
-  }
-  100% {
-    @include transform(rotate(360deg));
-    font-weight: bold;
-  }
-}
-
-div.spinning-txt { 
-    color: blue;
-    font-weight: bold;
-    @include spinme(8s);
-} 

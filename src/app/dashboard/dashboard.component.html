@@ -1,8 +1,28 @@
-<h3>Top Heroes</h3>
-<div class="grid grid-pad">
-  <a *ngFor="let person of people" class="col-1-4" routerLink="/detail/{{person.id}}">
-    <div class="module hero">
-      <h4>{{person.name}}</h4>
+<div class="container controls-right">
+  <button type="button" class="btn btn-primary" [routerLink]="['/detail/']">New Person</button>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col">
     </div>
-  </a>
+    <div class="col controls-right">
+      <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="getPeople()"></ngb-pagination>
+      <span class="page-status">Showing: {{this.pageStart()}}-{{this.pageEnd()}} of {{totalCount}}</span>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <table>
+  	<thead>
+  		<tr>
+  			<th>Name</th>
+      </tr>
+  	</thead>
+  	<tbody (mouseleave)="highlightPerson(null)">
+  		<tr *ngFor="let person of people"  (mouseover)="highlightPerson(person)"
+                [ngClass] = "{'highlight' : person === highlightedPerson}">
+  			<td routerLink="/detail/{{person.id}}">{{person.name}}</td>
+  		</tr>
+  	</tbody>
+  </table>
 </div>

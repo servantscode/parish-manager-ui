@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Person } from '../person';
-import { PEOPLE } from '../mock-people';
+import { PersonResponse } from '../personResponse';
 import { PersonService } from '../services/person.service';
 
 @Component({
@@ -17,6 +17,6 @@ export class PersonComponent implements OnInit {
 
   ngOnInit() {
     this.personService.getPeople().
-      subscribe(people => this.people = people);
+      subscribe(personResponse => this.people = personResponse.results);
   }
 }

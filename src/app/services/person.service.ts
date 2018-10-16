@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './message.service';
 
 import { Person } from '../person';
+import { PersonResponse } from '../personResponse';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -23,16 +24,14 @@ export class PersonService {
   constructor(private http: HttpClient,
               private messageService: MessageService) { }
 
-  getPeople(): Observable<Person[]> {
-    this.log('Retrieving people');
-    return this.http.get<Person[]>(this.url).pipe(
+  getPeople(start = 0, count = 10): Observable<PersonResponse> {
+    return this.http.get<PersonResponse>(this.url+`?start=${start}&count=${count}`).pipe(
         tap(people => this.log('Got the people')),
-        catchError(this.handleError('getPeople', []))
+        catchError(this.handleError('getPeople', null))
       );
   }
 
   getPerson(id: number): Observable<Person> {
-    this.messageService.add(`PersonService: retrieving person id=${id}`);
     return this.http.get<Person>(this.url + `/${id}`).pipe(
         tap(person => this.log('Found person' + person.id)),
         catchError(this.handleError('getPerson', null))
@@ -40,7 +39,6 @@ export class PersonService {
   }
 
   createPerson(person: Person): Observable<Person> {
-    this.messageService.add(`PersonService: creating a person`);
     return this.http.post<Person>(this.url, person, httpOptions).pipe(
         tap(person => this.log('created person' + person.id)),
         catchError(this.handleError('createPerson', null))
@@ -48,7 +46,6 @@ export class PersonService {
   }
 
   updatePerson(person: Person): Observable<Person> {
-    this.messageService.add(`PersonService: updating a person`);
     return this.http.put<Person>(this.url, person, httpOptions).pipe(
         tap(person => this.log('Updated person' + person.id)),
         catchError(this.handleError('updatePerson', null))
@@ -58,12 +55,16 @@ export class PersonService {
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
-      this.log(`${operation} failed: ${error.message}`);
+      this.logError(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
   }
 
   private log(message: string) {
     this.messageService.add(`PersonService: ${message}`);
+  }
+
+  private logError(message: string) {
+    this.messageService.error(`PersonService: ${message}`);
   }
 }

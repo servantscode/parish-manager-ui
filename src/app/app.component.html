@@ -1,7 +1,18 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/people">People</a>
-</nav>
-<router-outlet></router-outlet>
-<app-messages></app-messages>
+<div class="containter-fluid header">
+  <div class="row">
+	<h1><img src="assets/images/logo-w-shield.png" class="logo"/><span>Servant's Code</span></h1>
+  </div>
+</div>
+<div class="page">
+  <div class="nav">
+    <a routerLink="/dashboard">Dashboard</a><br>
+    <a routerLink="/people">People</a>
+  </div>
+  <div class="container content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<div class="container-fluid">
+  <app-messages></app-messages>
+</div>
