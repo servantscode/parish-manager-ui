@@ -3,7 +3,6 @@
 @import '~bootstrap/scss/bootstrap-grid';
 
 table {
-  margin: 10px;
   width: 100%;
 
   td, th {
@@ -77,4 +76,8 @@ input[type=text]:focus {
   box-shadow: none;
   border-bottom: 2px solid #666666;
   border-radius: 0px;
+}
+
+.pagination {
+  justify-content: flex-end;
 }

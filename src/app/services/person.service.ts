@@ -24,30 +24,28 @@ export class PersonService {
   constructor(private http: HttpClient,
               private messageService: MessageService) { }
 
-  getPeople(start = 0, count = 10): Observable<PersonResponse> {
-    return this.http.get<PersonResponse>(this.url+`?start=${start}&count=${count}`).pipe(
-        tap(people => this.log('Got the people')),
+  getPeople(start = 0, count = 10, search = ''): Observable<PersonResponse> {
+    return this.http.get<PersonResponse>(this.url+`?start=${start}&count=${count}&partial_name=${search}`).pipe(
         catchError(this.handleError('getPeople', null))
       );
   }
 
   getPerson(id: number): Observable<Person> {
     return this.http.get<Person>(this.url + `/${id}`).pipe(
-        tap(person => this.log('Found person' + person.id)),
         catchError(this.handleError('getPerson', null))
       );
   }
 
   createPerson(person: Person): Observable<Person> {
     return this.http.post<Person>(this.url, person, httpOptions).pipe(
-        tap(person => this.log('created person' + person.id)),
+        tap(person => this.log('Created person' + person.name)),
         catchError(this.handleError('createPerson', null))
       );
   }
 
   updatePerson(person: Person): Observable<Person> {
     return this.http.put<Person>(this.url, person, httpOptions).pipe(
-        tap(person => this.log('Updated person' + person.id)),
+        tap(person => this.log('Updated person' + person.name)),
         catchError(this.handleError('updatePerson', null))
       );
   }

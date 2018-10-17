@@ -4,10 +4,10 @@
 <div class="container">
   <div class="row">
     <div class="col">
+      <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search..." (ngModelChange)="getPeople()" aria-label="Search">
     </div>
     <div class="col controls-right">
       <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="getPeople()"></ngb-pagination>
-      <span class="page-status">Showing: {{this.pageStart()}}-{{this.pageEnd()}} of {{totalCount}}</span>
     </div>
   </div>
 </div>
@@ -19,10 +19,12 @@
       </tr>
   	</thead>
   	<tbody (mouseleave)="highlightPerson(null)">
-  		<tr *ngFor="let person of people"  (mouseover)="highlightPerson(person)"
-                [ngClass] = "{'highlight' : person === highlightedPerson}">
+  		<tr *ngFor="let person of people" (mouseover)="highlightPerson(person)" [ngClass] = "{'highlight' : person === highlightedPerson}">
   			<td routerLink="/detail/{{person.id}}">{{person.name}}</td>
   		</tr>
   	</tbody>
   </table>
+</div>
+<div class="container controls-right">
+  <span class="page-status">Showing: {{this.pageStart()}}-{{this.pageEnd()}} of {{totalCount}}</span>
 </div>

@@ -6,7 +6,8 @@ import { Person } from '../person';
 import { PersonService } from '../services/person.service';
 
 export enum KEY_CODE {
-  ENTER = 13
+  ENTER = 13,
+  ESCAPE = 27
 }
 
 @Component({
@@ -30,6 +31,10 @@ export class PersonDetailComponent implements OnInit {
   keyEvent(event: KeyboardEvent) {    
     if (event.keyCode === KEY_CODE.ENTER) {
       this.save();
+    }
+
+    if (event.keyCode === KEY_CODE.ESCAPE) {
+      this.goBack();
     }
   }
 

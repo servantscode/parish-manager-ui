@@ -1,7 +1,7 @@
 <div class="container">
   <h2>{{person.name | uppercase}}</h2>
   <div *ngIf="person.id > 0"><span>Id: </span>{{person.id}}</div>
-  <div *ngIf="!(person.id > 0)"><span>id: </span>New</div>
+  <div *ngIf="!(person.id > 0)"><span>Id: </span>New</div>
   <div><label>Name: <input type="text" class="form-control" [(ngModel)]="person.name" placeholder="name" aria-label="Name" autofocus></label></div>
 </div>
 <div class="container">
