@@ -37,8 +37,7 @@ export class DashboardComponent implements OnInit {
     }
 
     if (event.keyCode === KEY_CODE.EQUALS && event.shiftKey) {
-      this.router.navigate(['detail'])
-      
+      this.router.navigate(['detail'])      
     }
   }
 
@@ -62,5 +61,4 @@ export class DashboardComponent implements OnInit {
     var pageEnd = (this.page)*this.pageSize;
     return pageEnd > this.totalCount? this.totalCount: pageEnd;
   }
-
 }
