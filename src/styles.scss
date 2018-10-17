@@ -17,6 +17,9 @@ table {
 
   tr {
     cursor: pointer;
+    border-bottom-color: #cccccc;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
   }
 
   tr.highlight {

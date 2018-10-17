@@ -5,10 +5,11 @@ import { PersonComponent } from './person/person.component';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/people', pathMatch: 'full' },
-  { path: 'people', component: PersonComponent },
-  { path: 'detail', component: PersonDetailComponent },
-  { path: 'detail/:id', component: PersonDetailComponent }
+  { path: 'person', component: PersonComponent },
+  { path: 'person/detail', component: PersonDetailComponent },
+  { path: 'person/detail/:id', component: PersonDetailComponent },
+  { path: '', redirectTo: '/person', pathMatch: 'full' },
+  { path: '**', component: PersonComponent }
 ];
 
 @NgModule({

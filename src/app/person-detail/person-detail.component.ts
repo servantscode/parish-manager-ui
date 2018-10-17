@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Person } from '../person';
@@ -19,7 +19,8 @@ export class PersonDetailComponent implements OnInit {
 
   @Input() person: Person;
 
-  constructor(private route: ActivatedRoute,
+  constructor(private router: Router,
+              private route: ActivatedRoute,
               private personService: PersonService,
               private location: Location) { }
 
@@ -49,7 +50,7 @@ export class PersonDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['person']);
   }
 
   save(): void {
@@ -57,13 +58,13 @@ export class PersonDetailComponent implements OnInit {
       this.personService.updatePerson(this.person).
         subscribe(person => {
           this.person = person;
-          this.location.back();
+          this.goBack();
         });
     } else {
       this.personService.createPerson(this.person).
         subscribe(person => {
           this.person = person;
-          this.location.back();
+          this.goBack();
         });      
     }
   }

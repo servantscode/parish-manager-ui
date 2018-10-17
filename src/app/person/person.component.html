@@ -1,5 +1,5 @@
 <div class="container controls-right">
-  <button type="button" class="btn btn-primary" [routerLink]="['/detail/']">New Person</button>
+  <button type="button" class="btn btn-primary" [routerLink]="['detail/']">New Person</button>
 </div>
 <div class="container">
   <div class="row">
@@ -20,7 +20,7 @@
   	</thead>
   	<tbody (mouseleave)="highlightPerson(null)">
   		<tr *ngFor="let person of people" (mouseover)="highlightPerson(person)" [ngClass] = "{'highlight' : person === highlightedPerson}">
-  			<td routerLink="/detail/{{person.id}}">{{person.name}}</td>
+  			<td routerLink="/person/detail/{{person.id}}">{{person.name}}</td>
   		</tr>
   	</tbody>
   </table>

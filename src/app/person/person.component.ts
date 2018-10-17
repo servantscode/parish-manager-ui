@@ -19,7 +19,7 @@ export class PersonComponent implements OnInit {
   people: Person[] = [];
   highlightedPerson = null;
   page = 1;
-  pageSize = 10;
+  pageSize = 20;
   totalCount = 110;
   search = '';
 
@@ -33,11 +33,11 @@ export class PersonComponent implements OnInit {
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {    
     if (event.keyCode === KEY_CODE.PLUS) {
-      this.router.navigate(['detail'])
+      this.router.navigate(['person', 'detail'])
     }
 
     if (event.keyCode === KEY_CODE.EQUALS && event.shiftKey) {
-      this.router.navigate(['detail'])
+      this.router.navigate(['person', 'detail'])
       
     }
   }

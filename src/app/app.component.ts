@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  pageNumber = 1;
-  title = 'Page ' + this.pageNumber;
+  activeComponent = null;
+
+  constructor (private activatedRoute: ActivatedRoute) {
+  }
 }
