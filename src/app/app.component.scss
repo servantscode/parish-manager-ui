@@ -2,6 +2,9 @@
 .header {
   background: #666666;
   color: #ffffff;
+  height: 60px;
+  margin-bottom: 0;
+
   h1 {
     font-family: "Eras ITC", Arial, Verdana, sans-serif ; 
     font-weight: bold;
@@ -10,6 +13,7 @@
 
   div {
     padding:5px 10px 3px 10px;
+    margin: 0px;
   }
   
   .logo {
@@ -20,22 +24,19 @@
   }
 }
 
-h2, h3 {
-  color: #444;
-  font-family: "Eras ITC", Arial, Helvetica, sans-serif;
-  font-weight: lighter;
-}
-
 .page {
   display: table;
   width: 100%;
+  height: calc(100% - 90px);
+  overflow-y: auto;
 }
+
 .content,
 .nav {
   display: table-cell;
 }
 
-.nav {
+.nav-bar {
   width: 150px;
   height: 100%;
   padding: 5px;
@@ -55,18 +56,25 @@ h2, h3 {
 
 .content {
   width: 100%;
+  .container-fluid {
+    padding-bottom: 5px;
+  }
 }
 
-body {
-  margin: 2em;
+.container, .container-fluid {
+  margin: 0;
+  padding: 0;
 }
 
-body, input[text], button {
-  color: #888;
-  font-family: "Eras ITC", Arial, Verdana, sans-serif; 
+.messages {
+  position: absolute;
+  left: 155px;
+  top: calc(100% - 85px);
 }
 
-/* everywhere else */
-* {
-  font-family: "Eras ITC", Arial, Verdana, sans-serif; 
+.footer {
+  background: #666666;
+  color: #ffffff;
+  height: 30px;
+  margin: 0px;
 }

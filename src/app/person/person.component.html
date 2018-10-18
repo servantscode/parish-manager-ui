@@ -1,17 +1,17 @@
-<div class="container controls-right">
+<div class="container-fluid align-right">
   <button type="button" class="btn btn-primary" [routerLink]="['detail/']">New Person</button>
 </div>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col">
       <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search..." (ngModelChange)="getPeople()" aria-label="Search">
     </div>
-    <div class="col controls-right">
+    <div class="col controls">
       <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="getPeople()"></ngb-pagination>
     </div>
   </div>
 </div>
-<div class="container">
+<div class="container-fluid">
   <table>
   	<thead>
   		<tr>
@@ -25,6 +25,6 @@
   	</tbody>
   </table>
 </div>
-<div class="container controls-right">
+<div class="container-fluid align-right">
   <span class="page-status">Showing: {{this.pageStart()}}-{{this.pageEnd()}} of {{totalCount}}</span>
 </div>

@@ -38,14 +38,14 @@ export class PersonService {
 
   createPerson(person: Person): Observable<Person> {
     return this.http.post<Person>(this.url, person, httpOptions).pipe(
-        tap(person => this.log('Created person' + person.name)),
+        tap(person => this.log('Created person ' + person.name)),
         catchError(this.handleError('createPerson', null))
       );
   }
 
   updatePerson(person: Person): Observable<Person> {
     return this.http.put<Person>(this.url, person, httpOptions).pipe(
-        tap(person => this.log('Updated person' + person.name)),
+        tap(person => this.log('Updated person ' + person.name)),
         catchError(this.handleError('updatePerson', null))
       );
   }
@@ -59,7 +59,7 @@ export class PersonService {
   }
 
   private log(message: string) {
-    this.messageService.add(`PersonService: ${message}`);
+    this.messageService.add(`${message}`);
   }
 
   private logError(message: string) {

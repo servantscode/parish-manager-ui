@@ -2,6 +2,10 @@
 @import '~bootstrap/scss/bootstrap-reboot';
 @import '~bootstrap/scss/bootstrap-grid';
 
+html, body {
+  height: 100%;
+}
+
 table {
   width: 100%;
 
@@ -27,12 +31,21 @@ table {
   }
 }
 
-div.container {
+div.container, div.container-fluid {
   padding: 5px;
 }
 
-div.controls-right {
+.nav {
+  width: 200px;
+}
+
+div.align-right {
   text-align: right;
+}
+
+div.rounded-rect {
+  border: 1px solid #cccccc;
+  border-radius: 5px;
 }
 
 .btn {

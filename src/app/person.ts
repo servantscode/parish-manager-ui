@@ -1,4 +1,15 @@
+import { Family } from './family';
+
 export class Person {
-  name: string;
+
+  constructor() {
+    this.family = new Family();
+  }
+
   id: number;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  headOfHousehold: boolean;
+  family: Family;
 }

@@ -10,13 +10,15 @@ import { PersonComponent } from './person/person.component';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AutofocusDirective } from './autofocus.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     PersonComponent,
     PersonDetailComponent,
-    MessagesComponent
+    MessagesComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,

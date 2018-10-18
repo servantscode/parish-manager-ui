@@ -1,8 +1,17 @@
-<div class="container">
-  <h2>{{person.name | uppercase}}</h2>
-  <div *ngIf="person.id > 0"><span>Id: </span>{{person.id}}</div>
-  <div *ngIf="!(person.id > 0)"><span>Id: </span>New</div>
-  <div><label>Name: <input type="text" class="form-control" [(ngModel)]="person.name" placeholder="name" aria-label="Name" autofocus></label></div>
+<h2>{{person.name | uppercase}}</h2>
+<div class="container rounded-rect">
+  <label>Name: <input type="text" [(ngModel)]="person.name" placeholder="Name..." aria-label="Name" [autofocus]="person.name"></label><br/>
+  <label>Email: <input type="text" [(ngModel)]="person.email" placeholder="Email..." aria-label="Email"></label><br/>
+  <label>Phone: <input type="text" [(ngModel)]="person.phoneNumber" placeholder="Phone..." aria-label="Phone"></label><br/>
+  <label>Head of Household: <input type="checkbox" [(ngModel)]="person.headOfHousehold" aria-label="Head of Household"></label>
+</div>
+<div class="container rounded-rect">
+  <label>Family Name: <input type="text" [(ngModel)]="person.family.surname" placeholder="Name..." aria-label="Family Surname"></label><br/>
+  <label>Address: <input type="text" [(ngModel)]="person.family.address.street1" placeholder="Street..." aria-label="Street Address"><br/>
+    <input type="text" [(ngModel)]="person.family.address.city" placeholder="City..." aria-label="City">&nbsp;
+    <input type="text" [(ngModel)]="person.family.address.state" placeholder="State..." aria-label="State" length="2">&nbsp;
+    <input type="text" [(ngModel)]="person.family.address.zip" placeholder="Zip..." aria-label="Zip" length="5">
+  </label>
 </div>
 <div class="container">
   <button class="btn btn-primary" (click)="save()">Save</button>

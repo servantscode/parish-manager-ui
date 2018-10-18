@@ -1,21 +1,23 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="containter-fluid header">
-  <div class="row">
 	<h1><img src="assets/images/logo-w-shield.png" class="logo"/><span>Servant's Code</span></h1>
-  </div>
 </div>
 <div class="page">
   <div class="nav">
-    <a routerLink="/person" routerLinkActive="active">People</a><br>
-    <a routerLink="/ministries" routerLinkActive="active">Ministries</a><br>
-    <a routerLink="/scheduling" routerLinkActive="active">Scheduling</a><br>
-    <a routerLink="/finances" routerLinkActive="active">Finances</a><br>
-    <a routerLink="/reports" routerLinkActive="active">Reports</a><br>
+    <div class="nav-bar">
+      <a routerLink="/person" routerLinkActive="active">People</a><br>
+      <a routerLink="/ministries" routerLinkActive="active">Ministries</a><br>
+      <a routerLink="/scheduling" routerLinkActive="active">Scheduling</a><br>
+      <a routerLink="/finances" routerLinkActive="active">Finances</a><br>
+      <a routerLink="/reports" routerLinkActive="active">Reports</a><br>
+    </div>
   </div>
   <div class="container content">
     <router-outlet></router-outlet>
   </div>
 </div>
-<div class="container-fluid">
+<div class="container messages">
   <app-messages></app-messages>
+</div>
+<div class="containter-fluid footer">
 </div>
