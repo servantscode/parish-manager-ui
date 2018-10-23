@@ -6,7 +6,10 @@ import { Router } from '@angular/router';
 
 export enum KEY_CODE {
   PLUS = 107,
-  EQUALS = 187
+  EQUALS = 187,
+  ENTER = 13,
+  UP = 38,
+  DOWN = 40
 }
 
 @Component({
@@ -32,14 +35,33 @@ export class PersonComponent implements OnInit {
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {    
-    if (event.keyCode === KEY_CODE.PLUS) {
+    if (event.keyCode === KEY_CODE.PLUS || 
+        event.keyCode === KEY_CODE.EQUALS && event.shiftKey) {
       this.router.navigate(['person', 'detail'])
     }
 
-    if (event.keyCode === KEY_CODE.EQUALS && event.shiftKey) {
-      this.router.navigate(['person', 'detail'])
-      
+    if (event.keyCode === KEY_CODE.DOWN) {
+      if(this.highlightedPerson == null) {
+        this.highlightPerson(this.people[0]);
+      } else if (this.highlightedPerson !== this.people[this.people.length -1]) {
+        this.highlightPerson(this.people[this.people.indexOf(this.highlightedPerson) + 1]);
+      }
     }
+
+    if (event.keyCode === KEY_CODE.UP) {
+      if(this.highlightedPerson == null) {
+        this.highlightPerson(this.people[0]);
+      } else if (this.highlightedPerson != this.people[0]) {
+        this.highlightPerson(this.people[this.people.indexOf(this.highlightedPerson) - 1]);
+      }
+    }
+
+    if(event.keyCode === KEY_CODE.ENTER) {
+      if(this.highlightedPerson != null) {
+        this.router.navigate(['person', 'detail', this.highlightedPerson.id])
+      }
+    }
+
   }
 
   getPeople(): void {

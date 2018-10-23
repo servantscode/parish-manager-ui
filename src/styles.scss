@@ -45,7 +45,8 @@ div.align-right {
 
 div.rounded-rect {
   border: 1px solid #cccccc;
-  border-radius: 5px;
+  border-radius: 10px;
+  margin-bottom: 5px;
 }
 
 .btn {
@@ -96,4 +97,9 @@ input[type=text]:focus {
 
 .pagination {
   justify-content: flex-end;
+}
+
+.icon {
+  height: 20px;
+  padding: 2px;
 }

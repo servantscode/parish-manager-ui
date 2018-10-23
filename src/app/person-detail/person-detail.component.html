@@ -1,6 +1,6 @@
 <h2>{{person.name | uppercase}}</h2>
 <div class="container rounded-rect">
-  <label>Name: <input type="text" [(ngModel)]="person.name" placeholder="Name..." aria-label="Name" [autofocus]="person.name"></label><br/>
+  <label>Name: <input type="text" [(ngModel)]="person.name" placeholder="Name..." aria-label="Name" [autofocus]="person.name" (keyup)="guessSurname()"></label><br/>
   <label>Email: <input type="text" [(ngModel)]="person.email" placeholder="Email..." aria-label="Email"></label><br/>
   <label>Phone: <input type="text" [(ngModel)]="person.phoneNumber" placeholder="Phone..." aria-label="Phone"></label><br/>
   <label>Head of Household: <input type="checkbox" [(ngModel)]="person.headOfHousehold" aria-label="Head of Household"></label>
@@ -12,6 +12,24 @@
     <input type="text" [(ngModel)]="person.family.address.state" placeholder="State..." aria-label="State" length="2">&nbsp;
     <input type="text" [(ngModel)]="person.family.address.zip" placeholder="Zip..." aria-label="Zip" length="5">
   </label>
+
+  <div class="container-fluid">
+    <table *ngIf="person.family != undefined && person.family.members != undefined && person.family.members.length > 0">
+      <thead>
+        <tr>
+          <th>Other Family Members:</th>
+        </tr>
+      </thead>
+      <tbody (mouseleave)="highlightPerson(null)">
+        <tr *ngFor="let member of person.family.members" (mouseover)="highlightPerson(member)" [ngClass] = "{'highlight' : member === highlightedPerson}">
+          <td (click)="updatePerson(member.id)">{{member.name}}&nbsp;&nbsp;<img class="icon" *ngIf="member.headOfHousehold" src="assets/images/logo-w-shield.png"/></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="container-fluid align-right">
+    <button *ngIf="person.family != undefined && person.family.id > 0" type="button" class="btn btn-primary" (click)="updatePerson(0)">New Family Member</button>
+  </div>
 </div>
 <div class="container">
   <button class="btn btn-primary" (click)="save()">Save</button>

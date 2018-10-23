@@ -1,4 +1,5 @@
 import { Address } from './address';
+import { Person } from './person';
 
 export class Family {
 
@@ -9,4 +10,5 @@ export class Family {
   id: number;
   surname: string;
   address: Address;
+  members: Person[];
 }
