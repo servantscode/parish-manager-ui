@@ -1,18 +1,46 @@
 <h2>{{person.name | uppercase}}</h2>
 <div class="container rounded-rect">
-  <label>Name: <input type="text" [(ngModel)]="person.name" placeholder="Name..." aria-label="Name" [autofocus]="person.name" (keyup)="guessSurname()"></label><br/>
-  <label>Email: <input type="text" [(ngModel)]="person.email" placeholder="Email..." aria-label="Email"></label><br/>
-  <label>Phone: <input type="text" [(ngModel)]="person.phoneNumber" placeholder="Phone..." aria-label="Phone"></label><br/>
-  <label>Head of Household: <input type="checkbox" [(ngModel)]="person.headOfHousehold" aria-label="Head of Household"></label>
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="person.name" (keyup)="guessSurname()">
+  </mat-form-field><br/>
+
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Email</mat-label> 
+    <input matInput [(ngModel)]="person.email">
+  </mat-form-field><br/>
+
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Phone Number</mat-label>
+    <input matInput [(ngModel)]="person.phoneNumber">
+  </mat-form-field><br/>
+
+  <mat-checkbox [(ngModel)]="person.headOfHousehold"> Head of Household</mat-checkbox>
 </div>
 <div class="container rounded-rect">
-  <label>Family Name: <input type="text" [(ngModel)]="person.family.surname" placeholder="Name..." aria-label="Family Surname"></label><br/>
-  <label>Address: <input type="text" [(ngModel)]="person.family.address.street1" placeholder="Street..." aria-label="Street Address"><br/>
-    <input type="text" [(ngModel)]="person.family.address.city" placeholder="City..." aria-label="City">&nbsp;
-    <input type="text" [(ngModel)]="person.family.address.state" placeholder="State..." aria-label="State" length="2">&nbsp;
-    <input type="text" [(ngModel)]="person.family.address.zip" placeholder="Zip..." aria-label="Zip" length="5">
-  </label>
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Family Name</mat-label>
+    <input matInput [(ngModel)]="person.family.surname">
+  </mat-form-field><br/>
 
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Street</mat-label>
+    <input matInput [(ngModel)]="person.family.address.street1">
+  </mat-form-field><br/>
+
+  <mat-form-field appearance="standard" class="input-small">
+    <mat-label>City</mat-label>
+    <input matInput [(ngModel)]="person.family.address.city">
+  </mat-form-field>&nbsp;
+
+  <state-selector [state]="person.family.address.state" (selectState)="updateState($event)"></state-selector>&nbsp;
+
+  <mat-form-field appearance="standard" class="input-5">
+    <mat-label>Zip</mat-label>
+    <input matInput [(ngModel)]="person.family.address.zip">
+  </mat-form-field>
+
+  <br/>
   <div class="container-fluid">
     <table *ngIf="person.family != undefined && person.family.members != undefined && person.family.members.length > 0">
       <thead>

@@ -7,6 +7,8 @@ import { Family } from '../family';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
 
+import { StateSelectorComponent } from '../state-selector/state-selector.component';
+
 export enum KEY_CODE {
   ENTER = 13,
   ESCAPE = 27
@@ -88,6 +90,10 @@ export class PersonDetailComponent implements OnInit {
         this.person.family.surname = '';
       }
     }
+  }
+
+  updateState(newState: string) {
+    this.person.family.address.state = newState;
   }
 
 

@@ -1,9 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms'
 import { FormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 import { AppComponent } from './app.component';
 import { PersonComponent } from './person/person.component';
@@ -11,6 +16,7 @@ import { PersonDetailComponent } from './person-detail/person-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AutofocusDirective } from './autofocus.directive';
+import { StateSelectorComponent } from './state-selector/state-selector.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +24,8 @@ import { AutofocusDirective } from './autofocus.directive';
     PersonComponent,
     PersonDetailComponent,
     MessagesComponent,
-    AutofocusDirective
+    AutofocusDirective,
+    StateSelectorComponent 
   ],
   imports: [
     BrowserModule,
@@ -26,7 +33,11 @@ import { AutofocusDirective } from './autofocus.directive';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,10 @@
+<!-- <form class="example-form"> -->
+  <mat-form-field class="input-2">
+    <input type="text" placeholder="State" aria-label="State" matInput [(ngModel)]="state"  [matAutocomplete]="auto" (change)="stateSelected()" class="input-2">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+<!-- </form> -->
