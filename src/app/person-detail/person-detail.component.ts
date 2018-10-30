@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
 
 import { Person } from '../person';
 import { Family } from '../family';
@@ -8,6 +7,7 @@ import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
 
 import { StateSelectorComponent } from '../state-selector/state-selector.component';
+import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
 
 export enum KEY_CODE {
   ENTER = 13,
@@ -21,17 +21,22 @@ export enum KEY_CODE {
 })
 export class PersonDetailComponent implements OnInit {
 
-  @Input() person: Person;
-  private highlightedPerson: Person;
+  private person: Person;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               private personService: PersonService,
-              private familyService: FamilyService,
-              private location: Location) { }
+              private familyService: FamilyService) { }
 
   ngOnInit() {
     this.getPerson();
+
+    this.route.params.subscribe(
+        params => {
+            const id = +params['id'];
+            this.getPerson();
+        }
+    );
   }
 
   @HostListener('window:keyup', ['$event'])
@@ -66,21 +71,6 @@ export class PersonDetailComponent implements OnInit {
     }
   }
 
-  updatePerson(id: number): void {
-    if(id > 0) {
-      this.personService.getPerson(id).
-        subscribe(person => {
-          if(person.family == null) {
-            person.family = new Family();
-          }
-          this.person = person;
-        });
-      this.router.navigate(['person', 'detail', id]);
-    } else {
-      this.router.navigate(['person', 'detail'], {queryParams: {familyId: this.person.family.id}});
-    }
-  }
-
   guessSurname() {
     if(this.person.family.id == undefined) {
       var bits = this.person.name.trim().split(" ");
@@ -94,11 +84,6 @@ export class PersonDetailComponent implements OnInit {
 
   updateState(newState: string) {
     this.person.family.address.state = newState;
-  }
-
-
-  highlightPerson(person: Person) {
-    this.highlightedPerson = person;
   }
 
   goBack(): void {

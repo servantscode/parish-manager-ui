@@ -17,6 +17,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AutofocusDirective } from './autofocus.directive';
 import { StateSelectorComponent } from './state-selector/state-selector.component';
+import { FamilyDetailComponent } from './family-detail/family-detail.component';
+import { FamilyMemberListComponent } from './family-member-list/family-member-list.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { StateSelectorComponent } from './state-selector/state-selector.componen
     PersonDetailComponent,
     MessagesComponent,
     AutofocusDirective,
-    StateSelectorComponent 
+    StateSelectorComponent,
+    FamilyDetailComponent,
+    FamilyMemberListComponent 
   ],
   imports: [
     BrowserModule,

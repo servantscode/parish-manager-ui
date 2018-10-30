@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <table *ngIf="members != undefined && members.length > 0">
+    <thead>
+      <tr>
+        <th>Other Family Members:</th>
+      </tr>
+    </thead>
+    <tbody (mouseleave)="highlightPerson(null)">
+      <tr *ngFor="let member of members" (mouseover)="highlightPerson(member)" [ngClass] = "{'highlight' : member === highlightedPerson}">
+        <td (click)="updatePerson(member.id)">{{member.name}}&nbsp;&nbsp;<img class="icon" *ngIf="member.headOfHousehold" src="assets/images/logo-w-shield.png"/></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container-fluid align-right">
+  <button *ngIf="familyId > 0" type="button" class="btn btn-primary" (click)="updatePerson(0)">New Family Member</button>
+</div>
