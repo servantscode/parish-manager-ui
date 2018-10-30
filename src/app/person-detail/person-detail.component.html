@@ -33,7 +33,10 @@
     <input matInput [(ngModel)]="person.family.address.city">
   </mat-form-field>&nbsp;
 
-  <state-selector [state]="person.family.address.state" (selectState)="updateState($event)"></state-selector>&nbsp;
+  <mat-form-field appearance="standard" class="input-2">
+    <mat-label>State</mat-label>
+    <input matInput [(ngModel)]="person.family.address.state">
+  </mat-form-field>&nbsp;
 
   <mat-form-field appearance="standard" class="input-5">
     <mat-label>Zip</mat-label>
@@ -42,7 +45,7 @@
 
   <br/>
   <app-family-member-list [members]="person.family.members" [familyId]="person.family.id"></app-family-member-list>
-</div>
+ </div>
 <div class="container">
   <button class="btn btn-primary" (click)="save()">Save</button>
   <button class="btn btn-outline-primary" (click)="goBack()">Cancel</button>

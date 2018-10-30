@@ -6,7 +6,6 @@ import { Family } from '../family';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
 
-import { StateSelectorComponent } from '../state-selector/state-selector.component';
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
 
 export enum KEY_CODE {
@@ -33,7 +32,6 @@ export class PersonDetailComponent implements OnInit {
 
     this.route.params.subscribe(
         params => {
-            const id = +params['id'];
             this.getPerson();
         }
     );

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators'
 
 import { Person } from '../person';
 import { Family } from '../family';
@@ -14,6 +16,10 @@ import { FamilyMemberListComponent } from '../family-member-list/family-member-l
 })
 export class FamilyDetailComponent implements OnInit {
 
+  private static STATES: string[] = ["AL","AK","AS","AZ","AR","CA","CO","CT","DE","DC","FM","FL","GA","GU","HI","ID","IL","IN","IA","KS",
+                                     "KY","LA","ME","MH","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","MP",
+                                     "OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT","VT","VI","VA","WA","WV","WI","WY"];
+
   family: Family;
 
   familyForm = this.fb.group({
@@ -24,15 +30,10 @@ export class FamilyDetailComponent implements OnInit {
         city: ['', Validators.required],
         state: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(2)])],
         zip: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(5)])]
-      }),
-      members: this.fb.array([
-        // this.fb.group({
-        //   name: ''
-        // })
-      ])
+      })
     });
 
-  membersControl = this.familyForm.get('members') as FormArray;
+  filteredOptions: Observable<string[]>;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -40,7 +41,13 @@ export class FamilyDetailComponent implements OnInit {
               private fb: FormBuilder) { }
 
   ngOnInit() {
-        this.getFamily();
+    this.getFamily();
+   
+    this.filteredOptions = this.familyForm.get('address.state').valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
   }
 
   getFamily(): void {
@@ -51,19 +58,9 @@ export class FamilyDetailComponent implements OnInit {
       this.familyService.getFamily(id).
         subscribe(family => {
           this.family = family;
-          family.members.forEach((person) => {
-              this.membersControl.push(this.memberItem(person));
-            });
           this.familyForm.patchValue(family);
         });
     }
-  }
-
-  memberItem(person: Person): AbstractControl {
-    return this.fb.group({
-        id: person.id,
-        name: person.name
-      })
   }
 
   goBack(): void {
@@ -86,4 +83,9 @@ export class FamilyDetailComponent implements OnInit {
     }
   }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return FamilyDetailComponent.STATES.filter(option => option.toLowerCase().startsWith(filterValue));
+  }
 }

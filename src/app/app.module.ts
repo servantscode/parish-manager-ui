@@ -16,7 +16,6 @@ import { PersonDetailComponent } from './person-detail/person-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AutofocusDirective } from './autofocus.directive';
-import { StateSelectorComponent } from './state-selector/state-selector.component';
 import { FamilyDetailComponent } from './family-detail/family-detail.component';
 import { FamilyMemberListComponent } from './family-member-list/family-member-list.component';
 
@@ -27,7 +26,6 @@ import { FamilyMemberListComponent } from './family-member-list/family-member-li
     PersonDetailComponent,
     MessagesComponent,
     AutofocusDirective,
-    StateSelectorComponent,
     FamilyDetailComponent,
     FamilyMemberListComponent 
   ],
