@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 
@@ -8,6 +8,7 @@ import { Person } from '../person';
 import { Family } from '../family';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
+import { SCValidation } from '../validation';
 
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
 
@@ -22,17 +23,13 @@ export enum KEY_CODE {
   styleUrls: ['./person-detail.component.scss']
 })
 export class PersonDetailComponent implements OnInit {
-  private static STATES: string[] = ["AL","AK","AS","AZ","AR","CA","CO","CT","DE","DC","FM","FL","GA","GU","HI","ID","IL","IN","IA","KS",
-                                     "KY","LA","ME","MH","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","MP",
-                                     "OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT","VT","VI","VA","WA","WV","WI","WY"];
-
   private person: Person;
 
   personForm = this.fb.group({
     id: [''],
     name: ['', Validators.required],
-    email: [''],
-    phoneNumber: [''],
+    email: ['', Validators.email],
+    phoneNumber: ['', [Validators.minLength(8), Validators.maxLength(14),SCValidation.validatePhone()]],
     headOfHousehold: [''],
     family: this.fb.group({
         id: '',
@@ -40,8 +37,8 @@ export class PersonDetailComponent implements OnInit {
         address: this.fb.group({
           street1: ['', Validators.required],
           city: ['', Validators.required],
-          state: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(2)])],
-          zip: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(5)])]
+          state: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2), SCValidation.actualState()]],
+          zip: ['', [Validators.required, Validators.min(0), Validators.max(99999), SCValidation.numeric()]]
         })
       })
     });
@@ -141,6 +138,11 @@ export class PersonDetailComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return PersonDetailComponent.STATES.filter(option => option.toLowerCase().startsWith(filterValue));
+    return SCValidation.STATES.filter(option => option.toLowerCase().startsWith(filterValue));
+  }
+
+  formatPhoneNumber(): void {
+    const phoneField = this.personForm.get("phoneNumber");
+    phoneField.setValue(SCValidation.formatPhone(phoneField.value));
   }
 }

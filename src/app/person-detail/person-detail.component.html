@@ -1,4 +1,4 @@
-<h2>{{person.name | uppercase}}</h2>
+<h2>{{personForm.get("name").value}}&nbsp;</h2>
 <form [formGroup]="personForm" (ngSubmit)="save()">
   <div class="container rounded-rect">
     <input type="hidden" formControlName="id"/>
@@ -15,7 +15,7 @@
 
     <mat-form-field appearance="standard" class="input-standard">
       <mat-label>Phone Number</mat-label>
-      <input matInput formControlName="phoneNumber">
+      <input matInput formControlName="phoneNumber" (keyup)="formatPhoneNumber()" maxlength="14">
     </mat-form-field><br/>
 
     <mat-checkbox formControlName="headOfHousehold"> Head of Household</mat-checkbox>

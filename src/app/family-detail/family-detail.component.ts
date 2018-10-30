@@ -8,6 +8,7 @@ import { Person } from '../person';
 import { Family } from '../family';
 import { FamilyService } from '../services/family.service';
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
+import { SCValidation } from '../validation';
 
 @Component({
   selector: 'app-family-detail',
@@ -15,10 +16,6 @@ import { FamilyMemberListComponent } from '../family-member-list/family-member-l
   styleUrls: ['./family-detail.component.scss']
 })
 export class FamilyDetailComponent implements OnInit {
-
-  private static STATES: string[] = ["AL","AK","AS","AZ","AR","CA","CO","CT","DE","DC","FM","FL","GA","GU","HI","ID","IL","IN","IA","KS",
-                                     "KY","LA","ME","MH","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","MP",
-                                     "OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT","VT","VI","VA","WA","WV","WI","WY"];
 
   family: Family;
 
@@ -28,8 +25,8 @@ export class FamilyDetailComponent implements OnInit {
       address: this.fb.group({
         street1: ['', Validators.required],
         city: ['', Validators.required],
-        state: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(2)])],
-        zip: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(5)])]
+        state: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2), SCValidation.actualState()]],
+        zip: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5), SCValidation.numeric()]]
       })
     });
 
@@ -85,7 +82,6 @@ export class FamilyDetailComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
-    return FamilyDetailComponent.STATES.filter(option => option.toLowerCase().startsWith(filterValue));
+    return SCValidation.STATES.filter(option => option.toLowerCase().startsWith(filterValue));
   }
 }
