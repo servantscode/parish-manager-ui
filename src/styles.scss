@@ -69,6 +69,13 @@ div.rounded-rect {
   font-weight: bold;
 }
 
+.btn-primary:disabled {
+  background-color: #ff9999;
+  border-color: #ff9999;
+  font-family: "Eras ITC", Arial, Verdana, sans-serif; 
+  font-weight: bold;
+}
+
 .btn-outline-primary {
   background-color: #ffffff;
   border-color: #ff0000;
@@ -83,18 +90,6 @@ div.rounded-rect {
   color: #ffffff;
   font-family: "Eras ITC", Arial, Verdana, sans-serif; 
   font-weight: bold;
-}
-
-input[type=text] {
-  border: none;
-  border-bottom: 1px solid #666666;
-  border-radius: 0px;
-}
-
-input[type=text]:focus {
-  box-shadow: none;
-  border-bottom: 2px solid #666666;
-  border-radius: 0px;
 }
 
 .pagination {
