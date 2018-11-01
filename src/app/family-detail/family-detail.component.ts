@@ -61,7 +61,7 @@ export class FamilyDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['person']);
+    this.router.navigate(['people']);
   }
 
   save(): void {
@@ -69,13 +69,13 @@ export class FamilyDetailComponent implements OnInit {
       this.familyService.updateFamily(this.familyForm.value).
         subscribe(family => {
           this.family = family;
-          // this.goBack();
+          this.goBack();
         });
     } else {
       this.familyService.createFamily(this.familyForm.value).
         subscribe(family => {
           this.family = family;
-          // this.goBack();
+          this.goBack();
         });
     }
   }

@@ -55,6 +55,10 @@ div.rounded-rect {
   margin: 0 5px;
 }
 
+.btn-group .btn {
+  margin-right: 1px;
+}
+
 .btn-primary {
   background-color: #ff0000;
   border-color: #ff0000;
@@ -63,6 +67,13 @@ div.rounded-rect {
 }
 
 .btn-primary:hover {
+  background-color: #cc0000;
+  border-color: #ff0000;
+  font-family: "Eras ITC", Arial, Verdana, sans-serif; 
+  font-weight: bold;
+}
+
+.btn-primary:not(:disabled):not(.disable).active {
   background-color: #cc0000;
   border-color: #ff0000;
   font-family: "Eras ITC", Arial, Verdana, sans-serif; 
@@ -90,6 +101,10 @@ div.rounded-rect {
   color: #ffffff;
   font-family: "Eras ITC", Arial, Verdana, sans-serif; 
   font-weight: bold;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #999999;
 }
 
 .pagination {

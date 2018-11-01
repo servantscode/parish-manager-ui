@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <div class="row justify-content-between">
+    <div class="column">
+      <div class="btn-group btn-group-toggle" ngbRadioGroup [(ngModel)]="mode" (change)="populateList()">
+        <label class="btn-primary" ngbButtonLabel>
+          <input type="radio" ngbButton value="people"> People
+        </label>
+        <label class="btn-primary" ngbButtonLabel>
+          <input type="radio" ngbButton value="families"> Families
+        </label>
+      </div>
+    </div>
+    <div class="column-fluid align-right">
+      <button *ngIf="mode === 'people'" type="button" class="btn btn-primary align-right" [routerLink]="['detail/']">New Person</button>
+      <button *ngIf="mode === 'families'" type="button" class="btn btn-primary align-right" [routerLink]="['/family/detail/']">New Family</button>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search..." (ngModelChange)="populateList()" aria-label="Search">
+    </div>
+    <div class="col controls">
+      <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="populateList()"></ngb-pagination>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <table *ngIf="mode === 'people'">
+  	<thead>
+  		<tr>
+  			<th>Name</th>
+      </tr>
+  	</thead>
+  	<tbody (mouseleave)="highlight(null)">
+  		<tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}">
+  			<td routerLink="/person/detail/{{item.id}}">{{item.name}}</td>
+  		</tr>
+  	</tbody>
+  </table>
+  <table *ngIf="mode === 'families'">
+    <thead>
+      <tr>
+        <th>Family Name</th>
+      </tr>
+    </thead>
+    <tbody (mouseleave)="highlight(null)">
+      <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}">
+        <td routerLink="/family/detail/{{item.id}}">{{item.surname}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container-fluid align-right">
+  <span class="page-status">Showing: {{this.pageStart()}}-{{this.pageEnd()}} of {{totalCount}}</span>
+</div>

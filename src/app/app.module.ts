@@ -11,23 +11,23 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 import { AppComponent } from './app.component';
-import { PersonComponent } from './person/person.component';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AutofocusDirective } from './autofocus.directive';
 import { FamilyDetailComponent } from './family-detail/family-detail.component';
 import { FamilyMemberListComponent } from './family-member-list/family-member-list.component';
+import { PeopleListComponent } from './people-list/people-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PersonComponent,
     PersonDetailComponent,
     MessagesComponent,
     AutofocusDirective,
     FamilyDetailComponent,
-    FamilyMemberListComponent 
+    FamilyMemberListComponent,
+    PeopleListComponent 
   ],
   imports: [
     BrowserModule,

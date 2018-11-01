@@ -116,7 +116,7 @@ export class PersonDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['person']);
+    this.router.navigate(['people']);
   }
 
   save(): void {
@@ -137,12 +137,16 @@ export class PersonDetailComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return SCValidation.STATES.filter(option => option.toLowerCase().startsWith(filterValue));
   }
 
   formatPhoneNumber(): void {
     const phoneField = this.personForm.get("phoneNumber");
     phoneField.setValue(SCValidation.formatPhone(phoneField.value));
+  }
+
+  capitalizeState() {
+    const stateField = this.personForm.get("state");
+    stateField.setValue(stateField.value.toUpperCase()));
   }
 }
