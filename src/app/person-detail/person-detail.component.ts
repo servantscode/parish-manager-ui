@@ -26,13 +26,13 @@ export class PersonDetailComponent implements OnInit {
   private person: Person;
 
   personForm = this.fb.group({
-    id: [''],
-    name: ['', Validators.required],
-    email: ['', Validators.email],
-    phoneNumber: ['', [Validators.minLength(8), Validators.maxLength(14),SCValidation.validatePhone()]],
-    headOfHousehold: [''],
-    family: this.fb.group({
-        id: '',
+      id: [''],
+      name: ['', Validators.required],
+      email: ['', Validators.email],
+      phoneNumber: ['', [Validators.minLength(8), Validators.maxLength(14), SCValidation.validatePhone()]],
+      headOfHousehold: [''],
+      family: this.fb.group({
+        id: [''],
         surname: ['', Validators.required],
         address: this.fb.group({
           street1: ['', Validators.required],
@@ -124,13 +124,13 @@ export class PersonDetailComponent implements OnInit {
       this.personService.updatePerson(this.personForm.value).
         subscribe(person => {
           this.person = person;
-          this.goBack();
+          this.router.navigate(['person', 'detail', person.id]);
         });
     } else {
       this.personService.createPerson(this.personForm.value).
         subscribe(person => {
           this.person = person;
-          this.goBack();
+          this.router.navigate(['person', 'detail', person.id]);
         });      
     }
   }
@@ -143,10 +143,5 @@ export class PersonDetailComponent implements OnInit {
   formatPhoneNumber(): void {
     const phoneField = this.personForm.get("phoneNumber");
     phoneField.setValue(SCValidation.formatPhone(phoneField.value));
-  }
-
-  capitalizeState() {
-    const stateField = this.personForm.get("state");
-    stateField.setValue(stateField.value.toUpperCase()));
   }
 }

@@ -37,6 +37,14 @@ div.container, div.container-fluid {
   padding: 5px;
 }
 
+.row {
+  margin: 0;
+}
+
+.col {
+  padding: 0;
+}
+
 .nav {
   width: 200px;
 }
@@ -109,6 +117,7 @@ div.rounded-rect {
 
 .pagination {
   justify-content: flex-end;
+  margin-right: 5px;
 }
 
 .icon {

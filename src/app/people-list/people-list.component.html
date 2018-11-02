@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row justify-content-between">
-    <div class="column">
+    <div class="col">
       <div class="btn-group btn-group-toggle" ngbRadioGroup [(ngModel)]="mode" (change)="populateList()">
         <label class="btn-primary" ngbButtonLabel>
           <input type="radio" ngbButton value="people"> People
@@ -10,9 +10,9 @@
         </label>
       </div>
     </div>
-    <div class="column-fluid align-right">
-      <button *ngIf="mode === 'people'" type="button" class="btn btn-primary align-right" [routerLink]="['detail/']">New Person</button>
-      <button *ngIf="mode === 'families'" type="button" class="btn btn-primary align-right" [routerLink]="['/family/detail/']">New Family</button>
+    <div class="col controls align-right">
+      <button *ngIf="mode === 'people'" type="button" class="btn btn-primary" [routerLink]="['/person/detail/']">Add Person</button>
+      <button *ngIf="mode === 'families'" type="button" class="btn btn-primary" [routerLink]="['/family/detail/']">Add Family</button>
     </div>
   </div>
 </div>
