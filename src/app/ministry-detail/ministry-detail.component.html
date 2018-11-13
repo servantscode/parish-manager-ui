@@ -1,0 +1,15 @@
+<h2>{{ministryForm.get("name").value}}&nbsp;</h2>
+<form [formGroup]="ministryForm" (ngSubmit)="save()">
+  <div class="container rounded-rect">
+    <input type="hidden" formControlName="id"/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required>
+    </mat-form-field><br/>
+  </div>
+  <div class="container">
+    <button class="btn btn-primary" type="submit" [disabled]="!ministryForm.valid">Save</button>
+    <button class="btn btn-outline-primary" (click)="goBack()">Cancel</button> 
+  </div>
+</form>

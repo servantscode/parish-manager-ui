@@ -18,6 +18,8 @@ import { AutofocusDirective } from './autofocus.directive';
 import { FamilyDetailComponent } from './family-detail/family-detail.component';
 import { FamilyMemberListComponent } from './family-member-list/family-member-list.component';
 import { PeopleListComponent } from './people-list/people-list.component';
+import { MinistryListComponent } from './ministry-list/ministry-list.component';
+import { MinistryDetailComponent } from './ministry-detail/ministry-detail.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { PeopleListComponent } from './people-list/people-list.component';
     AutofocusDirective,
     FamilyDetailComponent,
     FamilyMemberListComponent,
-    PeopleListComponent 
+    PeopleListComponent,
+    MinistryListComponent,
+    MinistryDetailComponent 
   ],
   imports: [
     BrowserModule,

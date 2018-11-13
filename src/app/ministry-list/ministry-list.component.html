@@ -1,0 +1,30 @@
+<div class="container-fluid  controls align-right">
+    <button type="button" class="btn btn-primary" [routerLink]="['/ministry/detail/']">Add Ministry</button>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search..." (ngModelChange)="populateList()" aria-label="Search">
+    </div>
+    <div class="col controls">
+      <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="populateList()"></ngb-pagination>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <table>
+    <thead>
+      <tr>
+        <th>Ministry Name</th>
+      </tr>
+    </thead>
+    <tbody (mouseleave)="highlight(null)">
+      <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}">
+        <td routerLink="/ministry/detail/{{item.id}}">{{item.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container-fluid align-right">
+  <span class="page-status">Showing: {{this.pageStart()}}-{{this.pageEnd()}} of {{totalCount}}</span>
+</div>
