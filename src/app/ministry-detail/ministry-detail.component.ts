@@ -6,6 +6,8 @@ import { map, startWith } from 'rxjs/operators'
 
 import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
+import { Enrollment } from '../enrollment';
+import { EnrollmentService } from '../services/enrollment.service';
 import { SCValidation } from '../validation';
 
 export enum KEY_CODE {
@@ -20,10 +22,12 @@ export enum KEY_CODE {
 })
 export class MinistryDetailComponent implements OnInit {
   private ministry: Ministry;
+  private enrollments: Enrollment[];
 
   ministryForm = this.fb.group({
       id: [''],
       name: ['', Validators.required],
+      description: ['']
     });
   
   filteredOptions: Observable<string[]>;
@@ -32,6 +36,7 @@ export class MinistryDetailComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private ministryService: MinistryService,
+              private enrollmentService: EnrollmentService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -65,6 +70,10 @@ export class MinistryDetailComponent implements OnInit {
         subscribe(ministry => {
           this.ministry = ministry;
           this.ministryForm.patchValue(ministry);
+          this.enrollmentService.getEnrollmentsForMinistry(ministry.id).
+            subscribe(enrollments => {
+              this.enrollments = enrollments;
+            });
         });
     }
   }

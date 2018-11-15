@@ -20,6 +20,7 @@ import { FamilyMemberListComponent } from './family-member-list/family-member-li
 import { PeopleListComponent } from './people-list/people-list.component';
 import { MinistryListComponent } from './ministry-list/ministry-list.component';
 import { MinistryDetailComponent } from './ministry-detail/ministry-detail.component';
+import { MinistryMemberListComponent } from './ministry-member-list/ministry-member-list.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MinistryDetailComponent } from './ministry-detail/ministry-detail.compo
     FamilyMemberListComponent,
     PeopleListComponent,
     MinistryListComponent,
-    MinistryDetailComponent 
+    MinistryDetailComponent,
+    MinistryMemberListComponent 
   ],
   imports: [
     BrowserModule,

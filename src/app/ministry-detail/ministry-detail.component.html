@@ -7,6 +7,16 @@
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" required>
     </mat-form-field><br/>
+
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Description</mat-label>
+      <textarea matInput type="textarea" cdkTextareaAutosize cdkAutosizeMaxRows="10" formControlName="description"></textarea>
+    </mat-form-field><br/>
+
+  </div>
+  <div class="container rounded-rect">
+    <app-ministry-member-list [enrollments]="enrollments" [ministryId]="ministry.id"></app-ministry-member-list>
   </div>
   <div class="container">
     <button class="btn btn-primary" type="submit" [disabled]="!ministryForm.valid">Save</button>

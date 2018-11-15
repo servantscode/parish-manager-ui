@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <table>
+    <thead>
+      <tr>
+        <th>Member</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody (mouseleave)="highlightPerson(null)">
+      <tr *ngFor="let member of enrollments" (mouseover)="highlightPerson(member)" (click)="viewPerson(member.personId)" [ngClass] = "{'highlight' : member === highlightedEnrollment}">
+        <td>{{member.personName}}</td>
+        <td>{{member.role}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container-fluid align-right">
+  <button type="button" class="btn btn-primary" (click)="findPerson()">Add Member</button>
+</div>

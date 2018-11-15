@@ -24,13 +24,6 @@ export class FamilyMemberListComponent implements OnInit {
 
   updatePerson(id: number): void {
     if(id > 0) {
-      // this.personService.getPerson(id).
-      //   subscribe(person => {
-      //     if(person.family == null) {
-      //       person.family = new Family();
-      //     }
-      //     this.person = person;
-      //   });
       this.router.navigate(['person', 'detail', id]);
     } else {
       this.router.navigate(['person', 'detail'], {queryParams: {familyId: this.familyId}});
