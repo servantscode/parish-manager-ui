@@ -3,6 +3,7 @@ import { Person } from '../person';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
 import { Router } from '@angular/router';
+import { delay } from 'rxjs/operators'
 
 
 export enum KEY_CODE {
@@ -96,8 +97,8 @@ export class PeopleListComponent implements OnInit {
   }
 
   getPeople(): void {
-    this.personService.getPeople((this.page-1)*this.pageSize, this.pageSize, this.search).
-      subscribe(peopleResp => {
+    this.personService.getPeople((this.page-1)*this.pageSize, this.pageSize, this.search)
+      .subscribe(peopleResp => {
         this.items = peopleResp.results;
         this.totalCount = peopleResp.totalResults;
       });

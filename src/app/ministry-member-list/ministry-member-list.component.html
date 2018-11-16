@@ -1,19 +1,44 @@
 <div class="container-fluid">
-  <table>
-    <thead>
-      <tr>
-        <th>Member</th>
-        <th>Role</th>
-      </tr>
-    </thead>
-    <tbody (mouseleave)="highlightPerson(null)">
-      <tr *ngFor="let member of enrollments" (mouseover)="highlightPerson(member)" (click)="viewPerson(member.personId)" [ngClass] = "{'highlight' : member === highlightedEnrollment}">
-        <td>{{member.personName}}</td>
-        <td>{{member.role}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <form name="enrollmentForm" [formGroup]="enrollmentForm" (ngSubmit)="addMember()">
+    <table>
+      <thead>
+        <tr>
+          <th>Member</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody (mouseleave)="highlightPerson(null)">
+        <tr *ngFor="let member of enrollments" (mouseover)="highlightPerson(member)" (click)="viewPerson(member.personId)" [ngClass] = "{'highlight' : member === highlightedEnrollment}">
+          <td>{{member.personName}}</td>
+          <td>{{member.role}}</td>
+        </tr>
+        <tr *ngIf="newMember">
+          <input type="hidden" formControlName="ministryId">
+          <td>
+            <input type="hidden" formControlName="personId"/>
+
+            <mat-form-field>
+              <input type="text" placeholder="Name" aria-label="Member Name" matInput formControlName="personName" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="selectName" (optionSelected)="selectPerson($event)">
+                <mat-option *ngFor="let person of filteredPersons | async" [value]="person">
+                  {{person.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field appearance="standard" class="input-standard">
+              <mat-label>Role</mat-label>
+              <input matInput formControlName="role" required/>
+            </mat-form-field>
+            
+            <button class="btn btn-primary" type="submit" [disabled]="!enrollmentForm.valid">Save</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>   
 </div>
 <div class="container-fluid align-right">
-  <button type="button" class="btn btn-primary" (click)="findPerson()">Add Member</button>
+  <button *ngIf="!newMember" type="button" class="btn btn-primary" (click)="newMembership()">Add Member</button>
 </div>
