@@ -8,6 +8,8 @@ import { Person } from '../person';
 import { Family } from '../family';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
+import { Enrollment } from '../enrollment';
+import { EnrollmentService } from '../services/enrollment.service';
 import { SCValidation } from '../validation';
 
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
@@ -24,6 +26,7 @@ export enum KEY_CODE {
 })
 export class PersonDetailComponent implements OnInit {
   private person: Person;
+  private enrollments: Enrollment[];
 
   personForm = this.fb.group({
       id: [''],
@@ -50,6 +53,7 @@ export class PersonDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private personService: PersonService,
               private familyService: FamilyService,
+              private enrollmentService: EnrollmentService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -93,6 +97,10 @@ export class PersonDetailComponent implements OnInit {
           }
           this.person = person;
           this.personForm.patchValue(person);
+          this.enrollmentService.getEnrollmentsForPerson(person.id).
+            subscribe(enrollments => {
+              this.enrollments = enrollments;
+            });
         });
     } else if (familyId > 0) {
       this.familyService.getFamily(familyId).

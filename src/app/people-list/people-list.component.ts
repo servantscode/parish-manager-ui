@@ -3,8 +3,6 @@ import { Person } from '../person';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
 import { Router } from '@angular/router';
-import { delay } from 'rxjs/operators'
-
 
 export enum KEY_CODE {
   PLUS = 107,

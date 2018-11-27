@@ -21,6 +21,7 @@ import { PeopleListComponent } from './people-list/people-list.component';
 import { MinistryListComponent } from './ministry-list/ministry-list.component';
 import { MinistryDetailComponent } from './ministry-detail/ministry-detail.component';
 import { MinistryMemberListComponent } from './ministry-member-list/ministry-member-list.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MinistryMemberListComponent } from './ministry-member-list/ministry-mem
     PeopleListComponent,
     MinistryListComponent,
     MinistryDetailComponent,
-    MinistryMemberListComponent 
+    MinistryMemberListComponent,
+    NotFoundComponent 
   ],
   imports: [
     BrowserModule,

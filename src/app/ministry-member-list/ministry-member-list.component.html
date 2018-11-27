@@ -1,22 +1,33 @@
-<div class="container-fluid">
-  <form name="enrollmentForm" [formGroup]="enrollmentForm" (ngSubmit)="addMember()">
+<form name="enrollmentForm" [formGroup]="enrollmentForm" (ngSubmit)="addMembership()">
+  <div class="container-fluid">
     <table>
       <thead>
         <tr>
-          <th>Member</th>
-          <th>Role</th>
+          <th *ngIf="columns.includes('ministry')">Ministry</th>
+          <th *ngIf="columns.includes('member')">Member</th>
+          <th *ngIf="columns.includes('role')">Role</th>
         </tr>
       </thead>
-      <tbody (mouseleave)="highlightPerson(null)">
-        <tr *ngFor="let member of enrollments" (mouseover)="highlightPerson(member)" (click)="viewPerson(member.personId)" [ngClass] = "{'highlight' : member === highlightedEnrollment}">
-          <td>{{member.personName}}</td>
-          <td>{{member.role}}</td>
+      <tbody (mouseleave)="highlightEnrollment(null)">
+        <tr *ngFor="let enrollment of enrollments" (mouseover)="highlightEnrollment(enrollment)"  [ngClass] = "{'highlight' : enrollment === highlightedEnrollment}">
+          <td *ngIf="columns.includes('ministry')" (click)="viewMinistry(enrollment.ministryId)">{{enrollment.ministryName}}</td>
+          <td *ngIf="columns.includes('member')" (click)="viewPerson(enrollment.personId)">{{enrollment.personName}}</td>
+          <td *ngIf="columns.includes('role')">{{enrollment.role}}</td>
         </tr>
-        <tr *ngIf="newMember">
+        <tr *ngIf="newEnrollment">
           <input type="hidden" formControlName="ministryId">
-          <td>
-            <input type="hidden" formControlName="personId"/>
-
+          <input type="hidden" formControlName="personId"/>
+          <td *ngIf="columns.includes('ministry')">
+            <mat-form-field>
+              <input type="text" placeholder="Ministry" aria-label="Ministry Name" matInput formControlName="ministryName" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="selectMinistryName" (optionSelected)="selectMinistry($event)">
+                <mat-option *ngFor="let ministry of filteredMinistries | async" [value]="ministry">
+                  {{ministry.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </td>
+          <td *ngIf="columns.includes('member')">
             <mat-form-field>
               <input type="text" placeholder="Name" aria-label="Member Name" matInput formControlName="personName" [matAutocomplete]="auto">
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="selectName" (optionSelected)="selectPerson($event)">
@@ -26,19 +37,22 @@
               </mat-autocomplete>
             </mat-form-field>
           </td>
-          <td>
+          <td *ngIf="columns.includes('role')">
             <mat-form-field appearance="standard" class="input-standard">
               <mat-label>Role</mat-label>
               <input matInput formControlName="role" required/>
             </mat-form-field>
-            
-            <button class="btn btn-primary" type="submit" [disabled]="!enrollmentForm.valid">Save</button>
           </td>
         </tr>
       </tbody>
     </table>
-  </form>   
-</div>
-<div class="container-fluid align-right">
-  <button *ngIf="!newMember" type="button" class="btn btn-primary" (click)="newMembership()">Add Member</button>
-</div>
+  </div>
+  <div *ngIf="!newEnrollment && (ministryId > 0 || personId > 0)" class="container-fluid align-right">
+    <button type="button" class="btn btn-primary" (click)="newMembership()">Add...</button>
+  </div>
+  <div *ngIf="newEnrollment" class="container-fluid align-right">
+    <button class="btn btn-primary" type="submit" [disabled]="!enrollmentForm.valid">Save</button>
+    <button type="button" class="btn btn-outline-primary" (click)="clearEnrollmentForm()">Cancel</button>
+  </div>
+</form>   
+

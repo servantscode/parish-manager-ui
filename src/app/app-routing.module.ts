@@ -6,6 +6,7 @@ import { PersonDetailComponent } from './person-detail/person-detail.component';
 import { FamilyDetailComponent } from './family-detail/family-detail.component';
 import { MinistryListComponent } from './ministry-list/ministry-list.component';
 import { MinistryDetailComponent } from './ministry-detail/ministry-detail.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'people', component: PeopleListComponent },
@@ -17,7 +18,7 @@ const routes: Routes = [
   { path: 'ministry/detail', component: MinistryDetailComponent },
   { path: 'ministry/detail/:id', component: MinistryDetailComponent },
   { path: '', redirectTo: '/people', pathMatch: 'full' },
-  { path: '**', component: PeopleListComponent }
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

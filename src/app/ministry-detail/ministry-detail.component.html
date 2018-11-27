@@ -16,7 +16,7 @@
 
   </div>
   <div class="container rounded-rect">
-    <app-ministry-member-list [enrollments]="enrollments" [ministryId]="ministry.id"></app-ministry-member-list>
+    <app-ministry-member-list [enrollments]="enrollments" [ministryId]="ministry.id" [columns]="['member', 'role']"></app-ministry-member-list>
   </div>
   <div class="container">
     <button class="btn btn-primary" type="submit" [disabled]="!ministryForm.valid">Save</button>
