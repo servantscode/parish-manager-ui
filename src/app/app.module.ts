@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
@@ -22,6 +22,11 @@ import { MinistryListComponent } from './ministry-list/ministry-list.component';
 import { MinistryDetailComponent } from './ministry-detail/ministry-detail.component';
 import { MinistryMemberListComponent } from './ministry-member-list/ministry-member-list.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { LoginComponent } from './login/login.component';
+
+export function tokenGetter() {
+  return localStorage.getItem('jwt-token');
+}
 
 @NgModule({
   declarations: [
@@ -35,7 +40,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MinistryListComponent,
     MinistryDetailComponent,
     MinistryMemberListComponent,
-    NotFoundComponent 
+    NotFoundComponent,
+    LoginComponent 
   ],
   imports: [
     BrowserModule,
@@ -47,7 +53,14 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ReactiveFormsModule,
     MatInputModule,
     MatAutocompleteModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: [/localhost(:\d+)?/i], // Allow any localhost port to be called
+        blacklistedRoutes: []
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

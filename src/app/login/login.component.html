@@ -1,0 +1,16 @@
+<div class="modal-background">
+  <div class="modal-content rounded-rect">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <mat-form-field appearance="standard" class="input-standard">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required/>
+      </mat-form-field><br/>
+      <mat-form-field appearance="password" class="input-standard">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" required/>
+      </mat-form-field><br/>
+
+      <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+    </form>
+  </div>
+</div>
