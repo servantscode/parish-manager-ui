@@ -23,6 +23,7 @@ import { MinistryDetailComponent } from './ministry-detail/ministry-detail.compo
 import { MinistryMemberListComponent } from './ministry-member-list/ministry-member-list.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -41,7 +42,8 @@ export function tokenGetter() {
     MinistryDetailComponent,
     MinistryMemberListComponent,
     NotFoundComponent,
-    LoginComponent 
+    LoginComponent,
+    UserDetailComponent 
   ],
   imports: [
     BrowserModule,
