@@ -124,4 +124,15 @@ export class PeopleListComponent implements OnInit {
     return pageEnd > this.totalCount? this.totalCount: pageEnd;
   }
 
+  getAddressString(person: Person): string {
+    if(person == null || person == undefined)
+      return "";
+    if(person.family == null || person.family == undefined)
+      return "";
+    if(person.family.address == null || person.family.address == undefined)
+      return "";
+
+    const addr = person.family.address;
+    return addr.street1 + " " + addr.city + ", " + addr.state + " " + addr.zip;
+  }
 }

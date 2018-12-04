@@ -31,11 +31,13 @@
   	<thead>
   		<tr>
   			<th>Name</th>
+        <th>Address</th>
       </tr>
   	</thead>
   	<tbody (mouseleave)="highlight(null)">
-  		<tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}">
-  			<td routerLink="/person/detail/{{item.id}}">{{item.name}}</td>
+  		<tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}" routerLink="/person/detail/{{item.id}}">
+  			<td>{{item.name}}</td>
+        <td>{{getAddressString(item)}}</td>
   		</tr>
   	</tbody>
   </table>
@@ -46,8 +48,8 @@
       </tr>
     </thead>
     <tbody (mouseleave)="highlight(null)">
-      <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}">
-        <td routerLink="/family/detail/{{item.id}}">{{item.surname}}</td>
+      <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}" routerLink="/family/detail/{{item.id}}">
+        <td>{{item.surname}}</td>
       </tr>
     </tbody>
   </table>

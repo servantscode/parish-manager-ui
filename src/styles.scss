@@ -6,7 +6,6 @@
 html, body {
   height: 100%;
   font-family: "Eras ITC", Arial, Verdana, sans-serif; 
-
 }
 
 table {
@@ -33,6 +32,12 @@ table {
   tr.highlight {
     background: #cccccc;
   }
+}
+
+.mat-dialog-title {
+    font-family: "Eras ITC", Arial, Verdana, sans-serif; 
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
 div.container, div.container-fluid {
@@ -129,11 +134,11 @@ div.rounded-rect {
 
 /* Forms */
 .input-standard {
-  width: 30em;
+  width: 15em;
 }
 
 .input-small {
-  width: 15em;
+  width: 10em;
 }
 
 .input-5 {

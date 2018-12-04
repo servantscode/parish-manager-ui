@@ -1,0 +1,6 @@
+<div class="user-menu">
+  <span mat-button [matMenuTriggerFor]="menu" class="user-name">{{userName}}</span>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logout()">Logout</button>
+  </mat-menu>
+<div>

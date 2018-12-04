@@ -25,7 +25,7 @@ export class PersonService {
               private messageService: MessageService) { }
 
   getPeople(start = 0, count = 10, search = ''): Observable<PersonResponse> {
-    return this.http.get<PersonResponse>(this.url+`?start=${start}&count=${count}&partial_name=${search}`).pipe(
+    return this.http.get<PersonResponse>(this.url+`?start=${start}&count=${count}&partial_name=${search}&families=true`).pipe(
         catchError(this.handleError('getPeople', null))
       );
   }

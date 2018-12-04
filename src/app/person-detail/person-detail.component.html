@@ -41,7 +41,7 @@
       </mat-form-field>&nbsp;
 
       <mat-form-field class="input-2">
-        <input type="text" placeholder="State" aria-label="State" matInput formControlName="state" [matAutocomplete]="auto" class="input-2" (blur)="capitalizeState()">
+        <input type="text" placeholder="State" aria-label="State" matInput formControlName="state" [matAutocomplete]="auto" class="input-2" (blur)="capitalizeState()" required>
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
             {{option}}
@@ -60,8 +60,13 @@
   </div>
 
   <div class="container rounded-rect">
+    <app-user-credentials [personId]="personId"></app-user-credentials>
+  </div>
+
+  <div class="container rounded-rect">
     <app-ministry-member-list [enrollments]="enrollments" [personId]="person.id" [columns]="['ministry', 'role']"></app-ministry-member-list>
   </div>
+
   <div class="container">
     <button class="btn btn-primary" type="submit" [disabled]="!personForm.valid">Save</button>
     <button class="btn btn-outline-primary" (click)="goBack()">Cancel</button> 

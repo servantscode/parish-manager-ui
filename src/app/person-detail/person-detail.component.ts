@@ -25,6 +25,7 @@ export enum KEY_CODE {
   styleUrls: ['./person-detail.component.scss']
 })
 export class PersonDetailComponent implements OnInit {
+  private personId: number;
   private person: Person;
   private enrollments: Enrollment[];
 
@@ -57,6 +58,7 @@ export class PersonDetailComponent implements OnInit {
               private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.personId = +this.route.snapshot.paramMap.get('id');
     this.getPerson();
 
     this.route.params.subscribe(
@@ -86,22 +88,24 @@ export class PersonDetailComponent implements OnInit {
 
   getPerson(): void {
     this.person = new Person();
-    const id = +this.route.snapshot.paramMap.get('id');
+    this.personId = +this.route.snapshot.paramMap.get('id');
     const familyId = +this.route.snapshot.queryParamMap.get('familyId');
 
-    if(id > 0) {
-      this.personService.getPerson(id).
+    if(this.personId > 0) {
+      this.personService.getPerson(this.personId).
         subscribe(person => {
           if(person.family == null) {
             person.family = new Family();
           }
           this.person = person;
           this.personForm.patchValue(person);
-          this.enrollmentService.getEnrollmentsForPerson(person.id).
-            subscribe(enrollments => {
-              this.enrollments = enrollments;
-            });
         });
+
+      this.enrollmentService.getEnrollmentsForPerson(this.personId).
+        subscribe(enrollments => {
+          this.enrollments = enrollments;
+        });
+
     } else if (familyId > 0) {
       this.familyService.getFamily(familyId).
         subscribe(family => {

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms'
 import { FormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
@@ -23,7 +25,9 @@ import { MinistryDetailComponent } from './ministry-detail/ministry-detail.compo
 import { MinistryMemberListComponent } from './ministry-member-list/ministry-member-list.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
-import { UserDetailComponent } from './user-detail/user-detail.component';
+import { UserMenuComponent } from './user-menu/user-menu.component';
+import { UserCredentialsComponent } from './user-credentials/user-credentials.component';
+import { CredentialDialogComponent } from './credential-dialog/credential-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -43,7 +47,9 @@ export function tokenGetter() {
     MinistryMemberListComponent,
     NotFoundComponent,
     LoginComponent,
-    UserDetailComponent 
+    UserMenuComponent,
+    UserCredentialsComponent,
+    CredentialDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -52,10 +58,13 @@ export function tokenGetter() {
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
+    NgbModalModule,
     ReactiveFormsModule,
     MatInputModule,
     MatAutocompleteModule,
     MatCheckboxModule,
+    MatMenuModule,
+    MatDialogModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -65,6 +74,7 @@ export function tokenGetter() {
     })
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [CredentialDialogComponent]
 })
 export class AppModule { }
