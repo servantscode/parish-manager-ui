@@ -1,27 +1,96 @@
+<button *ngIf="!editMode" class="btn btn-primary float-right" (click)="enableEdit()">Edit</button>
 <h2>{{personForm.get("name").value}}&nbsp;</h2>
-<form [formGroup]="personForm" (ngSubmit)="save()">
+
+<div *ngIf="!editMode">
   <div class="container rounded-rect">
-    <input type="hidden" formControlName="id"/>
+   <h3>Personal Details:</h3>
+    <div class="row">
+      <div class="col">
+        Name: {{person.name}}<br/>
+        Email: {{person.email}}<br/>
+        Phone: {{person.phoneNumber}}<br/>
+        Head of Household: <input type="checkbox" value="{{person.headOfHousehold}}" disabled/>
+      </div>
+      <div class="col">
+        Birthdate: {{person.birthdate | date: 'MM/dd/yyyy'}}<br/>
+        Member Since: {{person.memberSince | date: 'MM/dd/yyyy'}}
+      </div>
+    </div>
+  </div>
 
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name" (keyup)="guessSurname()" required>
-    </mat-form-field><br/>
+  <div class="container rounded-rect">
+    <h3>Family Details:</h3>
+    Family Name: {{person.family.surname}}<br/>
+    Address:<br/>
+    <div *ngIf="person.family.address.street1 !== '' && person.family.address.street1 !== null">
+      {{person.family.address.street1}}<br/>
+      {{person.family.address.city}}, {{person.family.address.state}} {{person.family.address.zip}}
+    </div>
+    <div *ngIf="person.family.address.street1 == ''">
+      No address on file.
+    </div>
+    <br/>
+  
+    <app-family-member-list [members]="person.family.members" [familyId]="person.family.id"></app-family-member-list>
+  </div>
 
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Email</mat-label> 
-      <input matInput formControlName="email">
-    </mat-form-field><br/>
+  <div class="container rounded-rect">
+    <app-user-credentials [personId]="personId"></app-user-credentials>
+  </div>
 
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Phone Number</mat-label>
-      <input matInput formControlName="phoneNumber" (keyup)="formatPhoneNumber()" maxlength="14">
-    </mat-form-field><br/>
+  <div class="container rounded-rect">
+    <h3>Ministry Engagement:</h3>
+    <app-ministry-member-list [enrollments]="enrollments" [personId]="person.id" [columns]="['ministry', 'role']"></app-ministry-member-list>
+  </div>
 
-    <mat-checkbox formControlName="headOfHousehold"> Head of Household</mat-checkbox>
+  <div class="container">
+    <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 
+  </div>
+</div>
+
+<form *ngIf="editMode" [formGroup]="personForm" (ngSubmit)="save()">
+  <div class="container rounded-rect">
+   <h3>Personal Details:</h3>
+   <input type="hidden" formControlName="id"/>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" (keyup)="guessSurname()" required>
+        </mat-form-field><br/>
+
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Email</mat-label> 
+          <input matInput formControlName="email">
+        </mat-form-field><br/>
+
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Phone Number</mat-label>
+          <input matInput formControlName="phoneNumber" (keyup)="formatPhoneNumber()" maxlength="14">
+        </mat-form-field><br/>
+
+        <mat-checkbox formControlName="headOfHousehold"> Head of Household</mat-checkbox>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <input matInput formControlName="birthdate" [matDatepicker]="picker" placeholder="Birthdate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field><br/>
+
+        <mat-form-field>
+          <input matInput formControlName="memberSince" [matDatepicker]="picker2" placeholder="Joined">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+    </div>
   </div>
 
   <div class="container rounded-rect" formGroupName="family">
+    <h3>Family Details:</h3>
     <input type="hidden" formControlName="id"/>
 
     <mat-form-field appearance="standard" class="input-standard">
@@ -64,6 +133,7 @@
   </div>
 
   <div class="container rounded-rect">
+    <h3>Ministry Engagement:</h3>
     <app-ministry-member-list [enrollments]="enrollments" [personId]="person.id" [columns]="['ministry', 'role']"></app-ministry-member-list>
   </div>
 

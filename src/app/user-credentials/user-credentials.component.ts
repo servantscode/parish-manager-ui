@@ -22,10 +22,8 @@ export class UserCredentialsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-        this.checkCredentials();
+    this.checkCredentials();
   }
-
-
 
   public revokeLogin() {
     this.loginService.deleteCredentials(this.personId).
@@ -49,6 +47,9 @@ export class UserCredentialsComponent implements OnInit, OnChanges {
   }
 
   private checkCredentials() {
+    if(this.personId <= 0)
+      return;
+
     this.loginService.getCredentials(this.personId).
         subscribe(credentials => {
             if( credentials !== null && 'role' in credentials) {

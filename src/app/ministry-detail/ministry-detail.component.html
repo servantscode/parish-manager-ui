@@ -1,5 +1,24 @@
+<button *ngIf="!editMode" class="btn btn-primary float-right" (click)="enableEdit()">Edit</button>
 <h2>{{ministryForm.get("name").value}}&nbsp;</h2>
-<form [formGroup]="ministryForm" (ngSubmit)="save()">
+
+<div *ngIf="!editMode">
+  <div class="container rounded-rect">
+    Name: {{ministry.name}}<br/>
+    Description:<br/>
+    {{ministry.description}}
+    <br/>
+  </div>
+  
+  <div class="container rounded-rect">
+    <app-ministry-member-list [enrollments]="enrollments" [ministryId]="ministry.id" [columns]="['member', 'role']"></app-ministry-member-list>
+  </div>
+
+  <div class="container">
+    <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 
+  </div>
+</div>
+
+<form *ngIf="editMode" [formGroup]="ministryForm" (ngSubmit)="save()">
   <div class="container rounded-rect">
     <input type="hidden" formControlName="id"/>
 

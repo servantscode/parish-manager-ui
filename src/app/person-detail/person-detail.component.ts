@@ -29,12 +29,16 @@ export class PersonDetailComponent implements OnInit {
   private person: Person;
   private enrollments: Enrollment[];
 
+  private editMode = false;
+
   personForm = this.fb.group({
       id: [''],
       name: ['', Validators.required],
       email: ['', Validators.email],
       phoneNumber: ['', [Validators.minLength(8), Validators.maxLength(14), SCValidation.validatePhone()]],
       headOfHousehold: [''],
+      birthdate: [''],
+      memberSince: [''],
       family: this.fb.group({
         id: [''],
         surname: ['', Validators.required],
@@ -59,7 +63,6 @@ export class PersonDetailComponent implements OnInit {
 
   ngOnInit() {
     this.personId = +this.route.snapshot.paramMap.get('id');
-    this.getPerson();
 
     this.route.params.subscribe(
         params => {
@@ -88,6 +91,8 @@ export class PersonDetailComponent implements OnInit {
 
   getPerson(): void {
     this.person = new Person();
+    this.person.memberSince = new Date();
+
     this.personId = +this.route.snapshot.paramMap.get('id');
     const familyId = +this.route.snapshot.queryParamMap.get('familyId');
 
@@ -100,18 +105,16 @@ export class PersonDetailComponent implements OnInit {
           this.person = person;
           this.personForm.patchValue(person);
         });
-
-      this.enrollmentService.getEnrollmentsForPerson(this.personId).
-        subscribe(enrollments => {
-          this.enrollments = enrollments;
-        });
-
     } else if (familyId > 0) {
+      this.editMode = true;
       this.familyService.getFamily(familyId).
         subscribe(family => {
           this.person.family = family;
           this.personForm.patchValue(this.person);
         });
+    } else {
+      this.editMode = true;
+      this.personForm.patchValue(this.person);        
     }
   }
 
@@ -137,12 +140,14 @@ export class PersonDetailComponent implements OnInit {
         subscribe(person => {
           this.person = person;
           this.router.navigate(['person', 'detail', person.id]);
+          this.editMode=false;
         });
     } else {
       this.personService.createPerson(this.personForm.value).
         subscribe(person => {
           this.person = person;
           this.router.navigate(['person', 'detail', person.id]);
+          this.editMode=false;
         });      
     }
   }
@@ -155,5 +160,14 @@ export class PersonDetailComponent implements OnInit {
   formatPhoneNumber(): void {
     const phoneField = this.personForm.get("phoneNumber");
     phoneField.setValue(SCValidation.formatPhone(phoneField.value));
+  }
+
+  capitalizeState(): void {
+    const stateField = this.personForm.get("family.address.state");
+    stateField.setValue(stateField.value.toUpperCase());
+  }
+
+  enableEdit(): void {
+    this.editMode=true;
   }
 }

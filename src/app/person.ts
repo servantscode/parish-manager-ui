@@ -12,4 +12,6 @@ export class Person {
   phoneNumber: string;
   headOfHousehold: boolean;
   family: Family;
+  birthdate: Date;
+  memberSince: Date;
 }

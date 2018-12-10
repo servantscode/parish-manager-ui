@@ -19,6 +19,8 @@ export class FamilyDetailComponent implements OnInit {
 
   family: Family;
 
+  private editMode = false;
+
   familyForm = this.fb.group({
       id: '',
       surname: ['', Validators.required],
@@ -57,6 +59,8 @@ export class FamilyDetailComponent implements OnInit {
           this.family = family;
           this.familyForm.patchValue(family);
         });
+    } else {
+      this.editMode = true;
     }
   }
 
@@ -69,13 +73,15 @@ export class FamilyDetailComponent implements OnInit {
       this.familyService.updateFamily(this.familyForm.value).
         subscribe(family => {
           this.family = family;
-          this.goBack();
+          this.editMode = false;
+          this.getFamily();
         });
     } else {
       this.familyService.createFamily(this.familyForm.value).
         subscribe(family => {
           this.family = family;
-          this.goBack();
+          this.editMode = false;
+          this.router.navigate(['family', 'detail', family.id]);
         });
     }
   }
@@ -83,5 +89,9 @@ export class FamilyDetailComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return SCValidation.STATES.filter(option => option.toLowerCase().startsWith(filterValue));
+  }
+
+  enableEdit(): void {
+    this.editMode=true;
   }
 }

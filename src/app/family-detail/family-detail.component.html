@@ -1,5 +1,28 @@
-<h2>{{family.surname | uppercase}}</h2>
-<form [formGroup]="familyForm" (ngSubmit)="save()">
+<button *ngIf="!editMode" class="btn btn-primary float-right" (click)="enableEdit()">Edit</button>
+  <h2>{{family.surname}}</h2>
+
+<div *ngIf="!editMode">
+  <div class="container rounded-rect">
+    Family Name: {{family.surname}}<br/>
+    Address:<br/>
+    <div *ngIf="family.address.street1 !== '' && family.address.street1 !== null">
+      {{family.address.street1}}<br/>
+      {{family.address.city}}, {{family.address.state}} {{family.address.zip}}
+    </div>
+    <div *ngIf="family.address.street1 == ''">
+      No address on file.
+    </div>
+    <br/>
+  
+    <app-family-member-list [members]="family.members" [familyId]="family.id"></app-family-member-list>
+  </div>
+
+  <div class="container">
+    <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 
+  </div>
+</div>
+
+<form *ngIf="editMode" [formGroup]="familyForm" (ngSubmit)="save()">
   <div class="container rounded-rect">
     <input type="hidden" formControlName="id"/>
 

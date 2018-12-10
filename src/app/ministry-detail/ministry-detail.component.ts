@@ -24,6 +24,8 @@ export class MinistryDetailComponent implements OnInit {
   private ministry: Ministry;
   private enrollments: Enrollment[];
 
+  private editMode = false;
+
   ministryForm = this.fb.group({
       id: [''],
       name: ['', Validators.required],
@@ -75,6 +77,8 @@ export class MinistryDetailComponent implements OnInit {
               this.enrollments = enrollments;
             });
         });
+    } else {
+      this.editMode = true;
     }
   }
 
@@ -87,14 +91,20 @@ export class MinistryDetailComponent implements OnInit {
       this.ministryService.updateMinistry(this.ministryForm.value).
         subscribe(ministry => {
           this.ministry = ministry;
+          this.editMode = false;
           this.router.navigate(['ministry', 'detail', ministry.id]);
         });
     } else {
       this.ministryService.createMinistry(this.ministryForm.value).
         subscribe(ministry => {
           this.ministry = ministry;
+          this.editMode = false;
           this.router.navigate(['ministry', 'detail', ministry.id]);
         });      
     }
+  }
+
+  enableEdit(): void {
+    this.editMode=true;
   }
 }
