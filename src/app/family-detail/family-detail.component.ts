@@ -65,7 +65,11 @@ export class FamilyDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['people']);
+    if(this.editMode) {
+      this.editMode = false;
+    } else {
+      this.router.navigate(['people']);
+    }
   }
 
   save(): void {

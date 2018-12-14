@@ -124,15 +124,22 @@ export class PeopleListComponent implements OnInit {
     return pageEnd > this.totalCount? this.totalCount: pageEnd;
   }
 
-  getAddressString(person: Person): string {
-    if(person == null || person == undefined)
-      return "";
-    if(person.family == null || person.family == undefined)
-      return "";
-    if(person.family.address == null || person.family.address == undefined)
+  //Handles any object with an address in the tree, at this point Person or Family
+  getAddressString(obj: any): string {
+    if(obj == null || obj == undefined)
       return "";
 
-    const addr = person.family.address;
+    var candidateFamily = obj.family;
+    //Finish this
+    if(candidateFamily !== null && candidateFamily !== undefined) {
+      return this.getAddressString(candidateFamily);
+    }
+
+    //Has to be a family now
+    if(obj.address == null || obj.address == undefined)
+      return "";
+
+    const addr = obj.address;
     return addr.street1 + " " + addr.city + ", " + addr.state + " " + addr.zip;
   }
 }

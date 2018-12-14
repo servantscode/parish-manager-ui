@@ -8,8 +8,6 @@ import { Person } from '../person';
 import { Family } from '../family';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
-import { Enrollment } from '../enrollment';
-import { EnrollmentService } from '../services/enrollment.service';
 import { SCValidation } from '../validation';
 
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
@@ -27,7 +25,6 @@ export enum KEY_CODE {
 export class PersonDetailComponent implements OnInit {
   private personId: number;
   private person: Person;
-  private enrollments: Enrollment[];
 
   private editMode = false;
 
@@ -58,7 +55,6 @@ export class PersonDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private personService: PersonService,
               private familyService: FamilyService,
-              private enrollmentService: EnrollmentService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -131,7 +127,11 @@ export class PersonDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['people']);
+    if(this.editMode) {
+      this.editMode = false;
+    } else {
+      this.router.navigate(['people']);
+    }
   }
 
   save(): void {

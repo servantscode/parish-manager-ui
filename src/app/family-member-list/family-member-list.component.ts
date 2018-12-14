@@ -29,4 +29,19 @@ export class FamilyMemberListComponent implements OnInit {
       this.router.navigate(['person', 'detail'], {queryParams: {familyId: this.familyId}});
     }
   }
+
+  getAge(member: Person): number {    
+    if(member.birthdate == null)
+      return null;
+    
+    const now = new Date();
+    var age = now.getFullYear() - member.birthdate.getFullYear();
+    if(now.getMonth() > member.birthdate.getMonth()) {
+      return age;
+    } else if(now.getMonth() == member.birthdate.getMonth() &&
+      now.getDate() >= member.birthdate.getDate()) {
+      return age;
+    }
+    return age - 1;
+  }
 }

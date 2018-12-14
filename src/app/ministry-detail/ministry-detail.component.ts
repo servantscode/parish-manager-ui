@@ -22,7 +22,6 @@ export enum KEY_CODE {
 })
 export class MinistryDetailComponent implements OnInit {
   private ministry: Ministry;
-  private enrollments: Enrollment[];
 
   private editMode = false;
 
@@ -38,7 +37,6 @@ export class MinistryDetailComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private ministryService: MinistryService,
-              private enrollmentService: EnrollmentService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -72,10 +70,6 @@ export class MinistryDetailComponent implements OnInit {
         subscribe(ministry => {
           this.ministry = ministry;
           this.ministryForm.patchValue(ministry);
-          this.enrollmentService.getEnrollmentsForMinistry(ministry.id).
-            subscribe(enrollments => {
-              this.enrollments = enrollments;
-            });
         });
     } else {
       this.editMode = true;
@@ -83,7 +77,11 @@ export class MinistryDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['ministries']);
+    if(this.editMode) {
+      this.editMode = false;
+    } else {
+      this.router.navigate(['ministries']);
+    }
   }
 
   save(): void {

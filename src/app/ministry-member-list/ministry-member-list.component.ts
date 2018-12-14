@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap, map, filter, switchMap, startWith, debounceTime } from 'rxjs/operators'
@@ -18,11 +18,11 @@ import { MinistryService } from '../services/ministry.service';
 })
 export class MinistryMemberListComponent implements OnInit {
 
-  @Input() enrollments: Enrollment[];
   @Input() ministryId: number;
   @Input() personId: number;
   @Input() columns: string[];
 
+  enrollments: Enrollment[];
   newEnrollment = false;
 
   filteredPersons: Observable<Person[]>;
@@ -66,6 +66,23 @@ export class MinistryMemberListComponent implements OnInit {
                 .filter(ministry => !this.enrollments.find(enrollment => enrollment.ministryId == ministry.id)))              
             ))
       );
+  }
+
+  ngOnChanges() {
+    if(this.ministryId !== 0 && this.ministryId !== undefined) {
+      this.enrollmentService.getEnrollmentsForMinistry(this.ministryId).
+        subscribe(enrollments => {
+          this.enrollments = enrollments;
+        });
+    }
+
+    if(this.personId !== 0 && this.personId !== undefined) {
+      this.enrollmentService.getEnrollmentsForPerson(this.personId).
+        subscribe(enrollments => {
+          this.enrollments = enrollments;
+        });
+    }
+
   }
 
   highlightEnrollment(enrollment: Enrollment) {

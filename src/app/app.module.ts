@@ -31,6 +31,9 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 import { UserCredentialsComponent } from './user-credentials/user-credentials.component';
 import { CredentialDialogComponent } from './credential-dialog/credential-dialog.component';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { DateInterceptor } from './services/date-interceptor';
+
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
 }
@@ -77,7 +80,9 @@ export function tokenGetter() {
       }
     })
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: DateInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
   entryComponents: [CredentialDialogComponent]
 })

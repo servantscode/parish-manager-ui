@@ -9,7 +9,7 @@
         Name: {{person.name}}<br/>
         Email: {{person.email}}<br/>
         Phone: {{person.phoneNumber}}<br/>
-        Head of Household: <input type="checkbox" value="{{person.headOfHousehold}}" disabled/>
+        <mat-checkbox [checked]="person.headOfHousehold" [disabled]="true"> Head of Household</mat-checkbox>
       </div>
       <div class="col">
         Birthdate: {{person.birthdate | date: 'MM/dd/yyyy'}}<br/>
@@ -40,7 +40,7 @@
 
   <div class="container rounded-rect">
     <h3>Ministry Engagement:</h3>
-    <app-ministry-member-list [enrollments]="enrollments" [personId]="person.id" [columns]="['ministry', 'role']"></app-ministry-member-list>
+    <app-ministry-member-list [personId]="person.id" [columns]="['ministry', 'role']"></app-ministry-member-list>
   </div>
 
   <div class="container">
@@ -134,7 +134,7 @@
 
   <div class="container rounded-rect">
     <h3>Ministry Engagement:</h3>
-    <app-ministry-member-list [enrollments]="enrollments" [personId]="person.id" [columns]="['ministry', 'role']"></app-ministry-member-list>
+    <app-ministry-member-list [personId]="person.id" [columns]="['ministry', 'role']"></app-ministry-member-list>
   </div>
 
   <div class="container">

@@ -32,7 +32,7 @@ export class PersonService {
 
   getPerson(id: number): Observable<Person> {
     return this.http.get<Person>(this.url + `/${id}`).pipe(
-        map(this.parseDates),
+        // map(this.parseDates),
         catchError(this.handleError('getPerson', null))
       );
   }
@@ -56,21 +56,21 @@ export class PersonService {
   // This hack ensures the date is actually preserved and not rolled back {timezone} hours.
   // If someone every figures out how to process dates w/o times that respects timezone, 
   // tell Greg that you fixed this and relieve him of his grief.
-  private parseDates(person: Person) {
-    const birthdate = person.birthdate;
-    if(birthdate !== null) {
-      const d = new Date(birthdate);
-      person.birthdate = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
-    }
+  // private parseDates(person: Person) {
+  //   const birthdate = person.birthdate;
+  //   if(birthdate !== null) {
+  //     const d = new Date(birthdate);
+  //     person.birthdate = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  //   }
 
-    const memberSince = person.memberSince;
-    if(memberSince !== null) {
-      const d = new Date(memberSince);
-      person.memberSince = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
-    }
+  //   const memberSince = person.memberSince;
+  //   if(memberSince !== null) {
+  //     const d = new Date(memberSince);
+  //     person.memberSince = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  //   }
 
-    return person;
-  }
+  //   return person;
+  // }
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
