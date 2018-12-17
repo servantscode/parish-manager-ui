@@ -30,9 +30,11 @@ import { LoginComponent } from './login/login.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { UserCredentialsComponent } from './user-credentials/user-credentials.component';
 import { CredentialDialogComponent } from './credential-dialog/credential-dialog.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DateInterceptor } from './services/date-interceptor';
+import { MetricsComponent } from './metrics/metrics.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -54,7 +56,8 @@ export function tokenGetter() {
     LoginComponent,
     UserMenuComponent,
     UserCredentialsComponent,
-    CredentialDialogComponent
+    CredentialDialogComponent,
+    MetricsComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +75,7 @@ export function tokenGetter() {
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxChartsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

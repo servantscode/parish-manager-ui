@@ -28,12 +28,19 @@
   display: table;
   width: 100%;
   height: calc(100% - 90px);
-  overflow-y: auto;
+  position: relative;
 }
 
 .content,
 .nav {
   display: table-cell;
+}
+
+.main-content {
+  overflow-y: auto;
+  height: calc(100% - 90px);
+  width: calc(100% - 150px);
+  position: fixed;
 }
 
 .nav-bar {

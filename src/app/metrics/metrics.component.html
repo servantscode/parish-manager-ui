@@ -1,0 +1,43 @@
+<div class="container rounded-rect">
+  <h3>Annual Registrations</h3>
+  <div class="chart">
+    <ngx-charts-line-chart
+      [scheme]="yearlyRegistrations.colorScheme"
+      [results]="yearlyRegistrations.data"
+      [xAxis]="true">
+    </ngx-charts-line-chart>
+  </div>
+</div>
+<div class="container rounded-rect">
+  <h3>Parishioner Ages</h3>
+  <div class="chart">
+    <ngx-charts-bar-vertical
+      [scheme]="memberDemographics.colorScheme"
+      [results]="memberDemographics.data"
+      [xAxis]="true"
+      [barPadding]="3">
+    </ngx-charts-bar-vertical>
+  </div>
+</div>
+<div class="container rounded-rect">
+  <h3>Parishioner Longevity</h3>
+  <div class="chart">
+    <ngx-charts-bar-vertical
+      [scheme]="longevity.colorScheme"
+      [results]="longevity.data"
+      [xAxis]="true"
+      [barPadding]="3">
+    </ngx-charts-bar-vertical>
+  </div>
+</div>
+<div class="container rounded-rect">
+  <h3>Family Sizes</h3>
+  <div class="chart">
+    <ngx-charts-bar-vertical
+      [scheme]="familySizes.colorScheme"
+      [results]="familySizes.data"
+      [xAxis]="true"
+      [barPadding]="3">
+    </ngx-charts-bar-vertical>
+  </div>
+</div>
