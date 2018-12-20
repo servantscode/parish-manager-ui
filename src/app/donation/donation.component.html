@@ -1,0 +1,39 @@
+<div class="container rounded-rect">
+  <div class='row'>
+    <div class='col'>
+      <h3>Donation Overview</h3><br/>
+      Annual Pledges: <strong>{{annualPledgeTotal | currency:"$"}}</strong><br/>
+      YTD Donations: <strong>{{ytdDonations | currency:"$"}}</strong><br/>
+      Vs. Projected: <strong class="{{vsProjection < 0? 'red': 'green'}}">{{vsProjection | currency:"$"}}</strong>
+    </div>
+    <div class="col align-right">
+      <div class="chart-square">
+        <ngx-charts-advanced-pie-chart
+          [scheme]="pledgeFulfillment.colorScheme"
+          [results]="pledgeFulfillment.data">
+        </ngx-charts-advanced-pie-chart>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container rounded-rect">
+  <h3>Monthly Donations</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Month</th>
+        <th>Pledged Donations</th>
+        <th>Unpledged Donations</th>
+        <th>Total Donations</th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let month of monthlyDonations">
+        <td>{{month.label}}</td>
+        <td>{{month.pledged | currency:"$"}}</td>
+        <td>{{month.unpledged | currency:"$"}}</td>
+        <td>{{month.totalDonations | currency:"$"}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

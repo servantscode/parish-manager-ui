@@ -6,6 +6,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './message.service';
 
 import { MetricsResponse } from '../metricsResponse';
+import { PledgeStatus } from '../pledgeStatus';
+import { DonationReport } from '../donation-report';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -49,6 +51,18 @@ export class MetricsService {
   getFamilySizes(): Observable<MetricsResponse> {
     return this.http.get<MetricsResponse>(this.url+`/families/size`).pipe(
         catchError(this.handleError('getFamilySizes', null))
+      );
+  }
+
+  getPledgeFulfillments(): Observable<PledgeStatus> {
+    return this.http.get<PledgeStatus>(this.url+`/pledges/status`).pipe(
+        catchError(this.handleError('getPledgeFulfillment', null))
+      );
+  }
+
+  getMonthlyDonations(): Observable<DonationReport[]> {
+    return this.http.get<PledgeStatus>(this.url+`/pledges/monthly`).pipe(
+        catchError(this.handleError('getMonthlyDonations', null))
       );
   }
 

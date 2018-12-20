@@ -7,6 +7,7 @@ import { PersonDetailComponent } from './person-detail/person-detail.component';
 import { FamilyDetailComponent } from './family-detail/family-detail.component';
 import { MinistryListComponent } from './ministry-list/ministry-list.component';
 import { MinistryDetailComponent } from './ministry-detail/ministry-detail.component';
+import { DonationComponent } from './donation/donation.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'ministry/detail', component: MinistryDetailComponent, canActivate: [AuthGuard] },
   { path: 'ministry/detail/:id', component: MinistryDetailComponent, canActivate: [AuthGuard] },
   { path: 'metrics', component: MetricsComponent, canActivate: [AuthGuard] },
+  { path: 'donations', component: DonationComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/people', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent }
 ];
