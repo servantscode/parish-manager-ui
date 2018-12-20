@@ -16,6 +16,31 @@
   
     <app-family-member-list [members]="family.members" [familyId]="family.id"></app-family-member-list>
   </div>
+  <div class="container rounded-rect">
+    <h3>Donations</h3>
+    <div *ngIf="pledge != undefined && pledge != null">
+      Pledged Amount: <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> <br/>
+    </div>
+    <div *ngIf="pledge == undefined || pledge == null">
+      <em>No pledge information available.</em>
+    </div> <br/>
+    <table>
+      <thead>
+        <tr>
+          <th>Donation Date</th>
+          <th>Payment Type</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody (mouseleave)="highlightDonation(null)">
+        <tr *ngFor="let donation of donations" (mouseover)="highlightDonation(donation)" [ngClass] = "{'highlight' : donation === highlightedDonation}">
+          <td>{{donation.donationDate | date: 'MM/dd/yyyy'}}</td>
+          <td>{{donation.donationType}}</td>
+          <td>{{donation.amount | currency:"$"}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <div class="container">
     <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 
@@ -59,6 +84,32 @@
     
     <br/>
     <app-family-member-list [members]="family.members" [familyId]="family.id"></app-family-member-list>
+  </div>
+
+  <div class="container rounded-rect">
+    <h3>Donations</h3>
+    <div *ngIf="pledge != undefined && pledge != null">
+      Pledged Amount: <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> <br/>
+    </div>
+    <div *ngIf="pledge == undefined || pledge == null">
+      <em>No pledge information available.</em>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Donation Date</th>
+          <th>Payment Type</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody (mouseleave)="highlightDonation(null)">
+        <tr *ngFor="let donation of donations" (mouseover)="highlightDonation(donation)" [ngClass] = "{'highlight' : donation === highlightedDonation}">
+          <td>{{donation.donationDate | date: 'MM/dd/yyyy'}}</td>
+          <td>{{donation.donationType}}</td>
+          <td>{{donation.amount | currency:"$"}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div class="container">
     <button class="btn btn-primary" type="submit" [disabled]="!familyForm.valid">Save</button>

@@ -6,7 +6,11 @@ import { map, startWith } from 'rxjs/operators'
 
 import { Person } from '../person';
 import { Family } from '../family';
+import { Donation } from '../donation';
+import { Pledge } from '../pledge';
 import { FamilyService } from '../services/family.service';
+import { DonationService } from '../services/donation.service';
+import { PledgeService } from '../services/pledge.service';
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
 import { SCValidation } from '../validation';
 
@@ -20,6 +24,9 @@ export class FamilyDetailComponent implements OnInit {
   family: Family;
 
   private editMode = false;
+  private donations: Donation[];
+  private pledge: Pledge;
+  highlightedDonation: Donation;
 
   familyForm = this.fb.group({
       id: '',
@@ -37,6 +44,8 @@ export class FamilyDetailComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private familyService: FamilyService,
+              private donationService: DonationService,
+              private pledgeService: PledgeService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -59,6 +68,13 @@ export class FamilyDetailComponent implements OnInit {
           this.family = family;
           this.familyForm.patchValue(family);
         });
+
+      this.donationService.getFamilyContributions(id).
+        subscribe(donations => this.donations = donations);
+
+      this.pledgeService.getPledge(id).
+        subscribe(pledge => this.pledge = pledge);
+
     } else {
       this.editMode = true;
     }
@@ -97,5 +113,9 @@ export class FamilyDetailComponent implements OnInit {
 
   enableEdit(): void {
     this.editMode=true;
+  }
+
+  highlightDonation(donation: Donation) {
+    this.highlightedDonation = donation;
   }
 }

@@ -38,6 +38,11 @@ h3 {
   font-size: 1.5rem;
 }
 
+em {
+  font-style: italic;
+  color: #999999;
+}
+
 .mat-dialog-title {
     font-family: "Eras ITC", Arial, Verdana, sans-serif; 
     font-weight: bold;
@@ -46,6 +51,14 @@ h3 {
 
 div.container, div.container-fluid {
   padding: 5px;
+}
+
+a {
+  color: #000000;
+}
+
+a:hover {
+  color: #000000;
 }
 
 .row {
