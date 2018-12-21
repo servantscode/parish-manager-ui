@@ -1,0 +1,41 @@
+<form [formGroup]="donationForm" (ngSubmit)="createDonation()">
+  <h1 mat-dialog-title>Record Donation</h1>
+  <div mat-dialog-content>
+    <input type="hidden" autocomplete="off" formControlName="familyId"/>
+    
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Amount</mat-label>
+      <input type="text" matInput formControlName="amount" autocomplete="off" ng-currency required/>
+    </mat-form-field><br/>
+
+    <mat-form-field>
+      <input matInput formControlName="donationDate" [matDatepicker]="picker" placeholder="Donation Date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field><br/>
+
+    <mat-form-field class="input-standard">
+      <input type="text" placeholder="Type" aria-label="Donation Type" matInput formControlName="donationType"  [matAutocomplete]="auto" class="input-standard" required>
+      <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+        <mat-option *ngFor="let option of filteredTypes | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field><br/>
+
+    <mat-form-field *ngIf="donationType() === 'CHECK'" appearance="standard" class="input-standard">
+      <mat-label>Check Number</mat-label>
+      <input type="text" matInput formControlName="checkNumber" autocomplete="off" required/>
+    </mat-form-field><br/>
+
+    <mat-form-field *ngIf="donationType() === 'EGIFT' || donationType() === 'CREDIT_CARD'" appearance="standard" class="input-standard">
+      <mat-label>Transaction Id</mat-label>
+      <input type="text" matInput formControlName="transactionId" autocomplete="off"/>
+    </mat-form-field><br/>
+  </div>
+
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!donationForm.valid" cdkFocusInitial>Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+  </div>
+</form>

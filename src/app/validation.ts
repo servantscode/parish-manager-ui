@@ -60,31 +60,10 @@ export class SCValidation {
     return (country + " (" + city + ") " + number).trim();
   };
 
-  static validatePhone(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
-      const value = control.value;
-      if(value == null ||
-         value == undefined ||
-         value == '' ||
-         value.length == 0)
-        return null;
-
-      const validNumber = /(\([\d]{3}\) )?[\d]{3}-[\d]{4}/.test(control.value);
-      return validNumber? null: {'Not a valid phone number': {value: control.value}};
-    };
-  }
-
   static actualState(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       const validState = SCValidation.STATES.some(option => option == control.value);
       return validState? null: {'Not a valid state': {value: control.value}};
-    }
-  }
-
-  static numeric(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
-      const isNumeric = !isNaN(Number(control.value));
-      return isNumeric? null: {'Not a number': {value: control.value}};
     }
   }
 }

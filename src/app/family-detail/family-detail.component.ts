@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { map, startWith, reduce } from 'rxjs/operators'
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { Person } from '../person';
 import { Family } from '../family';
@@ -12,6 +13,7 @@ import { FamilyService } from '../services/family.service';
 import { DonationService } from '../services/donation.service';
 import { PledgeService } from '../services/pledge.service';
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
+import { DonationDialogComponent } from '../donation-dialog/donation-dialog.component';
 import { SCValidation } from '../validation';
 
 @Component({
@@ -35,8 +37,8 @@ export class FamilyDetailComponent implements OnInit {
       address: this.fb.group({
         street1: ['', Validators.required],
         city: ['', Validators.required],
-        state: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2), SCValidation.actualState()]],
-        zip: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5), SCValidation.numeric()]]
+        state: ['', [Validators.required, SCValidation.actualState()]],
+        zip: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]]
       })
     });
 
@@ -47,7 +49,8 @@ export class FamilyDetailComponent implements OnInit {
               private familyService: FamilyService,
               private donationService: DonationService,
               private pledgeService: PledgeService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getFamily();
@@ -70,11 +73,7 @@ export class FamilyDetailComponent implements OnInit {
           this.familyForm.patchValue(family);
         });
 
-      this.donationService.getFamilyContributions(id).
-        subscribe(donations => {
-            this.donations = donations;
-            this.totalDonations = donations.map(donation => donation.amount).reduce((acc, amount) => acc + amount);
-          });
+      this.loadDonations(id);
 
       this.pledgeService.getPledge(id).
         subscribe(pledge => this.pledge = pledge);
@@ -84,8 +83,16 @@ export class FamilyDetailComponent implements OnInit {
     }
   }
 
+  loadDonations(id): void {
+    this.donationService.getFamilyContributions(id).
+      subscribe(donations => {
+          this.donations = donations;
+          this.totalDonations = donations.map(donation => donation.amount).reduce((acc, amount) => acc + amount, 0);
+        });
+  }
+
   goBack(): void {
-    if(this.editMode) {
+    if(this.editMode && this.family.id > 0) {
       this.editMode = false;
     } else {
       this.router.navigate(['people']);
@@ -121,5 +128,16 @@ export class FamilyDetailComponent implements OnInit {
 
   highlightDonation(donation: Donation) {
     this.highlightedDonation = donation;
+  }
+
+  public openDonationForm() {
+    const donationRef = this.dialog.open(DonationDialogComponent, {
+      width: '400px',
+      data: {"id": this.family.id}
+    });
+
+    donationRef.afterClosed().subscribe(result => {
+      this.loadDonations(this.family.id);
+    });
   }
 }

@@ -77,7 +77,7 @@ export class MinistryDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    if(this.editMode) {
+    if(this.editMode && this.ministry.id > 0) {
       this.editMode = false;
     } else {
       this.router.navigate(['ministries']);

@@ -25,7 +25,7 @@ export class CredentialDialogComponent implements OnInit {
     });
 
 
-  filteredOptions: Observable<string[]>;
+  filteredRoles: Observable<string[]>;
 
   constructor(public dialogRef: MatDialogRef<CredentialDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: PersonData,
@@ -35,7 +35,7 @@ export class CredentialDialogComponent implements OnInit {
   ngOnInit() {
     this.credentialForm.get('personId').setValue(this.data.id);
 
-    this.filteredOptions = this.credentialForm.get('role').valueChanges
+    this.filteredRoles = this.credentialForm.get('role').valueChanges
       .pipe(
         debounceTime(300),
         switchMap(value => this.loginService.getRoles()
@@ -52,10 +52,8 @@ export class CredentialDialogComponent implements OnInit {
           this.dialogRef.close();
         });
     } else {
-      alert("Nope!");
       this.cancel();
     }
-
   }
 
   cancel() {

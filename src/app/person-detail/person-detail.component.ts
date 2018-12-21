@@ -32,7 +32,7 @@ export class PersonDetailComponent implements OnInit {
       id: [''],
       name: ['', Validators.required],
       email: ['', Validators.email],
-      phoneNumber: ['', [Validators.minLength(8), Validators.maxLength(14), SCValidation.validatePhone()]],
+      phoneNumber: ['', Validators.pattern(/^(\([\d]{3}\) )?[\d]{3}-[\d]{4}$/)],
       headOfHousehold: [''],
       birthdate: [''],
       memberSince: [''],
@@ -42,8 +42,8 @@ export class PersonDetailComponent implements OnInit {
         address: this.fb.group({
           street1: ['', Validators.required],
           city: ['', Validators.required],
-          state: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2), SCValidation.actualState()]],
-          zip: ['', [Validators.required, Validators.min(0), Validators.max(99999), SCValidation.numeric()]]
+          state: ['', [Validators.required, SCValidation.actualState()]],
+          zip: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]]
         })
       })
     });
@@ -127,7 +127,7 @@ export class PersonDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    if(this.editMode) {
+    if(this.editMode && this.person.id > 0) {
       this.editMode = false;
     } else {
       this.router.navigate(['people']);

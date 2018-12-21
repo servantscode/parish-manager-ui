@@ -35,10 +35,23 @@ export class DonationService {
       );
   }
 
+  createDonations(donations: Donation[]): Observable<Donation[]> {
+    return this.http.post<Donation[]>(this.url + '/batch', donations, httpOptions).pipe(
+        tap(donations => this.log(`Created ${donations.length} donations`)),
+        catchError(this.handleError('createDonations', null))
+      );
+  }
+
   updateDonation(donation: Donation): Observable<Donation> {
     return this.http.put<Donation>(this.url, donation, httpOptions).pipe(
         tap(donation => this.log('Updated donation ' + donation.amount)),
         catchError(this.handleError('updateDonation', null))
+      );
+  }
+
+  getDonationTypes(): Observable<string[]> {
+    return this.http.get(this.url + '/types').pipe(
+        catchError(this.handleError('getDonationTypes', null))
       );
   }
 
