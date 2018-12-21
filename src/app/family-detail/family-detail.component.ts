@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators'
+import { Observable, of } from 'rxjs';
+import { map, startWith, reduce } from 'rxjs/operators'
 
 import { Person } from '../person';
 import { Family } from '../family';
@@ -26,7 +26,8 @@ export class FamilyDetailComponent implements OnInit {
   private editMode = false;
   private donations: Donation[];
   private pledge: Pledge;
-  highlightedDonation: Donation;
+  private highlightedDonation: Donation;
+  private totalDonations: number;
 
   familyForm = this.fb.group({
       id: '',
@@ -70,7 +71,10 @@ export class FamilyDetailComponent implements OnInit {
         });
 
       this.donationService.getFamilyContributions(id).
-        subscribe(donations => this.donations = donations);
+        subscribe(donations => {
+            this.donations = donations;
+            this.totalDonations = donations.map(donation => donation.amount).reduce((acc, amount) => acc + amount);
+          });
 
       this.pledgeService.getPledge(id).
         subscribe(pledge => this.pledge = pledge);

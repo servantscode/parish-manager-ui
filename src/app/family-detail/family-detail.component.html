@@ -22,8 +22,9 @@
       Pledged Amount: <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> <br/>
     </div>
     <div *ngIf="pledge == undefined || pledge == null">
-      <em>No pledge information available.</em>
-    </div> <br/>
+      <em>No pledge information available.</em> <br/>
+    </div>
+    Total Donations: <strong>{{totalDonations | currency:"$"}}</strong> <br/><br/>
     <table>
       <thead>
         <tr>
@@ -94,6 +95,7 @@
     <div *ngIf="pledge == undefined || pledge == null">
       <em>No pledge information available.</em>
     </div>
+    Total Donations: <strong>{{totalDonations | currency:"$"}}</strong> <br/>
     <table>
       <thead>
         <tr>
