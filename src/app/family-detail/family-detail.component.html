@@ -18,12 +18,23 @@
   </div>
   <div class="container rounded-rect">
     <h3>Donations</h3>
-    <div *ngIf="pledge != undefined && pledge != null">
-      Pledged Amount: <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> <br/>
+    <div *ngIf="pledge != undefined && pledge != null" class="row">
+      <div class="col">
+        Pledged Amount: <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> <br/>
+      </div>
+      <div class="col align-right">
+        <button class="btn btn-primary" (click)="openPledgeForm()">Update Pledge</button> 
+      </div>
     </div>
-    <div *ngIf="pledge == undefined || pledge == null">
-      <em>No pledge information available.</em> <br/>
+    <div *ngIf="pledge == undefined || pledge == null" class="row">
+      <div class="col">
+        <em>No pledge information available.</em> <br/>
+      </div>
+      <div class="col align-right">
+        <button class="btn btn-primary" (click)="openPledgeForm()">Record Pledge</button> 
+      </div>
     </div>
+
     Total Donations: <strong>{{totalDonations | currency:"$"}}</strong> <br/><br/>
     <table>
       <thead>

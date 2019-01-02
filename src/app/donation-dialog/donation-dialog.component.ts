@@ -16,12 +16,12 @@ export class DonationDialogComponent implements OnInit {
 
 
   donationForm = this.fb.group({
-      familyId: ['', Validators.required],
+      familyId: [this.data.id, Validators.required],
       amount: ['', [Validators.required, Validators.pattern(/^\d*(\.\d{0,2})?$/)]],
-      donationDate: ['', Validators.required],
+      donationDate: [new Date(), Validators.required],
       donationType: ['', Validators.required],
-      checkNumber: ['', Validators.pattern(/^\d+$/)],
-      transactionId: ['', Validators.pattern(/^\d+$/)]
+      checkNumber: ['', Validators.pattern(SCValidation.NUMBER)],
+      transactionId: ['', Validators.pattern(SCValidation.NUMBER)]
     });
 
   filteredTypes: Observable<string[]>;
@@ -32,14 +32,12 @@ export class DonationDialogComponent implements OnInit {
               private donationService: DonationService) { }
   
   ngOnInit() {
-    this.donationForm.get('familyId').setValue(this.data.id);
-
     this.filteredTypes = this.donationForm.get('donationType').valueChanges
       .pipe(
         debounceTime(300),
         switchMap(value => this.donationService.getDonationTypes()
           .pipe(
-              map(resp => resp.filter(type => type.startsWith(value)))              
+              map(resp => resp.filter(type => type.startsWith(value.toUpperCase())))              
             ))
       );
 
@@ -47,10 +45,10 @@ export class DonationDialogComponent implements OnInit {
     this.donationForm.get('donationType').valueChanges.subscribe(
       (type: string) => {
           if (type === 'CHECK') {
-              checkNumber.setValidators([Validators.required, Validators.pattern(/^\d+$/)]);
+              checkNumber.setValidators([Validators.required, Validators.pattern(SCValidation.NUMBER)]);
           }
           else {
-              checkNumber.setValidators([Validators.pattern(/^\d+$/)]);
+              checkNumber.setValidators([Validators.pattern(SCValidation.NUMBER)]);
           }
           checkNumber.updateValueAndValidity();
       });

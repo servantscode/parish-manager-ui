@@ -9,7 +9,8 @@ import { Pledge } from '../pledge';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Accept': 'application/json'
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
   })
 };
 
@@ -24,7 +25,7 @@ export class PledgeService {
 
   getPledge(familyId: number): Observable<Pledge> {
     return this.http.get<Pledge>(this.url+`/family/${familyId}`).pipe(
-        catchError(this.handleError('getFamilyContributions', null))
+        catchError(this.handleError('getPledge', null))
       );
   }
 
@@ -36,9 +37,21 @@ export class PledgeService {
   }
 
   updatePledge(pledge: Pledge): Observable<Pledge> {
-    return this.http.put<Pledge>(this.url, pledge, httpOptions).pipe(
+    return this.http.put<Pledge>(this.url + `/${pledge.id}`, pledge, httpOptions).pipe(
         tap(pledge => this.log('Updated pledge ' + pledge.pledgeAmount)),
         catchError(this.handleError('updatePledge', null))
+      );
+  }
+
+  getPledgeTypes(): Observable<string[]> {
+    return this.http.get<string[]>(this.url+`/types`).pipe(
+        catchError(this.handleError('getPledgeTypes', null))
+      );
+  }
+
+  getPledgeFrequencies(): Observable<string[]> {
+    return this.http.get<string[]>(this.url+`/freqs`).pipe(
+        catchError(this.handleError('getPledgeFrequencies', null))
       );
   }
 

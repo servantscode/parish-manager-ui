@@ -14,6 +14,7 @@ import { DonationService } from '../services/donation.service';
 import { PledgeService } from '../services/pledge.service';
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
 import { DonationDialogComponent } from '../donation-dialog/donation-dialog.component';
+import { PledgeDialogComponent } from '../pledge-dialog/pledge-dialog.component';
 import { SCValidation } from '../validation';
 
 @Component({
@@ -75,8 +76,7 @@ export class FamilyDetailComponent implements OnInit {
 
       this.loadDonations(id);
 
-      this.pledgeService.getPledge(id).
-        subscribe(pledge => this.pledge = pledge);
+      this.loadPledge(id);
 
     } else {
       this.editMode = true;
@@ -89,6 +89,11 @@ export class FamilyDetailComponent implements OnInit {
           this.donations = donations;
           this.totalDonations = donations.map(donation => donation.amount).reduce((acc, amount) => acc + amount, 0);
         });
+  }
+
+  loadPledge(id): void {
+    this.pledgeService.getPledge(id).
+      subscribe(pledge => this.pledge = pledge);
   }
 
   goBack(): void {
@@ -138,6 +143,17 @@ export class FamilyDetailComponent implements OnInit {
 
     donationRef.afterClosed().subscribe(result => {
       this.loadDonations(this.family.id);
+    });
+  }
+
+  public openPledgeForm() {
+    const pledgeRef = this.dialog.open(PledgeDialogComponent, {
+      width: '800px',
+      data: {"id": this.family.id, "pledge": this.pledge}
+    });
+
+    pledgeRef.afterClosed().subscribe(result => {
+      this.loadPledge(this.family.id);
     });
   }
 }

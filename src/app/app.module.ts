@@ -37,6 +37,7 @@ import { DonationComponent } from './donation/donation.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DateInterceptor } from './services/date-interceptor';
 import { DonationDialogComponent } from './donation-dialog/donation-dialog.component';
+import { PledgeDialogComponent } from './pledge-dialog/pledge-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -61,7 +62,8 @@ export function tokenGetter() {
     CredentialDialogComponent,
     MetricsComponent,
     DonationComponent,
-    DonationDialogComponent
+    DonationDialogComponent,
+    PledgeDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -92,6 +94,6 @@ export function tokenGetter() {
     { provide: HTTP_INTERCEPTORS, useClass: DateInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [CredentialDialogComponent, DonationDialogComponent]
+  entryComponents: [CredentialDialogComponent, DonationDialogComponent, PledgeDialogComponent]
 })
 export class AppModule { }

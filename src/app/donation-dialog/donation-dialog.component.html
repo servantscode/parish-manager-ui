@@ -5,7 +5,7 @@
     
     <mat-form-field appearance="standard" class="input-standard">
       <mat-label>Amount</mat-label>
-      <input type="text" matInput formControlName="amount" autocomplete="off" ng-currency required/>
+      <input type="text" matInput formControlName="amount" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field><br/>
 
     <mat-form-field>
@@ -35,7 +35,7 @@
   </div>
 
   <div mat-dialog-actions class="align-right">
-    <button mat-button type="submit" class="btn btn-primary" [disabled]="!donationForm.valid" cdkFocusInitial>Save</button>
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!donationForm.valid">Save</button>
     <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
   </div>
 </form>

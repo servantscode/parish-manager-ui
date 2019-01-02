@@ -6,6 +6,8 @@ export class SCValidation {
                              "KY","LA","ME","MH","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","MP",
                              "OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT","VT","VI","VA","WA","WV","WI","WY"];
 
+  static NUMBER = /^\d+$/;
+
   static formatPhone (tel): string {
     if (!tel) { return ''; }
 

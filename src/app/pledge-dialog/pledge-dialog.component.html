@@ -1,0 +1,66 @@
+<form [formGroup]="pledgeForm" (ngSubmit)="createDonation()">
+  <h1 *ngIf="data.pledge !== null && data.pledge.id > 0" mat-dialog-title>Update Pledge</h1>
+  <h1 *ngIf="data.pledge == null || data.pledge.id == 0" mat-dialog-title>Record Pledge</h1>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col">
+        <input type="hidden" autocomplete="off" formControlName="familyId"/>
+        
+        <mat-form-field class="input-standard">
+          <input type="text" placeholder="Type" aria-label="Pledge Type" matInput formControlName="pledgeType"  [matAutocomplete]="typeauto" class="input-standard" required cdkFocusInitial>
+          <mat-autocomplete #typeauto="matAutocomplete" autoActiveFirstOption>
+            <mat-option *ngFor="let option of pledgeTypes | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field><br/>
+      
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Envelope Number</mat-label>
+          <input type="text" matInput formControlName="envelopeNumber" autocomplete="off"/>
+        </mat-form-field><br/>
+
+        <mat-form-field class="input-standard">
+          <input type="text" placeholder="Type" aria-label="Pledge Frequency" matInput formControlName="pledgeFrequency"  [matAutocomplete]="auto" class="input-standard" required>
+          <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+            <mat-option *ngFor="let option of pledgeFrequencies | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field><br/>
+
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Pledge Amount</mat-label>
+          <input type="text" matInput formControlName="pledgeAmount" autocomplete="off" required/>
+        </mat-form-field><br/>
+
+        <input type="hidden" autocomplete="off" formControlName="annualPledgeAmount"/>
+        Total: <strong>{{calculatedAnnualPledge | currency:"$"}}</strong>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <input matInput formControlName="pledgeDate" [matDatepicker]="picker" placeholder="Donation Date" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field><br/>
+
+        <mat-form-field>
+          <input matInput formControlName="pledgeStart" [matDatepicker]="startpicker" placeholder="Pledge Start Date" required>
+          <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
+          <mat-datepicker #startpicker></mat-datepicker>
+        </mat-form-field><br/>
+
+        <mat-form-field>
+          <input matInput formControlName="pledgeEnd" [matDatepicker]="endpicker" placeholder="Pledge End Date" required>
+          <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+          <mat-datepicker #endpicker></mat-datepicker>
+        </mat-form-field><br/>
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!pledgeForm.valid">Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+  </div>
+</form>
