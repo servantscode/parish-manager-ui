@@ -7,6 +7,7 @@ export class SCValidation {
                              "OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT","VT","VI","VA","WA","WV","WI","WY"];
 
   static NUMBER = /^\d+$/;
+  static USD = /^\d*(\.\d{0,2})?$/;
 
   static formatPhone (tel): string {
     if (!tel) { return ''; }

@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
+
 import { ChartData } from '../chartData';
 import { DonationReport } from '../donation-report';
 import { MetricsService } from '../services/metrics.service';
 import { ColorService } from '../services/color.service';
+import { BulkDonationDialogComponent } from '../bulk-donation-dialog/bulk-donation-dialog.component';
 
 @Component({
   selector: 'app-donation',
@@ -17,9 +20,14 @@ export class DonationComponent implements OnInit {
   monthlyDonations: DonationReport[];
 
   constructor(private metricsService: MetricsService,
-              private colorService: ColorService) { }
+              private colorService: ColorService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
+    this.updateMetrics();
+  }
+
+  updateMetrics() {
     this.metricsService.getPledgeFulfillments().
       subscribe(results => {
         this.annualPledgeTotal = results.totalPledges;
@@ -32,6 +40,17 @@ export class DonationComponent implements OnInit {
     this.metricsService.getMonthlyDonations().
       subscribe(results => this.monthlyDonations = results );
   }
+
+  public openDonationForm() {
+    const donationRef = this.dialog.open(BulkDonationDialogComponent, {
+      width: '800px'
+    });
+
+    donationRef.afterClosed().subscribe(result => {
+      this.updateMetrics();
+    });
+  }
+
 
   private dayOfYear(): number {
     const now = new Date();

@@ -1,0 +1,84 @@
+<form [formGroup]="donationForm" (ngSubmit)="createDonations()">
+  <h1 mat-dialog-title>Record Donations</h1>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <input matInput formControlName="donationDate" [matDatepicker]="picker" placeholder="Donation Date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field><br/>
+
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Envelope #</th>
+          <th>Family</th>
+          <th>Amount</th>
+          <th>Type</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody formArrayName="donations">
+        <tr *ngFor="let donation of donationForm.controls['donations'].controls; let i=index" formGroupName="{{i}}" [ngClass] = "{'invalid' : hasDirtyOrInvalidFields(donation)}">
+          <td>
+            <img src="assets/images/red-minus.png" class="icon" (click)="deleteRow(i)"/>
+          </td>
+          <td>
+            <mat-form-field appearance="standard" class="input-5">
+              <mat-label>Envelope #</mat-label>
+              <input type="text" matInput formControlName="envelopeNumber" autocomplete="off"/>
+            </mat-form-field><br/>
+          </td>
+          <td>
+            <!-- Family -->
+            <input type="hidden" autocomplete="off" formControlName="familyId"/>
+
+            <mat-form-field class="input-small">
+              <input type="text" placeholder="Family Name" aria-label="Family Name" matInput formControlName="familyName"  [matAutocomplete]="familyAuto" required>
+              <mat-autocomplete #familyAuto="matAutocomplete" autoActiveFirstOption [displayWith]="selectFamilyName" (optionSelected)="selectFamily($event, i)">
+                <mat-option *ngFor="let family of filteredFamilies[i] | async" [value]="family">
+                  {{family.surname}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field appearance="standard" class="input-5">
+              <mat-label>Amount</mat-label>
+              <input type="text" matInput formControlName="amount" autocomplete="off" required/>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="input-small">
+              <input type="text" placeholder="Type" aria-label="Donation Type" matInput formControlName="donationType"  [matAutocomplete]="auto" required>
+              <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+                <mat-option *ngFor="let option of filteredTypes[i] | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field *ngIf="donationType(i) === 'CHECK'" appearance="standard" class="input-small">
+              <mat-label>Check Number</mat-label>
+              <input type="text" matInput formControlName="checkNumber" autocomplete="off" required/>
+            </mat-form-field>
+            <mat-form-field *ngIf="donationType(i) === 'EGIFT' || donationType(i) === 'CREDIT_CARD'" appearance="standard" class="input-small">
+              <mat-label>Transaction Id</mat-label>
+              <input type="text" matInput formControlName="transactionId" autocomplete="off"/>
+            </mat-form-field>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div mat-dialog-actions class="align-right">
+      <button mat-button type="button" class="btn btn-primary" (click)="addRow()">Add Donation Row</button>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!donationForm.valid">Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+  </div>
+</form>

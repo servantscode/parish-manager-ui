@@ -17,7 +17,15 @@
   </div>
 </div>
 <div class="container rounded-rect">
-  <h3>Monthly Donations</h3>
+  <div class="row">
+    <div class="col">
+      <h3>Monthly Donations</h3>
+    </div>
+    <div class="col align-right">
+      <button mat-button class="btn btn-primary" (click)="openDonationForm()">Record Donations</button>
+    </div>
+  </div>
+
   <table>
     <thead>
       <tr>

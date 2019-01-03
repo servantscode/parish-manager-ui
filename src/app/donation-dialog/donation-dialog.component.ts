@@ -14,10 +14,9 @@ import { SCValidation } from '../validation';
 })
 export class DonationDialogComponent implements OnInit {
 
-
   donationForm = this.fb.group({
       familyId: [this.data.id, Validators.required],
-      amount: ['', [Validators.required, Validators.pattern(/^\d*(\.\d{0,2})?$/)]],
+      amount: ['', [Validators.required, Validators.pattern(SCValidation.USD)]],
       donationDate: [new Date(), Validators.required],
       donationType: ['', Validators.required],
       checkNumber: ['', Validators.pattern(SCValidation.NUMBER)],
