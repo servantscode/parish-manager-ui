@@ -9,6 +9,7 @@ import { FamilyService } from '../services/family.service';
 import { SCValidation } from '../validation';
 import { Family } from '../family';
 import { Donation } from '../donation';
+import { DonationPrediction } from '../donation-prediction';
 
 @Component({
   selector: 'app-bulk-donation-dialog',
@@ -25,7 +26,7 @@ export class BulkDonationDialogComponent implements OnInit {
       donations: this.fb.array([
           this.newRow()
         ])
-      });
+    });
 
   constructor(public dialogRef: MatDialogRef<BulkDonationDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -73,7 +74,7 @@ export class BulkDonationDialogComponent implements OnInit {
       group.get('donationType').valueChanges
         .pipe(
           debounceTime(300),
-          switchMap(value => this.donationService.getDonationTypes()
+          switchMap(value => (value === null)? null: this.donationService.getDonationTypes()
             .pipe(
                 map(resp => resp.filter(type => type.startsWith(value.toUpperCase())))              
               ))
@@ -128,8 +129,6 @@ export class BulkDonationDialogComponent implements OnInit {
         donations.push(tempDon);
       }
       
-      alert("Recording " + donations.length + " donations");
-
       this.donationService.createDonations(donations).
         subscribe(() => {
           this.dialogRef.close();
@@ -152,10 +151,28 @@ export class BulkDonationDialogComponent implements OnInit {
 
   selectFamily(event: any, i: number): void {
     var selected = event.option.value;
-    (<FormArray>this.donationForm.controls['donations']).controls[i].get('familyId').setValue(selected.id); //TODO
+    (<FormArray>this.donationForm.controls['donations']).controls[i].get('familyId').setValue(selected.id);
+    this.predict(i, 'familyId');
   }
 
   selectFamilyName(family?: Family): string | undefined {
     return family ? typeof family === 'string' ? family : family.surname : undefined;
+  }
+
+  predict(i: number, type: string): void {
+    var group = (<FormArray>this.donationForm.controls['donations']).controls[i];
+    var familyId = (type === 'familyId')? group.get("familyId").value: 0;
+    var envelopeNumber = (type === 'envelopeNumber')? group.get("envelopeNumber").value: 0;
+    this.donationService.getDonationPrediction(familyId, envelopeNumber)
+      .subscribe( prediction => {
+          group.patchValue(prediction);
+          this.clearZero(group.get("envelopeNumber"));
+          this.clearZero(group.get("amount"));
+        });
+  }
+
+  clearZero(field: AbstractControl) {
+    if(field.value == 0)
+      field.reset();
   }
 }

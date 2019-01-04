@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './message.service';
 
 import { Donation } from '../donation';
+import { DonationPrediction } from '../donation-prediction';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -54,6 +55,20 @@ export class DonationService {
         catchError(this.handleError('getDonationTypes', null))
       );
   }
+
+  getDonationPrediction(familyId: number = 0, envelopeNum: number = 0): Observable<DonationPrediction> {
+    var options = '';
+    if(envelopeNum > 0) {
+      options = `envelopeNumber=${envelopeNum}`;
+    } else {
+      options = `familyId=${familyId}`;
+    }
+
+    return this.http.get(this.url + `/predict?${options}`).pipe(
+        catchError(this.handleError('getDonationPrediction', null))
+      );
+  }
+
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
