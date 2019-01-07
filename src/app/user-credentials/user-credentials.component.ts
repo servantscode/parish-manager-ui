@@ -18,7 +18,7 @@ export class UserCredentialsComponent implements OnInit, OnChanges {
               private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.checkCredentials();
+    // this.checkCredentials();
   }
 
   ngOnChanges(changes: SimpleChanges) {
