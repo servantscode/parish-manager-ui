@@ -14,6 +14,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { AppComponent } from './app.component';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
@@ -39,6 +41,7 @@ import { DateInterceptor } from './services/date-interceptor';
 import { DonationDialogComponent } from './donation-dialog/donation-dialog.component';
 import { PledgeDialogComponent } from './pledge-dialog/pledge-dialog.component';
 import { BulkDonationDialogComponent } from './bulk-donation-dialog/bulk-donation-dialog.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -65,7 +68,8 @@ export function tokenGetter() {
     DonationComponent,
     DonationDialogComponent,
     PledgeDialogComponent,
-    BulkDonationDialogComponent
+    BulkDonationDialogComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -84,6 +88,11 @@ export function tokenGetter() {
     MatDatepickerModule,
     MatNativeDateModule,
     NgxChartsModule,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    }),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

@@ -9,6 +9,7 @@ import { MinistryListComponent } from './ministry-list/ministry-list.component';
 import { MinistryDetailComponent } from './ministry-detail/ministry-detail.component';
 import { DonationComponent } from './donation/donation.component';
 import { MetricsComponent } from './metrics/metrics.component';
+import { CalendarComponent } from './calendar/calendar.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'ministry/detail/:id', component: MinistryDetailComponent, canActivate: [AuthGuard] },
   { path: 'metrics', component: MetricsComponent, canActivate: [AuthGuard] },
   { path: 'donations', component: DonationComponent, canActivate: [AuthGuard] },
+  { path: 'calendar', component: CalendarComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/people', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent }
 ];
