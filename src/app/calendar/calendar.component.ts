@@ -1,11 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
 import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
 import { Event } from '../event';
 import { EventService } from '../services/event.service';
+import { EventDialogComponent } from '../event-dialog/event-dialog.component';
 
 const colors: any = {
   red: {
@@ -51,7 +52,7 @@ export class CalendarComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  constructor(private modal: NgbModal,
+  constructor(private dialog: MatDialog,
               private eventService: EventService) {}
 
   ngOnInit() {
@@ -64,24 +65,9 @@ export class CalendarComponent implements OnInit {
   }
 
   loadEvents(): void {
-    var start: Date;
-    var end: Date;
-    switch (this.view) {
-      case CalendarView.Month:
-        var start = startOfMonth(this.viewDate);
-        var end = endOfMonth(this.viewDate);
-        break;
-      case CalendarView.Week:
-        var start = startOfWeek(this.viewDate);
-        var end = endOfWeek(this.viewDate);
-        break;
-      default:
-        var start = startOfDay(this.viewDate);
-        var end = endOfDay(this.viewDate);
-        break;
-    }
+    const dateRange = this.calculateRange(this.viewDate, this.view);
 
-    this.eventService.getEvents(start, end).
+    this.eventService.getEvents(dateRange.start, dateRange.end).
       subscribe(eventResponse => {
         this.events = eventResponse.map(serverEvent => {
             return {
@@ -95,14 +81,29 @@ export class CalendarComponent implements OnInit {
                 beforeStart: true,
                 afterEnd: true
               },
-              draggable: true
+              draggable: true,
+              schedulerId: serverEvent.schedulerId,
+              ministryId: serverEvent.ministryId,
+              id: serverEvent.id
             };
           });
       });
   }
 
+  openEventModal(event: CalendarEvent) {
+    event = event == undefined? null: event;
+    const eventRef = this.dialog.open(EventDialogComponent, {
+      width: '400px',
+      data: {"date": this.viewDate, "event": event }
+    });
+
+    eventRef.afterClosed().subscribe(result => {
+      this.loadEvents();
+    });
+  }
+
   handleEvent(action: string, event: CalendarEvent): void {
-    alert("did a thing." + action);
+    this.openEventModal(event);
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -114,18 +115,14 @@ export class CalendarComponent implements OnInit {
     this.refresh.next();
   }
 
-  addEvent(): void {
-    this.events.push({
-      title: 'New event',
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      color: colors.red,
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      }
-    });
-    this.refresh.next();
+  private calculateRange(date: Date, view: CalendarView) {
+    switch (view) {
+      case CalendarView.Month:
+        return {start:startOfMonth(date), end:endOfMonth(date)};
+      case CalendarView.Week:
+        return {start:startOfWeek(date), end:endOfWeek(date)};
+      default:
+        return {start:startOfDay(date), end:endOfDay(date)};
+    }
   }
 }

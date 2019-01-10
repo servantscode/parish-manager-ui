@@ -91,6 +91,10 @@ export class LoginService {
     return this.decodeUserName(localStorage.getItem('jwt-token'));
   }
 
+  public getUserId(): string {
+    const decoded = this.jwtHelper.decodeToken(localStorage.getItem('jwt-token'));
+    return decoded == null? "": decoded.userId;
+  }
 
   // ----- Private -----
 

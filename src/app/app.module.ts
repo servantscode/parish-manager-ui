@@ -42,6 +42,7 @@ import { DonationDialogComponent } from './donation-dialog/donation-dialog.compo
 import { PledgeDialogComponent } from './pledge-dialog/pledge-dialog.component';
 import { BulkDonationDialogComponent } from './bulk-donation-dialog/bulk-donation-dialog.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { EventDialogComponent } from './event-dialog/event-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -69,7 +70,8 @@ export function tokenGetter() {
     DonationDialogComponent,
     PledgeDialogComponent,
     BulkDonationDialogComponent,
-    CalendarComponent
+    CalendarComponent,
+    EventDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -108,7 +110,8 @@ export function tokenGetter() {
   entryComponents: [CredentialDialogComponent, 
                     DonationDialogComponent, 
                     PledgeDialogComponent, 
-                    BulkDonationDialogComponent
+                    BulkDonationDialogComponent,
+                    EventDialogComponent
                    ]
 })
 export class AppModule { }

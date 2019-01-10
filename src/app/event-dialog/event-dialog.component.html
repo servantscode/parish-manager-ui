@@ -1,0 +1,50 @@
+<form [formGroup]="eventForm" (ngSubmit)="createEvent()">
+  <h1 *ngIf="data.event !== null && data.event.id > 0" mat-dialog-title>Update Event</h1>
+  <h1 *ngIf="data.event === null || data.event.id == 0" mat-dialog-title>Record Event</h1>
+  <div mat-dialog-content>
+    <input type="hidden" autocomplete="off" formControlName="id"/>
+    <input type="hidden" autocomplete="off" formControlName="schedulerId"/>
+    <input type="hidden" formControlName="ministryId">
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Description</mat-label>
+      <input type="text" matInput formControlName="description" autocomplete="off" required/>
+    </mat-form-field><br/>
+
+    <mat-form-field>
+      <input matInput formControlName="startDate" [matDatepicker]="startpicker" placeholder="Start Date" class="input-small" required>
+      <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
+      <mat-datepicker #startpicker></mat-datepicker>
+    </mat-form-field>&nbsp;
+
+    <mat-form-field appearance="standard" class="input-small">
+      <mat-label>Start Time</mat-label>
+      <input type="text" matInput formControlName="startTime" autocomplete="off" required/>
+    </mat-form-field><br/>
+
+    <mat-form-field>
+      <input matInput formControlName="endDate" [matDatepicker]="endpicker" placeholder="End Date" class="input-small" required>
+      <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+      <mat-datepicker #endpicker></mat-datepicker>
+    </mat-form-field>&nbsp;
+
+    <mat-form-field appearance="standard" class="input-small">
+      <mat-label>End Time</mat-label>
+      <input type="text" matInput formControlName="endTime" autocomplete="off" required/>
+    </mat-form-field><br/>
+
+    <mat-form-field>
+      <input type="text" placeholder="Ministry" aria-label="Ministry Name" matInput formControlName="ministryName" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="selectMinistryName" (optionSelected)="selectMinistry($event)">
+        <mat-option *ngFor="let ministry of filteredMinistries | async" [value]="ministry">
+          {{ministry.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!eventForm.valid">Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+  </div>
+</form>
