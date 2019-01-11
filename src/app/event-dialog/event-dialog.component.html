@@ -4,7 +4,7 @@
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="id"/>
     <input type="hidden" autocomplete="off" formControlName="schedulerId"/>
-    <input type="hidden" formControlName="ministryId">
+    <input type="hidden" autocomplete="off" formControlName="ministryId">
 
     <mat-form-field appearance="standard" class="input-standard">
       <mat-label>Description</mat-label>
@@ -12,23 +12,23 @@
     </mat-form-field><br/>
 
     <mat-form-field>
-      <input matInput formControlName="startDate" [matDatepicker]="startpicker" placeholder="Start Date" class="input-small" required>
+      <input matInput formControlName="startDate" [matDatepicker]="startpicker" placeholder="Start Date" class="input-5" required>
       <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
       <mat-datepicker #startpicker></mat-datepicker>
     </mat-form-field>&nbsp;
 
-    <mat-form-field appearance="standard" class="input-small">
+    <mat-form-field appearance="standard" class="input-5">
       <mat-label>Start Time</mat-label>
       <input type="text" matInput formControlName="startTime" autocomplete="off" required/>
     </mat-form-field><br/>
 
     <mat-form-field>
-      <input matInput formControlName="endDate" [matDatepicker]="endpicker" placeholder="End Date" class="input-small" required>
+      <input matInput formControlName="endDate" [matDatepicker]="endpicker" placeholder="End Date" class="input-5" required>
       <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
       <mat-datepicker #endpicker></mat-datepicker>
     </mat-form-field>&nbsp;
 
-    <mat-form-field appearance="standard" class="input-small">
+    <mat-form-field appearance="standard" class="input-5">
       <mat-label>End Time</mat-label>
       <input type="text" matInput formControlName="endTime" autocomplete="off" required/>
     </mat-form-field><br/>

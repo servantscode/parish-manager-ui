@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameDay, isSameMonth, startOfHour, addHours } from 'date-fns';
 import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
@@ -7,21 +7,7 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, Cal
 import { Event } from '../event';
 import { EventService } from '../services/event.service';
 import { EventDialogComponent } from '../event-dialog/event-dialog.component';
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: { 
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
+import { ColorService } from '../services/color.service';
 
 @Component({
   selector: 'app-calendar',
@@ -74,7 +60,7 @@ export class CalendarComponent implements OnInit {
               start: serverEvent.startTime,
               end: serverEvent.endTime,
               title: serverEvent.description,
-              color: colors.red,
+              color: ColorService.CALENDAR_COLORS.blue,
               actions: this.actions,
               allDay: false,
               resizable: {
@@ -91,10 +77,17 @@ export class CalendarComponent implements OnInit {
   }
 
   openEventModal(event: CalendarEvent) {
-    event = event == undefined? null: event;
+    if(event == undefined) {
+      event = {
+        start: addHours(startOfHour(this.viewDate), 1),
+        end: addHours(startOfHour(this.viewDate), 2),
+        title: ''
+      };
+    }
+
     const eventRef = this.dialog.open(EventDialogComponent, {
       width: '400px',
-      data: {"date": this.viewDate, "event": event }
+      data: {"event": event}
     });
 
     eventRef.afterClosed().subscribe(result => {
@@ -112,7 +105,7 @@ export class CalendarComponent implements OnInit {
   eventTimesChanged({event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
     event.start = newStart;
     event.end = newEnd;
-    this.refresh.next();
+    this.openEventModal(event); 
   }
 
   private calculateRange(date: Date, view: CalendarView) {

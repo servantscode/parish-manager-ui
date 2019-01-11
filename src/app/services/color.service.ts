@@ -6,6 +6,21 @@ import { Alert } from '../alert';
 })
 export class ColorService {
 
+  static CALENDAR_COLORS: any = {
+    red: {
+      primary: '#ad2121',
+      secondary: '#FAE3E3'
+    },
+    blue: {
+      primary: '#1e90ff',
+      secondary: '#D1E8FF'
+    },
+    yellow: { 
+      primary: '#e3bc08',
+      secondary: '#FDF1BA'
+    }
+  };
+
   trafficLight(): string[] {
     return ['#00cc00', '#dddd00', '#ff0000', '#666666']
   }
@@ -29,6 +44,7 @@ export class ColorService {
 
     return colors;
   }
+
 
   convertToHex(color: number[]) {
     return '#' + this.getHex(color[0]) + this.getHex(color[1]) + this.getHex(color[2]);

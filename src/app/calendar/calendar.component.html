@@ -1,12 +1,12 @@
-<br/>
 <div class="container rounded-rect">
+  <br/>
   <div class="row text-center">
     <div class="col-md-4">
       <div class="btn-group">
         <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">
           Previous
         </div>
-        <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="loadEvents()"> 
+        <div class="btn btn-outline-primary" mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="loadEvents()"> 
           Today
         </div>
         <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">
@@ -32,6 +32,18 @@
     </div>
   </div>
   <br>
+
+  <ng-template #cellTemplate let-day="day" let-locale="locale" let-eventClicked="eventClicked">
+    <div class="whole-cell">
+      <span class="day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+      <div *ngFor="let event of day.events.slice(0,3)" class="event-title" (click)="eventClicked.emit({event: event})">
+        {{event.title}}
+      </div>
+      <span *ngIf="day.events.length > 3"> + {{day.events.length - 3}} more...</span>
+    </div>
+  </ng-template>
+
+
   <div [ngSwitch]="view">
     <mwl-calendar-month-view
       *ngSwitchCase="CalendarView.Month"
@@ -40,13 +52,16 @@
       [refresh]="refresh"
       (dayClicked)="dayClicked($event.day)"
       (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)">
+      (eventTimesChanged)="eventTimesChanged($event)"
+      [cellTemplate]="cellTemplate">
     </mwl-calendar-month-view>
     <mwl-calendar-week-view
       *ngSwitchCase="CalendarView.Week"
       [viewDate]="viewDate"
       [events]="events"
       [refresh]="refresh"
+      [dayStartHour]="6"
+      [dayEndHour]="22"
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-week-view>
@@ -55,6 +70,8 @@
       [viewDate]="viewDate"
       [events]="events"
       [refresh]="refresh"
+      [dayStartHour]="6"
+      [dayEndHour]="22"
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-day-view>

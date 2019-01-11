@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
-import { startOfHour, addHours, setHours, setMinutes, setSeconds } from 'date-fns';
+import { startOfHour, addHours, addSeconds, setHours, setMinutes, setSeconds } from 'date-fns';
 
 import { Event } from '../event';
 import { Ministry } from '../ministry';
@@ -21,16 +21,17 @@ export class EventDialogComponent implements OnInit {
   eventForm = this.fb.group({
       id: [0],
       description: ['', Validators.required],
-      startDate:[new Date(), Validators.required],
-      startTime:[this.pullTime(addHours(startOfHour(new Date), 1)), [Validators.required, Validators.pattern(SCValidation.TIME)]],
-      endDate:[new Date(), Validators.required],
-      endTime:[this.pullTime(addHours(startOfHour(new Date), 2)), [Validators.required, Validators.pattern(SCValidation.TIME)]],
+      startDate:['', Validators.required],
+      startTime:['', [Validators.required, Validators.pattern(SCValidation.TIME)]],
+      endDate:['', Validators.required],
+      endTime:['', [Validators.required, Validators.pattern(SCValidation.TIME)]],
       schedulerId:[this.loginService.getUserId(), [Validators.required, Validators.pattern(SCValidation.NUMBER)]],
       ministryId:[''],
       ministryName:['']
     });
 
   filteredMinistries: Observable<Ministry[]>;
+  meetingLength: number = 3600;
 
   constructor(public dialogRef: MatDialogRef<EventDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -40,17 +41,8 @@ export class EventDialogComponent implements OnInit {
               private ministryService: MinistryService) { }
   
   ngOnInit() {
-    if(this.data.event != null) {
-      //TODO: Find a better way to map this. I cry as I type it...
-      this.eventForm.get('id').setValue(this.data.event.id);
-      this.eventForm.get('description').setValue(this.data.event.title);
-      this.eventForm.get('startDate').setValue(this.data.event.start);
-      this.eventForm.get('startTime').setValue(this.pullTime(this.data.event.start));
-      this.eventForm.get('endDate').setValue(this.data.event.end);
-      this.eventForm.get('endTime').setValue(this.pullTime(this.data.event.end));
-      this.eventForm.get('schedulerId').setValue(this.data.event.schedulerId);
-      this.eventForm.get('ministryId').setValue(this.data.event.ministryId);
-    }
+    if(this.data.event != null) 
+      this.populateForm(this.data.event);
 
     this.filteredMinistries = this.eventForm.get('ministryName').valueChanges
       .pipe(
@@ -61,6 +53,28 @@ export class EventDialogComponent implements OnInit {
               map(resp => resp.results)
             ))
       );
+
+    this.eventForm.get('startDate').valueChanges
+      .subscribe( value => {
+          const endDate = this.eventForm.get('endDate');
+          if(value > endDate.value) 
+            endDate.setValue(value);
+        });
+
+    this.eventForm.get('startTime').valueChanges
+      .subscribe( value => {
+          const start = this.mergeDatetime(this.eventForm.get('startDate').value, this.eventForm.get('startTime').value);
+          const end = addSeconds(start, this.meetingLength);
+          this.eventForm.get('endDate').setValue(end);
+          this.eventForm.get('endTime').setValue(this.pullTime(end));
+        });
+
+    this.eventForm.get('endTime').valueChanges
+      .subscribe( () => {
+          const start: Date = this.mergeDatetime(this.eventForm.get('startDate').value, this.eventForm.get('startTime').value);
+          const end: Date = this.mergeDatetime(this.eventForm.get('endDate').value, this.eventForm.get('endTime').value);
+          this.meetingLength = (end.getTime() - start.getTime())/1000;
+        });
   }
 
   createEvent() {
@@ -69,46 +83,17 @@ export class EventDialogComponent implements OnInit {
       return;
     }
 
-    const eventFormData = this.eventForm.value;
-    const event: Event = {
-      id: eventFormData.id,
-      description: eventFormData.description,
-      startTime: this.mergeDatetime(eventFormData.startDate, eventFormData.startTime),
-      endTime: this.mergeDatetime(eventFormData.endDate, eventFormData.endTime),
-      schedulerId: eventFormData.schedulerId,
-      ministryId: eventFormData.ministryId
-    };
-
     if(this.eventForm.get("id").value > 0) {
-      this.eventService.updateEvent(event).
+      this.eventService.updateEvent(this.translateForm(this.eventForm.value)).
         subscribe(() => {
           this.dialogRef.close();
         });
     } else {
-      this.eventService.createEvent(event).
+      this.eventService.createEvent(this.translateForm(this.eventForm.value)).
         subscribe(() => {
           this.dialogRef.close();
         });
     }
-  }
-
-  private mergeDatetime(date: Date, time: string): Date {
-    const timeBits = time.split(":");
-    date = setHours(date, +timeBits[0]);
-    date = setMinutes(date, +timeBits[1]);
-    date = setSeconds(date, timeBits.length > 2? +timeBits[2]: 0);
-    return date;
-  }
-
-  private pullTime(date: Date): string {
-    alert("Pulling time from " + date);
-    return date.getHours() + ":" + this.pad(date.getMinutes(), 2);
-  }
-
-  private pad(num:number, size:number): string {
-    let s = num+"";
-    while (s.length < size) s = "0" + s;
-    return s;
   }
 
   selectMinistry(event: any): void {
@@ -123,5 +108,46 @@ export class EventDialogComponent implements OnInit {
 
   cancel() {
     this.dialogRef.close();
+  }
+
+  private populateForm(eventData: any): void {
+    this.meetingLength = (eventData.end - eventData.start)/1000;
+    this.eventForm.get('id').setValue(eventData.id);
+    this.eventForm.get('description').setValue(eventData.title);
+    this.eventForm.get('startDate').setValue(eventData.start);
+    this.eventForm.get('startTime').setValue(this.pullTime(eventData.start));
+    this.eventForm.get('endDate').setValue(eventData.end);
+    this.eventForm.get('endTime').setValue(this.pullTime(eventData.end));
+    this.eventForm.get('schedulerId').setValue(eventData.schedulerId);
+    this.eventForm.get('ministryId').setValue(eventData.ministryId);
+  }
+
+  private translateForm(formData: any): Event {
+    const event: Event = new Event();
+    event.id = formData.id;
+    event.description = formData.description;
+    event.startTime = this.mergeDatetime(formData.startDate, formData.startTime);
+    event.endTime = this.mergeDatetime(formData.endDate, formData.endTime);
+    event.schedulerId = formData.schedulerId;
+    event.ministryId = formData.ministryId;
+    return event;
+  }
+
+  private mergeDatetime(date: Date, time: string): Date {
+    const timeBits = time.split(":");
+    date = setHours(date, +timeBits[0]);
+    date = setMinutes(date, +timeBits[1]);
+    date = setSeconds(date, timeBits.length > 2? +timeBits[2]: 0);
+    return date;
+  }
+
+  private pullTime(date: Date): string {
+    return date.getHours() + ":" + this.pad(date.getMinutes(), 2);
+  }
+
+  private pad(num:number, size:number): string {
+    let s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
   }
 }

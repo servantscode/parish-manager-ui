@@ -188,3 +188,18 @@ div.rounded-rect {
     padding: 20px;
     width: 80%; /* Could be more or less, depending on screen size */
 }
+
+.cal-month-view mwl-calendar-month-cell.cal-day-cell {
+  flex-basis: 1;
+  min-width: calc(100%/7);
+  flex-direction: row;
+  height: 110px;
+}
+
+.cal-month-view mwl-calendar-month-cell.cal-day-cell.cal-today {
+    background-color: #eeeeee;
+
+    span.day-number {
+      opacity: 1;
+    }
+}
