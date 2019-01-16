@@ -4,5 +4,6 @@ export class Event {
   endTime: Date;
   description: string;
   schedulerId: number;
+  ministryName: string;
   ministryId: number;
 }

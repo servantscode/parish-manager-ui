@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, HostListener } from '@angular/core';
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameDay, isSameMonth, startOfHour, addHours } from 'date-fns';
 import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -6,8 +6,14 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, Cal
 
 import { Event } from '../event';
 import { EventService } from '../services/event.service';
+import { LoginService } from '../services/login.service';
 import { EventDialogComponent } from '../event-dialog/event-dialog.component';
 import { ColorService } from '../services/color.service';
+
+export enum KEY_CODE {
+  PLUS = 107,
+  EQUALS = 187
+}
 
 @Component({
   selector: 'app-calendar',
@@ -19,6 +25,7 @@ export class CalendarComponent implements OnInit {
   viewDate: Date = new Date();
   CalendarView = CalendarView; //Export CalendarView for html
   events: CalendarEvent[];
+  openDialogRef = null;
 
   actions: CalendarEventAction[] = [
     {
@@ -39,7 +46,16 @@ export class CalendarComponent implements OnInit {
   refresh: Subject<any> = new Subject();
 
   constructor(private dialog: MatDialog,
-              private eventService: EventService) {}
+              private eventService: EventService,
+              private loginService: LoginService) {}
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.keyCode === KEY_CODE.PLUS || 
+        event.keyCode === KEY_CODE.EQUALS && event.shiftKey) {
+      this.openEventModal(null);
+    }
+  }
 
   ngOnInit() {
     this.loadEvents();
@@ -69,6 +85,7 @@ export class CalendarComponent implements OnInit {
               },
               draggable: true,
               schedulerId: serverEvent.schedulerId,
+              ministryName: serverEvent.ministryName,
               ministryId: serverEvent.ministryId,
               id: serverEvent.id
             };
@@ -76,21 +93,26 @@ export class CalendarComponent implements OnInit {
       });
   }
 
-  openEventModal(event: CalendarEvent) {
+  openEventModal(event: any) {
+    if(this.openDialogRef != null)
+      return;
+
     if(event == undefined) {
       event = {
         start: addHours(startOfHour(this.viewDate), 1),
         end: addHours(startOfHour(this.viewDate), 2),
-        title: ''
+        title: '',
+        schedulerId: this.loginService.getUserId()
       };
     }
 
-    const eventRef = this.dialog.open(EventDialogComponent, {
+    this.openDialogRef = this.dialog.open(EventDialogComponent, {
       width: '400px',
       data: {"event": event}
     });
 
-    eventRef.afterClosed().subscribe(result => {
+   this.openDialogRef.afterClosed().subscribe(result => {
+      this.openDialogRef= null;
       this.loadEvents();
     });
   }
@@ -100,6 +122,10 @@ export class CalendarComponent implements OnInit {
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      this.viewDate = date;
+      this.view = CalendarView.Day;
+    }
   }
 
   eventTimesChanged({event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {

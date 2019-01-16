@@ -12,8 +12,8 @@ export class ColorService {
       secondary: '#FAE3E3'
     },
     blue: {
-      primary: '#1e90ff',
-      secondary: '#D1E8FF'
+      primary: '#176CBF',
+      secondary: '#E6F2FF'
     },
     yellow: { 
       primary: '#e3bc08',

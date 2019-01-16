@@ -8,7 +8,7 @@ export class SCValidation {
 
   static NUMBER = /^\d+$/;
   static USD = /^\d*(\.\d{0,2})?$/;
-  static TIME = /^\d{1,2}\:\d{2}(\:\d{2})?$/;
+  static TIME = /^\d{1,2}\:\d{2}(\:\d{2})? ([aA]|[pP])[mM]$/;
 
   static formatPhone (tel): string {
     if (!tel) { return ''; }

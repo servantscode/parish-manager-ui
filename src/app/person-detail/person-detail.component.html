@@ -1,4 +1,4 @@
-<button *ngIf="!editMode" class="btn btn-primary float-right" (click)="enableEdit()">Edit</button>
+<button *ngIf="!editMode" class="btn btn-primary float-right edit-button" (click)="enableEdit()">Edit</button>
 <h2>{{personForm.get("name").value}}&nbsp;</h2>
 
 <div *ngIf="!editMode">

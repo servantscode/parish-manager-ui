@@ -29,6 +29,12 @@ export class EventService {
       );
   }
 
+  getUpcomingEvents(ministryId:number, count:number = 10): Observable<Event[]> {
+    return this.http.get<Event[]>(this.url+`/ministry/${ministryId}?count=${count}`).pipe(
+        catchError(this.handleError('getUpcomingEvents', null))
+      );
+  }
+
   getEvent(id: number): Observable<Event> {
     return this.http.get<Event>(this.url + `/${id}`).pipe(
         catchError(this.handleError('getEvent', null))

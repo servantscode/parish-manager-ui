@@ -1,4 +1,4 @@
-<button *ngIf="!editMode" class="btn btn-primary float-right" (click)="enableEdit()">Edit</button>
+<button *ngIf="!editMode" class="btn btn-primary float-right edit-button" (click)="enableEdit()">Edit</button>
 <h2>{{ministryForm.get("name").value}}&nbsp;</h2>
 
 <div *ngIf="!editMode">
@@ -12,6 +12,24 @@
   <div class="container rounded-rect">
     <h3>Membership</h3>  
     <app-ministry-member-list [ministryId]="ministry.id" [columns]="['member', 'role']"></app-ministry-member-list>
+  </div>
+
+  <div class="container rounded-rect">
+    <h3>Upcoming Events</h3>  
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody (mouseleave)="highlightEvent(null)">
+        <tr *ngFor="let event of upcomingEvents" (mouseover)="highlightEvent(enrollment)"  [ngClass] = "{'highlight' : event === highlightedEvent}">
+          <td>{{event.description}}</td>
+          <td>{{event.startTime | date:"MMM dd, yyyy 'at' H:mm"}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="container">
@@ -33,12 +51,31 @@
       <mat-label>Description</mat-label>
       <textarea matInput type="textarea" cdkTextareaAutosize cdkAutosizeMaxRows="10" formControlName="description"></textarea>
     </mat-form-field><br/>
-
   </div>
+
   <div class="container rounded-rect">
     <h3>Membership</h3>  
     <app-ministry-member-list [ministryId]="ministry.id" [columns]="['member', 'role']"></app-ministry-member-list>
   </div>
+  
+  <div class="container rounded-rect">
+    <h3>Upcoming Events</h3>  
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody (mouseleave)="highlightEvent(null)">
+        <tr *ngFor="let event of upcomingEvents" (mouseover)="highlightEvent(enrollment)"  [ngClass] = "{'highlight' : event === highlightedEvent}">
+          <td>{{event.description}}</td>
+          <td>{{event.startTime}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
   <div class="container">
     <button class="btn btn-primary" type="submit" [disabled]="!ministryForm.valid">Save</button>
     <button class="btn btn-outline-primary" (click)="goBack()">Cancel</button> 

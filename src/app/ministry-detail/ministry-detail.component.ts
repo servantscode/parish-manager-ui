@@ -6,8 +6,8 @@ import { map, startWith } from 'rxjs/operators'
 
 import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
-import { Enrollment } from '../enrollment';
-import { EnrollmentService } from '../services/enrollment.service';
+import { Event } from '../event';
+import { EventService } from '../services/event.service';
 import { SCValidation } from '../validation';
 
 export enum KEY_CODE {
@@ -22,6 +22,8 @@ export enum KEY_CODE {
 })
 export class MinistryDetailComponent implements OnInit {
   private ministry: Ministry;
+  private upcomingEvents: Event[];
+  private highlightedEvent: Event;
 
   private editMode = false;
 
@@ -37,6 +39,7 @@ export class MinistryDetailComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private ministryService: MinistryService,
+              private eventService: EventService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -71,6 +74,11 @@ export class MinistryDetailComponent implements OnInit {
           this.ministry = ministry;
           this.ministryForm.patchValue(ministry);
         });
+
+      this.eventService.getUpcomingEvents(id).
+        subscribe(events => {
+          this.upcomingEvents = events;
+        });
     } else {
       this.editMode = true;
     }
@@ -104,5 +112,9 @@ export class MinistryDetailComponent implements OnInit {
 
   enableEdit(): void {
     this.editMode=true;
+  }
+
+  highlightEvent(event: Event) {
+    this.highlightedEvent = event;
   }
 }

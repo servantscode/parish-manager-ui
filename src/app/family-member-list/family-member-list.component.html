@@ -8,7 +8,7 @@
     </thead>
     <tbody (mouseleave)="highlightPerson(null)">
       <tr *ngFor="let member of members" (mouseover)="highlightPerson(member)" [ngClass] = "{'highlight' : member === highlightedPerson}">
-        <td (click)="updatePerson(member.id)">{{member.name}}&nbsp;&nbsp;<img class="icon" *ngIf="member.headOfHousehold" src="assets/images/logo-w-shield.png"/></td>
+        <td (click)="updatePerson(member.id)">{{member.name}}&nbsp;&nbsp;<img class="icon" *ngIf="member.headOfHousehold" src="assets/images/crown.png"/></td>
         <td> {{getAge(member)}}</td>
       </tr>
     </tbody>

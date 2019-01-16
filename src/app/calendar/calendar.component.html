@@ -33,13 +33,42 @@
   </div>
   <br>
 
-  <ng-template #cellTemplate let-day="day" let-locale="locale" let-eventClicked="eventClicked">
+  <ng-template
+    #cellTemplate
+    let-day="day"
+    let-openDay="openDay"
+    let-locale="locale"
+    let-tooltipPlacement="tooltipPlacement"
+    let-highlightDay="highlightDay"
+    let-unhighlightDay="unhighlightDay"
+    let-eventClicked="eventClicked"
+    let-tooltipTemplate="tooltipTemplate"
+    let-tooltipAppendToBody="tooltipAppendToBody">
     <div class="whole-cell">
       <span class="day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
-      <div *ngFor="let event of day.events.slice(0,3)" class="event-title" (click)="eventClicked.emit({event: event})">
+      <div *ngFor="let event of day.events.slice(0,3)" 
+        class="event-title" 
+        [style.backgroundColor]="event.color?.secondary"
+        [style.color]="event.color?.primary"
+        [style.border-color]="event.color?.primary"
+        [ngClass]="event?.cssClass"
+        (mouseenter)="highlightDay.emit({event: event})"
+        (mouseleave)="unhighlightDay.emit({event: event})"
+        [mwlCalendarTooltip]="event.title | calendarEventTitle:'monthTooltip':event"
+        [tooltipPlacement]="tooltipPlacement"
+        [tooltipEvent]="event"
+        [tooltipTemplate]="tooltipTemplate"
+        [tooltipAppendToBody]="tooltipAppendToBody"
+        mwlDraggable
+        [class.cal-draggable]="event.draggable"
+        dragActiveClass="cal-drag-active"
+        [dropData]="{event: event, draggedFrom: day}"
+        [dragAxis]="{x: event.draggable, y: event.draggable}"
+        (mwlClick)="eventClicked.emit({ event: event })"
+        >
         {{event.title}}
       </div>
-      <span *ngIf="day.events.length > 3"> + {{day.events.length - 3}} more...</span>
+      <span class="more" *ngIf="day.events.length > 3"> + {{day.events.length - 3}} more...</span>
     </div>
   </ng-template>
 
