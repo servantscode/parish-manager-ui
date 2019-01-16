@@ -4,9 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from './message.service';
+import { BaseService } from './base.service';
 
 import { Person } from '../person';
-import { PersonResponse } from '../personResponse';
+import { PaginatedResponse } from '../paginated.response';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,14 +19,16 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PersonService {
+export class PersonService extends BaseService {
   private url = 'http://localhost/rest/person'
 
-  constructor(private http: HttpClient,
-              private messageService: MessageService) { }
+  constructor(protected http: HttpClient,
+              protected messageService: MessageService) { 
+    super(http, messageService);
+  }
 
-  getPeople(start = 0, count = 10, search = ''): Observable<PersonResponse> {
-    return this.http.get<PersonResponse>(this.url+`?start=${start}&count=${count}&partial_name=${search}&families=true`).pipe(
+  getPeople(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Person>> {
+    return this.http.get<PaginatedResponse<Person>>(this.url+`?start=${start}&count=${count}&partial_name=${search}&families=true`).pipe(
         catchError(this.handleError('getPeople', null))
       );
   }
@@ -48,21 +51,5 @@ export class PersonService {
         tap(person => this.log('Updated person ' + person.name)),
         catchError(this.handleError('updatePerson', null))
       );
-  }
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      this.logError(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
-
-  private log(message: string) {
-    this.messageService.add(`${message}`);
-  }
-
-  private logError(message: string) {
-    this.messageService.error(`PersonService: ${message}`);
   }
 }

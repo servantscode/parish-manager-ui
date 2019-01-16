@@ -130,7 +130,6 @@ export class PeopleListComponent implements OnInit {
       return "";
 
     var candidateFamily = obj.family;
-    //Finish this
     if(candidateFamily !== null && candidateFamily !== undefined) {
       return this.getAddressString(candidateFamily);
     }

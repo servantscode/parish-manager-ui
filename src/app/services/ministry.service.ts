@@ -4,9 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from './message.service';
+import { BaseService } from './base.service';
 
 import { Ministry } from '../ministry';
-import { MinistryResponse } from '../ministryResponse';
+import { PaginatedResponse } from '../paginated.response';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,14 +19,16 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class MinistryService {
+export class MinistryService extends BaseService {
   private url = 'http://localhost:81/rest/ministry'
 
-  constructor(private http: HttpClient,
-              private messageService: MessageService) { }
+  constructor(protected http: HttpClient,
+              protected messageService: MessageService) { 
+    super(http, messageService);
+  }
 
-  getMinistries(start = 0, count = 10, search = ''): Observable<MinistryResponse> {
-    return this.http.get<MinistryResponse>(this.url+`?start=${start}&count=${count}&partial_name=${search}`).pipe(
+  getMinistries(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Ministry>> {
+    return this.http.get<PaginatedResponse<Ministry>>(this.url+`?start=${start}&count=${count}&partial_name=${search}`).pipe(
         catchError(this.handleError('getMinistries', null))
       );
   }
@@ -48,21 +51,5 @@ export class MinistryService {
         tap(ministry => this.log('Updated ministry ' + ministry.name)),
         catchError(this.handleError('updateMinistry', null))
       );
-  }
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      this.logError(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
-
-  private log(message: string) {
-    this.messageService.add(`${message}`);
-  }
-
-  private logError(message: string) {
-    this.messageService.error(`MinistryService: ${message}`);
   }
 }

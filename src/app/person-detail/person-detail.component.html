@@ -128,11 +128,11 @@
     <app-family-member-list [members]="person.family.members" [familyId]="person.family.id"></app-family-member-list>
   </div>
 
-  <div class="container rounded-rect">
+  <div *ngIf="person.id > 0" class="container rounded-rect">
     <app-user-credentials [personId]="personId"></app-user-credentials>
   </div>
 
-  <div class="container rounded-rect">
+  <div *ngIf="person.id > 0" class="container rounded-rect">
     <h3>Ministry Engagement</h3>
     <app-ministry-member-list [personId]="person.id" [columns]="['ministry', 'role']"></app-ministry-member-list>
   </div>

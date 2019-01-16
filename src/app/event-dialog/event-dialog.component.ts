@@ -68,7 +68,7 @@ export class EventDialogComponent implements OnInit {
         const start = this.mergeDatetime(this.getValue('startDate'), this.getValue('startTime'));
         const end = addSeconds(start, this.meetingLength);
         this.eventForm.get('endDate').setValue(end);
-        this.eventForm.get('endTime').setValue(this.pullTime(end));
+        this.eventForm.get('endTime').setValue(this.formatTimeString(end));
       });
 
     this.eventForm.get('endTime').valueChanges
@@ -119,7 +119,7 @@ export class EventDialogComponent implements OnInit {
   formatTime(fieldName: string): void {
     const field = this.eventForm.get(fieldName);
     const timeOnly = this.calculateTime(field.value);
-    field.setValue(this.pullTime(timeOnly));
+    field.setValue(this.formatTimeString(timeOnly));
   }
 
   private getValue(fieldName: string): any {
@@ -131,9 +131,9 @@ export class EventDialogComponent implements OnInit {
     this.eventForm.get('id').setValue(eventData.id);
     this.eventForm.get('description').setValue(eventData.title);
     this.eventForm.get('startDate').setValue(eventData.start);
-    this.eventForm.get('startTime').setValue(this.pullTime(eventData.start));
+    this.eventForm.get('startTime').setValue(this.formatTimeString(eventData.start));
     this.eventForm.get('endDate').setValue(eventData.end);
-    this.eventForm.get('endTime').setValue(this.pullTime(eventData.end));
+    this.eventForm.get('endTime').setValue(this.formatTimeString(eventData.end));
     this.eventForm.get('schedulerId').setValue(eventData.schedulerId);
     this.eventForm.get('ministryName').setValue(eventData.ministryName);
     this.eventForm.get('ministryId').setValue(eventData.ministryId);
@@ -185,7 +185,7 @@ export class EventDialogComponent implements OnInit {
     return new Date(0, 0, 0, hours, minutes, seconds);
   }
 
-  private pullTime(date: Date): string {
+  private formatTimeString(date: Date): string {
     return format(date, date.getSeconds() > 0? 'h:mm:ss A': 'h:mm A');
   }
 

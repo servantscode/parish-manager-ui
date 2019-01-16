@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from './message.service';
+import { BaseService } from './base.service';
 
 import { MetricsResponse } from '../metricsResponse';
 import { PledgeStatus } from '../pledgeStatus';
@@ -18,11 +19,13 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class MetricsService {
+export class MetricsService extends BaseService {
   private url = 'http://localhost:82/rest/metrics'
 
-  constructor(private http: HttpClient,
-              private messageService: MessageService) { }
+  constructor(protected http: HttpClient,
+              protected messageService: MessageService) { 
+    super(http, messageService);
+  }
 
   getYearlyRegistrations(): Observable<MetricsResponse> {
     return this.http.get<MetricsResponse>(this.url+`/people/registration/year`).pipe(
@@ -64,22 +67,5 @@ export class MetricsService {
     return this.http.get<PledgeStatus>(this.url+`/pledges/monthly`).pipe(
         catchError(this.handleError('getMonthlyDonations', null))
       );
-  }
-
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      this.logError(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
-
-  private log(message: string) {
-    this.messageService.add(`${message}`);
-  }
-
-  private logError(message: string) {
-    this.messageService.error(`FamilyService: ${message}`);
   }
 }

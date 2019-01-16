@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from './message.service';
+import { BaseService } from './base.service';
 
 import { Donation } from '../donation';
 import { DonationPrediction } from '../donation-prediction';
@@ -17,11 +18,13 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class DonationService {
+export class DonationService extends BaseService {
   private url = 'http://localhost:83/rest/donation'
 
-  constructor(private http: HttpClient,
-              private messageService: MessageService) { }
+  constructor(protected http: HttpClient,
+              protected messageService: MessageService) {
+    super(http, messageService);
+  }
 
   getFamilyContributions(familyId: number): Observable<Donation[]> {
     return this.http.get<Donation[]>(this.url+`/family/${familyId}`).pipe(
@@ -67,22 +70,5 @@ export class DonationService {
     return this.http.get(this.url + `/predict?${options}`).pipe(
         catchError(this.handleError('getDonationPrediction', null))
       );
-  }
-
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      this.logError(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
-
-  private log(message: string) {
-    this.messageService.add(`${message}`);
-  }
-
-  private logError(message: string) {
-    this.messageService.error(`FamilyService: ${message}`);
   }
 }

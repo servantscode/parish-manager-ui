@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from './message.service';
+import { BaseService } from './base.service';
 
 import { Enrollment } from '../enrollment';
 
@@ -17,11 +18,13 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class EnrollmentService {
+export class EnrollmentService extends BaseService {
   private url = 'http://localhost:81/rest/enrollment'
 
-  constructor(private http: HttpClient,
-              private messageService: MessageService) { }
+  constructor(protected http: HttpClient,
+              protected messageService: MessageService) { 
+    super(http, messageService);
+  }
 
   getEnrollmentsForPerson(personId: number): Observable<Enrollment[]> {
     return this.http.get<Enrollment[]>(this.url + "/person/" + personId).pipe(
@@ -47,21 +50,5 @@ export class EnrollmentService {
         tap(enrollment => this.log('Updated enrollment ' + enrollment.personName)),
         catchError(this.handleError('updateEnrollment', null))
       );
-  }
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      this.logError(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
-
-  private log(message: string) {
-    this.messageService.add(`${message}`);
-  }
-
-  private logError(message: string) {
-    this.messageService.error(`EnrollmentService: ${message}`);
   }
 }

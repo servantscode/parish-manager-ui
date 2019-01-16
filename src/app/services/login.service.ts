@@ -6,16 +6,19 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { CredentialRequest } from '../credentialRequest';
 
 import { MessageService } from './message.service';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class LoginService extends BaseService {
   private url = 'http://localhost:8080/rest/login'
 
-  constructor(private http: HttpClient,
-              private messageService: MessageService,
-              private jwtHelper: JwtHelperService) { }
+  constructor(protected http: HttpClient,
+              protected messageService: MessageService,
+              private jwtHelper: JwtHelperService) {
+    super(http, messageService);
+  }
 
   public loginEmitter = new EventEmitter<string>();
 
@@ -106,21 +109,5 @@ export class LoginService {
   private decodeUserName(token: string): string {
     const decoded = this.jwtHelper.decodeToken(token);
     return decoded == null? "": decoded.sub;
-  }
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      this.logError(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
-
-  private log(message: string) {
-    this.messageService.add(`${message}`);
-  }
-
-  private logError(message: string) {
-    this.messageService.error(`LoginService: ${message}`);
   }
 }

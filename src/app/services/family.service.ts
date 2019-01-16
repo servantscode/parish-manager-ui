@@ -4,9 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from './message.service';
+import { BaseService } from './base.service';
 
 import { Family } from '../family';
-import { FamilyResponse } from '../familyResponse';
+import { PaginatedResponse } from '../paginated.response';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,14 +19,16 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class FamilyService {
+export class FamilyService extends BaseService {
   private url = 'http://localhost/rest/family'
 
-  constructor(private http: HttpClient,
-              private messageService: MessageService) { }
+  constructor(protected http: HttpClient,
+              protected messageService: MessageService) { 
+    super(http, messageService);
+  }
 
-  getFamilies(start = 0, count = 10, search = ''): Observable<FamilyResponse> {
-    return this.http.get<FamilyResponse>(this.url+`?start=${start}&count=${count}&partial_name=${search}`).pipe(
+  getFamilies(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Family>> {
+    return this.http.get<PaginatedResponse<Family>>(this.url+`?start=${start}&count=${count}&partial_name=${search}`).pipe(
         catchError(this.handleError('getFamilies', null))
       );
   }
@@ -48,21 +51,5 @@ export class FamilyService {
         tap(family => this.log('Updated family ' + family.surname)),
         catchError(this.handleError('updateFamily', null))
       );
-  }
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      this.logError(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
-
-  private log(message: string) {
-    this.messageService.add(`${message}`);
-  }
-
-  private logError(message: string) {
-    this.messageService.error(`FamilyService: ${message}`);
   }
 }
