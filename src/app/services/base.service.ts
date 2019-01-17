@@ -1,19 +1,8 @@
-import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { MessageService } from './message.service';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  })
-};
-
-@Injectable({
-  providedIn: 'root'
-})
 export class BaseService {
 
   constructor(protected http: HttpClient,
@@ -32,6 +21,6 @@ export class BaseService {
   }
 
   protected logError(message: string) {
-    this.messageService.error(`MinistryService: ${message}`);
+    this.messageService.error(`${message}`);
   }
 }

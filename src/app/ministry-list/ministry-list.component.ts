@@ -67,7 +67,7 @@ export class MinistryListComponent implements OnInit {
   }
 
   getMinistries(): void {
-    this.ministryService.getMinistries((this.page-1)*this.pageSize, this.pageSize, this.search).
+    this.ministryService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search).
       subscribe(ministryResp => {
         this.items = ministryResp.results;
         this.totalCount = ministryResp.totalResults;

@@ -6,9 +6,13 @@ import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 import { startOfHour, addHours, addSeconds, setHours, setMinutes, setSeconds, format } from 'date-fns';
 
 import { Event } from '../event';
+import { Room } from '../room';
+import { Equipment } from '../equipment';
 import { Ministry } from '../ministry';
 import { EventService } from '../services/event.service';
 import { MinistryService } from '../services/ministry.service';
+import { RoomService } from '../services/room.service';
+import { EquipmentService } from '../services/equipment.service';
 import { SCValidation } from '../validation';
 
 @Component({
@@ -26,10 +30,21 @@ export class EventDialogComponent implements OnInit {
       endTime:['', [Validators.required, Validators.pattern(SCValidation.TIME)]],
       schedulerId:['', [Validators.required, Validators.pattern(SCValidation.NUMBER)]],
       ministryId:[''],
-      ministryName:['']
+      ministryName:[''], 
+      room:[''],
+      equipment:['']
     });
 
   filteredMinistries: Observable<Ministry[]>;
+
+  addingRoom = false;
+  filteredRooms: Observable<Room[]>;
+  rooms = [];
+  
+  addingEquipment = false;
+  filteredEquipment: Observable<Equipment[]>;
+  equipment = [];
+
   meetingLength: number = 3600;
   focusedDateField: string = null;
 
@@ -37,7 +52,9 @@ export class EventDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               private eventService: EventService,
-              private ministryService: MinistryService) { }
+              private ministryService: MinistryService,
+              private roomService: RoomService,
+              private equipmentService: EquipmentService) { }
 
   ngOnInit() {
     if(this.data.event != null) 
@@ -47,7 +64,27 @@ export class EventDialogComponent implements OnInit {
       .pipe(
         debounceTime(300),
         map(value => typeof value === 'string' ? value : value.name),
-        switchMap(value => this.ministryService.getMinistries(0, 10, value)
+        switchMap(value => this.ministryService.getPage(0, 10, value)
+          .pipe(
+              map(resp => resp.results)
+            ))
+      );
+
+    this.filteredRooms = this.eventForm.get('room').valueChanges
+      .pipe(
+        debounceTime(300),
+        map(value => typeof value === 'string' ? value : value.name),
+        switchMap(value => this.roomService.getPage(0, 10, value)
+          .pipe(
+              map(resp => resp.results)
+            ))
+      );
+
+    this.filteredEquipment = this.eventForm.get('equipment').valueChanges
+      .pipe(
+        debounceTime(300),
+        map(value => typeof value === 'string' ? value : value.name),
+        switchMap(value => this.equipmentService.getPage(0, 10, value)
           .pipe(
               map(resp => resp.results)
             ))
@@ -106,6 +143,26 @@ export class EventDialogComponent implements OnInit {
 
   selectMinistryName(ministry?: Ministry): string | undefined {
     return ministry ? typeof ministry === 'string' ? ministry : ministry.name : undefined;
+  }
+
+  selectRoomName(room?: Room): string | undefined {
+    return room ? typeof room === 'string' ? room : room.name : undefined;
+  }
+
+  selectEquipmentName(equipment?: Equipment): string | undefined {
+    return equipment ? typeof equipment === 'string' ? equipment : equipment.name : undefined;
+  }
+
+  addRoom(event: any): void {
+    this.addingRoom=false;
+    this.rooms.push(event.option.value);
+    this.eventForm.get('room').setValue(null);
+  }
+
+  addEquipment(event: any): void {
+    this.addingEquipment=false;
+    this.equipment.push(event.option.value);
+    this.eventForm.get('equipment').setValue(null);
   }
 
   cancel() {

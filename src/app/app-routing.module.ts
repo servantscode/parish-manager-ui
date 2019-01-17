@@ -11,6 +11,7 @@ import { DonationComponent } from './donation/donation.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SettingsComponent } from './settings/settings.component';
 import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'metrics', component: MetricsComponent, canActivate: [AuthGuard] },
   { path: 'donations', component: DonationComponent, canActivate: [AuthGuard] },
   { path: 'calendar', component: CalendarComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/people', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent }
 ];

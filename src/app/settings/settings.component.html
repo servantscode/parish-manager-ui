@@ -1,0 +1,9 @@
+<h2>Settings</h2>
+<div class="container rounded-rect">
+  <h3>Rooms</h3>
+  <app-paginated-list [dataService]="roomService" [fields]="['name','type','capacity']" [pageSize]='5' [dialogComponent]="RoomDialogComponent"></app-paginated-list>
+</div>
+<div class="container rounded-rect">
+  <h3>Equipment</h3>
+  <app-paginated-list [dataService]="equipmentService" [fields]="['name','manufacturer','description']" [pageSize]='5' [dialogComponent]="EquipmentDialogComponent"></app-paginated-list>
+</div>

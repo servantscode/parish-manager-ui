@@ -1,0 +1,27 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <h1 *ngIf="data.item !== null && data.item.id > 0" mat-dialog-title>Update Equipment</h1>
+  <h1 *ngIf="data.item == null || data.item.id == 0" mat-dialog-title>Record Equipment</h1>
+  <div mat-dialog-content>
+    <input type="hidden" autocomplete="off" formControlName="id"/>
+    
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Name</mat-label>
+      <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
+    </mat-form-field><br/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Manufacturer</mat-label>
+      <input type="text" matInput formControlName="manufacturer" autocomplete="off"/>
+    </mat-form-field><br/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Description</mat-label>
+      <input type="text" matInput formControlName="description" autocomplete="off"/>
+    </mat-form-field><br/>
+  </div>
+
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+  </div>
+</form>

@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search..." (ngModelChange)="populateList()" aria-label="Search">
+    </div>
+    <div class="col controls">
+      <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="populateList()"></ngb-pagination>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let field of fields">{{field | titlecase }}</th>
+      </tr>
+    </thead>
+    <tbody (mouseleave)="highlight(null)">
+      <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}">
+        <td  *ngFor="let field of fields" (click)="openModal(item)">{{item[field]}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-primary" type="button" (click)="openModal(null)">New</button>
+    </div>
+    <div class="col align-right">
+      <span class="page-status">Showing: {{this.pageStart()}}-{{this.pageEnd()}} of {{totalCount}}</span>
+    </div>
+  </div>
+</div>

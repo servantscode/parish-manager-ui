@@ -69,7 +69,7 @@ export class MinistryDetailComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
 
     if(id > 0) {
-      this.ministryService.getMinistry(id).
+      this.ministryService.get(id).
         subscribe(ministry => {
           this.ministry = ministry;
           this.ministryForm.patchValue(ministry);
@@ -94,14 +94,14 @@ export class MinistryDetailComponent implements OnInit {
 
   save(): void {
     if(this.ministry.id > 0) {
-      this.ministryService.updateMinistry(this.ministryForm.value).
+      this.ministryService.update(this.ministryForm.value).
         subscribe(ministry => {
           this.ministry = ministry;
           this.editMode = false;
           this.router.navigate(['ministry', 'detail', ministry.id]);
         });
     } else {
-      this.ministryService.createMinistry(this.ministryForm.value).
+      this.ministryService.create(this.ministryForm.value).
         subscribe(ministry => {
           this.ministry = ministry;
           this.editMode = false;

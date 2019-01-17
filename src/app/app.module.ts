@@ -43,6 +43,10 @@ import { PledgeDialogComponent } from './pledge-dialog/pledge-dialog.component';
 import { BulkDonationDialogComponent } from './bulk-donation-dialog/bulk-donation-dialog.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { EventDialogComponent } from './event-dialog/event-dialog.component';
+import { PaginatedListComponent } from './paginated-list/paginated-list.component';
+import { SettingsComponent } from './settings/settings.component';
+import { RoomDialogComponent } from './room-dialog/room-dialog.component';
+import { EquipmentDialogComponent } from './equipment-dialog/equipment-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -71,7 +75,11 @@ export function tokenGetter() {
     PledgeDialogComponent,
     BulkDonationDialogComponent,
     CalendarComponent,
-    EventDialogComponent
+    EventDialogComponent,
+    PaginatedListComponent,
+    SettingsComponent,
+    RoomDialogComponent,
+    EquipmentDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -111,7 +119,9 @@ export function tokenGetter() {
                     DonationDialogComponent, 
                     PledgeDialogComponent, 
                     BulkDonationDialogComponent,
-                    EventDialogComponent
+                    EventDialogComponent,
+                    RoomDialogComponent,
+                    EquipmentDialogComponent
                    ]
 })
 export class AppModule { }

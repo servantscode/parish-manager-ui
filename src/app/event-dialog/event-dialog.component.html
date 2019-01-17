@@ -40,6 +40,31 @@
           {{ministry.name}}
         </mat-option>
       </mat-autocomplete>
+    </mat-form-field><br/>
+
+    <div>
+      <span *ngFor="let room of rooms" class="reservation room">{{room.name}}</span>
+      <span *ngFor="let item of equipment" class="reservation equipment">{{item.name}}</span>
+    </div><br/>
+    <button *ngIf="!addingRoom" mat-button class="btn btn-primary" (click)="addingRoom=true">Add Room</button>
+    <button *ngIf="!addingEquipment" mat-button class="btn btn-primary" (click)="addingEquipment=true">Add Equipment</button>
+
+    <mat-form-field *ngIf="addingRoom">
+      <input type="text" placeholder="Room" aria-label="Room Name" matInput formControlName="room" [matAutocomplete]="autoRoom">
+      <mat-autocomplete #autoRoom="matAutocomplete" [displayWith]="selectRoomName" (optionSelected)="addRoom($event)">
+        <mat-option *ngFor="let room of filteredRooms | async" [value]="room">
+          {{room.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="addingEquipment">
+      <input type="text" placeholder="Equipment" aria-label="Equipment Name" matInput formControlName="equipment" [matAutocomplete]="autoEquipment">
+      <mat-autocomplete #autoEquipment="matAutocomplete" [displayWith]="selectEquipmentName" (optionSelected)="addEquipment($event)">
+        <mat-option *ngFor="let item of filteredEquipment | async" [value]="item">
+          {{item.name}}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
   </div>
 

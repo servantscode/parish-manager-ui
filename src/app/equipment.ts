@@ -1,13 +1,13 @@
 import { Identifiable } from './identifiable';
 
-export class Room extends Identifiable {
+export class Equipment extends Identifiable {
   constructor() {
     super();
   }
 
   name: string;
-  type: string;
-  capacity: number;
+  manufacturer: string;
+  description: string;
 
   public identify(): string {
     return name;
