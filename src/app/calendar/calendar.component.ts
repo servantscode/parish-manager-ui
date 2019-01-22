@@ -87,7 +87,8 @@ export class CalendarComponent implements OnInit {
               schedulerId: serverEvent.schedulerId,
               ministryName: serverEvent.ministryName,
               ministryId: serverEvent.ministryId,
-              id: serverEvent.id
+              id: serverEvent.id,
+              reservations: serverEvent.reservations
             };
           });
       });

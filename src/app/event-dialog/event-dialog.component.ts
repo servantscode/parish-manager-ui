@@ -9,10 +9,12 @@ import { Event } from '../event';
 import { Room } from '../room';
 import { Equipment } from '../equipment';
 import { Ministry } from '../ministry';
+import { Reservation } from '../reservation';
 import { EventService } from '../services/event.service';
 import { MinistryService } from '../services/ministry.service';
 import { RoomService } from '../services/room.service';
 import { EquipmentService } from '../services/equipment.service';
+import { DataCleanupService } from '../services/data-cleanup.service';
 import { SCValidation } from '../validation';
 
 @Component({
@@ -54,7 +56,8 @@ export class EventDialogComponent implements OnInit {
               private eventService: EventService,
               private ministryService: MinistryService,
               private roomService: RoomService,
-              private equipmentService: EquipmentService) { }
+              private equipmentService: EquipmentService,
+              private cleaningService: DataCleanupService) { }
 
   ngOnInit() {
     if(this.data.event != null) 
@@ -155,13 +158,35 @@ export class EventDialogComponent implements OnInit {
 
   addRoom(event: any): void {
     this.addingRoom=false;
-    this.rooms.push(event.option.value);
+    const room = event.option.value;
+    this.rooms.push({
+      name: room.name,
+      type: room.type,
+      capacity: room.capacity,
+      resourceType: 'ROOM',
+      resourceId: room.id,
+      eventId: this.eventForm.get('id').value,
+      reservingPersonId: this.eventForm.get('schedulerId').value,
+      startTime: this.eventForm.get('startTime').value,
+      endTime: this.eventForm.get('endTime').value
+    });
     this.eventForm.get('room').setValue(null);
   }
 
   addEquipment(event: any): void {
     this.addingEquipment=false;
-    this.equipment.push(event.option.value);
+    const equip = event.option.value;
+    this.equipment.push({
+      name: equip.name,
+      description: equip.description,
+      manufacturer: equip.manufacturer,
+      resourceType: 'EQUIPMENT',
+      resourceId: equip.id,
+      eventId: this.eventForm.get('id').value,
+      reservingPersonId: this.eventForm.get('schedulerId').value,
+      startTime: this.eventForm.get('startTime').value,
+      endTime: this.eventForm.get('endTime').value
+    });
     this.eventForm.get('equipment').setValue(null);
   }
 
@@ -194,6 +219,14 @@ export class EventDialogComponent implements OnInit {
     this.eventForm.get('schedulerId').setValue(eventData.schedulerId);
     this.eventForm.get('ministryName').setValue(eventData.ministryName);
     this.eventForm.get('ministryId').setValue(eventData.ministryId);
+
+    if(eventData.reservations != undefined && eventData.reservations != null) {
+      for(let res of eventData.reservations)
+        res.name = res.resourceName;
+
+      this.rooms = eventData.reservations.filter((r) => r.resourceType == 'ROOM');
+      this.equipment = eventData.reservations.filter((r) => r.resourceType == 'EQUIPMENT');
+    }
   }
 
   private translateForm(formData: any): Event {
@@ -205,6 +238,21 @@ export class EventDialogComponent implements OnInit {
     event.schedulerId = formData.schedulerId;
     event.ministryName = formData.ministryName;
     event.ministryId = formData.ministryId;
+
+    for(let room of this.rooms) {
+      const res = this.cleaningService.prune(room, Reservation.template());
+      res.startTime = event.startTime;
+      res.endTime = event.endTime;
+      event.reservations.push(res);
+    }
+
+    for(let equip of this.equipment) {
+      const res = this.cleaningService.prune(equip, Reservation.template());
+      res.startTime = event.startTime;
+      res.endTime = event.endTime;
+      event.reservations.push(res);
+    }
+
     return event;
   }
 

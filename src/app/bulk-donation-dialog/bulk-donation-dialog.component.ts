@@ -6,6 +6,7 @@ import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { DonationService } from '../services/donation.service';
 import { FamilyService } from '../services/family.service';
+import { DataCleanupService } from '../services/data-cleanup.service';
 import { SCValidation } from '../validation';
 import { Family } from '../family';
 import { Donation } from '../donation';
@@ -32,7 +33,8 @@ export class BulkDonationDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               private donationService: DonationService,
-              private familyService: FamilyService) { }
+              private familyService: FamilyService,
+              private cleaningService: DataCleanupService) { }
   
   ngOnInit() {
   }
@@ -124,7 +126,7 @@ export class BulkDonationDialogComponent implements OnInit {
       const donationDate = this.donationForm.get('donationDate').value;
 
       for(let control of (<FormArray>this.donationForm.controls['donations']).controls) {
-        var tempDon = this.stripUnnecessaryFields(control.value);
+        var tempDon = this.cleaningService.prune(control.value, Donation.template());
         tempDon.donationDate = donationDate;
         donations.push(tempDon);
       }
@@ -136,13 +138,6 @@ export class BulkDonationDialogComponent implements OnInit {
     } else {
       this.cancel();
     }
-  }
-
-  private stripUnnecessaryFields(don: Donation): Donation {
-    var donation = Donation.template();
-    for(let key of Object.keys(donation))
-      donation[key] = don[key];
-    return donation;
   }
 
   cancel() {

@@ -1,3 +1,5 @@
+import { Reservation } from './reservation';
+
 export class Event {
   id: number;
   startTime: Date;
@@ -6,4 +8,6 @@ export class Event {
   schedulerId: number;
   ministryName: string;
   ministryId: number;
+
+  reservations: Reservation[] = [];
 }

@@ -7,7 +7,7 @@ export class Donation {
   checkNumber: number;
   transactionId: number;
 
-  static template(): Donation {
+  static template(): any {
     var template = new Donation();
     template.id=0;
     template.familyId=0;

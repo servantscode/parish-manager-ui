@@ -47,7 +47,7 @@
       <span *ngFor="let item of equipment" class="reservation equipment">{{item.name}}</span>
     </div><br/>
     <button *ngIf="!addingRoom" mat-button class="btn btn-primary" (click)="addingRoom=true">Add Room</button>
-    <button *ngIf="!addingEquipment" mat-button class="btn btn-primary" (click)="addingEquipment=true">Add Equipment</button>
+    <button *ngIf="!addingEquipment" mat-button class="btn btn-primary" (click)="addingEquipment=true">Add Equipment</button><br/>
 
     <mat-form-field *ngIf="addingRoom">
       <input type="text" placeholder="Room" aria-label="Room Name" matInput formControlName="room" [matAutocomplete]="autoRoom">
