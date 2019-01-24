@@ -100,6 +100,7 @@ export class CalendarComponent implements OnInit {
 
     if(event == undefined) {
       event = {
+        id: 0,
         start: addHours(startOfHour(this.viewDate), 1),
         end: addHours(startOfHour(this.viewDate), 2),
         title: '',
@@ -108,7 +109,7 @@ export class CalendarComponent implements OnInit {
     }
 
     this.openDialogRef = this.dialog.open(EventDialogComponent, {
-      width: '400px',
+      width: '800px',
       data: {"event": event}
     });
 
@@ -127,6 +128,17 @@ export class CalendarComponent implements OnInit {
       this.viewDate = date;
       this.view = CalendarView.Day;
     }
+  }
+
+  hourClicked(date: Date) {
+    console.log('hourClicked' + date);
+    this.openEventModal({
+        id: 0,
+        start: date,
+        end: addHours(date, 1),
+        title: '',
+        schedulerId: this.loginService.getUserId()
+      });
   }
 
   eventTimesChanged({event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {

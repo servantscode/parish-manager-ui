@@ -47,6 +47,7 @@ import { PaginatedListComponent } from './paginated-list/paginated-list.componen
 import { SettingsComponent } from './settings/settings.component';
 import { RoomDialogComponent } from './room-dialog/room-dialog.component';
 import { EquipmentDialogComponent } from './equipment-dialog/equipment-dialog.component';
+import { AvailabilityComponent } from './availability/availability.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -79,7 +80,8 @@ export function tokenGetter() {
     PaginatedListComponent,
     SettingsComponent,
     RoomDialogComponent,
-    EquipmentDialogComponent
+    EquipmentDialogComponent,
+    AvailabilityComponent
   ],
   imports: [
     BrowserModule,

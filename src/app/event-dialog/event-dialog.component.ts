@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
-import { startOfHour, addHours, addSeconds, setHours, setMinutes, setSeconds, format } from 'date-fns';
+import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
+import { startOfHour, addHours, addMinutes, addSeconds, setHours, setMinutes, setSeconds, format, differenceInMinutes } from 'date-fns';
 
 import { Event } from '../event';
 import { Room } from '../room';
@@ -34,7 +34,9 @@ export class EventDialogComponent implements OnInit {
       ministryId:[''],
       ministryName:[''], 
       room:[''],
-      equipment:['']
+      equipment:[''],
+      setupTime:[0, Validators.pattern(SCValidation.NUMBER)],
+      cleanupTime:[0, Validators.pattern(SCValidation.NUMBER)]
     });
 
   filteredMinistries: Observable<Ministry[]>;
@@ -43,7 +45,6 @@ export class EventDialogComponent implements OnInit {
   filteredRooms: Observable<Room[]>;
   rooms = [];
   
-  addingEquipment = false;
   filteredEquipment: Observable<Equipment[]>;
   equipment = [];
 
@@ -57,7 +58,8 @@ export class EventDialogComponent implements OnInit {
               private ministryService: MinistryService,
               private roomService: RoomService,
               private equipmentService: EquipmentService,
-              private cleaningService: DataCleanupService) { }
+              private cleaningService: DataCleanupService,
+              private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     if(this.data.event != null) 
@@ -89,18 +91,23 @@ export class EventDialogComponent implements OnInit {
         map(value => typeof value === 'string' ? value : value.name),
         switchMap(value => this.equipmentService.getPage(0, 10, value)
           .pipe(
-              map(resp => resp.results)
+              map(resp => resp.results
+                .filter(e => !this.equipment.find(item => item.resourceId === e.id)))
             ))
       );
 
     this.eventForm.get('startDate').valueChanges
+      .pipe(distinctUntilChanged())
       .subscribe( value => {
           const endDate = this.eventForm.get('endDate');
           if(value > endDate.value) 
             endDate.setValue(value);
+
+          this.checkAvailability();
         });
 
     this.eventForm.get('startTime').valueChanges
+      .pipe(distinctUntilChanged())
       .subscribe( value => {
         if( !this.eventForm.get('startDate').valid || !this.eventForm.get('startTime').valid)
           return;
@@ -109,14 +116,53 @@ export class EventDialogComponent implements OnInit {
         const end = addSeconds(start, this.meetingLength);
         this.eventForm.get('endDate').setValue(end);
         this.eventForm.get('endTime').setValue(this.formatTimeString(end));
-      });
+        this.checkAvailability();
+      }); 
+
+    this.eventForm.get('endDate').valueChanges
+      .pipe(distinctUntilChanged())
+      .subscribe( value => {
+          this.checkAvailability();
+        });
 
     this.eventForm.get('endTime').valueChanges
+      .pipe(distinctUntilChanged())
       .subscribe( () => {
           const start: Date = this.mergeDatetime(this.getValue('startDate'), this.getValue('startTime'));
           const end: Date = this.mergeDatetime(this.getValue('endDate'), this.getValue('endTime'));
           this.meetingLength = (end.getTime() - start.getTime())/1000;
+          this.checkAvailability();
         });
+  }
+
+  checkAvailability() {
+    var start = this.mergeDatetime(this.getValue('startDate'), this.getValue('startTime'));
+    var end = this.mergeDatetime(this.getValue('endDate'), this.getValue('endTime'));
+    const setupTime = this.getValue('setupTime');
+    const cleanupTime = this.getValue('cleanupTime');
+    console.log("setup: " + setupTime + " and cleanup: " + cleanupTime);
+
+    start = addMinutes(start, -setupTime);
+    end = addMinutes(end, cleanupTime);
+    console.log("Resrvation for [" + start + ", " + end + "]");
+
+    var newRooms = [];
+    for(let room of this.rooms) {
+      var newRoom = Object.assign({}, room);
+      newRoom.startTime = start;
+      newRoom.endTime = end;
+      newRooms.push(newRoom);
+    }
+    this.rooms = newRooms;
+
+    var newEquipment = [];
+    for(let equip of this.equipment) {
+      var newEquip = Object.assign({}, equip);
+      newEquip.startTime = start;
+      newEquip.endTime = end;
+      newEquipment.push(newEquip);
+    }
+    this.equipment = newEquipment;
   }
 
   createEvent() {
@@ -157,9 +203,8 @@ export class EventDialogComponent implements OnInit {
   }
 
   addRoom(event: any): void {
-    this.addingRoom=false;
     const room = event.option.value;
-    this.rooms.push({
+    this.rooms[0] = {
       name: room.name,
       type: room.type,
       capacity: room.capacity,
@@ -167,14 +212,11 @@ export class EventDialogComponent implements OnInit {
       resourceId: room.id,
       eventId: this.eventForm.get('id').value,
       reservingPersonId: this.eventForm.get('schedulerId').value,
-      startTime: this.eventForm.get('startTime').value,
-      endTime: this.eventForm.get('endTime').value
-    });
-    this.eventForm.get('room').setValue(null);
+    };
+    this.checkAvailability();
   }
 
   addEquipment(event: any): void {
-    this.addingEquipment=false;
     const equip = event.option.value;
     this.equipment.push({
       name: equip.name,
@@ -184,10 +226,9 @@ export class EventDialogComponent implements OnInit {
       resourceId: equip.id,
       eventId: this.eventForm.get('id').value,
       reservingPersonId: this.eventForm.get('schedulerId').value,
-      startTime: this.eventForm.get('startTime').value,
-      endTime: this.eventForm.get('endTime').value
     });
-    this.eventForm.get('equipment').setValue(null);
+    this.eventForm.get('equipment').setValue('');
+    this.checkAvailability();
   }
 
   cancel() {
@@ -226,6 +267,17 @@ export class EventDialogComponent implements OnInit {
 
       this.rooms = eventData.reservations.filter((r) => r.resourceType == 'ROOM');
       this.equipment = eventData.reservations.filter((r) => r.resourceType == 'EQUIPMENT');
+      if(this.rooms.length > 0) {
+        this.eventForm.get('room').setValue(this.rooms[0]);
+      }
+
+      if(eventData.reservations.length > 0) {
+        const setupTime = Math.abs(differenceInMinutes(eventData.start, eventData.reservations[0].startTime));
+        const cleanupTime = Math.abs(differenceInMinutes(eventData.end, eventData.reservations[0].endTime));
+        this.eventForm.get('setupTime').setValue(setupTime);
+        this.eventForm.get('cleanupTime').setValue(cleanupTime);
+
+      }
     }
   }
 
@@ -241,15 +293,11 @@ export class EventDialogComponent implements OnInit {
 
     for(let room of this.rooms) {
       const res = this.cleaningService.prune(room, Reservation.template());
-      res.startTime = event.startTime;
-      res.endTime = event.endTime;
       event.reservations.push(res);
     }
 
     for(let equip of this.equipment) {
       const res = this.cleaningService.prune(equip, Reservation.template());
-      res.startTime = event.startTime;
-      res.endTime = event.endTime;
       event.reservations.push(res);
     }
 

@@ -2,70 +2,109 @@
   <h1 *ngIf="data.event !== null && data.event.id > 0" mat-dialog-title>Update Event</h1>
   <h1 *ngIf="data.event === null || data.event.id == 0" mat-dialog-title>Record Event</h1>
   <div mat-dialog-content>
-    <input type="hidden" autocomplete="off" formControlName="id"/>
-    <input type="hidden" autocomplete="off" formControlName="schedulerId"/>
-    <input type="hidden" autocomplete="off" formControlName="ministryId">
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Description</mat-label>
+          <input type="text" matInput formControlName="description" autocomplete="off" required/>
+        </mat-form-field><br/>
 
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Description</mat-label>
-      <input type="text" matInput formControlName="description" autocomplete="off" required/>
-    </mat-form-field><br/>
+        <mat-form-field>
+          <input matInput formControlName="startDate" [matDatepicker]="startpicker" placeholder="Start Date" class="input-5" (focus)="focusField('startDate')" (blur)="focusField(null)" required>
+          <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
+          <mat-datepicker #startpicker></mat-datepicker>
+        </mat-form-field>&nbsp;
 
-    <mat-form-field>
-      <input matInput formControlName="startDate" [matDatepicker]="startpicker" placeholder="Start Date" class="input-5" (focus)="focusField('startDate')" (blur)="focusField(null)" required>
-      <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
-      <mat-datepicker #startpicker></mat-datepicker>
-    </mat-form-field>&nbsp;
+        <mat-form-field appearance="standard" class="input-5">
+          <mat-label>Start Time</mat-label>
+          <input type="text" matInput formControlName="startTime" autocomplete="off" (blur)="formatTime('startTime')" required/>
+        </mat-form-field><br/>
 
-    <mat-form-field appearance="standard" class="input-5">
-      <mat-label>Start Time</mat-label>
-      <input type="text" matInput formControlName="startTime" autocomplete="off" (blur)="formatTime('startTime')" required/>
-    </mat-form-field><br/>
+        <mat-form-field>
+          <input matInput formControlName="endDate" [matDatepicker]="endpicker" placeholder="End Date" class="input-5" (focus)="focusField('endDate')" (blur)="focusField(null)" required>
+          <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+          <mat-datepicker #endpicker></mat-datepicker>
+        </mat-form-field>&nbsp;
 
-    <mat-form-field>
-      <input matInput formControlName="endDate" [matDatepicker]="endpicker" placeholder="End Date" class="input-5" (focus)="focusField('endDate')" (blur)="focusField(null)" required>
-      <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
-      <mat-datepicker #endpicker></mat-datepicker>
-    </mat-form-field>&nbsp;
+        <mat-form-field appearance="standard" class="input-5">
+          <mat-label>End Time</mat-label>
+          <input type="text" matInput formControlName="endTime" autocomplete="off" (blur)="formatTime('endTime')" required/>
+        </mat-form-field><br/>
 
-    <mat-form-field appearance="standard" class="input-5">
-      <mat-label>End Time</mat-label>
-      <input type="text" matInput formControlName="endTime" autocomplete="off" (blur)="formatTime('endTime')" required/>
-    </mat-form-field><br/>
+        <mat-form-field class="input-standard">
+          <input type="text" placeholder="Ministry" aria-label="Ministry Name" matInput formControlName="ministryName" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="selectMinistryName" (optionSelected)="selectMinistry($event)">
+            <mat-option *ngFor="let ministry of filteredMinistries | async" [value]="ministry">
+              {{ministry.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field><br/>
+        <input type="hidden" autocomplete="off" formControlName="id"/>
+        <input type="hidden" autocomplete="off" formControlName="schedulerId"/>
+        <input type="hidden" autocomplete="off" formControlName="ministryId">
+      </div>
 
-    <mat-form-field>
-      <input type="text" placeholder="Ministry" aria-label="Ministry Name" matInput formControlName="ministryName" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="selectMinistryName" (optionSelected)="selectMinistry($event)">
-        <mat-option *ngFor="let ministry of filteredMinistries | async" [value]="ministry">
-          {{ministry.name}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field><br/>
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <!-- *ngFor="let roomRes of rooms" -->
+            <mat-form-field >
+              <input type="text" placeholder="Room" aria-label="Room Name" matInput formControlName="room" [matAutocomplete]="autoRoom">
+              <mat-autocomplete #autoRoom="matAutocomplete" autoActiveFirstOption [displayWith]="selectRoomName" (optionSelected)="addRoom($event)">
+                <mat-option *ngFor="let room of filteredRooms | async" [value]="room">
+                  {{room.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <div height="55px">&nbsp;</div>
+            <app-availability [res]="rooms.length>0?rooms[0]:null"></app-availability>
+          </div>
+        </div> <br/>
+        
+        <!--<mat-form-field *ngIf="addingRoom">
+          <input type="text" placeholder="Room" aria-label="Room Name" matInput formControlName="room" [matAutocomplete]="autoRoom">
+          <mat-autocomplete #autoRoom="matAutocomplete" [displayWith]="selectRoomName" (optionSelected)="addRoom($event)">
+            <mat-option *ngFor="let room of filteredRooms | async" [value]="room">
+              {{room.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field><br/>
+        <button *ngIf="!addingRoom" mat-button class="btn btn-primary" (click)="addingRoom=true">Additional Room</button> -->
 
-    <div>
-      <span *ngFor="let room of rooms" class="reservation room">{{room.name}}</span>
-      <span *ngFor="let item of equipment" class="reservation equipment">{{item.name}}</span>
-    </div><br/>
-    <button *ngIf="!addingRoom" mat-button class="btn btn-primary" (click)="addingRoom=true">Add Room</button>
-    <button *ngIf="!addingEquipment" mat-button class="btn btn-primary" (click)="addingEquipment=true">Add Equipment</button><br/>
+        <br/>
+        <mat-form-field>
+          <input type="text" placeholder="Equipment" aria-label="Equipment Name" matInput formControlName="equipment" [matAutocomplete]="autoEquipment">
+          <mat-autocomplete #autoEquipment="matAutocomplete" [displayWith]="selectEquipmentName" (optionSelected)="addEquipment($event)">
+            <mat-option *ngFor="let item of filteredEquipment | async" [value]="item">
+              {{item.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field><br/>
 
-    <mat-form-field *ngIf="addingRoom">
-      <input type="text" placeholder="Room" aria-label="Room Name" matInput formControlName="room" [matAutocomplete]="autoRoom">
-      <mat-autocomplete #autoRoom="matAutocomplete" [displayWith]="selectRoomName" (optionSelected)="addRoom($event)">
-        <mat-option *ngFor="let room of filteredRooms | async" [value]="room">
-          {{room.name}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+        <div *ngFor="let item of equipment">
+          <div class="row">
+            <div class="col reservation">
+              {{item.name}}
+            </div>
+            <div class="col">
+              <app-availability [res]="item"></app-availability>
+            </div>
+          </div>
+        </div> <br/>
 
-    <mat-form-field *ngIf="addingEquipment">
-      <input type="text" placeholder="Equipment" aria-label="Equipment Name" matInput formControlName="equipment" [matAutocomplete]="autoEquipment">
-      <mat-autocomplete #autoEquipment="matAutocomplete" [displayWith]="selectEquipmentName" (optionSelected)="addEquipment($event)">
-        <mat-option *ngFor="let item of filteredEquipment | async" [value]="item">
-          {{item.name}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+        <mat-form-field appearance="standard" class="input-5">
+          <mat-label>Setup</mat-label>
+          <input type="text" matInput formControlName="setupTime" autocomplete="off"/>
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="standard" class="input-5">
+          <mat-label>Cleanup</mat-label>
+          <input type="text" matInput formControlName="cleanupTime" autocomplete="off"/>
+        </mat-form-field><br/>
+
+      </div>
+    </div>
   </div>
 
   <div mat-dialog-actions class="align-right">
