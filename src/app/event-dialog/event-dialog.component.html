@@ -1,6 +1,6 @@
 <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
   <h1 *ngIf="data.event !== null && data.event.id > 0" mat-dialog-title>Update Event</h1>
-  <h1 *ngIf="data.event === null || data.event.id == 0" mat-dialog-title>Record Event</h1>
+  <h1 *ngIf="data.event === null || data.event.id == 0" mat-dialog-title>New Event</h1>
   <div mat-dialog-content>
     <div class="row">
       <div class="col">
@@ -57,7 +57,7 @@
               </mat-autocomplete>
             </mat-form-field>
           </div>
-          <div class="col">
+          <div class="col-1">
             <div height="55px">&nbsp;</div>
             <app-availability [res]="rooms.length>0?rooms[0]:null"></app-availability>
           </div>
@@ -88,7 +88,7 @@
             <div class="col reservation">
               {{item.name}}
             </div>
-            <div class="col">
+            <div class="col-1">
               <app-availability [res]="item"></app-availability>
             </div>
           </div>
@@ -96,13 +96,48 @@
 
         <mat-form-field appearance="standard" class="input-5">
           <mat-label>Setup</mat-label>
-          <input type="text" matInput formControlName="setupTime" autocomplete="off"/>
+          <input type="number" matInput formControlName="setupTime" autocomplete="off"/>
         </mat-form-field>&nbsp;
         <mat-form-field appearance="standard" class="input-5">
           <mat-label>Cleanup</mat-label>
-          <input type="text" matInput formControlName="cleanupTime" autocomplete="off"/>
+          <input type="number" matInput formControlName="cleanupTime" autocomplete="off"/>
         </mat-form-field><br/>
 
+      </div>
+      <div class="col">
+        <mat-checkbox formControlName="recurringMeeting">Recurring Meeting</mat-checkbox>
+
+        <div *ngIf="recurringMeeting">
+           <input type="hidden" autocomplete="off" formControlName="recurrenceId"/>
+           <mat-form-field>
+            <mat-select formControlName="recurrenceType" placeholder="Happens...">
+              <mat-option *ngFor="let option of cycleOptions" [value]="option.value">
+                {{option.text}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field><br/>
+
+          <mat-form-field appearance="standard" class="input-5">
+            <mat-label>Cycle time</mat-label>
+            <input type="number" matInput formControlName="recurrenceFreq" autocomplete="off"/>
+          </mat-form-field><br/>
+
+          <div *ngIf="recurringWeekly">
+            <mat-checkbox formControlName="monday">Monday</mat-checkbox>&nbsp;
+            <mat-checkbox formControlName="tuesday">Tuesday</mat-checkbox>&nbsp;
+            <mat-checkbox formControlName="wednesday">Wednesday</mat-checkbox>&nbsp;
+            <mat-checkbox formControlName="thursday">Thursday</mat-checkbox>&nbsp;
+            <mat-checkbox formControlName="friday">Friday</mat-checkbox>&nbsp;
+            <mat-checkbox formControlName="saturday">Saturday</mat-checkbox>&nbsp;
+            <mat-checkbox formControlName="sunday">Sunday</mat-checkbox>&nbsp;
+          </div>
+
+          <mat-form-field>
+            <input matInput formControlName="recurUntil" [matDatepicker]="recurpicker" placeholder="Until..." class="input-5">
+            <mat-datepicker-toggle matSuffix [for]="recurpicker"></mat-datepicker-toggle>
+            <mat-datepicker #recurpicker></mat-datepicker>
+          </mat-form-field><br/>
+        </div>
       </div>
     </div>
   </div>

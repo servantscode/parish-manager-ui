@@ -46,14 +46,14 @@
     let-tooltipAppendToBody="tooltipAppendToBody">
     <div class="whole-cell">
       <span class="day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
-      <div *ngFor="let event of day.events.slice(0,3)" 
+      <div *ngFor="let event of day.events.slice(0,displayCount())" 
         class="event-title" 
         [style.backgroundColor]="event.color?.secondary"
         [style.color]="event.color?.primary"
         [style.border-color]="event.color?.primary"
         [ngClass]="event?.cssClass"
-        (mouseenter)="highlightDay.emit({event: event})"
-        (mouseleave)="unhighlightDay.emit({event: event})"
+        (mouseenter)="highlightEvent(event)"
+        (mouseleave)="unhighlightEvent(event)"
         [mwlCalendarTooltip]="event.title | calendarEventTitle:'monthTooltip':event"
         [tooltipPlacement]="tooltipPlacement"
         [tooltipEvent]="event"
@@ -68,7 +68,7 @@
         >
         {{event.title}}
       </div>
-      <span class="more" *ngIf="day.events.length > 3"> + {{day.events.length - 3}} more...</span>
+      <span class="more" *ngIf="day.events.length > displayCount()"> + {{day.events.length - displayCount()}} more...</span>&nbsp;
     </div>
   </ng-template>
 

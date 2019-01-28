@@ -27,6 +27,9 @@ export class CalendarComponent implements OnInit {
   events: CalendarEvent[];
   openDialogRef = null;
 
+  _displayCount = 5;
+  displayAll = true;
+
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -88,7 +91,8 @@ export class CalendarComponent implements OnInit {
               ministryName: serverEvent.ministryName,
               ministryId: serverEvent.ministryId,
               id: serverEvent.id,
-              reservations: serverEvent.reservations
+              reservations: serverEvent.reservations,
+              recurrence: serverEvent.recurrence
             };
           });
       });
@@ -109,7 +113,7 @@ export class CalendarComponent implements OnInit {
     }
 
     this.openDialogRef = this.dialog.open(EventDialogComponent, {
-      width: '800px',
+      width: '1000px',
       data: {"event": event}
     });
 
@@ -123,6 +127,15 @@ export class CalendarComponent implements OnInit {
     this.openEventModal(event);
   }
 
+  displayCount(): number {
+    return this.displayAll? 1000: this._displayCount;
+  }
+
+  showAll(): void {
+    console.log("showing all");
+    this.displayAll = true;
+  }
+
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       this.viewDate = date;
@@ -131,7 +144,6 @@ export class CalendarComponent implements OnInit {
   }
 
   hourClicked(date: Date) {
-    console.log('hourClicked' + date);
     this.openEventModal({
         id: 0,
         start: date,
@@ -145,6 +157,14 @@ export class CalendarComponent implements OnInit {
     event.start = newStart;
     event.end = newEnd;
     this.openEventModal(event); 
+  }
+
+  highlightEvent(event) {
+    event.color = ColorService.CALENDAR_COLORS.darkBlue;
+  }
+
+  unhighlightEvent(event) {
+    event.color = ColorService.CALENDAR_COLORS.blue;
   }
 
   private calculateRange(date: Date, view: CalendarView) {

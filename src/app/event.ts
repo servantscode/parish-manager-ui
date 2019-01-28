@@ -10,4 +10,13 @@ export class Event {
   ministryId: number;
 
   reservations: Reservation[] = [];
+  recurrence: Recurrence;
+}
+
+export class Recurrence {
+  id: number;
+  cycle: string;
+  frequency: number;
+  endDate: Date;
+  weeklyDays: string[];
 }

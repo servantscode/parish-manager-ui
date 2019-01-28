@@ -3,9 +3,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
-import { startOfHour, addHours, addMinutes, addSeconds, setHours, setMinutes, setSeconds, format, differenceInMinutes } from 'date-fns';
+import { startOfHour, endOfYear, addHours, addMinutes, addSeconds, setHours, setMinutes, setSeconds, format, differenceInMinutes } from 'date-fns';
 
-import { Event } from '../event';
+import { Event, Recurrence } from '../event';
 import { Room } from '../room';
 import { Equipment } from '../equipment';
 import { Ministry } from '../ministry';
@@ -36,7 +36,19 @@ export class EventDialogComponent implements OnInit {
       room:[''],
       equipment:[''],
       setupTime:[0, Validators.pattern(SCValidation.NUMBER)],
-      cleanupTime:[0, Validators.pattern(SCValidation.NUMBER)]
+      cleanupTime:[0, Validators.pattern(SCValidation.NUMBER)],
+      recurringMeeting: [false],
+      recurrenceId: [''],
+      recurrenceType: [''],
+      recurrenceFreq: [1, Validators.pattern(SCValidation.NUMBER)],
+      recurUntil: [endOfYear(new Date())],
+      monday: [false],
+      tuesday: [false],
+      wednesday: [false],
+      thursday: [false],
+      friday: [false],
+      saturday: [false],
+      sunday: [false]
     });
 
   filteredMinistries: Observable<Ministry[]>;
@@ -48,8 +60,19 @@ export class EventDialogComponent implements OnInit {
   filteredEquipment: Observable<Equipment[]>;
   equipment = [];
 
+  recurringMeeting = false;
+  recurringWeekly = false;
+
   meetingLength: number = 3600;
   focusedDateField: string = null;
+
+  public cycleOptions = [
+      {value: "DAILY", text: "Daily"},
+      {value: "WEEKLY", text: "Weekly"},
+      {value: "DAY_OF_MONTH", text: "Monthly (by date)"},
+      {value: "WEEKDAY_OF_MONTH", text: "Monthly (by day of week)"},
+      {value: "DAILY", text: "Daily"}
+    ];
 
   constructor(public dialogRef: MatDialogRef<EventDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -132,19 +155,26 @@ export class EventDialogComponent implements OnInit {
           const end: Date = this.mergeDatetime(this.getValue('endDate'), this.getValue('endTime'));
           this.meetingLength = (end.getTime() - start.getTime())/1000;
           this.checkAvailability();
-        });
+       });
+
+    this.eventForm.get('recurringMeeting').valueChanges
+      .subscribe( value => { this.recurringMeeting = value; });
+
+    this.eventForm.get('recurrenceType').valueChanges
+      .subscribe( value => { this.recurringWeekly = (value === 'WEEKLY'); });
+
+    this.eventForm.get('setupTime').valueChanges
+      .subscribe( () => this.checkAvailability());
+
+    this.eventForm.get('cleanupTime').valueChanges
+      .subscribe( () => this.checkAvailability());
   }
 
   checkAvailability() {
     var start = this.mergeDatetime(this.getValue('startDate'), this.getValue('startTime'));
     var end = this.mergeDatetime(this.getValue('endDate'), this.getValue('endTime'));
-    const setupTime = this.getValue('setupTime');
-    const cleanupTime = this.getValue('cleanupTime');
-    console.log("setup: " + setupTime + " and cleanup: " + cleanupTime);
-
-    start = addMinutes(start, -setupTime);
-    end = addMinutes(end, cleanupTime);
-    console.log("Resrvation for [" + start + ", " + end + "]");
+    start = addMinutes(start, -this.getValue('setupTime'));
+    end = addMinutes(end, this.getValue('cleanupTime'));
 
     var newRooms = [];
     for(let room of this.rooms) {
@@ -276,7 +306,21 @@ export class EventDialogComponent implements OnInit {
         const cleanupTime = Math.abs(differenceInMinutes(eventData.end, eventData.reservations[0].endTime));
         this.eventForm.get('setupTime').setValue(setupTime);
         this.eventForm.get('cleanupTime').setValue(cleanupTime);
+      }
+    }
 
+    if(eventData.recurrence != undefined && eventData.recurrence != null) {
+      const recur = eventData.recurrence;
+      this.eventForm.get('recurringMeeting').setValue(true);
+      this.recurringMeeting=true;
+      var recurType = this.cycleOptions.filter(option => option.value === recur.cycle)[0];
+      this.recurringWeekly = recurType.value === 'WEEKLY';
+      this.eventForm.get('recurrenceType').setValue(recurType.value);
+      this.eventForm.get('recurrenceFreq').setValue(recur.frequency);
+      this.eventForm.get('recurUntil').setValue(recur.endDate);
+      if(recur.weeklyDays.length > 0) {
+        for(let day of recur.weeklyDays)
+          this.eventForm.get(day.toLowerCase()).setValue(true);
       }
     }
   }
@@ -300,6 +344,21 @@ export class EventDialogComponent implements OnInit {
       const res = this.cleaningService.prune(equip, Reservation.template());
       event.reservations.push(res);
     }
+
+    const r = new Recurrence();
+    r.id = formData.recurrenceId;
+    r.cycle = formData.recurrenceType;
+    r.frequency = formData.recurrenceFreq;
+    r.endDate = formData.recurUntil;
+    r.weeklyDays = [];
+    if(formData.monday) r.weeklyDays.push('MONDAY');
+    if(formData.tuesday) r.weeklyDays.push('TUESDAY');
+    if(formData.wednesday) r.weeklyDays.push('WEDNESDAY');
+    if(formData.thursday) r.weeklyDays.push('THURSDAY');
+    if(formData.friday) r.weeklyDays.push('FRIDAY');
+    if(formData.saturday) r.weeklyDays.push('SATURDAY');
+    if(formData.sunday) r.weeklyDays.push('SUNDAY');
+    event.recurrence = r;
 
     return event;
   }

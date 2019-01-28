@@ -18,6 +18,10 @@ export class ColorService {
     yellow: { 
       primary: '#e3bc08',
       secondary: '#FDF1BA'
+    },
+    darkBlue: {
+      primary: '#0061BF',
+      secondary: '#B3D7FF'
     }
   };
 

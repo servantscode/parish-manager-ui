@@ -12,6 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -99,6 +100,7 @@ export function tokenGetter() {
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
     NgxChartsModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot({
