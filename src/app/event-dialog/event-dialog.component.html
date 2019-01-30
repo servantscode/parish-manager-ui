@@ -57,11 +57,11 @@
               </mat-autocomplete>
             </mat-form-field>
           </div>
-          <div class="col-1">
+          <div class="col-4">
             <div height="55px">&nbsp;</div>
             <app-availability [res]="rooms.length>0?rooms[0]:null"></app-availability>
           </div>
-        </div> <br/>
+        </div><br/>
         
         <!--<mat-form-field *ngIf="addingRoom">
           <input type="text" placeholder="Room" aria-label="Room Name" matInput formControlName="room" [matAutocomplete]="autoRoom">
@@ -71,9 +71,9 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field><br/>
-        <button *ngIf="!addingRoom" mat-button class="btn btn-primary" (click)="addingRoom=true">Additional Room</button> -->
+        <button *ngIf="!addingRoom" mat-button class="btn btn-primary" (click)="addingRoom=true">Additional Room</button><br/> -->
 
-        <br/>
+        
         <mat-form-field>
           <input type="text" placeholder="Equipment" aria-label="Equipment Name" matInput formControlName="equipment" [matAutocomplete]="autoEquipment">
           <mat-autocomplete #autoEquipment="matAutocomplete" [displayWith]="selectEquipmentName" (optionSelected)="addEquipment($event)">
@@ -88,7 +88,7 @@
             <div class="col reservation">
               {{item.name}}
             </div>
-            <div class="col-1">
+            <div class="col-4">
               <app-availability [res]="item"></app-availability>
             </div>
           </div>
@@ -108,29 +108,37 @@
         <mat-checkbox formControlName="recurringMeeting">Recurring Meeting</mat-checkbox>
 
         <div *ngIf="recurringMeeting">
-           <input type="hidden" autocomplete="off" formControlName="recurrenceId"/>
+          <input type="hidden" autocomplete="off" formControlName="recurrenceId"/>
+          Repeats every<br/>
+          <mat-form-field appearance="standard" class="input-2">
+            <mat-label></mat-label>
+            <input type="number" matInput formControlName="recurrenceFreq" autocomplete="off"/>
+          </mat-form-field>&nbsp;
+
            <mat-form-field>
-            <mat-select formControlName="recurrenceType" placeholder="Happens...">
+            <mat-select formControlName="recurrenceType">
               <mat-option *ngFor="let option of cycleOptions" [value]="option.value">
                 {{option.text}}
               </mat-option>
             </mat-select>
           </mat-form-field><br/>
 
-          <mat-form-field appearance="standard" class="input-5">
-            <mat-label>Cycle time</mat-label>
-            <input type="number" matInput formControlName="recurrenceFreq" autocomplete="off"/>
-          </mat-form-field><br/>
-
           <div *ngIf="recurringWeekly">
-            <mat-checkbox formControlName="monday">Monday</mat-checkbox>&nbsp;
-            <mat-checkbox formControlName="tuesday">Tuesday</mat-checkbox>&nbsp;
-            <mat-checkbox formControlName="wednesday">Wednesday</mat-checkbox>&nbsp;
-            <mat-checkbox formControlName="thursday">Thursday</mat-checkbox>&nbsp;
-            <mat-checkbox formControlName="friday">Friday</mat-checkbox>&nbsp;
-            <mat-checkbox formControlName="saturday">Saturday</mat-checkbox>&nbsp;
-            <mat-checkbox formControlName="sunday">Sunday</mat-checkbox>&nbsp;
-          </div>
+            On...<br/>
+            <table>
+              <tr>
+                <th *ngFor="let day of daysOfTheWeek">{{day.substring(0, 3)}}</th>
+              </tr>
+              <tr>
+                <td *ngFor="let day of daysOfTheWeek">
+                  <mat-checkbox formControlName="{{day.toLowerCase()}}"></mat-checkbox>
+                </td>
+              </tr>
+            </table>
+<!--             <span *ngFor="let day of daysOfTheWeek">
+              <mat-checkbox formControlName="{{day.toLowerCase()}}">{{day}}</mat-checkbox>
+            </span>
+ -->          </div>
 
           <mat-form-field>
             <input matInput formControlName="recurUntil" [matDatepicker]="recurpicker" placeholder="Until..." class="input-5">
