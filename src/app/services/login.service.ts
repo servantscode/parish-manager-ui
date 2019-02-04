@@ -38,8 +38,7 @@ export class LoginService extends BaseService {
                       })
       .pipe(
         tap(resp => this.doLogin(resp)),
-        tap(() => this.log('Logged in as: ' + credentials.email)),
-        catchError(this.handleError('login', null))
+        tap(() => this.log('Logged in as: ' + credentials.email))
       );
   }
 
@@ -67,17 +66,6 @@ export class LoginService extends BaseService {
       .pipe(
         map(resp => resp.success),
         catchError(this.handleError('revoke credentials', false))
-      );
-  }
-
-  public getRoles(): Observable<string[]> {
-    return this.http.get<string[]>(this.url + "/roles", {
-                        headers: new HttpHeaders({
-                          'Accept': 'application/json'
-                        })
-                      })
-      .pipe(
-        catchError(this.handleError('get roles', null))
       );
   }
 
