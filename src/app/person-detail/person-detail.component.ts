@@ -8,6 +8,7 @@ import { Person } from '../person';
 import { Family } from '../family';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
+import { LoginService } from '../services/login.service';
 import { SCValidation } from '../validation';
 
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
@@ -55,6 +56,7 @@ export class PersonDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private personService: PersonService,
               private familyService: FamilyService,
+              private loginService: LoginService,  
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -93,6 +95,9 @@ export class PersonDetailComponent implements OnInit {
     const familyId = +this.route.snapshot.queryParamMap.get('familyId');
 
     if(this.personId > 0) {
+      if(!this.loginService.userCan('person.read'))
+        this.router.navigate(['not-found']);
+
       this.personService.getPerson(this.personId).
         subscribe(person => {
           if(person.family == null) {
@@ -102,6 +107,9 @@ export class PersonDetailComponent implements OnInit {
           this.personForm.patchValue(person);
         });
     } else if (familyId > 0) {
+      if(!this.loginService.userCan('person.create'))
+        this.router.navigate(['not-found']);
+
       this.editMode = true;
       this.familyService.getFamily(familyId).
         subscribe(family => {
@@ -109,6 +117,9 @@ export class PersonDetailComponent implements OnInit {
           this.personForm.patchValue(this.person);
         });
     } else {
+      if(!this.loginService.userCan('person.create'))
+        this.router.navigate(['not-found']);
+
       this.editMode = true;
       this.personForm.patchValue(this.person);        
     }

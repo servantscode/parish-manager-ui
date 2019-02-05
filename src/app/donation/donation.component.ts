@@ -5,6 +5,7 @@ import { ChartData } from '../chartData';
 import { DonationReport } from '../donation-report';
 import { MetricsService } from '../services/metrics.service';
 import { ColorService } from '../services/color.service';
+import { LoginService } from '../services/login.service';
 import { BulkDonationDialogComponent } from '../bulk-donation-dialog/bulk-donation-dialog.component';
 
 @Component({
@@ -21,6 +22,7 @@ export class DonationComponent implements OnInit {
 
   constructor(private metricsService: MetricsService,
               private colorService: ColorService,
+              private loginService: LoginService,
               private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -28,20 +30,25 @@ export class DonationComponent implements OnInit {
   }
 
   updateMetrics() {
-    this.metricsService.getPledgeFulfillments().
-      subscribe(results => {
-        this.annualPledgeTotal = results.totalPledges;
-        this.ytdDonations = results.donationsToDate;
-        const projectedDonations = results.totalPledges * this.dayOfYear()/this.daysInYear();
-        this.vsProjection = results.donationsToDate - projectedDonations;
-        this.pledgeFulfillment = new ChartData(results.data, this.colorService.trafficLight());
-      });
+    if(this.loginService.userCan('pledge.metrics'))
+      this.metricsService.getPledgeFulfillments().
+        subscribe(results => {
+          this.annualPledgeTotal = results.totalPledges;
+          this.ytdDonations = results.donationsToDate;
+          const projectedDonations = results.totalPledges * this.dayOfYear()/this.daysInYear();
+          this.vsProjection = results.donationsToDate - projectedDonations;
+          this.pledgeFulfillment = new ChartData(results.data, this.colorService.trafficLight());
+        });
 
-    this.metricsService.getMonthlyDonations().
-      subscribe(results => this.monthlyDonations = results );
+    if(this.loginService.userCan('donation.metrics'))
+      this.metricsService.getMonthlyDonations().
+        subscribe(results => this.monthlyDonations = results );
   }
 
   public openDonationForm() {
+    if(!this.loginService.userCan('donation.create'))
+      return;
+
     const donationRef = this.dialog.open(BulkDonationDialogComponent, {
       width: '800px'
     });

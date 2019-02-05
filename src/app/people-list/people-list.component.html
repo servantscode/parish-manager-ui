@@ -3,16 +3,16 @@
     <div class="col">
       <div class="btn-group btn-group-toggle" ngbRadioGroup [(ngModel)]="mode" (change)="populateList()">
         <label class="btn-primary" ngbButtonLabel>
-          <input type="radio" ngbButton value="people"> People
+          <input type="radio" ngbButton value="person"> People
         </label>
         <label class="btn-primary" ngbButtonLabel>
-          <input type="radio" ngbButton value="families"> Families
+          <input type="radio" ngbButton value="family"> Families
         </label>
       </div>
     </div>
     <div class="col controls align-right">
-      <button *ngIf="mode === 'people'" type="button" class="btn btn-primary" [routerLink]="['/person/detail/']">Add Person</button>
-      <button *ngIf="mode === 'families'" type="button" class="btn btn-primary" [routerLink]="['/family/detail/']">Add Family</button>
+      <button *ngIf="mode === 'person' && loginService.userCan('person.create')" type="button" class="btn btn-primary" [routerLink]="['/person/detail/']">Add Person</button>
+      <button *ngIf="mode === 'family' && loginService.userCan('family.create')" type="button" class="btn btn-primary" [routerLink]="['/family/detail/']">Add Family</button>
     </div>
   </div>
 </div>
@@ -27,7 +27,7 @@
   </div>
 </div>
 <div class="container-fluid">
-  <table *ngIf="mode === 'people'">
+  <table *ngIf="mode === 'person'">
   	<thead>
   		<tr>
   			<th>Name</th>
@@ -35,13 +35,13 @@
       </tr>
   	</thead>
   	<tbody (mouseleave)="highlight(null)">
-  		<tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}" routerLink="/person/detail/{{item.id}}">
+  		<tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}" (click)="viewDetails(item)">
   			<td>{{item.name}}</td>
         <td>{{getAddressString(item)}}</td>
   		</tr>
   	</tbody>
   </table>
-  <table *ngIf="mode === 'families'">
+  <table *ngIf="mode === 'family'">
     <thead>
       <tr>
         <th>Family Name</th>
@@ -49,7 +49,7 @@
       </tr>
     </thead>
     <tbody (mouseleave)="highlight(null)">
-      <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}" routerLink="/family/detail/{{item.id}}">
+      <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}" (click)="viewDetails(item)">
         <td>{{item.surname}}</td>
         <td>{{getAddressString(item)}}</td>
       </tr>

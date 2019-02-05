@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { RoomDialogComponent } from '../room-dialog/room-dialog.component';
 
 import { PaginatedService } from '../services/paginated.service';
+import { LoginService } from '../services/login.service';
 
 import { Identifiable } from '../identifiable';
 
@@ -36,13 +37,17 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   openDialogRef = null;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,
+              private loginService: LoginService) { }
 
   ngOnInit() {
     this.populateList();
   }
 
   populateList() {
+    if(!this.verifyPermission("list"))
+      return;
+    
     this.dataService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search).
       subscribe(resp => {
         this.items = resp.results;
@@ -74,6 +79,11 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   // }
 
   openModal(item: T) {
+    if(!item && !this.verifyPermission("create"))
+      return;
+    else if(item && !this.verifyPermission("update"))
+      return;
+
     if(this.openDialogRef != null)
       return;
 
@@ -99,5 +109,10 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   pageEnd(): number {
     var pageEnd = (this.page)*this.pageSize;
     return pageEnd > this.totalCount? this.totalCount: pageEnd;
+  }
+
+  verifyPermission(action: string): boolean {
+    const permType = this.dataService.getType();
+    return this.loginService.userCan(permType + "." + action);
   }
 }

@@ -10,6 +10,7 @@ import { Person } from '../person';
 import { PersonService } from '../services/person.service';
 import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-ministry-member-list',
@@ -40,6 +41,7 @@ export class MinistryMemberListComponent implements OnInit {
 
   constructor(private router: Router,
               private enrollmentService: EnrollmentService,
+              private loginService: LoginService,
               private personService: PersonService,
               private ministryService: MinistryService,
               private fb: FormBuilder) { }
@@ -82,7 +84,6 @@ export class MinistryMemberListComponent implements OnInit {
           this.enrollments = enrollments;
         });
     }
-
   }
 
   highlightEnrollment(enrollment: Enrollment) {
@@ -90,18 +91,21 @@ export class MinistryMemberListComponent implements OnInit {
   }
 
   viewPerson(id: number): void {
-    if(id > 0) {
+    if(id > 0 && this.loginService.userCan('person.read')) {
       this.router.navigate(['person', 'detail', id]);
     }
   }
 
   viewMinistry(id: number): void {
-    if(id>0) {
+    if(id>0 && this.loginService.userCan('ministry.read')) {
       this.router.navigate(['ministry', 'detail', id]);
     }
   }
 
   newMembership(): void {
+    if(!this.loginService.userCan('ministry.enrollment.create')) 
+      return;
+
     this.newEnrollment = true;
     this.enrollmentForm.get('ministryId').setValue(this.ministryId);
     this.enrollmentForm.get('personId').setValue(this.personId);
@@ -120,6 +124,9 @@ export class MinistryMemberListComponent implements OnInit {
   }
 
   addMembership() {
+    if(!this.loginService.userCan('ministry.enrollment.create')) 
+      return;
+
     this.enrollmentService.createEnrollment(this.enrollmentForm.value).
         subscribe(() => {
           this.enrollments.push(this.enrollmentForm.value);

@@ -1,4 +1,4 @@
-<div class="container rounded-rect">
+<div *ngIf="loginService.userCan('pledge.metrics')" class="container rounded-rect">
   <div class='row'>
     <div class='col'>
       <h3>Donation Overview</h3><br/>
@@ -16,14 +16,14 @@
     </div>
   </div>
 </div>
-<div class="container rounded-rect">
+<div *ngIf="loginService.userCan('donation.metrics')" class="container rounded-rect">
   <div class="container">
     <div class="row">
       <div class="col">
         <h3>Monthly Donations</h3>
       </div>
       <div class="col align-right">
-        <button mat-button class="btn btn-primary" (click)="openDonationForm()">Record Donations</button>
+        <button *ngIf="loginService.userCan('donation.create')" mat-button class="btn btn-primary" (click)="openDonationForm()">Record Donations</button>
       </div>
     </div>
   </div>

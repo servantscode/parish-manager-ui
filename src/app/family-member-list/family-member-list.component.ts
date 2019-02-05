@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Person } from '../person';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-family-member-list',
@@ -13,7 +14,8 @@ export class FamilyMemberListComponent implements OnInit {
   @Input() familyId: number;
   private highlightedPerson: Person;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private loginService: LoginService) { }
 
   ngOnInit() {
   }
@@ -24,8 +26,12 @@ export class FamilyMemberListComponent implements OnInit {
 
   updatePerson(id: number): void {
     if(id > 0) {
+      if(!this.loginService.userCan('person.read'))
+        return;
       this.router.navigate(['person', 'detail', id]);
     } else {
+      if(!this.loginService.userCan('person.create'))
+        return;
       this.router.navigate(['person', 'detail'], {queryParams: {familyId: this.familyId}});
     }
   }

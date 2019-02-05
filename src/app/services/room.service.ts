@@ -18,6 +18,10 @@ export class RoomService extends PaginatedService<Room> {
     super('http://localhost:84/rest/room', http, messageService);
   }
 
+  public getType(): string {
+    return "room";
+  }
+
   getRoomTypes(): Observable<string[]> {
     return this.http.get(this.url + '/types').pipe(
         catchError(this.handleError('getRoomTypes', null))

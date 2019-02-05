@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MinistryService } from '../services/ministry.service';
+import { LoginService } from '../services/login.service';
 
 export enum KEY_CODE {
   PLUS = 107,
@@ -28,6 +29,7 @@ export class MinistryListComponent implements OnInit {
   search = '';
 
   constructor(private ministryService: MinistryService,
+              private loginService: LoginService,
               private router: Router) { }
 
   ngOnInit() {
@@ -42,7 +44,8 @@ export class MinistryListComponent implements OnInit {
   keyEvent(event: KeyboardEvent) {    
     if (event.keyCode === KEY_CODE.PLUS || 
         event.keyCode === KEY_CODE.EQUALS && event.shiftKey) {
-      this.router.navigate(['ministry', 'detail']);
+      if(this.loginService.userCan('ministry.create'))
+        this.router.navigate(['ministry', 'detail']);
     }
 
     if (event.keyCode === KEY_CODE.DOWN) {
@@ -62,11 +65,15 @@ export class MinistryListComponent implements OnInit {
     }
 
     if(event.keyCode === KEY_CODE.ENTER && this.highlighted != null) {
-      this.router.navigate(['ministry', 'detail', this.highlighted.id]);
+      if(this.loginService.userCan('ministry.read'))
+          this.router.navigate(['ministry', 'detail', this.highlighted.id]);
     }
   }
 
   getMinistries(): void {
+    if(!this.loginService.userCan('ministry.list'))
+      return;
+
     this.ministryService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search).
       subscribe(ministryResp => {
         this.items = ministryResp.results;

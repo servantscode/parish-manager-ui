@@ -1,4 +1,4 @@
-<div class="container rounded-rect">
+<div *ngIf="loginService.userCan('person.metrics')" class="container rounded-rect">
   <h3>Annual Registrations</h3>
   <div class="chart">
     <ngx-charts-line-chart
@@ -8,7 +8,7 @@
     </ngx-charts-line-chart>
   </div>
 </div>
-<div class="container rounded-rect">
+<div *ngIf="loginService.userCan('person.metrics')" class="container rounded-rect">
   <h3>Parishioner Ages</h3>
   <div class="chart">
     <ngx-charts-bar-vertical
@@ -19,7 +19,7 @@
     </ngx-charts-bar-vertical>
   </div>
 </div>
-<div class="container rounded-rect">
+<div *ngIf="loginService.userCan('person.metrics')" class="container rounded-rect">
   <h3>Parishioner Longevity</h3>
   <div class="chart">
     <ngx-charts-bar-vertical
@@ -30,7 +30,7 @@
     </ngx-charts-bar-vertical>
   </div>
 </div>
-<div class="container rounded-rect">
+<div *ngIf="loginService.userCan('family.metrics')" class="container rounded-rect">
   <h3>Family Sizes</h3>
   <div class="chart">
     <ngx-charts-bar-vertical

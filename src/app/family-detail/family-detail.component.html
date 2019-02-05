@@ -1,4 +1,4 @@
-<button *ngIf="!editMode" class="btn btn-primary float-right edit-button" (click)="enableEdit()">Edit</button>
+<button *ngIf="!editMode && loginService.userCan('family.update')" class="btn btn-primary float-right edit-button" (click)="enableEdit()">Edit</button>
 <h2>{{family.surname}}</h2>
 
 <div *ngIf="!editMode">
@@ -16,14 +16,14 @@
   
     <app-family-member-list [members]="family.members" [familyId]="family.id"></app-family-member-list>
   </div>
-  <div class="container rounded-rect">
+  <div *ngIf="loginService.userCan('donation.read') || loginService.userCan('pledge.read')" class="container rounded-rect">
     <h3>Donations</h3>
     <div *ngIf="pledge != undefined && pledge != null" class="row">
       <div class="col">
         Pledged Amount: <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> <br/>
       </div>
       <div class="col align-right">
-        <button class="btn btn-primary" (click)="openPledgeForm()">Update Pledge</button> 
+        <button *ngIf="loginService.userCan('pledge.update')" class="btn btn-primary" (click)="openPledgeForm()">Update Pledge</button> 
       </div>
     </div>
     <div *ngIf="pledge == undefined || pledge == null" class="row">
@@ -31,10 +31,11 @@
         <em>No pledge information available.</em> <br/>
       </div>
       <div class="col align-right">
-        <button class="btn btn-primary" (click)="openPledgeForm()">Record Pledge</button> 
+        <button *ngIf="loginService.userCan('pledge.create')" class="btn btn-primary" (click)="openPledgeForm()">Record Pledge</button> 
       </div>
     </div>
 
+    <div *ngIf="loginService.userCan('donation.read')">
     Total Donations: <strong>{{totalDonations | currency:"$"}}</strong> <br/><br/>
     <table>
       <thead>
@@ -53,7 +54,7 @@
       </tbody>
     </table>
     <div class="container-fluid align-right">
-      <button class="btn btn-primary" (click)="openDonationForm()">Record Donation</button> 
+      <button *ngIf="loginService.userCan('donation.create')" class="btn btn-primary" (click)="openDonationForm()">Record Donation</button> 
     </div>
   </div>
 
@@ -101,7 +102,7 @@
     <app-family-member-list [members]="family.members" [familyId]="family.id"></app-family-member-list>
   </div>
 
-  <div class="container rounded-rect">
+  <div *ngIf="loginService.userCan('donation.read') || loginService.userCan('pledge.read')" class="container rounded-rect">
     <h3>Donations</h3>
     <div *ngIf="pledge != undefined && pledge != null">
       Pledged Amount: <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> <br/>
@@ -109,23 +110,26 @@
     <div *ngIf="pledge == undefined || pledge == null">
       <em>No pledge information available.</em>
     </div>
-    Total Donations: <strong>{{totalDonations | currency:"$"}}</strong> <br/>
-    <table>
-      <thead>
-        <tr>
-          <th>Donation Date</th>
-          <th>Payment Type</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody (mouseleave)="highlightDonation(null)">
-        <tr *ngFor="let donation of donations" (mouseover)="highlightDonation(donation)" [ngClass] = "{'highlight' : donation === highlightedDonation}">
-          <td>{{donation.donationDate | date: 'MM/dd/yyyy'}}</td>
-          <td>{{donation.donationType}}</td>
-          <td>{{donation.amount | currency:"$"}}</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div *ngIf="loginService.userCan('donation.read')">
+      Total Donations: <strong>{{totalDonations | currency:"$"}}</strong> <br/>
+      <table>
+        <thead>
+          <tr>
+            <th>Donation Date</th>
+            <th>Payment Type</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody (mouseleave)="highlightDonation(null)">
+          <tr *ngFor="let donation of donations" (mouseover)="highlightDonation(donation)" [ngClass] = "{'highlight' : donation === highlightedDonation}">
+            <td>{{donation.donationDate | date: 'MM/dd/yyyy'}}</td>
+            <td>{{donation.donationType}}</td>
+            <td>{{donation.amount | currency:"$"}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <div class="container">
     <button class="btn btn-primary" type="submit" [disabled]="!familyForm.valid">Save</button>

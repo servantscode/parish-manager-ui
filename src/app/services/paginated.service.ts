@@ -8,7 +8,7 @@ import { BaseService } from './base.service';
 import { PaginatedResponse } from '../paginated.response';
 import { Identifiable } from '../identifiable';
 
-export class PaginatedService<T extends Identifiable> extends BaseService {
+export abstract class PaginatedService<T extends Identifiable> extends BaseService {
   protected httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -21,6 +21,8 @@ export class PaginatedService<T extends Identifiable> extends BaseService {
               protected messageService: MessageService) { 
     super(http, messageService);
   }
+
+  public abstract getType(): string;
 
   public getPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<T>> {
     return this.http.get<PaginatedResponse<T>>(this.url+`?start=${start}&count=${count}&partial_name=${search}`).pipe(

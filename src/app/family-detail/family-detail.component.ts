@@ -12,6 +12,7 @@ import { Pledge } from '../pledge';
 import { FamilyService } from '../services/family.service';
 import { DonationService } from '../services/donation.service';
 import { PledgeService } from '../services/pledge.service';
+import { LoginService } from '../services/login.service';
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
 import { DonationDialogComponent } from '../donation-dialog/donation-dialog.component';
 import { PledgeDialogComponent } from '../pledge-dialog/pledge-dialog.component';
@@ -50,6 +51,7 @@ export class FamilyDetailComponent implements OnInit {
               private familyService: FamilyService,
               private donationService: DonationService,
               private pledgeService: PledgeService,
+              private loginService: LoginService,
               private fb: FormBuilder,
               private dialog: MatDialog) { }
 
@@ -68,6 +70,9 @@ export class FamilyDetailComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
 
     if(id > 0) {
+      if(!this.loginService.userCan('family.read'))
+        this.router.navigate(['not-found']);
+
       this.familyService.getFamily(id).
         subscribe(family => {
           this.family = family;
@@ -79,11 +84,17 @@ export class FamilyDetailComponent implements OnInit {
       this.loadPledge(id);
 
     } else {
+      if(!this.loginService.userCan('family.create'))
+        this.router.navigate(['not-found']);
+
       this.editMode = true;
     }
   }
 
   loadDonations(id): void {
+    if(!this.loginService.userCan('donation.read'))
+      return;
+
     this.donationService.getFamilyContributions(id).
       subscribe(donations => {
           this.donations = donations;
@@ -92,6 +103,9 @@ export class FamilyDetailComponent implements OnInit {
   }
 
   loadPledge(id): void {
+    if(!this.loginService.userCan('pledge.read'))
+      return;
+
     this.pledgeService.getPledge(id).
       subscribe(pledge => this.pledge = pledge);
   }
@@ -106,6 +120,9 @@ export class FamilyDetailComponent implements OnInit {
 
   save(): void {
     if(this.family.id > 0) {
+      if(!this.loginService.userCan('family.update'))
+        this.router.navigate(['not-found']);
+
       this.familyService.updateFamily(this.familyForm.value).
         subscribe(family => {
           this.family = family;
@@ -113,6 +130,9 @@ export class FamilyDetailComponent implements OnInit {
           this.getFamily();
         });
     } else {
+      if(!this.loginService.userCan('family.create'))
+        this.router.navigate(['not-found']);
+
       this.familyService.createFamily(this.familyForm.value).
         subscribe(family => {
           this.family = family;
@@ -136,6 +156,9 @@ export class FamilyDetailComponent implements OnInit {
   }
 
   public openDonationForm() {
+    if(!this.loginService.userCan('donation.create'))
+      return;
+
     const donationRef = this.dialog.open(DonationDialogComponent, {
       width: '400px',
       data: {"id": this.family.id}
@@ -147,6 +170,9 @@ export class FamilyDetailComponent implements OnInit {
   }
 
   public openPledgeForm() {
+    if(!this.loginService.userCan('pledge.create'))
+      return;
+
     const pledgeRef = this.dialog.open(PledgeDialogComponent, {
       width: '800px',
       data: {"id": this.family.id, "pledge": this.pledge}

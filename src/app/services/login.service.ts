@@ -87,7 +87,35 @@ export class LoginService extends BaseService {
     return decoded == null? "": decoded.userId;
   }
 
+  public userCan(reqPerm: string): boolean {
+    const decoded = this.jwtHelper.decodeToken(localStorage.getItem('jwt-token'));
+    for(let userPerm of decoded.permissions) {
+        if(this.matches(userPerm, reqPerm))
+            return true;
+    }
+
+    return false;
+  }
+
+
+  public matches(userPerm: string, permRequest: string): boolean {
+      return this.matchesInternal(userPerm.split(/\./), permRequest.split(/\./), 0);
+  }
+
   // ----- Private -----
+  private matchesInternal(userPerm: string[], permRequest: string[], index: number): boolean {
+      if(userPerm[index] === "*")
+          return true;
+      else if(!(userPerm[index] === permRequest[index]))
+          return false;
+
+      if(index + 1 === userPerm.length)
+          return true;
+      else if(index + 1 === permRequest.length)
+          return false;
+
+      return this.matchesInternal(userPerm, permRequest, index + 1);
+  }
 
   private doLogin(token: string) {
     localStorage.setItem('jwt-token', token);

@@ -47,7 +47,7 @@
       </tbody>
     </table>
   </div>
-  <div *ngIf="!newEnrollment && (ministryId > 0 || personId > 0)" class="container-fluid align-right">
+  <div *ngIf="!newEnrollment && (ministryId > 0 || personId > 0) && loginService.userCan('ministry.enrollment.create')" class="container-fluid align-right">
     <button type="button" class="btn btn-primary" (click)="newMembership()">Add...</button>
   </div>
   <div *ngIf="newEnrollment" class="container-fluid align-right">

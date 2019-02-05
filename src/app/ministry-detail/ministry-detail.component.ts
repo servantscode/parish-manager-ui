@@ -8,6 +8,7 @@ import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
 import { Event } from '../event';
 import { EventService } from '../services/event.service';
+import { LoginService } from '../services/login.service';
 import { SCValidation } from '../validation';
 
 export enum KEY_CODE {
@@ -40,6 +41,7 @@ export class MinistryDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private ministryService: MinistryService,
               private eventService: EventService,
+              private loginService: LoginService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -69,6 +71,9 @@ export class MinistryDetailComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
 
     if(id > 0) {
+      if(!this.loginService.userCan('ministry.read'))
+        this.router.navigate(['not-found']);
+
       this.ministryService.get(id).
         subscribe(ministry => {
           this.ministry = ministry;
@@ -80,6 +85,8 @@ export class MinistryDetailComponent implements OnInit {
           this.upcomingEvents = events;
         });
     } else {
+      if(!this.loginService.userCan('ministry.create'))
+        this.router.navigate(['not-found']);
       this.editMode = true;
     }
   }
@@ -94,6 +101,8 @@ export class MinistryDetailComponent implements OnInit {
 
   save(): void {
     if(this.ministry.id > 0) {
+      if(!this.loginService.userCan('ministry.update'))
+        this.goBack();
       this.ministryService.update(this.ministryForm.value).
         subscribe(ministry => {
           this.ministry = ministry;
@@ -101,6 +110,9 @@ export class MinistryDetailComponent implements OnInit {
           this.router.navigate(['ministry', 'detail', ministry.id]);
         });
     } else {
+      if(!this.loginService.userCan('ministry.create'))
+        this.goBack();
+
       this.ministryService.create(this.ministryForm.value).
         subscribe(ministry => {
           this.ministry = ministry;

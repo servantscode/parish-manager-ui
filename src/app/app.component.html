@@ -3,14 +3,26 @@
   <app-user-menu></app-user-menu>
 </div>
 <div class="page">
-  <div class="nav">
+  <div *ngIf="loginService.isAuthenticated()" class="nav">
     <div class="nav-bar">
-      <a routerLink="/people" routerLinkActive="active">People</a><br>
-      <a routerLink="/ministries" routerLinkActive="active">Ministries</a><br>
-      <a routerLink="/calendar" routerLinkActive="active">Calendar</a><br>
-      <a routerLink="/donations" routerLinkActive="active">Finances</a><br>
-      <a routerLink="/metrics" routerLinkActive="active">Metrics</a><br>
-      <a routerLink="/settings" routerLinkActive="active">Settings</a><br>
+      <span *ngIf="loginService.userCan('person.list')">
+        <a routerLink="/people" routerLinkActive="active">People</a><br>
+      </span>
+      <span *ngIf="loginService.userCan('ministry.list')">
+        <a routerLink="/ministries" routerLinkActive="active">Ministries</a><br>
+      </span>
+      <span *ngIf="loginService.userCan('event.list')" >
+        <a routerLink="/calendar" routerLinkActive="active">Calendar</a><br>
+      </span>
+      <span *ngIf="loginService.userCan('pledge.metrics') || loginService.userCan('donation.metrics')"> 
+        <a routerLink="/donations" routerLinkActive="active">Finances</a><br>
+      </span>
+      <span *ngIf="loginService.userCan('person.metrics') || loginService.userCan('family.metrics')" >
+        <a routerLink="/metrics" routerLinkActive="active">Metrics</a><br>
+      </span>
+      <span *ngIf="loginService.userCan('room.list') || loginService.userCan('equipment.list')" >
+        <a routerLink="/settings" routerLinkActive="active">Settings</a><br>
+      </span>
     </div>
   </div>
   <div class="container content">

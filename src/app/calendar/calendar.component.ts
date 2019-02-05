@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameDay, isSameMonth, startOfHour, addHours } from 'date-fns';
 import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -48,7 +49,8 @@ export class CalendarComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  constructor(private dialog: MatDialog,
+  constructor(private router: Router,
+              private dialog: MatDialog,
               private eventService: EventService,
               private loginService: LoginService) {}
 
@@ -70,7 +72,11 @@ export class CalendarComponent implements OnInit {
   }
 
   loadEvents(): void {
+    if(!this.loginService.userCan('event.list'))
+        this.router.navigate(['not-found']);
+
     const dateRange = this.calculateRange(this.viewDate, this.view);
+    const isDraggable = this.loginService.userCan('event.update');
 
     this.eventService.getEvents(dateRange.start, dateRange.end).
       subscribe(eventResponse => {
@@ -86,7 +92,7 @@ export class CalendarComponent implements OnInit {
                 beforeStart: true,
                 afterEnd: true
               },
-              draggable: true,
+              draggable: isDraggable,
               schedulerId: serverEvent.schedulerId,
               ministryName: serverEvent.ministryName,
               ministryId: serverEvent.ministryId,
@@ -99,6 +105,7 @@ export class CalendarComponent implements OnInit {
   }
 
   openEventModal(event: any) {
+
     if(this.openDialogRef != null)
       return;
 
@@ -110,7 +117,11 @@ export class CalendarComponent implements OnInit {
         title: '',
         schedulerId: this.loginService.getUserId()
       };
-    }
+    } 
+
+    if((event.id != 0 && !this.loginService.userCan('event.read')) ||
+       (event.id == 0 && !this.loginService.userCan('event.create')))
+        return;
 
     this.openDialogRef = this.dialog.open(EventDialogComponent, {
       width: '1000px',

@@ -14,6 +14,7 @@ import { EventService } from '../services/event.service';
 import { MinistryService } from '../services/ministry.service';
 import { RoomService } from '../services/room.service';
 import { EquipmentService } from '../services/equipment.service';
+import { LoginService } from '../services/login.service';
 import { DataCleanupService } from '../services/data-cleanup.service';
 import { SCValidation } from '../validation';
 
@@ -77,12 +78,16 @@ export class EventDialogComponent implements OnInit {
               private ministryService: MinistryService,
               private roomService: RoomService,
               private equipmentService: EquipmentService,
+              private loginService: LoginService,
               private cleaningService: DataCleanupService,
               private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    if(this.data.event != null) 
+    if(this.data.event != null) {
       this.populateForm(this.data.event);
+      if(!this.loginService.userCan('event.update'))
+        this.disableAll();
+    }
 
     this.filteredMinistries = this.eventForm.get('ministryName').valueChanges
       .pipe(
@@ -354,6 +359,11 @@ export class EventDialogComponent implements OnInit {
         }
       }
     }
+  }
+
+  private disableAll() {
+    for(let control in this.eventForm.controls)
+      this.eventForm.get(control).disable();
   }
 
   private translateForm(formData: any): Event {

@@ -1,23 +1,6 @@
-<div class="container rounded-rect">
-  <br/>
-  <div class="row text-center">
-    <div class="col-md-4">
-      <div class="btn-group">
-        <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">
-          Previous
-        </div>
-        <div class="btn btn-outline-primary" mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="loadEvents()"> 
-          Today
-        </div>
-        <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">
-          Next
-        </div>
-      </div> 
-    </div>
-    <div class="col-md-4">
-      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
-    </div>
-    <div class="col-md-4">
+<div class="container">
+  <div class="row">
+    <div class="col">
       <div class="btn-group">
         <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month"> 
           Month
@@ -29,6 +12,17 @@
           Day
         </div>
       </div>
+    </div>
+    <div class="col text-center">
+      <h3>
+        <span class="calendar-control clickable" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">&lt;&lt;</span>
+        <span>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</span>
+        <span class="calendar-control clickable" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">&gt;&gt;</span>
+      </h3>
+      <span class="clickable" mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">Today</span>
+    </div>
+    <div class="col controls align-right">
+      <button *ngIf="loginService.userCan('event.create')" class="btn btn-primary" type="button" (click)="openEventModal()">Schedule Event</button>
     </div>
   </div>
   <br>
@@ -106,9 +100,5 @@
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-day-view>
-  </div>
-
-  <div class="container">
-    <button class="btn btn-primary" type="button" (click)="openEventModal()">Schedule Event</button>
   </div>
 </div>

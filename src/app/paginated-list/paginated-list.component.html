@@ -21,11 +21,12 @@
       </tr>
     </tbody>
   </table>
+  <div *ngIf="items.length == 0" class="container-fluid empty-list">No items available.</div>
 </div>
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <button class="btn btn-primary" type="button" (click)="openModal(null)">New</button>
+      <button *ngIf="verifyPermission('create')" class="btn btn-primary" type="button" (click)="openModal(null)">New</button>
     </div>
     <div class="col align-right">
       <span class="page-status">Showing: {{this.pageStart()}}-{{this.pageEnd()}} of {{totalCount}}</span>

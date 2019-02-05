@@ -1,7 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Person } from '../person';
+import { Family } from '../family';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
+import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
 
 export enum KEY_CODE {
@@ -27,10 +29,11 @@ export class PeopleListComponent implements OnInit {
   totalCount = 0;
   search = '';
 
-  mode = "people";
+  mode = "person";
 
   constructor(private personService: PersonService,
               private familyService: FamilyService,
+              private loginService: LoginService,
               private router: Router) { }
 
   ngOnInit() {
@@ -38,9 +41,9 @@ export class PeopleListComponent implements OnInit {
   }
 
   populateList() {
-    if(this.mode == "people") {
+    if(this.mode == "person") {
       this.getPeople();
-    } else if(this.mode == "families") {
+    } else if(this.mode == "family") {
       this.getFamilies();
     }
   }
@@ -49,11 +52,9 @@ export class PeopleListComponent implements OnInit {
   keyEvent(event: KeyboardEvent) {    
     if (event.keyCode === KEY_CODE.PLUS || 
         event.keyCode === KEY_CODE.EQUALS && event.shiftKey) {
-      if(this.mode === "people") {
-        this.router.navigate(['person', 'detail']);
-      } else if(this.mode === "families") {
-        this.router.navigate(['family', 'detail']);
-      }
+      if(!this.loginService.userCan(this.mode + '.create'))
+        return;
+      this.router.navigate([this.mode, 'detail']);
     }
 
     if (event.keyCode === KEY_CODE.DOWN) {
@@ -73,11 +74,9 @@ export class PeopleListComponent implements OnInit {
     }
 
     if(event.keyCode === KEY_CODE.ENTER && this.highlighted != null) {
-      if(this.mode === "people") {
-        this.router.navigate(['person', 'detail', this.highlighted.id]);
-      } else if(this.mode === "families") {
-        this.router.navigate(['family', 'detail', this.highlighted.id]);
-      }
+      if(!this.loginService.userCan(this.mode + '.read'))
+        return;
+      this.router.navigate([this.mode, 'detail', this.highlighted.id]);
     }
   }
 
@@ -95,6 +94,9 @@ export class PeopleListComponent implements OnInit {
   }
 
   getPeople(): void {
+    if(!this.loginService.userCan('person.list'))
+      return;
+
     this.personService.getPeople((this.page-1)*this.pageSize, this.pageSize, this.search)
       .subscribe(peopleResp => {
         this.items = peopleResp.results;
@@ -103,6 +105,9 @@ export class PeopleListComponent implements OnInit {
   }
 
   getFamilies(): void {
+    if(!this.loginService.userCan('family.list'))
+      return;
+
     this.familyService.getFamilies((this.page-1)*this.pageSize, this.pageSize, this.search).
       subscribe(familyResp => {
         this.items = familyResp.results;
@@ -110,6 +115,11 @@ export class PeopleListComponent implements OnInit {
       });
   }
 
+  viewDetails(item: any) {
+    if(!this.loginService.userCan(this.mode + '.read'))
+      return;
+    this.router.navigate([this.mode, 'detail', item.id]);
+  }
 
   highlight(item: any) {
     this.highlighted = item;
