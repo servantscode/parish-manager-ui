@@ -7,7 +7,7 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, Cal
 
 import { Event } from '../event';
 import { EventService } from '../services/event.service';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../sccommon/services/login.service';
 import { EventDialogComponent } from '../event-dialog/event-dialog.component';
 import { ColorService } from '../services/color.service';
 

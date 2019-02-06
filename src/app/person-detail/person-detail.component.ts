@@ -8,8 +8,8 @@ import { Person } from '../person';
 import { Family } from '../family';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
-import { LoginService } from '../services/login.service';
-import { SCValidation } from '../validation';
+import { LoginService } from '../sccommon/services/login.service';
+import { SCValidation } from '../sccommon/validation';
 
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
 

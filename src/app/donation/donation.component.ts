@@ -5,7 +5,7 @@ import { ChartData } from '../chartData';
 import { DonationReport } from '../donation-report';
 import { MetricsService } from '../services/metrics.service';
 import { ColorService } from '../services/color.service';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../sccommon/services/login.service';
 import { BulkDonationDialogComponent } from '../bulk-donation-dialog/bulk-donation-dialog.component';
 
 @Component({

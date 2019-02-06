@@ -14,9 +14,9 @@ import { EventService } from '../services/event.service';
 import { MinistryService } from '../services/ministry.service';
 import { RoomService } from '../services/room.service';
 import { EquipmentService } from '../services/equipment.service';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../sccommon/services/login.service';
 import { DataCleanupService } from '../services/data-cleanup.service';
-import { SCValidation } from '../validation';
+import { SCValidation } from '../sccommon/validation';
 
 @Component({
   selector: 'app-event-dialog',

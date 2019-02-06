@@ -1,8 +1,6 @@
 import { Component, OnInit, HostListener, Input, OnChanges } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
-import { RoomDialogComponent } from '../room-dialog/room-dialog.component';
-
 import { PaginatedService } from '../services/paginated.service';
 import { LoginService } from '../services/login.service';
 
@@ -25,7 +23,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Input() dataService: PaginatedService<T>;
   @Input() fields: string[];
   @Input() pageSize: number = 20;
-  @Input() dialogComponent = RoomDialogComponent;
+  @Input() dialogComponent = null;
 
   items: T[] = [];
 

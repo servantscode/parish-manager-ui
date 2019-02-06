@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { CredentialRequest } from '../credentialRequest';
+import { CredentialRequest } from '../credential-request';
 
 import { MessageService } from './message.service';
 import { BaseService } from './base.service';

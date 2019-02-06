@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Person } from '../person';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../sccommon/services/login.service';
 
 @Component({
   selector: 'app-family-member-list',

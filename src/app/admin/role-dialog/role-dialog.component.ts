@@ -4,30 +4,29 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
-import { EquipmentService } from '../services/equipment.service';
-import { SCValidation } from '../sccommon/validation';
+import { RoleService } from '../services/role.service';
+import { SCValidation } from '../../sccommon/validation';
 
 @Component({
-  selector: 'app-equipment-dialog',
-  templateUrl: './equipment-dialog.component.html',
-  styleUrls: ['./equipment-dialog.component.scss']
+  selector: 'app-role-dialog',
+  templateUrl: './role-dialog.component.html',
+  styleUrls: ['./role-dialog.component.scss']
 })
-export class EquipmentDialogComponent implements OnInit {
- form = this.fb.group({
+export class RoleDialogComponent implements OnInit {
+  form = this.fb.group({
       id: [0],
-      name: ['', Validators.required],
-      manufacturer: [''],
-      description: ['']
+      name: ['', Validators.required]
     });
 
-  constructor(public dialogRef: MatDialogRef<EquipmentDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<RoleDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
-              private equipmentService: EquipmentService) { }
+              private roleService: RoleService) { }
   
   ngOnInit() {
-    if(this.data.item != null)
+    if(this.data.item != null) {
       this.form.patchValue(this.data.item)
+    }
   }
 
   save() {
@@ -37,12 +36,12 @@ export class EquipmentDialogComponent implements OnInit {
     }
 
     if(this.form.get("id").value > 0) {
-      this.equipmentService.update(this.form.value).
+      this.roleService.update(this.form.value).
         subscribe(() => {
           this.dialogRef.close();
         });
     } else {
-      this.equipmentService.create(this.form.value).
+      this.roleService.create(this.form.value).
         subscribe(() => {
           this.dialogRef.close();
         });

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { RoomService } from '../services/room.service';
-import { SCValidation } from '../validation';
+import { SCValidation } from '../sccommon/validation';
 
 @Component({
   selector: 'app-room-dialog',

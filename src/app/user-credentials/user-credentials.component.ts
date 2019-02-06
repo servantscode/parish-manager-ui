@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../sccommon/services/login.service';
 import { CredentialDialogComponent } from '../credential-dialog/credential-dialog.component';
 
 @Component({

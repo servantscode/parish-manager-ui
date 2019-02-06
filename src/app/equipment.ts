@@ -1,4 +1,4 @@
-import { Identifiable } from './identifiable';
+import { Identifiable } from './sccommon/identifiable';
 
 export class Equipment extends Identifiable {
   constructor() {

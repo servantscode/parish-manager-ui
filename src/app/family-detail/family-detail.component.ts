@@ -12,11 +12,11 @@ import { Pledge } from '../pledge';
 import { FamilyService } from '../services/family.service';
 import { DonationService } from '../services/donation.service';
 import { PledgeService } from '../services/pledge.service';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../sccommon/services/login.service';
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
 import { DonationDialogComponent } from '../donation-dialog/donation-dialog.component';
 import { PledgeDialogComponent } from '../pledge-dialog/pledge-dialog.component';
-import { SCValidation } from '../validation';
+import { SCValidation } from '../sccommon/validation';
 
 @Component({
   selector: 'app-family-detail',

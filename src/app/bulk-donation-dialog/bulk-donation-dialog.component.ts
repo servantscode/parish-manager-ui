@@ -7,7 +7,7 @@ import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 import { DonationService } from '../services/donation.service';
 import { FamilyService } from '../services/family.service';
 import { DataCleanupService } from '../services/data-cleanup.service';
-import { SCValidation } from '../validation';
+import { SCValidation } from '../sccommon/validation';
 import { Family } from '../family';
 import { Donation } from '../donation';
 import { DonationPrediction } from '../donation-prediction';

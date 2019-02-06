@@ -3,7 +3,7 @@ import { Person } from '../person';
 import { Family } from '../family';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../sccommon/services/login.service';
 import { Router } from '@angular/router';
 
 export enum KEY_CODE {

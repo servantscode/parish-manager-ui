@@ -10,7 +10,7 @@ import { Person } from '../person';
 import { PersonService } from '../services/person.service';
 import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../sccommon/services/login.service';
 
 @Component({
   selector: 'app-ministry-member-list',

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, CanActivate } from '@angular/router';
 
-import { LoginComponent } from './login/login.component';
 import { PeopleListComponent } from './people-list/people-list.component';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
 import { FamilyDetailComponent } from './family-detail/family-detail.component';
@@ -15,7 +14,6 @@ import { SettingsComponent } from './settings/settings.component';
 import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
   { path: 'people', component: PeopleListComponent, canActivate: [AuthGuard] },
   { path: 'person/detail', component: PersonDetailComponent, canActivate: [AuthGuard] },
   { path: 'person/detail/:id', component: PersonDetailComponent, canActivate: [AuthGuard] },

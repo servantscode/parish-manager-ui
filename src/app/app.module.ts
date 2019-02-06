@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms'
-import { FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
@@ -20,8 +20,6 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { AppComponent } from './app.component';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
-import { MessagesComponent } from './messages/messages.component';
-import { AppRoutingModule } from './app-routing.module';
 import { AutofocusDirective } from './autofocus.directive';
 import { FamilyDetailComponent } from './family-detail/family-detail.component';
 import { FamilyMemberListComponent } from './family-member-list/family-member-list.component';
@@ -30,7 +28,6 @@ import { MinistryListComponent } from './ministry-list/ministry-list.component';
 import { MinistryDetailComponent } from './ministry-detail/ministry-detail.component';
 import { MinistryMemberListComponent } from './ministry-member-list/ministry-member-list.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { LoginComponent } from './login/login.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { UserCredentialsComponent } from './user-credentials/user-credentials.component';
 import { CredentialDialogComponent } from './credential-dialog/credential-dialog.component';
@@ -44,11 +41,14 @@ import { PledgeDialogComponent } from './pledge-dialog/pledge-dialog.component';
 import { BulkDonationDialogComponent } from './bulk-donation-dialog/bulk-donation-dialog.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { EventDialogComponent } from './event-dialog/event-dialog.component';
-import { PaginatedListComponent } from './paginated-list/paginated-list.component';
 import { SettingsComponent } from './settings/settings.component';
 import { RoomDialogComponent } from './room-dialog/room-dialog.component';
 import { EquipmentDialogComponent } from './equipment-dialog/equipment-dialog.component';
 import { AvailabilityComponent } from './availability/availability.component';
+
+import { SCCommonModule } from './sccommon/sccommon.module';
+import { AdminModule } from './admin/admin.module';
+import { AppRoutingModule } from './app-routing.module';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -58,7 +58,6 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     PersonDetailComponent,
-    MessagesComponent,
     AutofocusDirective,
     FamilyDetailComponent,
     FamilyMemberListComponent,
@@ -67,7 +66,6 @@ export function tokenGetter() {
     MinistryDetailComponent,
     MinistryMemberListComponent,
     NotFoundComponent,
-    LoginComponent,
     UserMenuComponent,
     UserCredentialsComponent,
     CredentialDialogComponent,
@@ -78,17 +76,19 @@ export function tokenGetter() {
     BulkDonationDialogComponent,
     CalendarComponent,
     EventDialogComponent,
-    PaginatedListComponent,
     SettingsComponent,
     RoomDialogComponent,
     EquipmentDialogComponent,
     AvailabilityComponent
   ],
   imports: [
+    SCCommonModule,
+    AdminModule,
+    AppRoutingModule,
+
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    AppRoutingModule,
     HttpClientModule,
     NgbModule,
     NgbModalModule,

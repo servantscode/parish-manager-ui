@@ -4,8 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
-import { LoginService } from '../services/login.service';
-import { RoleService } from '../services/role.service';
+import { LoginService } from '../sccommon/services/login.service';
+import { RoleService } from '../admin/services/role.service';
 
 export interface PersonData {
   id: number;
@@ -39,7 +39,7 @@ export class CredentialDialogComponent implements OnInit {
     this.filteredRoles = this.credentialForm.get('role').valueChanges
       .pipe(
         debounceTime(300),
-        switchMap(value => this.roleService.getRoles()
+        switchMap(value => this.roleService.getRoleNames()
           .pipe(
               map(resp => resp.filter(role => role.startsWith(value)))              
             ))
