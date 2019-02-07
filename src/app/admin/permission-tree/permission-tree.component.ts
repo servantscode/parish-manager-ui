@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Injectable, Input } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
@@ -16,8 +16,8 @@ export class PermissionTreeComponent implements OnInit {
   nestedTreeControl: NestedTreeControl<Permission>;
   nestedDataSource: MatTreeNestedDataSource<Permission>;
 
-  permissions: Permission[];
-  @Output() permsChanged = new EventEmitter<string[]>();
+  permissionTree: Permission[];
+  @Input() permissions: string[];
 
   constructor(private permissionService: PermissionService) { 
     this.nestedTreeControl = new NestedTreeControl<Permission>(this._getChildren);
@@ -26,15 +26,38 @@ export class PermissionTreeComponent implements OnInit {
 
   ngOnInit() {
     this.permissionService.getAvailablePermissions()
-      .subscribe(permissions => {
-        this.permissions = permissions;
-        this.nestedDataSource.data = permissions;
+      .subscribe(resp => {
+        this.markPermissions(resp);
       });
   }
 
   permChanged(perm: Permission) {
     perm.active = !perm.active;
-    this.permsChanged.emit(this.permissionService.collectPermissions(this.permissions));
+
+    //Be careful not to replace the array shared with the parent
+    const newPerms = this.permissionService.collectPermissions(this.permissionTree);
+    this.permissions.length=0;
+    newPerms.forEach(permmission => this.permissions.push(permmission));
+  }
+
+  private markPermissions(perms: Permission[]) {
+    this.permissions.forEach(perm => { 
+        this.activatePermission(perm.split(/\./), perms);
+      });
+    this.permissionTree = perms;
+    this.nestedDataSource.data = perms;
+  }
+
+  private activatePermission(permBits: string[], perms: Permission[]) {
+    const permission = perms.find(permission => permission.name === permBits[0]);
+    if(permission == null)
+      return;
+
+    if(permBits.length == 1 || permBits[1] == "*") {
+      permission.active = true;
+    } else if (permission.children != null) {
+      this.activatePermission(permBits.slice(1), permission.children);
+    }
   }
 
   private hasNestedChild(_: number, node: Permission) {

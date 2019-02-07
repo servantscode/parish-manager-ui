@@ -153,7 +153,8 @@ div.rounded-rect {
   font-weight: bold;
 }
 
-.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
   background-color: #999999;
 }
 

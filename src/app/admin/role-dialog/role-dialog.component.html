@@ -9,11 +9,11 @@
       <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field>
 
-    <app-permission-tree (permsChanged)="setPermissions($event)"></app-permission-tree>
+    <app-permission-tree [permissions]="permissions"></app-permission-tree>
   </div>
 
   <div mat-dialog-actions class="align-right">
-    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid || form.get('name').value === 'system'">Save</button>
     <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
   </div>
 </form>

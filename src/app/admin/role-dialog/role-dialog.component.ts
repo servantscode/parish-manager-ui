@@ -28,11 +28,11 @@ export class RoleDialogComponent implements OnInit {
   ngOnInit() {
     if(this.data.item != null) {
       this.form.patchValue(this.data.item)
-    }
-  }
+      this.permissions = this.data.item.permissions;
 
-  setPermissions(perms: any) {
-    this.permissions=perms;
+      if(this.data.item.name === "system")
+        this.disableAll();
+    }
   }
 
   save() {
@@ -60,4 +60,10 @@ export class RoleDialogComponent implements OnInit {
   cancel() {
     this.dialogRef.close();    
   }
+
+  private disableAll() {
+    for(let control in this.form.controls)
+      this.form.get(control).disable();
+  }
+
 }

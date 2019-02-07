@@ -14,7 +14,7 @@
             {{nestedTreeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
           </mat-icon>
         </button>
-        <mat-checkbox [labelPosition]='before' [checked]="node.active" (change)="permChanged(node)">{{node.name}}</mat-checkbox>
+        <mat-checkbox [labelPosition]='before' [checked]="node.active" [indeterminate]="node.partial" (change)="permChanged(node)">{{node.name}}</mat-checkbox>
       </div>
       <ul [class.example-tree-invisible]="!nestedTreeControl.isExpanded(node)">
         <ng-container matTreeNodeOutlet></ng-container>
