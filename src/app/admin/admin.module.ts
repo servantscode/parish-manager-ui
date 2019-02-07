@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { SCCommonModule } from '../sccommon/sccommon.module';
@@ -13,11 +16,13 @@ import { RoleComponent } from './role/role.component';
 import { RoleDialogComponent } from './role-dialog/role-dialog.component';
 
 import { RoleService } from './services/role.service';
+import { PermissionTreeComponent } from './permission-tree/permission-tree.component';
 
 @NgModule({
   declarations: [
     RoleComponent,
-    RoleDialogComponent
+    RoleDialogComponent,
+    PermissionTreeComponent
   ],
   imports: [
     AdminRoutingModule,
@@ -31,7 +36,10 @@ import { RoleService } from './services/role.service';
     
     //Material
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatTreeModule,
+    MatIconModule,
+    MatCheckboxModule
   ],
   providers: [
     RoleService

@@ -18,6 +18,8 @@ export class RoleDialogComponent implements OnInit {
       name: ['', Validators.required]
     });
 
+  permissions: string[] = [];
+
   constructor(public dialogRef: MatDialogRef<RoleDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
@@ -29,19 +31,26 @@ export class RoleDialogComponent implements OnInit {
     }
   }
 
+  setPermissions(perms: any) {
+    this.permissions=perms;
+  }
+
   save() {
     if(!this.form.valid) {
       this.cancel();
       return;
     }
 
-    if(this.form.get("id").value > 0) {
-      this.roleService.update(this.form.value).
+    var role = this.form.value;
+    role.permissions = this.permissions;
+
+    if(role.id > 0) {
+      this.roleService.update(role).
         subscribe(() => {
           this.dialogRef.close();
         });
     } else {
-      this.roleService.create(this.form.value).
+      this.roleService.create(role).
         subscribe(() => {
           this.dialogRef.close();
         });

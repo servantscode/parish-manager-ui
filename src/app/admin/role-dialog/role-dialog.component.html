@@ -8,6 +8,8 @@
       <mat-label>Name</mat-label>
       <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field>
+
+    <app-permission-tree (permsChanged)="setPermissions($event)"></app-permission-tree>
   </div>
 
   <div mat-dialog-actions class="align-right">
