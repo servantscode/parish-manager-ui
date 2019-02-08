@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
-import { MessageService } from '../sccommon/services/message.service';
-import { PaginatedService } from '../sccommon/services/paginated.service';
+import { MessageService } from '../../sccommon/services/message.service';
+import { PaginatedService } from '../../sccommon/services/paginated.service';
 
 import { Equipment } from '../equipment';
 

@@ -5,11 +5,13 @@ import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
+import { LoginService } from '../../sccommon/services/login.service';
+
+import { ColorService } from '../../services/color.service';
+
 import { Event } from '../event';
 import { EventService } from '../services/event.service';
-import { LoginService } from '../sccommon/services/login.service';
 import { EventDialogComponent } from '../event-dialog/event-dialog.component';
-import { ColorService } from '../services/color.service';
 
 export enum KEY_CODE {
   PLUS = 107,
@@ -25,7 +27,7 @@ export class CalendarComponent implements OnInit {
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
   CalendarView = CalendarView; //Export CalendarView for html
-  events: CalendarEvent[];
+  events: CalendarEvent[] = [];
   openDialogRef = null;
 
   _displayCount = 5;

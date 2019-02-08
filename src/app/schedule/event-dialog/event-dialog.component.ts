@@ -5,18 +5,21 @@ import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
 import { startOfHour, endOfYear, addHours, addMinutes, addSeconds, setHours, setMinutes, setSeconds, format, differenceInMinutes } from 'date-fns';
 
+import { LoginService } from '../../sccommon/services/login.service';
+import { SCValidation } from '../../sccommon/validation';
+
+import { DataCleanupService } from '../../services/data-cleanup.service';
+
+import { MinistryService } from '../../ministry/services/ministry.service';
+import { Ministry } from '../../ministry/ministry';
+
 import { Event, Recurrence } from '../event';
 import { Room } from '../room';
 import { Equipment } from '../equipment';
-import { Ministry } from '../ministry/ministry';
 import { Reservation } from '../reservation';
 import { EventService } from '../services/event.service';
-import { MinistryService } from '../ministry/services/ministry.service';
 import { RoomService } from '../services/room.service';
 import { EquipmentService } from '../services/equipment.service';
-import { LoginService } from '../sccommon/services/login.service';
-import { DataCleanupService } from '../services/data-cleanup.service';
-import { SCValidation } from '../sccommon/validation';
 
 @Component({
   selector: 'app-event-dialog',

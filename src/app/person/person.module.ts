@@ -27,7 +27,7 @@ import { PersonRoutingModule } from './person-routing.module';
 @NgModule({
   declarations: [
     PersonDetailComponent,
-    FamilyDetailComponent,
+    FamilyDetailComponent,  
     FamilyMemberListComponent,
     PeopleListComponent
   ],

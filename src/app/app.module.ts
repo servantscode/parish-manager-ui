@@ -26,18 +26,14 @@ import { MetricsComponent } from './metrics/metrics.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DateInterceptor } from './services/date-interceptor';
-import { CalendarComponent } from './calendar/calendar.component';
-import { EventDialogComponent } from './event-dialog/event-dialog.component';
-import { SettingsComponent } from './settings/settings.component';
-import { RoomDialogComponent } from './room-dialog/room-dialog.component';
-import { EquipmentDialogComponent } from './equipment-dialog/equipment-dialog.component';
-import { AvailabilityComponent } from './availability/availability.component';
 
 import { SCCommonModule } from './sccommon/sccommon.module';
 import { AdminModule } from './admin/admin.module';
 import { MinistryModule } from './ministry/ministry.module';
 import { FinanceModule } from './finance/finance.module';
 import { PersonModule } from './person/person.module';
+import { ScheduleModule } from './schedule/schedule.module';
+
 import { AppRoutingModule } from './app-routing.module';
 
 export function tokenGetter() {
@@ -50,13 +46,7 @@ export function tokenGetter() {
     AutofocusDirective,
     NotFoundComponent,
     UserMenuComponent,
-    MetricsComponent,
-    CalendarComponent,
-    EventDialogComponent,
-    SettingsComponent,
-    RoomDialogComponent,
-    EquipmentDialogComponent,
-    AvailabilityComponent
+    MetricsComponent
   ],
   imports: [
     SCCommonModule,
@@ -64,6 +54,7 @@ export function tokenGetter() {
     MinistryModule,
     FinanceModule,
     PersonModule,
+    ScheduleModule,
     AppRoutingModule,
 
     BrowserModule,
@@ -98,10 +89,6 @@ export function tokenGetter() {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: DateInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [EventDialogComponent,
-                    RoomDialogComponent,
-                    EquipmentDialogComponent
-                   ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

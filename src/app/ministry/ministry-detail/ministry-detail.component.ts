@@ -4,12 +4,14 @@ import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 
-import { Ministry } from '../ministry';
-import { MinistryService } from '../services/ministry.service';
-import { Event } from '../../event';
-import { EventService } from '../../services/event.service';
 import { LoginService } from '../../sccommon/services/login.service';
 import { SCValidation } from '../../sccommon/validation';
+
+import { Event } from '../../schedule/event';
+import { EventService } from '../../schedule/services/event.service';
+
+import { Ministry } from '../ministry';
+import { MinistryService } from '../services/ministry.service';
 
 export enum KEY_CODE {
   ENTER = 13,

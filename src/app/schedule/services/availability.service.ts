@@ -3,8 +3,9 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError} from 'rxjs/operators';
 
-import { BaseService } from '../sccommon/services/base.service';
-import { MessageService } from '../sccommon/services/message.service';
+import { BaseService } from '../../sccommon/services/base.service';
+import { MessageService } from '../../sccommon/services/message.service';
+
 import { Reservation } from '../reservation';
 import { AvailabilityResponse } from '../availability-response';
 
