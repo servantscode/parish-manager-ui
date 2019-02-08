@@ -8,10 +8,10 @@ import { startOfHour, endOfYear, addHours, addMinutes, addSeconds, setHours, set
 import { Event, Recurrence } from '../event';
 import { Room } from '../room';
 import { Equipment } from '../equipment';
-import { Ministry } from '../ministry';
+import { Ministry } from '../ministry/ministry';
 import { Reservation } from '../reservation';
 import { EventService } from '../services/event.service';
-import { MinistryService } from '../services/ministry.service';
+import { MinistryService } from '../ministry/services/ministry.service';
 import { RoomService } from '../services/room.service';
 import { EquipmentService } from '../services/equipment.service';
 import { LoginService } from '../sccommon/services/login.service';

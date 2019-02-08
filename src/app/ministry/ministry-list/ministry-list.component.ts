@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MinistryService } from '../services/ministry.service';
-import { LoginService } from '../sccommon/services/login.service';
+import { LoginService } from '../../sccommon/services/login.service';
 
 export enum KEY_CODE {
   PLUS = 107,

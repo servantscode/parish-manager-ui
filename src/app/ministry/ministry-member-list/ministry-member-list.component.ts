@@ -6,11 +6,11 @@ import { tap, map, filter, switchMap, startWith, debounceTime } from 'rxjs/opera
 import { Router } from '@angular/router';
 import { Enrollment } from '../enrollment';
 import { EnrollmentService } from '../services/enrollment.service';
-import { Person } from '../person';
-import { PersonService } from '../services/person.service';
+import { Person } from '../../person';
+import { PersonService } from '../../services/person.service';
 import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
-import { LoginService } from '../sccommon/services/login.service';
+import { LoginService } from '../../sccommon/services/login.service';
 
 @Component({
   selector: 'app-ministry-member-list',

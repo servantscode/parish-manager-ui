@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatTreeModule } from '@angular/material/tree';
-import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AdminRoutingModule } from './admin-routing.module';
@@ -38,7 +37,6 @@ import { PermissionTreeComponent } from './permission-tree/permission-tree.compo
     MatDialogModule,
     MatInputModule,
     MatTreeModule,
-    MatIconModule,
     MatCheckboxModule
   ],
   providers: [

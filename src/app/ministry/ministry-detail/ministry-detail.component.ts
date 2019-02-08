@@ -6,10 +6,10 @@ import { map, startWith } from 'rxjs/operators'
 
 import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
-import { Event } from '../event';
-import { EventService } from '../services/event.service';
-import { LoginService } from '../sccommon/services/login.service';
-import { SCValidation } from '../sccommon/validation';
+import { Event } from '../../event';
+import { EventService } from '../../services/event.service';
+import { LoginService } from '../../sccommon/services/login.service';
+import { SCValidation } from '../../sccommon/validation';
 
 export enum KEY_CODE {
   ENTER = 13,

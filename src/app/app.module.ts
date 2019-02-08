@@ -24,9 +24,6 @@ import { AutofocusDirective } from './autofocus.directive';
 import { FamilyDetailComponent } from './family-detail/family-detail.component';
 import { FamilyMemberListComponent } from './family-member-list/family-member-list.component';
 import { PeopleListComponent } from './people-list/people-list.component';
-import { MinistryListComponent } from './ministry-list/ministry-list.component';
-import { MinistryDetailComponent } from './ministry-detail/ministry-detail.component';
-import { MinistryMemberListComponent } from './ministry-member-list/ministry-member-list.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { UserCredentialsComponent } from './user-credentials/user-credentials.component';
@@ -48,6 +45,7 @@ import { AvailabilityComponent } from './availability/availability.component';
 
 import { SCCommonModule } from './sccommon/sccommon.module';
 import { AdminModule } from './admin/admin.module';
+import { MinistryModule } from './ministry/ministry.module';
 import { AppRoutingModule } from './app-routing.module';
 
 export function tokenGetter() {
@@ -62,9 +60,6 @@ export function tokenGetter() {
     FamilyDetailComponent,
     FamilyMemberListComponent,
     PeopleListComponent,
-    MinistryListComponent,
-    MinistryDetailComponent,
-    MinistryMemberListComponent,
     NotFoundComponent,
     UserMenuComponent,
     UserCredentialsComponent,
@@ -84,6 +79,7 @@ export function tokenGetter() {
   imports: [
     SCCommonModule,
     AdminModule,
+    MinistryModule,
     AppRoutingModule,
 
     BrowserModule,
