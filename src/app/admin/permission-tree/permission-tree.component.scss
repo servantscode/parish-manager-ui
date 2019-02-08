@@ -1,10 +1,37 @@
-.example-tree-invisible {
+.permission-tree-invisible {
   display: none;
 }
 
-.example-tree ul,
-.example-tree li {
+.permission-tree ul,
+.permission-tree li {
   margin-top: 0;
   margin-bottom: 0;
   list-style-type: none;
+}
+
+.permission-tree {
+  margin-bottom: 5px;
+}
+
+.permission-tree .mat-tree-node {
+  min-height: 0;
+  align-items: normal;
+}
+
+$tree-control-size: 12px;
+
+.tree-control {
+  margin-top: 6px;
+  width: $tree-control-size;
+  height: $tree-control-size;
+  background-size: $tree-control-size $tree-control-size;
+  cursor: pointer;
+}
+
+.open {
+  background-image: url('../../../assets/images/minus-icon.png');
+}
+
+.closed {
+  background-image: url('../../../assets/images/plus-icon.png');
 }

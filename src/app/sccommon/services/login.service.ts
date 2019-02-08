@@ -87,16 +87,15 @@ export class LoginService extends BaseService {
     return decoded == null? "": decoded.userId;
   }
 
-  public userCan(reqPerm: string): boolean {
+  public hasAny(permPrefix: string): boolean {
     const decoded = this.jwtHelper.decodeToken(localStorage.getItem('jwt-token'));
-    for(let userPerm of decoded.permissions) {
-        if(this.matches(userPerm, reqPerm))
-            return true;
-    }
-
-    return false;
+    return decoded.permissions.some(perm => perm.startsWith(permPrefix) || perm.startsWith("*"));
   }
 
+  public userCan(reqPerm: string): boolean {
+    const decoded = this.jwtHelper.decodeToken(localStorage.getItem('jwt-token'));
+    return decoded.permissions.some(userPerm => this.matches(userPerm, reqPerm));
+  }
 
   public matches(userPerm: string, permRequest: string): boolean {
       return this.matchesInternal(userPerm.split(/\./), permRequest.split(/\./), 0);

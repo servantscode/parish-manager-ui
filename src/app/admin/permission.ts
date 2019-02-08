@@ -14,6 +14,6 @@ export class Permission {
 
   get partial() {
     const selectedChildren = this.children.filter(child => child.active).length;
-    return selectedChildren > 0 && selectedChildren < this.children.length;
+    return selectedChildren > 0 && !this._active; //Need the active check as this is checked first  
   }
 }

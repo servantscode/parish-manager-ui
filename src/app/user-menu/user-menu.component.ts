@@ -23,4 +23,8 @@ export class UserMenuComponent implements OnInit {
     this.loginService.logout();
     this.router.navigate(['login']);
   }
+
+  userCanAdmin(): boolean {
+    return this.loginService.hasAny('role');
+  }
 }
