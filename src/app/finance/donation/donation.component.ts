@@ -3,8 +3,9 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { LoginService } from '../../sccommon/services/login.service';
 
-import { ChartData } from '../../chartData';
-import { MetricsService } from '../../services/metrics.service';
+import { ChartData } from '../../metrics/chart-data';
+import { MetricsService } from '../../metrics/services/metrics.service';
+
 import { ColorService } from '../../services/color.service';
 
 import { DonationReport } from '../donation-report';

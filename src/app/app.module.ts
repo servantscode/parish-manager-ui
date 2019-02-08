@@ -12,17 +12,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
-import { MatSelectModule } from '@angular/material/select';
 import { JwtModule } from '@auth0/angular-jwt';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { AppComponent } from './app.component';
 import { AutofocusDirective } from './autofocus.directive';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
-import { MetricsComponent } from './metrics/metrics.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DateInterceptor } from './services/date-interceptor';
@@ -33,6 +28,7 @@ import { MinistryModule } from './ministry/ministry.module';
 import { FinanceModule } from './finance/finance.module';
 import { PersonModule } from './person/person.module';
 import { ScheduleModule } from './schedule/schedule.module';
+import { MetricsModule } from './metrics/metrics.module';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -45,8 +41,7 @@ export function tokenGetter() {
     AppComponent,
     AutofocusDirective,
     NotFoundComponent,
-    UserMenuComponent,
-    MetricsComponent
+    UserMenuComponent
   ],
   imports: [
     SCCommonModule,
@@ -55,6 +50,8 @@ export function tokenGetter() {
     FinanceModule,
     PersonModule,
     ScheduleModule,
+    MetricsModule,
+
     AppRoutingModule,
 
     BrowserModule,
@@ -71,13 +68,7 @@ export function tokenGetter() {
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule,
-    NgxChartsModule,
     BrowserAnimationsModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory
-    }),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

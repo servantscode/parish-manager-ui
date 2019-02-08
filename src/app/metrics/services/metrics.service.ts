@@ -3,12 +3,13 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { MessageService } from '../sccommon/services/message.service';
-import { BaseService } from '../sccommon/services/base.service';
+import { MessageService } from '../../sccommon/services/message.service';
+import { BaseService } from '../../sccommon/services/base.service';
 
-import { MetricsResponse } from '../metricsResponse';
+import { DonationReport } from '../../finance/donation-report';
+
+import { MetricsResponse } from '../metrics-response';
 import { PledgeStatus } from '../pledge-status';
-import { DonationReport } from '../finance/donation-report';
 
 const httpOptions = {
   headers: new HttpHeaders({
