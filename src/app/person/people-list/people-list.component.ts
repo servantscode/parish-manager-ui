@@ -1,10 +1,13 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { LoginService } from '../../sccommon/services/login.service';
+
 import { Person } from '../person';
 import { Family } from '../family';
 import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
-import { LoginService } from '../sccommon/services/login.service';
-import { Router } from '@angular/router';
+
 
 export enum KEY_CODE {
   PLUS = 107,

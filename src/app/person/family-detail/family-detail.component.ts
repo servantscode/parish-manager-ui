@@ -5,15 +5,15 @@ import { Observable, of } from 'rxjs';
 import { map, startWith, reduce } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material';
 
-import { LoginService } from '../sccommon/services/login.service';
-import { SCValidation } from '../sccommon/validation';
+import { LoginService } from '../../sccommon/services/login.service';
+import { SCValidation } from '../../sccommon/validation';
 
-import { Donation } from '../finance/donation';
-import { Pledge } from '../finance/pledge';
-import { DonationDialogComponent } from '../finance/donation-dialog/donation-dialog.component';
-import { PledgeDialogComponent } from '../finance/pledge-dialog/pledge-dialog.component';
-import { DonationService } from '../finance/services/donation.service';
-import { PledgeService } from '../finance/services/pledge.service';
+import { Donation } from '../../finance/donation';
+import { Pledge } from '../../finance/pledge';
+import { DonationDialogComponent } from '../../finance/donation-dialog/donation-dialog.component';
+import { PledgeDialogComponent } from '../../finance/pledge-dialog/pledge-dialog.component';
+import { DonationService } from '../../finance/services/donation.service';
+import { PledgeService } from '../../finance/services/pledge.service';
 
 import { Person } from '../person';
 import { Family } from '../family';

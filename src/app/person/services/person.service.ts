@@ -3,11 +3,11 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { MessageService } from '../sccommon/services/message.service';
-import { BaseService } from '../sccommon/services/base.service';
+import { MessageService } from '../../sccommon/services/message.service';
+import { BaseService } from '../../sccommon/services/base.service';
+import { PaginatedResponse } from '../../sccommon/paginated.response';
 
 import { Person } from '../person';
-import { PaginatedResponse } from '../sccommon/paginated.response';
 
 const httpOptions = {
   headers: new HttpHeaders({

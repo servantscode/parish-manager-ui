@@ -1,16 +1,19 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap, map, filter, switchMap, startWith, debounceTime } from 'rxjs/operators'
 
-import { Router } from '@angular/router';
+import { LoginService } from '../../sccommon/services/login.service';
+
+import { Person } from '../../person/person';
+import { PersonService } from '../../person/services/person.service';
+
 import { Enrollment } from '../enrollment';
 import { EnrollmentService } from '../services/enrollment.service';
-import { Person } from '../../person';
-import { PersonService } from '../../services/person.service';
 import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
-import { LoginService } from '../../sccommon/services/login.service';
+
 
 @Component({
   selector: 'app-ministry-member-list',

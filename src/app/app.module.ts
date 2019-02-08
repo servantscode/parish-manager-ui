@@ -19,15 +19,9 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { AppComponent } from './app.component';
-import { PersonDetailComponent } from './person-detail/person-detail.component';
 import { AutofocusDirective } from './autofocus.directive';
-import { FamilyDetailComponent } from './family-detail/family-detail.component';
-import { FamilyMemberListComponent } from './family-member-list/family-member-list.component';
-import { PeopleListComponent } from './people-list/people-list.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
-import { UserCredentialsComponent } from './user-credentials/user-credentials.component';
-import { CredentialDialogComponent } from './credential-dialog/credential-dialog.component';
 import { MetricsComponent } from './metrics/metrics.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -43,6 +37,7 @@ import { SCCommonModule } from './sccommon/sccommon.module';
 import { AdminModule } from './admin/admin.module';
 import { MinistryModule } from './ministry/ministry.module';
 import { FinanceModule } from './finance/finance.module';
+import { PersonModule } from './person/person.module';
 import { AppRoutingModule } from './app-routing.module';
 
 export function tokenGetter() {
@@ -52,15 +47,9 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    PersonDetailComponent,
     AutofocusDirective,
-    FamilyDetailComponent,
-    FamilyMemberListComponent,
-    PeopleListComponent,
     NotFoundComponent,
     UserMenuComponent,
-    UserCredentialsComponent,
-    CredentialDialogComponent,
     MetricsComponent,
     CalendarComponent,
     EventDialogComponent,
@@ -74,6 +63,7 @@ export function tokenGetter() {
     AdminModule,
     MinistryModule,
     FinanceModule,
+    PersonModule,
     AppRoutingModule,
 
     BrowserModule,
@@ -109,8 +99,7 @@ export function tokenGetter() {
     { provide: HTTP_INTERCEPTORS, useClass: DateInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [CredentialDialogComponent, 
-                    EventDialogComponent,
+  entryComponents: [EventDialogComponent,
                     RoomDialogComponent,
                     EquipmentDialogComponent
                    ]

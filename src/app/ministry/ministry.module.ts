@@ -41,10 +41,9 @@ import { MinistryRoutingModule } from './ministry-routing.module';
     //Material
     MatInputModule,
     MatAutocompleteModule
-    // MatCheckboxModule
   ],
   exports: [
-    MinistryMemberListComponent,
+    MinistryMemberListComponent
   ],
   providers: [
     MinistryService,

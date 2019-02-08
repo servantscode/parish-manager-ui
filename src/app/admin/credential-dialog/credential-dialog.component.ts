@@ -4,8 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
-import { LoginService } from '../sccommon/services/login.service';
-import { RoleService } from '../admin/services/role.service';
+import { LoginService } from '../../sccommon/services/login.service';
+import { RoleService } from '../services/role.service';
 
 export interface PersonData {
   id: number;

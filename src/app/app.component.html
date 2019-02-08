@@ -6,7 +6,7 @@
   <div *ngIf="loginService.isAuthenticated()" class="nav">
     <div class="nav-bar">
       <span *ngIf="loginService.userCan('person.list')">
-        <a routerLink="/people" routerLinkActive="active">People</a><br>
+        <a routerLink="/person" routerLinkActive="active">People</a><br>
       </span>
       <span *ngIf="loginService.userCan('ministry.list')">
         <a routerLink="/ministry" routerLinkActive="active">Ministries</a><br>
