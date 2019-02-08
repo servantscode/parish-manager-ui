@@ -7,8 +7,8 @@ import { MessageService } from '../sccommon/services/message.service';
 import { BaseService } from '../sccommon/services/base.service';
 
 import { MetricsResponse } from '../metricsResponse';
-import { PledgeStatus } from '../pledgeStatus';
-import { DonationReport } from '../donation-report';
+import { PledgeStatus } from '../pledge-status';
+import { DonationReport } from '../finance/donation-report';
 
 const httpOptions = {
   headers: new HttpHeaders({

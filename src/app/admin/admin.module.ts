@@ -8,8 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-import { AdminRoutingModule } from './admin-routing.module';
 import { SCCommonModule } from '../sccommon/sccommon.module';
+
+import { AdminRoutingModule } from './admin-routing.module';
 
 import { RoleComponent } from './role/role.component';
 import { RoleDialogComponent } from './role-dialog/role-dialog.component';

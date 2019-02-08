@@ -29,13 +29,9 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 import { UserCredentialsComponent } from './user-credentials/user-credentials.component';
 import { CredentialDialogComponent } from './credential-dialog/credential-dialog.component';
 import { MetricsComponent } from './metrics/metrics.component';
-import { DonationComponent } from './donation/donation.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DateInterceptor } from './services/date-interceptor';
-import { DonationDialogComponent } from './donation-dialog/donation-dialog.component';
-import { PledgeDialogComponent } from './pledge-dialog/pledge-dialog.component';
-import { BulkDonationDialogComponent } from './bulk-donation-dialog/bulk-donation-dialog.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { EventDialogComponent } from './event-dialog/event-dialog.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -46,6 +42,7 @@ import { AvailabilityComponent } from './availability/availability.component';
 import { SCCommonModule } from './sccommon/sccommon.module';
 import { AdminModule } from './admin/admin.module';
 import { MinistryModule } from './ministry/ministry.module';
+import { FinanceModule } from './finance/finance.module';
 import { AppRoutingModule } from './app-routing.module';
 
 export function tokenGetter() {
@@ -65,10 +62,6 @@ export function tokenGetter() {
     UserCredentialsComponent,
     CredentialDialogComponent,
     MetricsComponent,
-    DonationComponent,
-    DonationDialogComponent,
-    PledgeDialogComponent,
-    BulkDonationDialogComponent,
     CalendarComponent,
     EventDialogComponent,
     SettingsComponent,
@@ -80,6 +73,7 @@ export function tokenGetter() {
     SCCommonModule,
     AdminModule,
     MinistryModule,
+    FinanceModule,
     AppRoutingModule,
 
     BrowserModule,
@@ -116,9 +110,6 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent],
   entryComponents: [CredentialDialogComponent, 
-                    DonationDialogComponent, 
-                    PledgeDialogComponent, 
-                    BulkDonationDialogComponent,
                     EventDialogComponent,
                     RoomDialogComponent,
                     EquipmentDialogComponent
