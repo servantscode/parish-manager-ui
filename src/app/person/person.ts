@@ -1,12 +1,14 @@
+import { Identifiable } from '../sccommon/identifiable';
+
 import { Family } from './family';
 
-export class Person {
+export class Person extends Identifiable {
 
   constructor() {
+    super();
     this.family = new Family();
   }
 
-  id: number;
   name: string;
   email: string;
   phoneNumber: string;
@@ -14,4 +16,8 @@ export class Person {
   family: Family;
   birthdate: Date;
   memberSince: Date;
+
+  public identify(): string { 
+    return name;
+  }
 }

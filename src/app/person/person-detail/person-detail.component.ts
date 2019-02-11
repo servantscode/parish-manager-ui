@@ -99,7 +99,7 @@ export class PersonDetailComponent implements OnInit {
       if(!this.loginService.userCan('person.read'))
         this.router.navigate(['not-found']);
 
-      this.personService.getPerson(this.personId).
+      this.personService.get(this.personId).
         subscribe(person => {
           if(person.family == null) {
             person.family = new Family();
@@ -148,14 +148,14 @@ export class PersonDetailComponent implements OnInit {
 
   save(): void {
     if(this.person.id > 0) {
-      this.personService.updatePerson(this.personForm.value).
+      this.personService.update(this.personForm.value).
         subscribe(person => {
           this.person = person;
           this.router.navigate(['person', 'detail', person.id]);
           this.editMode=false;
         });
     } else {
-      this.personService.createPerson(this.personForm.value).
+      this.personService.create(this.personForm.value).
         subscribe(person => {
           this.person = person;
           this.router.navigate(['person', 'detail', person.id]);

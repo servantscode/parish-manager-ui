@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { LoginService } from '../../sccommon/services/login.service';
+import { PersonService } from '../../person/services/person.service';
 
 import { CredentialService } from '../services/credential.service';
 import { RoleService } from '../services/role.service';
@@ -34,7 +35,8 @@ export class CredentialDialogComponent implements OnInit {
               private fb: FormBuilder,
               private loginService: LoginService,
               private credentialService: CredentialService,
-              private roleService: RoleService) { }
+              private roleService: RoleService,
+              private personService: PersonService) { }
 
   ngOnInit() {
     this.credentialForm.get('personId').setValue(this.data.id);

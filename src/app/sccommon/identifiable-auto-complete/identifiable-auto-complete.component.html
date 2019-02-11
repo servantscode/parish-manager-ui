@@ -1,0 +1,10 @@
+<form [formGroup]="autocompleteForm">
+  <mat-form-field>
+    <input type="text" formControlName="input" placeholder="label" aria-label="label" matInput [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="identifyItem" (optionSelected)="selectItem($event)">
+      <mat-option *ngFor="let item of filteredItems | async" [value]="item">
+        {{item.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

@@ -54,7 +54,7 @@ export class MinistryMemberListComponent implements OnInit {
       .pipe(
         debounceTime(300),
         map(value => typeof value === 'string' ? value : value.name),
-        switchMap(value => this.personService.getPeople(0, 10, value)
+        switchMap(value => this.personService.getPage(0, 10, value)
           .pipe(
               map(resp => resp.results
                 .filter(person => !this.enrollments.find(enrollment => enrollment.personId == person.id)))              

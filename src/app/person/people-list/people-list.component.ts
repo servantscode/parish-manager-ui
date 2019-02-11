@@ -100,7 +100,7 @@ export class PeopleListComponent implements OnInit {
     if(!this.loginService.userCan('person.list'))
       return;
 
-    this.personService.getPeople((this.page-1)*this.pageSize, this.pageSize, this.search)
+    this.personService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search)
       .subscribe(peopleResp => {
         this.items = peopleResp.results;
         this.totalCount = peopleResp.totalResults;

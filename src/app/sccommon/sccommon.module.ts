@@ -6,6 +6,7 @@ import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -16,6 +17,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { LoginComponent } from './login/login.component';
 
 import { LoginService } from './services/login.service';
+import { IdentifiableAutoCompleteComponent } from './identifiable-auto-complete/identifiable-auto-complete.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -25,7 +27,8 @@ export function tokenGetter() {
   declarations: [
     PaginatedListComponent,
     MessagesComponent,
-    LoginComponent
+    LoginComponent,
+    IdentifiableAutoCompleteComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -42,6 +45,7 @@ export function tokenGetter() {
     //Material
     MatDialogModule,
     MatInputModule,
+    MatAutocompleteModule,
 
     //JWT
     JwtModule.forRoot({
@@ -55,7 +59,8 @@ export function tokenGetter() {
   exports: [
     PaginatedListComponent,
     MessagesComponent,
-    LoginComponent
+    LoginComponent,
+    IdentifiableAutoCompleteComponent
   ],
   providers: [ LoginService ]
 })
