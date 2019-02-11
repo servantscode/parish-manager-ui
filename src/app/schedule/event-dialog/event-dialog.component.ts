@@ -8,7 +8,7 @@ import { startOfHour, endOfYear, addHours, addMinutes, addSeconds, setHours, set
 import { LoginService } from '../../sccommon/services/login.service';
 import { SCValidation } from '../../sccommon/validation';
 
-import { DataCleanupService } from '../../services/data-cleanup.service';
+import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
 import { MinistryService } from '../../ministry/services/ministry.service';
 import { Ministry } from '../../ministry/ministry';

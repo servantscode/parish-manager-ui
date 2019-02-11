@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import { ColorService } from '../../services/color.service'
-
+import { ColorService } from '../../sccommon/services/color.service'
 import { LoginService } from '../../sccommon/services/login.service';
 
 import { MetricsService } from '../services/metrics.service';

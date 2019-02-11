@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.loginForm.value).
       subscribe(
         () => {
-          this.router.navigate(['people']);
+          this.router.navigate(['person']);
         },
         err => {
           this.loginForm.get("password").setValue(null);

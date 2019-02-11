@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { LoginService } from '../../sccommon/services/login.service';
+import { ColorService } from '../../sccommon/services/color.service';
 
 import { ChartData } from '../../metrics/chart-data';
 import { MetricsService } from '../../metrics/services/metrics.service';
-
-import { ColorService } from '../../services/color.service';
 
 import { DonationReport } from '../donation-report';
 import { BulkDonationDialogComponent } from '../bulk-donation-dialog/bulk-donation-dialog.component';

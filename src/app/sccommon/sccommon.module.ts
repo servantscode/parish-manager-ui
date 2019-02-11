@@ -7,6 +7,8 @@ import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
+import { JwtModule } from '@auth0/angular-jwt';
+
 import { SCCommonRoutingModule } from './sccommon-routing.module';
 
 import { PaginatedListComponent } from './paginated-list/paginated-list.component';
@@ -14,6 +16,10 @@ import { MessagesComponent } from './messages/messages.component';
 import { LoginComponent } from './login/login.component';
 
 import { LoginService } from './services/login.service';
+
+export function tokenGetter() {
+  return localStorage.getItem('jwt-token');
+}
 
 @NgModule({
   declarations: [
@@ -35,7 +41,16 @@ import { LoginService } from './services/login.service';
 
     //Material
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+
+    //JWT
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: [/localhost(:\d+)?/i], // Allow any localhost port to be called
+        blacklistedRoutes: []
+      }
+    })
   ],
   exports: [
     PaginatedListComponent,

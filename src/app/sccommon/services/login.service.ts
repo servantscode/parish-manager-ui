@@ -88,7 +88,11 @@ export class LoginService extends BaseService {
   }
 
   public hasAny(permPrefix: string): boolean {
-    const decoded = this.jwtHelper.decodeToken(localStorage.getItem('jwt-token'));
+    const token = localStorage.getItem('jwt-token');
+    if(!token)
+      return false;
+
+    const decoded = this.jwtHelper.decodeToken(token);
     return decoded.permissions.some(perm => perm.startsWith(permPrefix) || perm.startsWith("*"));
   }
 

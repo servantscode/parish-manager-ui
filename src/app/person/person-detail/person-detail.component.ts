@@ -142,7 +142,7 @@ export class PersonDetailComponent implements OnInit {
     if(this.editMode && this.person.id > 0) {
       this.editMode = false;
     } else {
-      this.router.navigate(['people']);
+      this.router.navigate(['person']);
     }
   }
 

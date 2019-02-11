@@ -6,8 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
 import { LoginService } from '../../sccommon/services/login.service';
-
-import { ColorService } from '../../services/color.service';
+import { ColorService } from '../../sccommon/services/color.service';
 
 import { Event } from '../event';
 import { EventService } from '../services/event.service';

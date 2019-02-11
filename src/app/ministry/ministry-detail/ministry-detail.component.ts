@@ -97,7 +97,7 @@ export class MinistryDetailComponent implements OnInit {
     if(this.editMode && this.ministry.id > 0) {
       this.editMode = false;
     } else {
-      this.router.navigate(['ministries']);
+      this.router.navigate(['ministry']);
     }
   }
 

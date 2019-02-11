@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { SCValidation } from '../../sccommon/validation';
+import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
-import { DataCleanupService } from '../../services/data-cleanup.service';
 import { FamilyService } from '../../person/services/family.service';
 import { Family } from '../../person/family';
 
