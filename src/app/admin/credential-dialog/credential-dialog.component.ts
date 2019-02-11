@@ -51,7 +51,7 @@ export class CredentialDialogComponent implements OnInit {
 
   createCredential() {
     if(this.credentialForm.valid) {
-      this.credentialService.createCredentials(this.credentialForm.value).
+      this.credentialService.create(this.credentialForm.value).
         subscribe(() => {
           this.dialogRef.close();
         });

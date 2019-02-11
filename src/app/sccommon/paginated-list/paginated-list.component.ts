@@ -1,5 +1,6 @@
-import { Component, OnInit, HostListener, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, HostListener, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { Subject } from 'rxjs';
 
 import { PaginatedService } from '../services/paginated.service';
 import { LoginService } from '../services/login.service';
@@ -25,9 +26,14 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Input() pageSize: number = 20;
   @Input() dialogComponent = null;
 
+  @Input() selectable: boolean = false;
+  @Output() onSelect: EventEmitter<T> = new EventEmitter<T>(); 
+  @Input() refreshOn: Subject<any>;
+
   items: T[] = [];
 
   highlighted: T = null;
+  selected: T = null;
 
   page = 1;
   totalCount = 0;
@@ -40,6 +46,12 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   ngOnInit() {
     this.populateList();
+
+    if (this.refreshOn) {
+      this.refreshOn.subscribe((event) => {
+        this.populateList();
+      });
+    }
   }
 
   populateList() {
@@ -94,6 +106,19 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
       this.openDialogRef= null;
       this.populateList();
     });
+  }
+
+  edit(item: T) {
+    this.openModal(item);
+  }
+
+  clicked(item: T) {
+    if(this.selectable) {
+      this.selected = item;
+      this.onSelect.emit(item);
+    } else {
+      this.openModal(item);
+    }
   }
 
   highlight(item: any) {

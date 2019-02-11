@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Subject } from 'rxjs';
+
 import { RoleDialogComponent } from '../role-dialog/role-dialog.component';
+import { CredentialDialogComponent } from '../credential-dialog/credential-dialog.component';
+
+import { CredentialService } from '../services/credential.service';
 import { RoleService } from '../services/role.service';
+
+import { Role } from '../role';
 
 @Component({
   selector: 'app-role',
@@ -11,10 +18,25 @@ import { RoleService } from '../services/role.service';
 export class RoleComponent implements OnInit {
 
   RoleDialogComponent = RoleDialogComponent;
+  CredentialDialogComponent = CredentialDialogComponent;
 
-  constructor(private roleService: RoleService) { }
+  private refreshNeeded = new Subject<string>();
+
+  private selectedRole: Role;
+
+  constructor(private roleService: RoleService,
+              private credentialService: CredentialService) { }
 
   ngOnInit() {
   }
 
+  roleSelected(role: Role) {
+    this.credentialService.selectedRole=role;
+    this.selectedRole=role;
+    this.refreshNeeded.next(role.name);
+  }
+
+  ngOnDestroy() {
+    this.refreshNeeded.complete();
+  }
 }

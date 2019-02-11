@@ -1,8 +1,8 @@
 <div class="container rounded-rect">
   <h3>Roles</h3>
-  <app-paginated-list [dataService]="roleService" [fields]="['name']" [pageSize]='20' [dialogComponent]="RoleDialogComponent"></app-paginated-list>
+  <app-paginated-list [dataService]="roleService" [fields]="['name']" [pageSize]='5' [dialogComponent]="RoleDialogComponent" [selectable]='true' (onSelect)='roleSelected($event)'></app-paginated-list>
 </div>
-<div class="container rounded-rect">
-  <h3>Users</h3>
-  <app-paginated-list [dataService]="userRoleService" [fields]="['name', 'email']" [pageSize]='20' [dialogComponent]="RoleDialogComponent"></app-paginated-list>
+<div *ngIf="selectedRole" class="container rounded-rect">
+  <h3>{{selectedRole.name | titlecase }} Access</h3>
+  <app-paginated-list [dataService]="credentialService" [fields]="['name', 'email']" [pageSize]='20' [dialogComponent]="CredentialDialogComponent" [refreshOn]="refreshNeeded"></app-paginated-list>
 </div>

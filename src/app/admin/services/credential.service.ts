@@ -3,59 +3,50 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { BaseService } from '../../sccommon/services/base.service';
 import { MessageService } from '../../sccommon/services/message.service';
-// import { PaginatedService } from '../../sccommon/services/paginated.service';
+import { PaginatedService } from '../../sccommon/services/paginated.service';
+import { PaginatedResponse } from '../../sccommon/paginated.response';
+
 import { Credentials } from '../credentials';
 import { CredentialRequest } from '../credential-request';
+import { Role } from '../role';
 
 @Injectable({
   providedIn: 'root'
 })
-// export class CredentialService extends PaginatedService<Credentials> {
-export class CredentialService extends BaseService {
-  private url = 'http://localhost:8080/rest/login';
+export class CredentialService extends PaginatedService<Credentials> {
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-    })
-  };
-
+  public selectedRole:Role;
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService) {
-    super(http, messageService);
+    super('http://localhost:8080/rest/credentials', http, messageService);
   }
 
   public getPermissionType(): string {
     return "admin.login";
   }
 
-  public createCredentials(request: CredentialRequest): Observable<void> {
-    return this.http.post(this.url + "/new", request, this.httpOptions)
-      .pipe(
-        catchError(this.handleError('create credentials', null))
+  public getPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Credentials>> {
+    if(this.selectedRole == null) 
+      throw new Error("No selected role");
+
+    return this.http.get<PaginatedResponse<Credentials>>(this.url+`/role/${this.selectedRole.name}?start=${start}&count=${count}&partial_name=${search}`).pipe(
+        catchError(this.handleError('getPage', null))
       );
   }
 
-  public getCredentials(personId: number): Observable<Credentials> {
-    return this.http.get<Credentials>(this.url + "/person/" + personId, {
-                        headers: new HttpHeaders({
-                          'Accept': 'application/json'
-                        })
-                      });
-  }
-
-  public deleteCredentials(personId: number): Observable<boolean> {
-    return this.http.delete<any>(this.url + "/person/" + personId, {
-                        headers: new HttpHeaders({
-                          'Accept': 'application/json'
-                        })
-                      })
-      .pipe(
-        map(resp => resp.success),
-        catchError(this.handleError('revoke credentials', false))
+  public getCredsPage(role:string, start = 0, count = 10, search = ''): Observable<PaginatedResponse<Credentials>> {
+    return this.http.get<PaginatedResponse<Credentials>>(this.url+`/role/${role}?start=${start}&count=${count}&partial_name=${search}`).pipe(
+        catchError(this.handleError('getPage', null))
       );
   }
+
+  public delete(id: number): Observable<any> {
+    return this.http.delete<any>(this.url + `/${id}`).pipe(
+        tap(resp => this.log('Deleted!')),
+        catchError(this.handleError('delete', null))
+      );
+  }
+
 }

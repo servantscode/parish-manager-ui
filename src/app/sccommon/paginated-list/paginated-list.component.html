@@ -12,12 +12,16 @@
   <table>
     <thead>
       <tr>
+        <td *ngIf="selectable">&nbsp;</td>
         <th *ngFor="let field of fields">{{field | titlecase }}</th>
       </tr>
     </thead>
     <tbody (mouseleave)="highlight(null)">
-      <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}">
-        <td  *ngFor="let field of fields" (click)="openModal(item)">{{item[field]}}</td>
+      <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass]="{'highlight' : item === highlighted, 'selected' : item === selected}">
+        <td *ngIf="selectable" class="icon">
+          <div class="icon" (click)='edit(item)' [ngClass]="{'edit' : item === highlighted}">&nbsp;</div>
+        </td>
+        <td  *ngFor="let field of fields" (click)="clicked(item)">{{item[field]}}</td>
       </tr>
     </tbody>
   </table>

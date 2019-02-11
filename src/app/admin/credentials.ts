@@ -1,6 +1,15 @@
-export class Credentials {
+import { Identifiable } from '../sccommon/identifiable';
+
+export class Credentials extends Identifiable {
+  constructor() {
+    super();
+  }
+  
   name: string;
-  personId: number;
   email: string;
   role: string;
+
+  public identify(): string {
+    return name;
+  }
 }

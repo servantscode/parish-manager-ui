@@ -28,7 +28,7 @@ export class UserCredentialsComponent implements OnInit, OnChanges {
   }
 
   public revokeLogin() {
-    this.credentialService.deleteCredentials(this.personId).
+    this.credentialService.delete(this.personId).
       subscribe(success => {
         if(success) {
           this.hasLogin = false;
@@ -52,7 +52,7 @@ export class UserCredentialsComponent implements OnInit, OnChanges {
     if(this.personId <= 0)
       return;
 
-    this.credentialService.getCredentials(this.personId).
+    this.credentialService.get(this.personId).
         subscribe(credentials => {
             if( credentials !== null && 'role' in credentials) {
               this.role = credentials.role;
