@@ -17,8 +17,8 @@ export class RoleService extends PaginatedService<Role> {
     super('http://localhost:8080/rest/role', http, messageService);
   }
 
-  public getType(): string {
-    return "role";
+  public getPermissionType(): string {
+    return "admin.role";
   }
 
   public getRoleNames(): Observable<string[]> {

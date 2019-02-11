@@ -1,9 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { CredentialRequest } from '../credential-request';
 
 import { MessageService } from './message.service';
 import { BaseService } from './base.service';
@@ -39,33 +39,6 @@ export class LoginService extends BaseService {
       .pipe(
         tap(resp => this.doLogin(resp)),
         tap(() => this.log('Logged in as: ' + credentials.email))
-      );
-  }
-
-  public createCredentials(request: CredentialRequest): Observable<void> {
-    return this.http.post(this.url + "/new", request, this.httpOptions)
-      .pipe(
-        catchError(this.handleError('create credentials', null))
-      );
-  }
-
-  public getCredentials(personId: number): Observable<any> {
-    return this.http.get(this.url + "/person/" + personId, {
-                        headers: new HttpHeaders({
-                          'Accept': 'application/json'
-                        })
-                      });
-  }
-
-  public deleteCredentials(personId: number): Observable<boolean> {
-    return this.http.delete<any>(this.url + "/person/" + personId, {
-                        headers: new HttpHeaders({
-                          'Accept': 'application/json'
-                        })
-                      })
-      .pipe(
-        map(resp => resp.success),
-        catchError(this.handleError('revoke credentials', false))
       );
   }
 

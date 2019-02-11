@@ -26,6 +26,6 @@ export class UserMenuComponent implements OnInit {
   }
 
   userCanAdmin(): boolean {
-    return this.loginService.hasAny('role');
+    return this.loginService.hasAny('admin');
   }
 }

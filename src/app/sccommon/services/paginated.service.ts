@@ -22,7 +22,7 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
     super(http, messageService);
   }
 
-  public abstract getType(): string;
+  public abstract getPermissionType(): string;
 
   public getPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<T>> {
     return this.http.get<PaginatedResponse<T>>(this.url+`?start=${start}&count=${count}&partial_name=${search}`).pipe(

@@ -18,7 +18,7 @@ export class EquipmentService extends PaginatedService<Equipment> {
     super('http://localhost:84/rest/equipment', http, messageService);
   }
 
-  public getType(): string {
+  public getPermissionType(): string {
     return "room";
   }
 }

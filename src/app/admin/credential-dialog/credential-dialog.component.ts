@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { LoginService } from '../../sccommon/services/login.service';
+
+import { CredentialService } from '../services/credential.service';
 import { RoleService } from '../services/role.service';
 
 export interface PersonData {
@@ -31,6 +33,7 @@ export class CredentialDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: PersonData,
               private fb: FormBuilder,
               private loginService: LoginService,
+              private credentialService: CredentialService,
               private roleService: RoleService) { }
 
   ngOnInit() {
@@ -48,7 +51,7 @@ export class CredentialDialogComponent implements OnInit {
 
   createCredential() {
     if(this.credentialForm.valid) {
-      this.loginService.createCredentials(this.credentialForm.value).
+      this.credentialService.createCredentials(this.credentialForm.value).
         subscribe(() => {
           this.dialogRef.close();
         });

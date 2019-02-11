@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { LoginService } from '../../sccommon/services/login.service';
 
+import { CredentialService } from '../services/credential.service';
 import { CredentialDialogComponent } from '../credential-dialog/credential-dialog.component';
 
 @Component({
@@ -16,6 +17,7 @@ export class UserCredentialsComponent implements OnInit, OnChanges {
   private role: string;
 
   constructor(private loginService: LoginService,
+              private credentialService: CredentialService,
               private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -26,7 +28,7 @@ export class UserCredentialsComponent implements OnInit, OnChanges {
   }
 
   public revokeLogin() {
-    this.loginService.deleteCredentials(this.personId).
+    this.credentialService.deleteCredentials(this.personId).
       subscribe(success => {
         if(success) {
           this.hasLogin = false;
@@ -50,7 +52,7 @@ export class UserCredentialsComponent implements OnInit, OnChanges {
     if(this.personId <= 0)
       return;
 
-    this.loginService.getCredentials(this.personId).
+    this.credentialService.getCredentials(this.personId).
         subscribe(credentials => {
             if( credentials !== null && 'role' in credentials) {
               this.role = credentials.role;

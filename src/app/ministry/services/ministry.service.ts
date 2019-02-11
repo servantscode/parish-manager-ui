@@ -16,7 +16,7 @@ export class MinistryService extends PaginatedService<Ministry> {
     super('http://localhost:81/rest/ministry', http, messageService);
   }
 
-  public getType(): string {
+  public getPermissionType(): string {
     return "ministry";
   }
 }

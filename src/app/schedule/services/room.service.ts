@@ -18,7 +18,7 @@ export class RoomService extends PaginatedService<Room> {
     super('http://localhost:84/rest/room', http, messageService);
   }
 
-  public getType(): string {
+  public getPermissionType(): string {
     return "room";
   }
 
