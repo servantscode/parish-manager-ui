@@ -15,27 +15,11 @@
           <td *ngIf="columns.includes('role')">{{enrollment.role}}</td>
         </tr>
         <tr *ngIf="newEnrollment">
-          <input type="hidden" formControlName="ministryId">
-          <input type="hidden" formControlName="personId"/>
           <td *ngIf="columns.includes('ministry')">
-            <mat-form-field>
-              <input type="text" placeholder="Ministry" aria-label="Ministry Name" matInput formControlName="ministryName" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete" [displayWith]="selectMinistryName" (optionSelected)="selectMinistry($event)">
-                <mat-option *ngFor="let ministry of filteredMinistries | async" [value]="ministry">
-                  {{ministry.name}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
+            <app-sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService" [required]="true" [filter]="ministryFilter()"></app-sc-auto-complete>
           </td>
           <td *ngIf="columns.includes('member')">
-            <mat-form-field>
-              <input type="text" placeholder="Name" aria-label="Member Name" matInput formControlName="personName" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete" [displayWith]="selectName" (optionSelected)="selectPerson($event)">
-                <mat-option *ngFor="let person of filteredPersons | async" [value]="person">
-                  {{person.name}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
+            <app-sc-auto-complete formControlName="personId" label='Name' [autocompleteService]="personService" [required]="true" [filter]="peopleFilter()"></app-sc-auto-complete>            
           </td>
           <td *ngIf="columns.includes('role')">
             <mat-form-field appearance="standard" class="input-standard">
@@ -48,7 +32,7 @@
     </table>
   </div>
   <div *ngIf="!newEnrollment && (ministryId > 0 || personId > 0) && loginService.userCan('ministry.enrollment.create')" class="container-fluid align-right">
-    <button type="button" class="btn btn-primary" (click)="newMembership()">Add...</button>
+    <button type="button" class="btn btn-primary" (click)="showMembershipForm()">Add...</button>
   </div>
   <div *ngIf="newEnrollment" class="container-fluid align-right">
     <button class="btn btn-primary" type="submit" [disabled]="!enrollmentForm.valid">Save</button>

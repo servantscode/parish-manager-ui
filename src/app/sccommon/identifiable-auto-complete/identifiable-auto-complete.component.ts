@@ -7,7 +7,7 @@ import { PaginatedService } from '../services/paginated.service';
 import { Identifiable } from '../identifiable';
 
 @Component({
-  selector: 'app-identifiable-auto-complete',
+  selector: 'app-sc-auto-complete',
   templateUrl: './identifiable-auto-complete.component.html',
   styleUrls: ['./identifiable-auto-complete.component.scss'],
   providers: [
@@ -26,6 +26,8 @@ export class IdentifiableAutoCompleteComponent<T extends Identifiable> implement
 
   @Input() selectIdentity = false;
   @Input() autocompleteService: PaginatedService<T>
+
+  @Input() filter: any = () => { };
 
   filteredItems: Observable<T[]>;
   private selected: T;
@@ -72,7 +74,7 @@ export class IdentifiableAutoCompleteComponent<T extends Identifiable> implement
           debounceTime(300),
           map(value => typeof value === 'string' ? value : value.identify()),
           switchMap(value => this.autocompleteService.getPage(0, 10, value)
-              .pipe(map(resp => resp.results))
+              .pipe(map(resp => (this.filter? this.filter(resp.results): resp.results)))
             )
         );
     }

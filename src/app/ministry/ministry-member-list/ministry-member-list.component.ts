@@ -29,14 +29,9 @@ export class MinistryMemberListComponent implements OnInit {
   enrollments: Enrollment[];
   newEnrollment = false;
 
-  filteredPersons: Observable<Person[]>;
-  filteredMinistries: Observable<Ministry[]>;
-
   enrollmentForm = this.fb.group({
       personId: ['', Validators.required],
-      personName: [''],
       ministryId: ['', Validators.required],
-      ministryName: '',
       role: ['', Validators.required]
     });
 
@@ -49,44 +44,38 @@ export class MinistryMemberListComponent implements OnInit {
               private ministryService: MinistryService,
               private fb: FormBuilder) { }
 
-  ngOnInit() {
-    this.filteredPersons = this.enrollmentForm.get('personName').valueChanges
-      .pipe(
-        debounceTime(300),
-        map(value => typeof value === 'string' ? value : value.name),
-        switchMap(value => this.personService.getPage(0, 10, value)
-          .pipe(
-              map(resp => resp.results
-                .filter(person => !this.enrollments.find(enrollment => enrollment.personId == person.id)))              
-            ))
-      );
-
-    this.filteredMinistries = this.enrollmentForm.get('ministryName').valueChanges
-      .pipe(
-        debounceTime(300),
-        map(value => typeof value === 'string' ? value : value.name),
-        switchMap(value => this.ministryService.getPage(0, 10, value)
-          .pipe(
-              map(resp => resp.results
-                .filter(ministry => !this.enrollments.find(enrollment => enrollment.ministryId == ministry.id)))              
-            ))
-      );
-  }
+  ngOnInit() { }
 
   ngOnChanges() {
-    if(this.ministryId !== 0 && this.ministryId !== undefined) {
+    this.loadEnrollments();
+  }
+
+  loadEnrollments() {
+    if(this.ministryId) {
       this.enrollmentService.getEnrollmentsForMinistry(this.ministryId).
         subscribe(enrollments => {
           this.enrollments = enrollments;
         });
     }
 
-    if(this.personId !== 0 && this.personId !== undefined) {
+    if(this.personId) {
       this.enrollmentService.getEnrollmentsForPerson(this.personId).
         subscribe(enrollments => {
           this.enrollments = enrollments;
         });
     }
+  }
+
+  peopleFilter() {
+    return function(people: Person[]) {
+          return people.filter(person => !this.enrollments.find(enrollment => enrollment.personId == person.id));
+      }.bind(this);
+  }
+
+ ministryFilter() {
+    return function(ministries: Ministry[]) {
+      return ministries.filter(ministry => !this.enrollments.find(enrollment => enrollment.ministryId == ministry.id));
+      }.bind(this);
   }
 
   highlightEnrollment(enrollment: Enrollment) {
@@ -105,25 +94,10 @@ export class MinistryMemberListComponent implements OnInit {
     }
   }
 
-  newMembership(): void {
-    if(!this.loginService.userCan('ministry.enrollment.create')) 
-      return;
-
+  showMembershipForm(): void {
     this.newEnrollment = true;
     this.enrollmentForm.get('ministryId').setValue(this.ministryId);
     this.enrollmentForm.get('personId').setValue(this.personId);
-  }
-
-  selectPerson(event: any): void {
-    var selected = event.option.value;
-    this.enrollmentForm.get('personName').setValue(selected.name);
-    this.enrollmentForm.get('personId').setValue(selected.id);
-  }
-
-  selectMinistry(event: any): void {
-    var selected = event.option.value;
-    this.enrollmentForm.get('ministryName').setValue(selected.name);
-    this.enrollmentForm.get('ministryId').setValue(selected.id);
   }
 
   addMembership() {
@@ -132,7 +106,7 @@ export class MinistryMemberListComponent implements OnInit {
 
     this.enrollmentService.createEnrollment(this.enrollmentForm.value).
         subscribe(() => {
-          this.enrollments.push(this.enrollmentForm.value);
+          this.loadEnrollments();
           this.clearEnrollmentForm();
         });
   }
@@ -141,13 +115,4 @@ export class MinistryMemberListComponent implements OnInit {
     this.newEnrollment = false;
     this.enrollmentForm.reset();
   }
-
-  selectName(person?: Person): string | undefined {
-    return person ? typeof person === 'string' ? person : person.name : undefined;
-  }
-
-  selectMinistryName(ministry?: Ministry): string | undefined {
-    return ministry ? typeof ministry === 'string' ? ministry : ministry.name : undefined;
-  }
-
 }

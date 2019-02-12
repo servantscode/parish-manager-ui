@@ -17,7 +17,6 @@ import { CredentialDialogComponent } from './credential-dialog/credential-dialog
 import { PermissionTreeComponent } from './permission-tree/permission-tree.component';
 import { RoleComponent } from './role/role.component';
 import { RoleDialogComponent } from './role-dialog/role-dialog.component';
-import { UserCredentialsComponent } from './user-credentials/user-credentials.component';
 
 import { RoleService } from './services/role.service';
 
@@ -26,8 +25,7 @@ import { RoleService } from './services/role.service';
     CredentialDialogComponent,
     PermissionTreeComponent,
     RoleComponent,
-    RoleDialogComponent,
-    UserCredentialsComponent
+    RoleDialogComponent
   ],
   imports: [
     AdminRoutingModule,
@@ -47,7 +45,6 @@ import { RoleService } from './services/role.service';
     MatCheckboxModule
   ],
   exports: [
-    UserCredentialsComponent
   ],
   providers: [
     RoleService
