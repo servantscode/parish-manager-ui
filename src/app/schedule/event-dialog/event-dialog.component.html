@@ -32,17 +32,11 @@
           <input type="text" matInput formControlName="endTime" autocomplete="off" (blur)="formatTime('endTime')" required/>
         </mat-form-field><br/>
 
-        <mat-form-field class="input-standard">
-          <input type="text" placeholder="Ministry" aria-label="Ministry Name" matInput formControlName="ministryName" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="selectMinistryName" (optionSelected)="selectMinistry($event)">
-            <mat-option *ngFor="let ministry of filteredMinistries | async" [value]="ministry">
-              {{ministry.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field><br/>
+        <app-sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService"></app-sc-auto-complete>
+
+        <br/>
         <input type="hidden" autocomplete="off" formControlName="id"/>
         <input type="hidden" autocomplete="off" formControlName="schedulerId"/>
-        <input type="hidden" autocomplete="off" formControlName="ministryId">
       </div>
 
       <div class="col">

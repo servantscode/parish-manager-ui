@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { FormsModule } from '@angular/forms';
 
 import { MatInputModule } from '@angular/material/input';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -39,8 +38,7 @@ import { MinistryRoutingModule } from './ministry-routing.module';
     NgbModule,
 
     //Material
-    MatInputModule,
-    MatAutocompleteModule
+    MatInputModule
   ],
   exports: [
     MinistryMemberListComponent

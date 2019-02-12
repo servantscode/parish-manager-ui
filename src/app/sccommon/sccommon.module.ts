@@ -17,7 +17,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { LoginComponent } from './login/login.component';
 
 import { LoginService } from './services/login.service';
-import { IdentifiableAutoCompleteComponent } from './identifiable-auto-complete/identifiable-auto-complete.component';
+import { ScAutoCompleteComponent } from './sc-auto-complete/sc-auto-complete.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -28,7 +28,7 @@ export function tokenGetter() {
     PaginatedListComponent,
     MessagesComponent,
     LoginComponent,
-    IdentifiableAutoCompleteComponent
+    ScAutoCompleteComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -60,7 +60,7 @@ export function tokenGetter() {
     PaginatedListComponent,
     MessagesComponent,
     LoginComponent,
-    IdentifiableAutoCompleteComponent
+    ScAutoCompleteComponent
   ],
   providers: [ LoginService ]
 })

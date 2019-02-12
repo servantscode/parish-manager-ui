@@ -23,7 +23,6 @@ import { DonationPrediction } from '../donation-prediction';
 export class BulkDonationDialogComponent implements OnInit {
 
   filteredTypes: Observable<string[]>[] = [];
-  filteredFamilies: Observable<Family[]>[] = [];
 
   donationForm = this.fb.group({
       donationDate: [new Date(), Validators.required],
@@ -58,7 +57,6 @@ export class BulkDonationDialogComponent implements OnInit {
     const control = <FormArray>this.donationForm.controls['donations'];
     control.removeAt(i);
     this.filteredTypes.splice(i, 1);
-    this.filteredFamilies.splice(i, 1);
     if(control.length == 0) {
       this.cancel();
     }
@@ -68,7 +66,6 @@ export class BulkDonationDialogComponent implements OnInit {
     var group = this.fb.group({
       envelopeNumber: [''],
       familyId: ['', Validators.required],
-      familyName: [''],
       amount: ['', [Validators.required, Validators.pattern(SCValidation.USD)]],
       donationType: ['', Validators.required],
       checkNumber: ['', Validators.pattern(SCValidation.NUMBER)],
@@ -82,17 +79,6 @@ export class BulkDonationDialogComponent implements OnInit {
           switchMap(value => (value === null)? null: this.donationService.getDonationTypes()
             .pipe(
                 map(resp => resp.filter(type => type.startsWith(value.toUpperCase())))              
-              ))
-        ));
-
-    this.filteredFamilies.push(
-      group.get('familyName').valueChanges
-        .pipe(
-          debounceTime(300),
-          map(value => typeof value === 'string' ? value : value.name),
-          switchMap(value => this.familyService.getFamilies(0, 10, value)
-            .pipe(
-                map(resp => resp.results)              
               ))
         ));
 
@@ -147,15 +133,15 @@ export class BulkDonationDialogComponent implements OnInit {
     this.dialogRef.close();    
   }
 
-  selectFamily(event: any, i: number): void {
-    var selected = event.option.value;
-    (<FormArray>this.donationForm.controls['donations']).controls[i].get('familyId').setValue(selected.id);
-    this.predict(i, 'familyId');
-  }
+  // selectFamily(event: any, i: number): void {
+  //   var selected = event.option.value;
+  //   (<FormArray>this.donationForm.controls['donations']).controls[i].get('familyId').setValue(selected.id);
+  //   this.predict(i, 'familyId');
+  // }
 
-  selectFamilyName(family?: Family): string | undefined {
-    return family ? typeof family === 'string' ? family : family.surname : undefined;
-  }
+  // selectFamilyName(family?: Family): string | undefined {
+  //   return family ? typeof family === 'string' ? family : family.surname : undefined;
+  // }
 
   predict(i: number, type: string): void {
     var group = (<FormArray>this.donationForm.controls['donations']).controls[i];

@@ -26,21 +26,11 @@
           <td>
             <mat-form-field appearance="standard" class="input-5">
               <mat-label>Envelope #</mat-label>
-              <input type="text" matInput formControlName="envelopeNumber" (change)="predict(i, 'envelopeNumber')"autocomplete="off"/>
+              <input type="text" matInput formControlName="envelopeNumber" (change)="predict(i, 'envelopeNumber')" autocomplete="off"/>
             </mat-form-field><br/>
           </td>
           <td>
-            <!-- Family -->
-            <input type="hidden" autocomplete="off" formControlName="familyId"/>
-
-            <mat-form-field class="input-small">
-              <input type="text" placeholder="Family Name" aria-label="Family Name" matInput formControlName="familyName"  [matAutocomplete]="familyAuto" required>
-              <mat-autocomplete #familyAuto="matAutocomplete" autoActiveFirstOption [displayWith]="selectFamilyName" (optionSelected)="selectFamily($event, i)">
-                <mat-option *ngFor="let family of filteredFamilies[i] | async" [value]="family">
-                  {{family.surname}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
+            <app-sc-auto-complete formControlName="familyId" label='Family Name' [autocompleteService]="familyService" [required]="true" (change)="predict(i, 'familyId')"></app-sc-auto-complete>
           </td>
           <td>
             <mat-form-field appearance="standard" class="input-5">

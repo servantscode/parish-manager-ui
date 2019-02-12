@@ -75,7 +75,7 @@ export class FamilyDetailComponent implements OnInit {
       if(!this.loginService.userCan('family.read'))
         this.router.navigate(['not-found']);
 
-      this.familyService.getFamily(id).
+      this.familyService.get(id).
         subscribe(family => {
           this.family = family;
           this.familyForm.patchValue(family);
@@ -125,7 +125,7 @@ export class FamilyDetailComponent implements OnInit {
       if(!this.loginService.userCan('family.update'))
         this.router.navigate(['not-found']);
 
-      this.familyService.updateFamily(this.familyForm.value).
+      this.familyService.update(this.familyForm.value).
         subscribe(family => {
           this.family = family;
           this.editMode = false;
@@ -135,7 +135,7 @@ export class FamilyDetailComponent implements OnInit {
       if(!this.loginService.userCan('family.create'))
         this.router.navigate(['not-found']);
 
-      this.familyService.createFamily(this.familyForm.value).
+      this.familyService.create(this.familyForm.value).
         subscribe(family => {
           this.family = family;
           this.editMode = false;

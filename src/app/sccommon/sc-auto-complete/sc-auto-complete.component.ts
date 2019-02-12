@@ -8,17 +8,17 @@ import { Identifiable } from '../identifiable';
 
 @Component({
   selector: 'app-sc-auto-complete',
-  templateUrl: './identifiable-auto-complete.component.html',
-  styleUrls: ['./identifiable-auto-complete.component.scss'],
+  templateUrl: './sc-auto-complete.component.html',
+  styleUrls: ['./sc-auto-complete.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => IdentifiableAutoCompleteComponent),
+      useExisting: forwardRef(() => ScAutoCompleteComponent),
       multi: true
     }
   ]
 })
-export class IdentifiableAutoCompleteComponent<T extends Identifiable> implements ControlValueAccessor, OnInit {
+export class ScAutoCompleteComponent<T extends Identifiable> implements ControlValueAccessor, OnInit {
   @Input() label = 'AutoSelect';
   @Input('value') _value;
   @Input() required = false;
@@ -27,7 +27,7 @@ export class IdentifiableAutoCompleteComponent<T extends Identifiable> implement
   @Input() selectIdentity = false;
   @Input() autocompleteService: PaginatedService<T>
 
-  @Input() filter: any = () => { };
+  @Input() filter;
 
   filteredItems: Observable<T[]>;
   private selected: T;

@@ -36,7 +36,6 @@ export class EventDialogComponent implements OnInit {
       endTime:['', [Validators.required, Validators.pattern(SCValidation.TIME)]],
       schedulerId:['', [Validators.required, Validators.pattern(SCValidation.NUMBER)]],
       ministryId:[''],
-      ministryName:[''], 
       room:[''],
       equipment:[''],
       setupTime:[0, [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
@@ -54,8 +53,6 @@ export class EventDialogComponent implements OnInit {
       saturday: [false],
       sunday: [false]
     });
-
-  filteredMinistries: Observable<Ministry[]>;
 
   addingRoom = false;
   filteredRooms: Observable<Room[]>;
@@ -91,16 +88,6 @@ export class EventDialogComponent implements OnInit {
       if(!this.loginService.userCan('event.update'))
         this.disableAll();
     }
-
-    this.filteredMinistries = this.eventForm.get('ministryName').valueChanges
-      .pipe(
-        debounceTime(300),
-        map(value => typeof value === 'string' ? value : value.name),
-        switchMap(value => this.ministryService.getPage(0, 10, value)
-          .pipe(
-              map(resp => resp.results)
-            ))
-      );
 
     this.filteredRooms = this.eventForm.get('room').valueChanges
       .pipe(
@@ -250,16 +237,6 @@ export class EventDialogComponent implements OnInit {
     }
   }
 
-  selectMinistry(event: any): void {
-    var selected = event.option.value;
-    this.eventForm.get('ministryName').setValue(selected.name);
-    this.eventForm.get('ministryId').setValue(selected.id);
-  }
-
-  selectMinistryName(ministry?: Ministry): string | undefined {
-    return ministry ? typeof ministry === 'string' ? ministry : ministry.name : undefined;
-  }
-
   selectRoomName(room?: Room): string | undefined {
     return room ? typeof room === 'string' ? room : room.name : undefined;
   }
@@ -324,7 +301,6 @@ export class EventDialogComponent implements OnInit {
     this.eventForm.get('endDate').setValue(eventData.end);
     this.eventForm.get('endTime').setValue(this.formatTimeString(eventData.end));
     this.eventForm.get('schedulerId').setValue(eventData.schedulerId);
-    this.eventForm.get('ministryName').setValue(eventData.ministryName);
     this.eventForm.get('ministryId').setValue(eventData.ministryId);
 
     if(eventData.reservations != undefined && eventData.reservations != null) {
@@ -376,7 +352,6 @@ export class EventDialogComponent implements OnInit {
     event.startTime = this.mergeDatetime(formData.startDate, formData.startTime);
     event.endTime = this.mergeDatetime(formData.endDate, formData.endTime);
     event.schedulerId = formData.schedulerId;
-    event.ministryName = formData.ministryName;
     event.ministryId = formData.ministryId;
 
     for(let room of this.rooms) {

@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from '../../sccommon/services/message.service';
-import { BaseService } from '../../sccommon/services/base.service';
+import { PaginatedService } from '../../sccommon/services/paginated.service';
 import { PaginatedResponse } from '../../sccommon/paginated.response';
 
 import { Family } from '../family';
@@ -19,37 +19,18 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class FamilyService extends BaseService {
-  private url = 'http://localhost/rest/family'
+export class FamilyService extends PaginatedService<Family> {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService) { 
-    super(http, messageService);
+    super('http://localhost/rest/family', http, messageService);
   }
 
-  getFamilies(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Family>> {
-    return this.http.get<PaginatedResponse<Family>>(this.url+`?start=${start}&count=${count}&partial_name=${search}`).pipe(
-        catchError(this.handleError('getFamilies', null))
-      );
+  public getPermissionType(): string {
+    return "family";
   }
 
-  getFamily(id: number): Observable<Family> {
-    return this.http.get<Family>(this.url + `/${id}`).pipe(
-        catchError(this.handleError('getFamily', null))
-      );
-  }
-
-  createFamily(family: Family): Observable<Family> {
-    return this.http.post<Family>(this.url, family, httpOptions).pipe(
-        tap(family => this.log('Created family ' + family.surname)),
-        catchError(this.handleError('createFamily', null))
-      );
-  }
-
-  updateFamily(family: Family): Observable<Family> {
-    return this.http.put<Family>(this.url, family, httpOptions).pipe(
-        tap(family => this.log('Updated family ' + family.surname)),
-        catchError(this.handleError('updateFamily', null))
-      );
+  public getTemplate(): Family {
+    return new Family().asTemplate();
   }
 }

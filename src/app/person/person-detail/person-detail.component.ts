@@ -112,7 +112,7 @@ export class PersonDetailComponent implements OnInit {
         this.router.navigate(['not-found']);
 
       this.editMode = true;
-      this.familyService.getFamily(familyId).
+      this.familyService.get(familyId).
         subscribe(family => {
           this.person.family = family;
           this.personForm.patchValue(this.person);
