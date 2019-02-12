@@ -9,6 +9,17 @@ export class Ministry extends Identifiable {
   name: string;
 
   public identify(): string {
-    return name;
+    return this.name;
+  }
+
+  public identifyAs(identity: string): Ministry {
+    this.name=identity;
+    return this;
+  }
+
+  public asTemplate(): Ministry {
+    this.id=0;
+    this.name="";
+    return this;
   }
 }

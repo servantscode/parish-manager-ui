@@ -9,6 +9,18 @@ export class Role extends Identifiable {
   permissions: string[];
 
   public identify(): string {
-    return name;
+    return this.name;
+  }
+
+  public identifyAs(identity: string): Role {
+    this.name=identity;
+    return this;
+  }
+
+  public asTemplate(): Role {
+    this.id=0;
+    this.name="";
+    this.permissions=[];
+    return this;
   }
 }

@@ -19,4 +19,8 @@ export class MinistryService extends PaginatedService<Ministry> {
   public getPermissionType(): string {
     return "ministry";
   }
+
+  public getTemplate(): Ministry {
+    return new Ministry().asTemplate();
+  }
 }

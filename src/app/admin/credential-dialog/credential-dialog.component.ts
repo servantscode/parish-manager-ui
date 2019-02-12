@@ -4,15 +4,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
-import { LoginService } from '../../sccommon/services/login.service';
 import { PersonService } from '../../person/services/person.service';
 
 import { CredentialService } from '../services/credential.service';
 import { RoleService } from '../services/role.service';
-
-export interface PersonData {
-  id: number;
-}
 
 @Component({
   selector: 'app-credential-dialog',
@@ -21,8 +16,10 @@ export interface PersonData {
 })
 export class CredentialDialogComponent implements OnInit {
 
+  createNew: boolean = true;
+
   credentialForm = this.fb.group({
-      personId: ['', Validators.required],
+      id: ['', Validators.required],
       role: ['', Validators.required],
       password: ['', Validators.required]
     });
@@ -31,32 +28,33 @@ export class CredentialDialogComponent implements OnInit {
   filteredRoles: Observable<string[]>;
 
   constructor(public dialogRef: MatDialogRef<CredentialDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: PersonData,
+              @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
-              private loginService: LoginService,
               private credentialService: CredentialService,
               private roleService: RoleService,
               private personService: PersonService) { }
 
   ngOnInit() {
-    this.credentialForm.get('personId').setValue(this.data.id);
-
-    this.filteredRoles = this.credentialForm.get('role').valueChanges
-      .pipe(
-        debounceTime(300),
-        switchMap(value => this.roleService.getRoleNames()
-          .pipe(
-              map(resp => resp.filter(role => role.startsWith(value)))              
-            ))
-      );
+    if(this.data.item) {
+      this.credentialForm.patchValue(this.data.item);
+      this.createNew = false;
+      this.credentialForm.get("password").clearValidators();
+    }
   }
 
   createCredential() {
     if(this.credentialForm.valid) {
-      this.credentialService.create(this.credentialForm.value).
-        subscribe(() => {
-          this.dialogRef.close();
-        });
+      if(this.createNew) {
+        this.credentialService.create(this.credentialForm.value).
+          subscribe(() => {
+            this.dialogRef.close();
+          });
+      } else {
+        this.credentialService.update(this.credentialForm.value).
+          subscribe(() => {
+            this.dialogRef.close();
+          });
+      }
     } else {
       this.cancel();
     }
@@ -64,5 +62,9 @@ export class CredentialDialogComponent implements OnInit {
 
   cancel() {
     this.dialogRef.close();    
+  }
+
+  formData() {
+    alert(JSON.stringify(this.credentialForm.value));
   }
 }

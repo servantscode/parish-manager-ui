@@ -27,6 +27,10 @@ export class CredentialService extends PaginatedService<Credentials> {
     return "admin.login";
   }
 
+  public getTemplate(): Credentials {
+    return new Credentials().asTemplate();
+  }
+
   public getPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Credentials>> {
     if(this.selectedRole == null) 
       throw new Error("No selected role");

@@ -1,5 +1,5 @@
 export class CredentialRequest {
-  personId: number;
+  id: number;
   password: string;
   role: string;
 }

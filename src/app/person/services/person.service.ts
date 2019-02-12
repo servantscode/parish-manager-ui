@@ -29,4 +29,8 @@ export class PersonService extends PaginatedService<Person> {
   public getPermissionType(): string {
     return "person";
   }
+
+  public getTemplate(): Person {
+    return new Person().asTemplate();
+  }
 }

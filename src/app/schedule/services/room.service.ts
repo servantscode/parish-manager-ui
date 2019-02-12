@@ -22,6 +22,10 @@ export class RoomService extends PaginatedService<Room> {
     return "room";
   }
 
+  public getTemplate(): Room {
+    return new Room().asTemplate();
+  }
+
   getRoomTypes(): Observable<string[]> {
     return this.http.get(this.url + '/types').pipe(
         catchError(this.handleError('getRoomTypes', null))

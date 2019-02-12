@@ -21,4 +21,8 @@ export class EquipmentService extends PaginatedService<Equipment> {
   public getPermissionType(): string {
     return "room";
   }
+
+  public getTemplate(): Equipment {
+    return new Equipment().asTemplate();
+  }
 }
