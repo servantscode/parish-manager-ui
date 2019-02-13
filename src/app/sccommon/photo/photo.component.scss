@@ -1,0 +1,26 @@
+.photo {
+  height:100%;
+}
+
+img {
+  height:100%;
+}
+
+.floater-holder {  
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  visibility: hidden;
+}
+
+.floater {
+  background-color: #bbbbbb;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.photo:hover .floater-holder {
+  visibility: visible;
+}

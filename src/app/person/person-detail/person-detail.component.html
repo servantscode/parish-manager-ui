@@ -3,7 +3,7 @@
 
 <div *ngIf="!editMode">
   <div class="container rounded-rect">
-   <h3>Personal Details</h3>
+    <h3>Personal Details</h3>
     <div class="row">
       <div class="col">
         Name: {{person.name}}<br/>
@@ -14,6 +14,9 @@
       <div class="col">
         Birthdate: {{person.birthdate | date: 'MM/dd/yyyy'}}<br/>
         Member Since: {{person.memberSince | date: 'MM/dd/yyyy'}}
+      </div>
+      <div class="col-auto">
+        <app-photo class="portrait" [guid]="person.photoGuid" [altText]="person.name" (photoStored)="attachPhoto($event)"></app-photo>
       </div>
     </div>
   </div>

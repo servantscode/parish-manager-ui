@@ -7,6 +7,7 @@ export class Ministry extends Identifiable {
   }
 
   name: string;
+  description: string
 
   public identify(): string {
     return this.name;
@@ -20,6 +21,7 @@ export class Ministry extends Identifiable {
   public asTemplate(): Ministry {
     this.id=0;
     this.name="";
+    this.description="";
     return this;
   }
 }

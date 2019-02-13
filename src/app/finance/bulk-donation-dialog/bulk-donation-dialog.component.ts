@@ -133,16 +133,6 @@ export class BulkDonationDialogComponent implements OnInit {
     this.dialogRef.close();    
   }
 
-  // selectFamily(event: any, i: number): void {
-  //   var selected = event.option.value;
-  //   (<FormArray>this.donationForm.controls['donations']).controls[i].get('familyId').setValue(selected.id);
-  //   this.predict(i, 'familyId');
-  // }
-
-  // selectFamilyName(family?: Family): string | undefined {
-  //   return family ? typeof family === 'string' ? family : family.surname : undefined;
-  // }
-
   predict(i: number, type: string): void {
     var group = (<FormArray>this.donationForm.controls['donations']).controls[i];
     var familyId = (type === 'familyId')? group.get("familyId").value: 0;

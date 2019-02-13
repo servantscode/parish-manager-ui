@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 
 import { LoginService } from '../../sccommon/services/login.service';
+import { PhotoService } from '../../sccommon/services/photo.service';
 import { SCValidation } from '../../sccommon/validation';
 
 import { Person } from '../person';
@@ -58,6 +59,7 @@ export class PersonDetailComponent implements OnInit {
               private personService: PersonService,
               private familyService: FamilyService,
               private loginService: LoginService,  
+              private photoService: PhotoService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -181,5 +183,12 @@ export class PersonDetailComponent implements OnInit {
 
   enableEdit(): void {
     this.editMode=true;
+  }
+
+  attachPhoto(guid: any): void {
+    this.personService.attachPhoto(this.person.id, guid)
+    .subscribe(() => {
+      this.person.photoGuid = guid
+    });
   }
 }

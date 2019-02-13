@@ -1,0 +1,11 @@
+<div class="photo">
+  <img [src]="imageData"
+       [alt]="altText"
+       *ngIf="!isImageLoading && imageData; else noImageFound">
+  <ng-template #noImageFound>
+       <img src="../../../assets/images/generic-person.png" alt="No photo">
+  </ng-template>
+  <div class="floater-holder">
+    <span class="floater" (click)="addPhoto()">Add photo...</span>
+  </div>
+</div>

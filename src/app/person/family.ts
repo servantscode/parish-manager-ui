@@ -15,6 +15,7 @@ export class Family extends Identifiable {
   envelopeNumber: number;
   address: Address;
   members: Person[];
+  photoGuid: string;
 
   public identify(): string {
     return this.surname;
@@ -32,6 +33,7 @@ export class Family extends Identifiable {
     this.envelopeNumber=0;
     this.address = new Address();
     this.members = [];
+    this.photoGuid="";
     return this;
   }
 }

@@ -16,6 +16,7 @@ export class Person extends Identifiable {
   family: Family;
   birthdate: Date;
   memberSince: Date;
+  photoGuid: string;
 
   public identify(): string { 
     return this.name;
@@ -34,6 +35,7 @@ export class Person extends Identifiable {
     this.headOfHousehold =false;
     this.birthdate=new Date();
     this.memberSince=new Date();
+    this.photoGuid="";
     return this;
   }
 }

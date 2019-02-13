@@ -10,21 +10,16 @@
           <input type="text" placeholder="Type" aria-label="Pledge Type" matInput formControlName="pledgeType"  [matAutocomplete]="typeauto" class="input-standard" required cdkFocusInitial>
           <mat-autocomplete #typeauto="matAutocomplete" autoActiveFirstOption>
             <mat-option *ngFor="let option of pledgeTypes | async" [value]="option">
-              {{option}}
+              {{option | titlecase}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field><br/>
       
-        <mat-form-field appearance="standard" class="input-standard">
-          <mat-label>Envelope Number</mat-label>
-          <input type="text" matInput formControlName="envelopeNumber" autocomplete="off"/>
-        </mat-form-field><br/>
-
         <mat-form-field class="input-standard">
           <input type="text" placeholder="Type" aria-label="Pledge Frequency" matInput formControlName="pledgeFrequency"  [matAutocomplete]="auto" class="input-standard" required>
           <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
             <mat-option *ngFor="let option of pledgeFrequencies | async" [value]="option">
-              {{option}}
+              {{option | titlecase}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field><br/>

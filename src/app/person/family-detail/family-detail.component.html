@@ -67,13 +67,22 @@
   
   <div *ngIf="family.id > 0 && (loginService.userCan('donation.read') || loginService.userCan('pledge.read'))" class="container rounded-rect">
     <h3>Donations</h3>
-    <div *ngIf="pledge != undefined && pledge != null">
-      Pledged Amount: <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> <br/>
-    </div>
-    <div *ngIf="pledge == undefined || pledge == null">
-      <em>No pledge information available.</em>
-    </div>
-
+    <div *ngIf="pledge != undefined && pledge != null" class="row"> 
+      <div class="col"> 
+        Pledged Amount: <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> <br/> 
+      </div>  
+      <div class="col align-right"> 
+        <button *ngIf="loginService.userCan('pledge.update')" class="btn btn-primary" (click)="openPledgeForm()">Update Pledge</button>   
+      </div>  
+    </div>  
+    <div *ngIf="pledge == undefined || pledge == null" class="row"> 
+      <div class="col"> 
+        <em>No pledge information available.</em> <br/> 
+      </div>  
+      <div class="col align-right"> 
+        <button *ngIf="loginService.userCan('pledge.create')" class="btn btn-primary" (click)="openPledgeForm()">Record Pledge</button>   
+      </div>  
+    </div>  
     <div *ngIf="loginService.userCan('donation.read')">
       Total Donations: <strong>{{totalDonations | currency:"$"}}</strong> <br/>
       <table>
@@ -92,6 +101,9 @@
           </tr>
         </tbody>
       </table>
+      <div class="container-fluid align-right">
+        <button *ngIf="loginService.userCan('donation.create')" class="btn btn-primary" (click)="openDonationForm()">Record Donation</button> 
+      </div>
     </div>
   </div>
 
