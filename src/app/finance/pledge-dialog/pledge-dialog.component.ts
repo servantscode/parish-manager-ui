@@ -18,7 +18,6 @@ export class PledgeDialogComponent implements OnInit {
       id: [0],
       familyId: [this.data.id, Validators.required],
       pledgeType: ['', Validators.required], 
-      envelopeNumber: [''],
       pledgeDate: [new Date(), Validators.required],
       pledgeStart: ['', Validators.required],
       pledgeEnd: ['', Validators.required],

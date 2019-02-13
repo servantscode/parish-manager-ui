@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="col text-center">
+    <div class="col-auto text-center">
       <h3>
         <span class="calendar-control clickable" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">&lt;&lt;</span>
         <span>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</span>

@@ -11,6 +11,8 @@ export class Family extends Identifiable {
   }
 
   surname: string;
+  homePhone: string;
+  envelopeNumber: number;
   address: Address;
   members: Person[];
 
@@ -25,7 +27,9 @@ export class Family extends Identifiable {
 
   public asTemplate(): Family {
     this.id=0;
-    this.surname=""
+    this.surname="";
+    this.homePhone="";
+    this.envelopeNumber=0;
     this.address = new Address();
     this.members = [];
     return this;

@@ -34,7 +34,7 @@ export class PersonDetailComponent implements OnInit {
       id: [''],
       name: ['', Validators.required],
       email: ['', Validators.email],
-      phoneNumber: ['', Validators.pattern(/^(\([\d]{3}\) )?[\d]{3}-[\d]{4}$/)],
+      phoneNumber: ['', Validators.pattern(SCValidation.PHONE)],
       headOfHousehold: [''],
       birthdate: [''],
       memberSince: [''],

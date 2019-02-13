@@ -38,6 +38,8 @@ export class FamilyDetailComponent implements OnInit {
   familyForm = this.fb.group({
       id: '',
       surname: ['', Validators.required],
+      homePhone: ['', Validators.pattern(SCValidation.PHONE)],
+      envelopeNumber: [0, Validators.pattern(SCValidation.NUMBER)],
       address: this.fb.group({
         street1: ['', Validators.required],
         city: ['', Validators.required],
@@ -142,6 +144,11 @@ export class FamilyDetailComponent implements OnInit {
           this.router.navigate(['family', 'detail', family.id]);
         });
     }
+  }
+
+  formatPhoneNumber(): void {
+    const phoneField = this.familyForm.get("homePhone");
+    phoneField.setValue(SCValidation.formatPhone(phoneField.value));
   }
 
   private _filter(value: string): string[] {
