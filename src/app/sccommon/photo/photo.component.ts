@@ -1,6 +1,9 @@
 import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { PhotoService } from '../services/photo.service';
+
+import { PhotoUploadDialogComponent } from '../photo-upload-dialog/photo-upload-dialog.component'
 
 @Component({
   selector: 'app-photo',
@@ -17,20 +20,34 @@ export class PhotoComponent implements OnChanges {
   imageData: any;
   isImageLoading = false;
 
-  constructor(private photoService: PhotoService) { }
+  private openDialogRef = null;
+
+  constructor(private dialog: MatDialog,
+    private photoService: PhotoService) { }
 
   ngOnChanges() {
     this.loadImage();
   }
 
   addPhoto() {
-    alert("Upload file now!");
-    let guid = "5ad74e41-6b71-48cd-a57b-c6bcde84af91";
-    this.photoStored.emit(guid);
+    if(this.openDialogRef != null)
+      return;
+
+    this.openDialogRef = this.dialog.open(PhotoUploadDialogComponent, {
+      width: '400px',
+      data: {}
+    });
+
+   this.openDialogRef.afterClosed().subscribe(guid => {
+      this.openDialogRef= null;
+      if(guid)
+        this.photoStored.emit(guid);
+    });
   }
 
   // ----- Privates -----
   private loadImage() {
+    this.imageData = null;
     if(!this.guid)
       return;
 

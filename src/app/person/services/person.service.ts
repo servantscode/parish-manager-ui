@@ -36,7 +36,6 @@ export class PersonService extends PaginatedService<Person> {
 
   public attachPhoto(id: number, photoGuid: string) {
     return this.http.put(this.url + `/${id}/photo`, photoGuid, {headers: {"Content-Type": "text/plain"}}).pipe(
-        tap(item => this.log('Photo Attached!')),
         catchError(this.handleError('attachPhoto', null))
       );
   }

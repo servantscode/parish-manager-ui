@@ -20,6 +20,7 @@ import { LoginService } from './services/login.service';
 import { PhotoService } from './services/photo.service';
 import { ScAutoCompleteComponent } from './sc-auto-complete/sc-auto-complete.component';
 import { PhotoComponent } from './photo/photo.component';
+import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -31,7 +32,8 @@ export function tokenGetter() {
     MessagesComponent,
     LoginComponent,
     ScAutoCompleteComponent,
-    PhotoComponent
+    PhotoComponent,
+    PhotoUploadDialogComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -69,6 +71,9 @@ export function tokenGetter() {
   providers: [ 
     LoginService,
     PhotoService
+  ],
+  entryComponents: [
+    PhotoUploadDialogComponent
   ]
 })
 export class SCCommonModule { }
