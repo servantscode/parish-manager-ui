@@ -218,3 +218,8 @@ div.rounded-rect {
   opacity: .2;
   font-weight: 400;
 }
+
+.cal-week-view .cal-event,
+.cal-day-view .cal-event {
+  color: rgb(23, 108, 191);
+}

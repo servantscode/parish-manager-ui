@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameDay, isSameMonth, startOfHour, addHours } from 'date-fns';
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameDay, isSameMonth, startOfHour, addHours, differenceInMilliseconds, addMilliseconds } from 'date-fns';
 import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
@@ -165,7 +165,15 @@ export class CalendarComponent implements OnInit {
       });
   }
 
-  eventTimesChanged({event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
+  eventTimesChanged({event, newStart, newEnd }: any): void {
+    var startDiff = differenceInMilliseconds(newStart, event.start);
+    var endDiff = differenceInMilliseconds(newEnd, event.end);
+
+    event.reservations.forEach(res => {
+        res.startTime = addMilliseconds(res.startTime, startDiff);
+        res.endTime = addMilliseconds(res.endTime, endDiff);
+      });
+
     event.start = newStart;
     event.end = newEnd;
     this.openEventModal(event); 
