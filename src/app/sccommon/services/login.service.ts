@@ -48,7 +48,7 @@ export class LoginService extends BaseService {
 
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('jwt-token');
-    return !this.jwtHelper.isTokenExpired(token);
+    return token && !this.jwtHelper.isTokenExpired(token);
   }
 
   public getUserName(): string {

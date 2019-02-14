@@ -200,23 +200,6 @@ div.rounded-rect {
   width: 3em;
 }
 
-.modal-background {
-  display: block;
-  background-color: #666666;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-}
-
-.modal-content {
-    background-color: #ffffff;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    width: 80%; /* Could be more or less, depending on screen size */
-}
-
 .cal-month-view mwl-calendar-month-cell.cal-day-cell {
   flex-basis: 1;
   min-width: calc(100%/7);

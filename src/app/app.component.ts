@@ -9,8 +9,6 @@ import { LoginService } from './sccommon/services/login.service';
 })
 export class AppComponent {
 
-  login = true;
-
   constructor(private router: Router,
               private loginService: LoginService) { }
 }
