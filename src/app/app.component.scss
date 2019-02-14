@@ -25,25 +25,24 @@
 }
 
 .page {
-  display: table;
+  display: block;
   width: 100%;
   height: calc(100% - 90px);
   position: relative;
 }
 
-.content,
-.nav {
-  display: table-cell;
+.full-height {
+  height:100%;
+  width:100%;
 }
 
-.main-content {
-  overflow-y: auto;
-  height: calc(100% - 90px);
-  width: calc(100% - 150px);
-  position: fixed;
+.col-auto, .col{
+  padding: 0;
+  height: 100%;
 }
 
 .nav-bar {
+  display: block;
   width: 150px;
   height: 100%;
   padding: 5px;
@@ -61,13 +60,9 @@
   }
 }
 
-.content {
-  width: 100%;
-  height: 100%;
+.main-content {
   overflow-y: auto;
-  .container-fluid {
-    padding-bottom: 5px;
-  }
+  height: 100%;
 }
 
 .container, .container-fluid {
