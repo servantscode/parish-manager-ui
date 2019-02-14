@@ -6,12 +6,22 @@ img {
   height:100%;
 }
 
+.obscure {
+  position: absolute;
+  height: 100%;
+  width: calc(100% - 30px);
+  top:0;
+  left:15;
+  visibility: hidden;
+  background-color: rgba(0,0,0,0.3);
+  z-index: 1;
+}
+
 .floater-holder {  
   position: absolute;
   bottom: 10px;
   width: 100%;
   text-align: center;
-  visibility: hidden;
 }
 
 .floater {
@@ -21,6 +31,6 @@ img {
   cursor: pointer;
 }
 
-.photo:hover .floater-holder {
+.photo:hover .obscure {
   visibility: visible;
 }

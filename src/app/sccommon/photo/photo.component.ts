@@ -1,6 +1,7 @@
 import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
+import { LoginService } from '../services/login.service';
 import { PhotoService } from '../services/photo.service';
 
 import { PhotoUploadDialogComponent } from '../photo-upload-dialog/photo-upload-dialog.component'
@@ -14,6 +15,7 @@ export class PhotoComponent implements OnChanges {
 
   @Input() guid: string;
   @Input() altText: string;
+  @Input() editable: boolean = false;
 
   @Output() photoStored: EventEmitter<string> = new EventEmitter();
 
@@ -23,7 +25,8 @@ export class PhotoComponent implements OnChanges {
   private openDialogRef = null;
 
   constructor(private dialog: MatDialog,
-    private photoService: PhotoService) { }
+              private loginService: LoginService,
+              private photoService: PhotoService) { }
 
   ngOnChanges() {
     this.loadImage();
@@ -31,6 +34,9 @@ export class PhotoComponent implements OnChanges {
 
   addPhoto() {
     if(this.openDialogRef != null)
+      return;
+
+    if(!this.loginService.userCan("photo.create"))
       return;
 
     this.openDialogRef = this.dialog.open(PhotoUploadDialogComponent, {

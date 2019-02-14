@@ -3,61 +3,76 @@
 
 <form [formGroup]="familyForm" (ngSubmit)="save()">
   <div *ngIf="!editMode" class="container rounded-rect">
-    Family Name: {{family.surname}}<br/>
-    Home Phone: {{family.homePhone}}<br/>
-    Envelope Number: {{family.envelopeNumber}}<br/>
-    Address:<br/>
-    <div *ngIf="family.address.street1 !== '' && family.address.street1 !== null">
-      {{family.address.street1}}<br/>
-      {{family.address.city}}, {{family.address.state}} {{family.address.zip}}
-    </div>
-    <div *ngIf="family.address.street1 == ''">
-      No address on file.
+    <h3>Family Details</h3>
+    <div class="row">
+      <div class="col">
+        Family Name: {{family.surname}}<br/>
+        Home Phone: {{family.homePhone}}<br/>
+        Envelope Number: {{family.envelopeNumber > 0? family.developNumber: ""}}<br/>
+        Address:<br/>
+        <div *ngIf="family.address.street1 !== '' && family.address.street1 !== null">
+          {{family.address.street1}}<br/>
+          {{family.address.city}}, {{family.address.state}} {{family.address.zip}}
+        </div>
+        <div *ngIf="family.address.street1 == ''">
+          No address on file.
+        </div>
+      </div>
+      <div class="col-auto">
+        <app-photo class="portrait" [guid]="family.photoGuid" [altText]="family.surname" [editable]="loginService.userCan('family.update')" (photoStored)="attachPhoto($event)"></app-photo>
+      </div>
     </div>
   </div>
 
   <div *ngIf="editMode" class="container rounded-rect">
-    <input type="hidden" formControlName="id"/>
+    <div class="row">
+      <div class="col">
+        <input type="hidden" formControlName="id"/>
 
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Family Name</mat-label>
-      <input matInput formControlName="surname" required/>
-    </mat-form-field><br/>
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Family Name</mat-label>
+          <input matInput formControlName="surname" required/>
+        </mat-form-field><br/>
 
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Phone Number</mat-label>
-      <input matInput formControlName="homePhone" (keyup)="formatPhoneNumber()" maxlength="14">
-    </mat-form-field><br/>
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Phone Number</mat-label>
+          <input matInput formControlName="homePhone" (keyup)="formatPhoneNumber()" maxlength="14">
+        </mat-form-field><br/>
 
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Envelope Number</mat-label>
-      <input matInput type="number" formControlName="envelopeNumber"/>
-    </mat-form-field><br/>
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Envelope Number</mat-label>
+          <input matInput type="number" formControlName="envelopeNumber"/>
+        </mat-form-field><br/>
 
-    <div formGroupName="address">
-      <mat-form-field appearance="standard" class="input-standard">
-        <mat-label>Street</mat-label>
-        <input matInput formControlName="street1" required/>
-      </mat-form-field><br/>
+        <div formGroupName="address">
+          <mat-form-field appearance="standard" class="input-standard">
+            <mat-label>Street</mat-label>
+            <input matInput formControlName="street1" required/>
+          </mat-form-field><br/>
 
-      <mat-form-field appearance="standard" class="input-small">
-        <mat-label>City</mat-label>
-        <input matInput formControlName="city" required>
-      </mat-form-field>&nbsp;
+          <mat-form-field appearance="standard" class="input-small">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city" required>
+          </mat-form-field>&nbsp;
 
-      <mat-form-field class="input-2">
-        <input type="text" placeholder="State" aria-label="State" matInput formControlName="state"  [matAutocomplete]="auto" (change)="stateSelected()" class="input-2" maxlength="2" required>
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{option}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>&nbsp;
+          <mat-form-field class="input-2">
+            <input type="text" placeholder="State" aria-label="State" matInput formControlName="state"  [matAutocomplete]="auto" (change)="stateSelected()" class="input-2" maxlength="2" required>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>&nbsp;
 
-      <mat-form-field appearance="standard" class="input-5">
-        <mat-label>Zip</mat-label>
-        <input matInput formControlName="zip" required minlength="5" maxlength="5"/>
-      </mat-form-field>
+          <mat-form-field appearance="standard" class="input-5">
+            <mat-label>Zip</mat-label>
+            <input matInput formControlName="zip" required minlength="5" maxlength="5"/>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-auto">
+        <app-photo class="portrait" [guid]="family.photoGuid" [altText]="family.surname"></app-photo>
+      </div>
     </div>
   </div>
   

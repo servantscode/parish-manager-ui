@@ -16,7 +16,7 @@
         Member Since: {{person.memberSince | date: 'MM/dd/yyyy'}}
       </div>
       <div class="col-auto">
-        <app-photo class="portrait" [guid]="person.photoGuid" [altText]="person.name" (photoStored)="attachPhoto($event)"></app-photo>
+        <app-photo class="portrait" [guid]="person.photoGuid" [altText]="person.name" [editable]="loginService.userCan('person.update')" (photoStored)="attachPhoto($event)"></app-photo>
       </div>
     </div>
   </div>
@@ -84,6 +84,9 @@
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
 
+      </div>
+      <div class="col-auto">
+        <app-photo class="portrait" [guid]="person.photoGuid" [altText]="person.name"></app-photo>
       </div>
     </div>
   </div>

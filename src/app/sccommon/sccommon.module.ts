@@ -10,6 +10,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
+import { FileDropModule } from 'ngx-file-drop';
+
 import { SCCommonRoutingModule } from './sccommon-routing.module';
 
 import { PaginatedListComponent } from './paginated-list/paginated-list.component';
@@ -59,7 +61,9 @@ export function tokenGetter() {
         whitelistedDomains: [/localhost(:\d+)?/i], // Allow any localhost port to be called
         blacklistedRoutes: []
       }
-    })
+    }),
+
+    FileDropModule
   ],
   exports: [
     PaginatedListComponent,

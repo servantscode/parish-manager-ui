@@ -191,4 +191,11 @@ export class FamilyDetailComponent implements OnInit {
       this.loadPledge(this.family.id);
     });
   }
+
+  attachPhoto(guid: any): void {
+    this.familyService.attachPhoto(this.family.id, guid)
+    .subscribe(() => {
+      this.family.photoGuid = guid
+    });
+  }
 }

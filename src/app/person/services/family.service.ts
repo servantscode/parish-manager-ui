@@ -33,4 +33,10 @@ export class FamilyService extends PaginatedService<Family> {
   public getTemplate(): Family {
     return new Family().asTemplate();
   }
+
+  public attachPhoto(id: number, photoGuid: string) {
+    return this.http.put(this.url + `/${id}/photo`, photoGuid, {headers: {"Content-Type": "text/plain"}}).pipe(
+        catchError(this.handleError('attachPhoto', null))
+      );
+  }
 }
