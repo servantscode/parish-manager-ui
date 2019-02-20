@@ -25,7 +25,7 @@ export class PhotoComponent implements OnChanges {
   private openDialogRef = null;
 
   constructor(private dialog: MatDialog,
-              private loginService: LoginService,
+              public loginService: LoginService,
               private photoService: PhotoService) { }
 
   ngOnChanges() {

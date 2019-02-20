@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import { ApiLocatorService } from './api-locator.service';
 import { BaseService } from './base.service';
 import { MessageService } from './message.service';
 
@@ -11,11 +12,13 @@ import { MessageService } from './message.service';
   providedIn: 'root'
 })
 export class PhotoService extends BaseService {
-  private url = "http://localhost:85/rest/photo";
+  private url:string;
 
   constructor(protected http: HttpClient,
-              protected messageService: MessageService) { 
+              protected messageService: MessageService,
+              protected apiService: ApiLocatorService) { 
     super(http, messageService);
+    this.url = apiService.getServiceUrl("photo");
   }
 
   getImage(guid: string): Observable<Blob> {

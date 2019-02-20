@@ -39,7 +39,7 @@ export class MinistryMemberListComponent implements OnInit {
 
   constructor(private router: Router,
               private enrollmentService: EnrollmentService,
-              private loginService: LoginService,
+              public loginService: LoginService,
               private personService: PersonService,
               private ministryService: MinistryService,
               private fb: FormBuilder) { }

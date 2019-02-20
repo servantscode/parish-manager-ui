@@ -16,7 +16,7 @@ import { ChartData } from '../chart-data';
 export class MetricsComponent implements OnInit {
 
   constructor(private metricsService: MetricsService,
-              private loginService: LoginService,
+              public loginService: LoginService,
               private colorService: ColorService) { }
 
   ngOnInit() {

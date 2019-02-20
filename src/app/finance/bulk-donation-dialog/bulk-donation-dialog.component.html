@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody formArrayName="donations">
-        <tr *ngFor="let donation of donationForm.controls['donations'].controls; let i=index" formGroupName="{{i}}" [ngClass] = "{'invalid' : hasDirtyOrInvalidFields(donation)}">
+        <tr *ngFor="let donation of donationControls().controls; let i=index" formGroupName="{{i}}" [ngClass] = "{'invalid' : hasDirtyOrInvalidFields(donation)}">
           <td>
             <img src="assets/images/red-minus.png" class="icon" (click)="deleteRow(i)"/>
           </td>

@@ -22,9 +22,9 @@ export class RoleComponent implements OnInit {
 
   private refreshNeeded = new Subject<string>();
 
-  private selectedRole: Role;
+  public selectedRole: Role;
 
-  constructor(private roleService: RoleService,
+  constructor(public roleService: RoleService,
               private credentialService: CredentialService) { }
 
   ngOnInit() {

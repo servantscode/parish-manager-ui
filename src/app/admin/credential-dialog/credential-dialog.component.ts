@@ -31,8 +31,8 @@ export class CredentialDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               private credentialService: CredentialService,
-              private roleService: RoleService,
-              private personService: PersonService) { }
+              public roleService: RoleService,
+              public personService: PersonService) { }
 
   ngOnInit() {
     if(this.data.item) {

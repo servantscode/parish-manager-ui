@@ -10,5 +10,5 @@ import { LoginService } from './sccommon/services/login.service';
 export class AppComponent {
 
   constructor(private router: Router,
-              private loginService: LoginService) { }
+              public loginService: LoginService) { }
 }

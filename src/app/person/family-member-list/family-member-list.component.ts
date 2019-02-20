@@ -17,7 +17,7 @@ export class FamilyMemberListComponent implements OnInit {
   private highlightedPerson: Person;
 
   constructor(private router: Router,
-              private loginService: LoginService) { }
+              public loginService: LoginService) { }
 
   ngOnInit() {
   }

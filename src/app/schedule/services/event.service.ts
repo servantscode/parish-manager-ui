@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
 import { BaseService } from '../../sccommon/services/base.service';
 
@@ -19,11 +20,13 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class EventService extends BaseService { 
-  private url = 'http://localhost:84/rest/event'
+  private url: string;
 
   constructor(protected http: HttpClient,
-              protected messageService: MessageService) { 
+              protected messageService: MessageService,
+              protected apiService: ApiLocatorService) { 
     super(http, messageService);
+    this.url = apiService.getServiceUrl("event");
   }
 
   getEvents(startTime:Date, endTime:Date, search = ''): Observable<Event[]> {

@@ -29,7 +29,7 @@ export class FamilyDetailComponent implements OnInit {
 
   family: Family;
 
-  private editMode = false;
+  public editMode = false;
   private donations: Donation[];
   private pledge: Pledge;
   private highlightedDonation: Donation;
@@ -55,7 +55,7 @@ export class FamilyDetailComponent implements OnInit {
               private familyService: FamilyService,
               private donationService: DonationService,
               private pledgeService: PledgeService,
-              private loginService: LoginService,
+              public loginService: LoginService,
               private fb: FormBuilder,
               private dialog: MatDialog) { }
 

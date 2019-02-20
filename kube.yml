@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: parish-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: parish-manager
+  template:
+    metadata:
+      labels:
+        app: parish-manager
+    spec:
+      containers:
+      - name: parish-manager
+        image: servantscode/parish-manager
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "200Mi"
+        env:
+        - name: ES_JAVA_OPTS 
+          value: "-Xmx128m -Xms128m"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: parish-manager
+spec:
+  selector:
+    app: parish-manager
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80

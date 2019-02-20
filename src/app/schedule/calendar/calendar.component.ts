@@ -53,7 +53,7 @@ export class CalendarComponent implements OnInit {
   constructor(private router: Router,
               private dialog: MatDialog,
               private eventService: EventService,
-              private loginService: LoginService) {}
+              public loginService: LoginService) {}
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {

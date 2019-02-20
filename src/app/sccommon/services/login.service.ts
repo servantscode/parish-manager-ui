@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
+import { ApiLocatorService } from './api-locator.service';
 import { MessageService } from './message.service';
 import { BaseService } from './base.service';
 
@@ -12,12 +13,14 @@ import { BaseService } from './base.service';
   providedIn: 'root'
 })
 export class LoginService extends BaseService {
-  private url = 'http://localhost:8080/rest/login'
+  private url: string;
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
-              private jwtHelper: JwtHelperService) {
+              private jwtHelper: JwtHelperService,
+              protected apiService: ApiLocatorService) { 
     super(http, messageService);
+    this.url = apiService.getServiceUrl("login");
   }
 
   public loginEmitter = new EventEmitter<string>();

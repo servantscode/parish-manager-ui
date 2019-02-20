@@ -35,13 +35,13 @@ build-nc: ## Build the container without caching
 	docker.exe build --no-cache -t servantscode/$(APP_NAME) .
 
 run: ## Run container on port configured in `config.env`
-	docker.exe run -dit --env-file=./config.env -p=$(EXT_PORT):$(INT_PORT) --name="$(APP_NAME)" servantscode/$(APP_NAME)
+	kubectl.exe create -f kube.yml
 
 
 up: build run ## Run container on port configured in `config.env` (Alias to run)
 
 stop: ## Stop and remove a running container
-	docker.exe stop $(APP_NAME); docker.exe rm $(APP_NAME)
+	kubectl.exe delete -f kube.yml
 
 release: build-nc publish ## Make a release by building and publishing the `{version}` ans `latest` tagged containers to ECR
 

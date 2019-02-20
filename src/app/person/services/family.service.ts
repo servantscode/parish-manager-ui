@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
 import { PaginatedService } from '../../sccommon/services/paginated.service';
 import { PaginatedResponse } from '../../sccommon/paginated.response';
@@ -22,8 +23,9 @@ const httpOptions = {
 export class FamilyService extends PaginatedService<Family> {
 
   constructor(protected http: HttpClient,
-              protected messageService: MessageService) { 
-    super('http://localhost/rest/family', http, messageService);
+              protected messageService: MessageService,
+              protected apiService: ApiLocatorService) { 
+    super(apiService.getServiceUrl("family"), http, messageService);
   }
 
   public getPermissionType(): string {

@@ -28,7 +28,7 @@ export class MinistryDetailComponent implements OnInit {
   private upcomingEvents: Event[];
   private highlightedEvent: Event;
 
-  private editMode = false;
+  public editMode = false;
 
   ministryForm = this.fb.group({
       id: [''],
@@ -43,7 +43,7 @@ export class MinistryDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private ministryService: MinistryService,
               private eventService: EventService,
-              private loginService: LoginService,
+              public loginService: LoginService,
               private fb: FormBuilder) { }
 
   ngOnInit() {

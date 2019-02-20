@@ -24,7 +24,7 @@ export class DonationComponent implements OnInit {
 
   constructor(private metricsService: MetricsService,
               private colorService: ColorService,
-              private loginService: LoginService,
+              public loginService: LoginService,
               private dialog: MatDialog) { }
 
   ngOnInit() {

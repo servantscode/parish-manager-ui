@@ -36,7 +36,7 @@ export class PeopleListComponent implements OnInit {
 
   constructor(private personService: PersonService,
               private familyService: FamilyService,
-              private loginService: LoginService,
+              public loginService: LoginService,
               private router: Router) { }
 
   ngOnInit() {

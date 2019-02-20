@@ -75,10 +75,10 @@ export class EventDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               private eventService: EventService,
-              private ministryService: MinistryService,
+              public ministryService: MinistryService,
               private roomService: RoomService,
               private equipmentService: EquipmentService,
-              private loginService: LoginService,
+              public loginService: LoginService,
               private cleaningService: DataCleanupService,
               private changeDetectorRef: ChangeDetectorRef) { }
 

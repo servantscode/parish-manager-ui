@@ -42,7 +42,7 @@ export class BulkDonationDialogComponent implements OnInit {
   }
 
   addRow() {
-    const control = <FormArray>this.donationForm.controls['donations'];
+    const control = this.donationControls();
     
     for(let donation of control.controls) {
       for(let key of Object.keys((<FormGroup>donation).controls)) {
@@ -51,6 +51,10 @@ export class BulkDonationDialogComponent implements OnInit {
     }
 
     control.push(this.newRow());
+  }
+
+  donationControls(): FormArray {
+    return <FormArray>this.donationForm.controls['donations'];
   }
 
   deleteRow(i: number) {

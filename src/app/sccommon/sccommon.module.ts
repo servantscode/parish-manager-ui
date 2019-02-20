@@ -18,6 +18,7 @@ import { PaginatedListComponent } from './paginated-list/paginated-list.componen
 import { MessagesComponent } from './messages/messages.component';
 import { LoginComponent } from './login/login.component';
 
+import { ApiLocatorService } from './services/api-locator.service';
 import { LoginService } from './services/login.service';
 import { PhotoService } from './services/photo.service';
 import { ScAutoCompleteComponent } from './sc-auto-complete/sc-auto-complete.component';
@@ -58,7 +59,8 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: [/localhost(:\d+)?/i], // Allow any localhost port to be called
+        // whitelistedDomains: [/localhost(:\d+)?/i],
+        whitelistedDomains: [],
         blacklistedRoutes: []
       }
     }),
@@ -74,7 +76,8 @@ export function tokenGetter() {
   ],
   providers: [ 
     LoginService,
-    PhotoService
+    PhotoService,
+    ApiLocatorService
   ],
   entryComponents: [
     PhotoUploadDialogComponent

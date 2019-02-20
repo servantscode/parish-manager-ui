@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
+import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
 import { PaginatedService } from '../../sccommon/services/paginated.service';
 
@@ -14,8 +15,9 @@ import { Room } from '../room';
 export class RoomService extends PaginatedService<Room> {
 
   constructor(protected http: HttpClient,
-              protected messageService: MessageService) { 
-    super('http://localhost:84/rest/room', http, messageService);
+              protected messageService: MessageService,
+              protected apiService: ApiLocatorService) { 
+    super(apiService.getServiceUrl("room"), http, messageService);
   }
 
   public getPermissionType(): string {

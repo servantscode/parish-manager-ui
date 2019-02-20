@@ -29,7 +29,7 @@ export class PersonDetailComponent implements OnInit {
   private personId: number;
   private person: Person;
 
-  private editMode = false;
+  public editMode = false;
 
   personForm = this.fb.group({
       id: [''],
@@ -58,7 +58,7 @@ export class PersonDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private personService: PersonService,
               private familyService: FamilyService,
-              private loginService: LoginService,  
+              public loginService: LoginService,  
               private photoService: PhotoService,
               private fb: FormBuilder) { }
 

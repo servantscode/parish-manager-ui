@@ -40,6 +40,10 @@ export class PermissionTreeComponent implements OnInit {
     newPerms.forEach(permmission => this.permissions.push(permmission));
   }
 
+  hasNestedChild(_: number, node: Permission) {
+    return node.children != null && node.children.length > 0;
+  }
+
   private markPermissions(perms: Permission[]) {
     this.permissions.forEach(perm => { 
         this.activatePermission(perm.split(/\./), perms);
@@ -58,10 +62,6 @@ export class PermissionTreeComponent implements OnInit {
     } else if (permission.children != null) {
       this.activatePermission(permBits.slice(1), permission.children);
     }
-  }
-
-  private hasNestedChild(_: number, node: Permission) {
-    return node.children != null && node.children.length > 0;
   }
 
   private _getChildren(node: Permission) {

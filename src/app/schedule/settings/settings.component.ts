@@ -16,8 +16,8 @@ export class SettingsComponent implements OnInit {
   RoomDialogComponent = RoomDialogComponent;
   EquipmentDialogComponent = EquipmentDialogComponent;
 
-  constructor(private roomService: RoomService,
-              private equipmentService: EquipmentService) { }
+  constructor(public roomService: RoomService,
+              public equipmentService: EquipmentService) { }
 
   ngOnInit() {
   }

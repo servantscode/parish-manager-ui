@@ -29,7 +29,7 @@ export class MinistryListComponent implements OnInit {
   search = '';
 
   constructor(private ministryService: MinistryService,
-              private loginService: LoginService,
+              public loginService: LoginService,
               private router: Router) { }
 
   ngOnInit() {
