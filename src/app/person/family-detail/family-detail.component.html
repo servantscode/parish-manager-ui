@@ -44,6 +44,16 @@
           <input matInput type="number" formControlName="envelopeNumber"/>
         </mat-form-field><br/>
 
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Phone Number</mat-label>
+          <input matInput formControlName="homePhone" (keyup)="formatPhoneNumber()" maxlength="14">
+        </mat-form-field><br/>
+
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Envelope Number</mat-label>
+          <input matInput type="number" formControlName="envelopeNumber"/>
+        </mat-form-field><br/>
+
         <div formGroupName="address">
           <mat-form-field appearance="standard" class="input-standard">
             <mat-label>Street</mat-label>

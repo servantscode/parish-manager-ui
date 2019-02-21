@@ -1,31 +1,12 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiLocatorService {
 
-  private static DEV_URLS = {
-    photo: 'http://localhost/rest/photo',
-    login: 'http://localhost/rest/login',
-    credentials: 'http://localhost/rest/credentials',
-    permission: 'http://localhost/rest/permission',    
-    role: 'http://localhost/rest/role',
-    donation: 'http://localhost/rest/donation',
-    pledge: 'http://localhost/rest/pledge',
-    metrics: 'http://localhost/rest/metrics',
-    ministry: 'http://localhost/rest/ministry',
-    enrollment: 'http://localhost/rest/enrollment',
-    person: 'http://localhost/rest/person',
-    family: 'http://localhost/rest/family',
-    availability: 'http://localhost/rest/reservation/availability',
-    equipment: 'http://localhost/rest/equipment',
-    event: 'http://localhost/rest/event',
-    room: 'http://localhost/rest/room'
-  };
-
-  private static PRODUCTION_URLS = {
-   photo: '/rest/photo',
+  private static SERVICE_PATHS = {
     login: '/rest/login',
     credentials: '/rest/credentials',
     permission: '/rest/permission',    
@@ -43,16 +24,13 @@ export class ApiLocatorService {
     room: '/rest/room'
   };
   
-  // private urls = ApiLocatorService.DEV_URLS;
-  private urls = ApiLocatorService.PRODUCTION_URLS;
-
-
-  constructor() { 
-    // if(devMode)
-    //   this.urls = ApiLocatorService.DEV_URLS;
-  }
+  constructor() {}
 
   getServiceUrl(service: string): string {
-    return this.urls[service];
+    return environment.serviceUrlPrefix + ApiLocatorService.SERVICE_PATHS[service];
+  }
+
+  prefaceUrl(path: string): string {
+    return environment.serviceUrlPrefix + path;
   }
 }

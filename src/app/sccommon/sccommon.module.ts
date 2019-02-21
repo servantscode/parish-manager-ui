@@ -24,6 +24,7 @@ import { PhotoService } from './services/photo.service';
 import { ScAutoCompleteComponent } from './sc-auto-complete/sc-auto-complete.component';
 import { PhotoComponent } from './photo/photo.component';
 import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-dialog.component';
+import { environment } from '../../environments/environment';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -59,8 +60,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        // whitelistedDomains: [/localhost(:\d+)?/i],
-        whitelistedDomains: [],
+        whitelistedDomains: environment.whitelistedDomains,
         blacklistedRoutes: []
       }
     }),

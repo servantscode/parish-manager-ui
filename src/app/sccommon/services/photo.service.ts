@@ -18,7 +18,7 @@ export class PhotoService extends BaseService {
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) { 
     super(http, messageService);
-    this.url = apiService.getServiceUrl("photo");
+    this.url = apiService.prefaceUrl('/rest/photo');
   }
 
   getImage(guid: string): Observable<Blob> {
