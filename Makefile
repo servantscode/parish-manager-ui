@@ -11,7 +11,7 @@ include $(dpl)
 export $(shell sed 's/=.*//' $(dpl))
 
 # grep the version from the mix file
-VERSION=$(shell ./version.sh)
+VERSION=$(shell ./version.txt)
 
 LATEST=$(shell kubectl.exe describe deployment $(APP_NAME) | grep Image | grep latest)
 ifeq ($(LATEST),)
