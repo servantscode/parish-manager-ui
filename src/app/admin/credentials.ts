@@ -13,11 +13,6 @@ export class Credentials extends Identifiable {
     return this.name;
   }
 
-  public identifyAs(identity: string): Credentials {
-    this.name=identity;
-    return this;
-  }
-
   public asTemplate(): Credentials {
     this.id=0;
     this.name="";

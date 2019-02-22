@@ -57,12 +57,12 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
       );
   }
 
-  private mapResults(resp: PaginatedResponse<T>): PaginatedResponse<T> {
+  protected mapResults(resp: PaginatedResponse<T>): PaginatedResponse<T> {
     resp.results = resp.results.map(result => this.mapObject(result));
     return resp;
   }
 
-  private mapObject(obj: T): T {
+  protected mapObject(obj: T): T {
     var resp: T = this.getTemplate();
     for(let key of Object.keys(resp))
       resp[key] = obj[key];

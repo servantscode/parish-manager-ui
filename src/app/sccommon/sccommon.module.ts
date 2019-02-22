@@ -7,6 +7,7 @@ import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -25,6 +26,7 @@ import { ScAutoCompleteComponent } from './sc-auto-complete/sc-auto-complete.com
 import { PhotoComponent } from './photo/photo.component';
 import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-dialog.component';
 import { environment } from '../../environments/environment';
+import { NotesComponent } from './notes/notes.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -37,7 +39,8 @@ export function tokenGetter() {
     LoginComponent,
     ScAutoCompleteComponent,
     PhotoComponent,
-    PhotoUploadDialogComponent
+    PhotoUploadDialogComponent,
+    NotesComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -55,7 +58,8 @@ export function tokenGetter() {
     MatDialogModule,
     MatInputModule,
     MatAutocompleteModule,
-
+    MatCheckboxModule,
+    
     //JWT
     JwtModule.forRoot({
       config: {
@@ -72,7 +76,8 @@ export function tokenGetter() {
     MessagesComponent,
     LoginComponent,
     ScAutoCompleteComponent,
-    PhotoComponent
+    PhotoComponent,
+    NotesComponent
   ],
   providers: [ 
     LoginService,

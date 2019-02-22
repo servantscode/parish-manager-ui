@@ -8,37 +8,33 @@ import { MessageService } from '../../sccommon/services/message.service';
 import { PaginatedService } from '../../sccommon/services/paginated.service';
 import { PaginatedResponse } from '../../sccommon/paginated.response';
 
-import { Family } from '../family';
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  })
-};
+import { Note } from '../note';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FamilyService extends PaginatedService<Family> {
+export class NoteService extends PaginatedService<Note> {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) { 
-    super(apiService.prefaceUrl('/rest/family'), http, messageService);
+    super(apiService.prefaceUrl('/rest/note'), http, messageService);
   }
 
   public getPermissionType(): string {
-    return "family";
+    return "note";
   }
 
-  public getTemplate(): Family {
-    return new Family().asTemplate();
+  public getTemplate(): Note {
+    return new Note().asTemplate();
   }
 
-  public attachPhoto(id: number, photoGuid: string) {
-    return this.http.put(this.url + `/${id}/photo`, photoGuid, {headers: {"Content-Type": "text/plain"}}).pipe(
-        catchError(this.handleError('attachPhoto', null))
+  // Just until everything says search
+  public getPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Note>> {
+    return this.http.get<PaginatedResponse<Note>>(this.url+`?start=${start}&count=${count}&search=${search}`).pipe(
+        map(resp => this.mapResults(resp)),
+        catchError(this.handleError('getPage', null))
       );
   }
+
 }

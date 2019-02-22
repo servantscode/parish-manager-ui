@@ -1,0 +1,23 @@
+.notes {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.note {
+  padding-bottom: 3px;  
+}
+
+.name {
+  margin-left: 10px;
+  font-weight: 400;
+  color: #999999;
+}
+
+.timestamp {
+  font-weight: 300;
+  color: #999999;
+  padding-left: 1em;
+}
+
+.noteText {
+}

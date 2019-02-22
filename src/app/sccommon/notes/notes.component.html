@@ -1,0 +1,18 @@
+<form *ngIf="formOpen" [formGroup]="form" (ngSubmit)="save()">
+  <mat-form-field appearance="standard" class="input-long">
+    <textarea matInput type="textarea" cdkTextareaAutosize cdkAutosizeMaxRows="10" formControlName="note"></textarea>
+  </mat-form-field><br/>
+  <mat-checkbox *ngIf="loginService.userCan('private.note.create')" formControlName="private">Private</mat-checkbox>
+  <button class="btn btn-primary" type="submit">Save</button>
+</form>
+<div class="notes">
+  <div *ngFor="let note of notes" class="note">
+    <span class="noteText">{{note.note}}</span>
+    <br/>
+    <span class="name">{{note.creator}}</span>
+    <span class="timestamp">{{note.createdTime  | date:"MMM dd, yyyy 'at' H:mm a"}}</span>
+  </div>
+</div>
+<div *ngIf="loginService.userCan('note.create')" class="controls align-right">
+  <button class="btn btn-primary" type="button" (click)="openForm()">Add...</button>
+</div>

@@ -16,8 +16,6 @@ export class ApiLocatorService {
     metrics: '/rest/metrics',
     ministry: '/rest/ministry',
     enrollment: '/rest/enrollment',
-    person: '/rest/person',
-    family: '/rest/family',
     availability: '/rest/reservation/availability',
     equipment: '/rest/equipment',
     event: '/rest/event',

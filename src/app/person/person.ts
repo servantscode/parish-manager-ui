@@ -1,8 +1,8 @@
-import { Identifiable } from '../sccommon/identifiable';
+import { Autocompletable } from '../sccommon/identifiable';
 
 import { Family } from './family';
 
-export class Person extends Identifiable {
+export class Person extends Autocompletable {
 
   constructor() {
     super();

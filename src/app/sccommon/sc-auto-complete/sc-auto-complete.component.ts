@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, debounceTime, switchMap } from 'rxjs/operators'
 
 import { PaginatedService } from '../services/paginated.service';
-import { Identifiable } from '../identifiable';
+import { Autocompletable } from '../identifiable';
 
 @Component({
   selector: 'app-sc-auto-complete',
@@ -18,7 +18,7 @@ import { Identifiable } from '../identifiable';
     }
   ]
 })
-export class ScAutoCompleteComponent<T extends Identifiable> implements ControlValueAccessor, OnInit {
+export class ScAutoCompleteComponent<T extends Autocompletable> implements ControlValueAccessor, OnInit {
   @Input() label = 'AutoSelect';
   @Input('value') _value;
   @Input() required = false;

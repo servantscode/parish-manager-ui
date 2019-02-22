@@ -25,7 +25,7 @@ export class PersonService extends PaginatedService<Person> {
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) { 
-    super(apiService.getServiceUrl("person"), http, messageService);
+    super(apiService.prefaceUrl('/rest/person'), http, messageService);
   }
 
   public getPermissionType(): string {
