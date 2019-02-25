@@ -5,7 +5,7 @@
   <div class="container rounded-rect">
     Name: {{ministry.name}}<br/>
     Description:<br/>
-    {{ministry.description}}
+    <pre>{{ministry.description}}</pre>
     <br/>
   </div>
 
@@ -30,6 +30,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div *ngIf="loginService.userCan('note.list')" class="container rounded-rect">
+    <h3>Notes</h3>
+    <app-notes [resourceType]="'ministry'" [resourceId]="ministry.id"></app-notes>
   </div>
 
   <div class="container">

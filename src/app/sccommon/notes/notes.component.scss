@@ -4,20 +4,30 @@
 }
 
 .note {
-  padding-bottom: 3px;  
+  margin-bottom: 3px;  
+  padding: 3px 0 3px 0;
+}
+
+.metadata {
+  padding: 0 5px 0 5px;
 }
 
 .name {
-  margin-left: 10px;
   font-weight: 400;
-  color: #999999;
+  color: #808080;
 }
 
 .timestamp {
   font-weight: 300;
-  color: #999999;
-  padding-left: 1em;
+  color: #808080;
 }
 
-.noteText {
+.underlined {
+  border-bottom-color: #cccccc;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.icon {
+  margin-top: 3px;
 }

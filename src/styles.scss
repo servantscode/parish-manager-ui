@@ -30,10 +30,6 @@ table {
     border-bottom-style: solid;
   }
 
-  tr.highlight {
-    background: #dddddd;
-  }
-
   tr.selected {
     background: #bbbbbb;
   }
@@ -50,6 +46,15 @@ h3 {
 em {
   font-style: italic;
   color: #999999;
+}
+
+pre {
+  font-family: "Eras ITC", Arial, Verdana, sans-serif; 
+  margin: 0;
+}
+
+.highlight {
+  background: #eeeeee;
 }
 
 .mat-dialog-title {
@@ -172,14 +177,24 @@ div.rounded-rect {
   width: 15px;
   background-size: 15px 15px;
   padding: 2px;
-  cursor: pointer;
 }
 
 .edit {
   background-image: url('./assets/images/pencil.png');
+  cursor: pointer;
 }
 
+.locked {
+  background-image: url('./assets/images/locked.png');
+  cursor: pointer;
+}
+
+
 /* Forms */
+.input-full {
+  width: 100%;
+}
+
 .input-long {
   width: 30em;
 }
@@ -222,4 +237,17 @@ div.rounded-rect {
 .cal-week-view .cal-event,
 .cal-day-view .cal-event {
   color: rgb(23, 108, 191);
+}
+
+/* ----- Component Specific, but.... ----- */
+app-notes .mat-form-field-appearance-standard .mat-form-field-flex {
+  padding: 0;
+}
+
+app-notes .mat-form-field-infix {
+  border: 0;
+}
+
+app-notes .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-empty.mat-form-field-label {
+  display: none;
 }

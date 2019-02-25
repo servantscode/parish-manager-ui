@@ -1,18 +1,34 @@
-<form *ngIf="formOpen" [formGroup]="form" (ngSubmit)="save()">
-  <mat-form-field appearance="standard" class="input-long">
-    <textarea matInput type="textarea" cdkTextareaAutosize cdkAutosizeMaxRows="10" formControlName="note"></textarea>
-  </mat-form-field><br/>
-  <mat-checkbox *ngIf="loginService.userCan('private.note.create')" formControlName="private">Private</mat-checkbox>
-  <button class="btn btn-primary" type="submit">Save</button>
-</form>
-<div class="notes">
-  <div *ngFor="let note of notes" class="note">
-    <span class="noteText">{{note.note}}</span>
-    <br/>
-    <span class="name">{{note.creator}}</span>
-    <span class="timestamp">{{note.createdTime  | date:"MMM dd, yyyy 'at' H:mm a"}}</span>
+<form *ngIf="loginService.userCan('note.create')" class="underlined" [formGroup]="form" (ngSubmit)="save()">
+  <div class="d-flex">
+    <div class="flex-grow-1">
+      <mat-form-field appearance="standard" class="input-full">
+        <mat-label>Add Note...</mat-label>
+        <textarea matInput type="textarea" cdkTextareaAutosize cdkAutosizeMaxRows="3" formControlName="note"></textarea>
+      </mat-form-field> 
+    </div>
+    <div class="controls">
+      <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Save</button>
+    </div>  
   </div>
-</div>
-<div *ngIf="loginService.userCan('note.create')" class="controls align-right">
-  <button class="btn btn-primary" type="button" (click)="openForm()">Add...</button>
+  <mat-checkbox *ngIf="loginService.userCan('private.note.create')" formControlName="private">Private Note</mat-checkbox>
+</form>
+<div class="notes" (mouseleave)="highlight(null)">
+  <div *ngFor="let note of notes" class="note underlined" (mouseover)="highlight(note)" [ngClass]="{'highlight' : note === highlighted, 'selected' : note === selected}">
+    <span class="noteText"><pre>{{note.note}}</pre></span>
+    <div class="d-flex">
+      <div>
+        <div class="icon" [ngClass]="{'locked' : note.private}">&nbsp;</div>
+      </div>
+      <div class="metadata">
+        <span class="name">{{note.creator}}</span>&nbsp;&nbsp;
+        <span class="timestamp">{{note.createdTime  | date:"MMM dd, yyyy 'at' H:mm a"}}</span>
+      </div>
+      <div *ngIf="note.creatorId == loginService.getUserId() && loginService.userCan('note.update')">
+        <div class="icon" (click)='edit(note)' [ngClass]="{'edit' : note === highlighted}">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid d-flex justify-content-center">
+    <span *ngIf="moreNotes" class="clickable" (click)="loadMore()">Load more...</span>
+  </div>
 </div>

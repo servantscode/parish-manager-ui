@@ -132,6 +132,12 @@
     </div>
   </div>
 
+  <div *ngIf="loginService.userCan('note.list')" class="container rounded-rect">
+    <h3>Notes</h3>
+    <app-notes [resourceType]="'family'" [resourceId]="family.id"></app-notes>
+  </div>
+
+
   <div *ngIf="!editMode" class="container">
     <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 
   </div>
