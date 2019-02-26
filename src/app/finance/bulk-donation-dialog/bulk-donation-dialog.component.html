@@ -7,7 +7,7 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field><br/>
 
-    <table>
+    <table class="sc-table">
       <thead>
         <tr>
           <th></th>
@@ -30,7 +30,7 @@
             </mat-form-field><br/>
           </td>
           <td>
-            <app-sc-auto-complete formControlName="familyId" label='Family Name' [autocompleteService]="familyService" [required]="true" (change)="predict(i, 'familyId')"></app-sc-auto-complete>
+            <app-sc-auto-complete formControlName="familyId" label='Family Name' [autocompleteService]="familyService" [required]="true" [fieldSize]="medium" (change)="predict(i, 'familyId')"></app-sc-auto-complete>
           </td>
           <td>
             <mat-form-field appearance="standard" class="input-5">
@@ -49,7 +49,7 @@
             </mat-form-field>
           </td>
           <td>
-            <mat-form-field *ngIf="donationType(i) === 'CHECK'" appearance="standard" class="input-small">
+            <mat-form-field *ngIf="donationType(i) === 'CHECK'" appearance="standard" class="input-5">
               <mat-label>Check Number</mat-label>
               <input type="text" matInput formControlName="checkNumber" autocomplete="off" required/>
             </mat-form-field>

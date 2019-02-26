@@ -9,7 +9,7 @@ html, body {
   font-family: "Eras ITC", Arial, Verdana, sans-serif; 
 }
 
-table {
+table.sc-table {
   width: 100%;
 
   td, th {
@@ -167,6 +167,10 @@ div.rounded-rect {
   background-color: #999999;
 }
 
+.mat-calendar-table-header {
+  color: #ffffff;
+}
+
 .pagination {
   justify-content: flex-end;
   margin-right: 5px;
@@ -200,6 +204,10 @@ div.rounded-rect {
 }
 
 .input-standard {
+  width: 20em;
+}
+
+.input-medium {
   width: 15em;
 }
 

@@ -42,6 +42,8 @@ export class PersonDetailComponent implements OnInit {
       family: this.fb.group({
         id: [''],
         surname: ['', Validators.required],
+        homePhone: ['', Validators.pattern(SCValidation.PHONE)],
+        envelopeNumber: ['', Validators.pattern(SCValidation.NUMBER)],
         address: this.fb.group({
           street1: ['', Validators.required],
           city: ['', Validators.required],
@@ -173,6 +175,11 @@ export class PersonDetailComponent implements OnInit {
 
   formatPhoneNumber(): void {
     const phoneField = this.personForm.get("phoneNumber");
+    phoneField.setValue(SCValidation.formatPhone(phoneField.value));
+  }
+
+  formatHomePhone(): void {
+    const phoneField = this.personForm.get("family.homePhone");
     phoneField.setValue(SCValidation.formatPhone(phoneField.value));
   }
 

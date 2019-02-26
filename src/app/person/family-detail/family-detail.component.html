@@ -8,7 +8,7 @@
       <div class="col">
         Family Name: {{family.surname}}<br/>
         Home Phone: {{family.homePhone}}<br/>
-        Envelope Number: {{family.envelopeNumber > 0? family.developNumber: ""}}<br/>
+        Envelope Number: {{family.envelopeNumber > 0? family.envelopeNumber: ""}}<br/>
         Address:<br/>
         <div *ngIf="family.address.street1 !== '' && family.address.street1 !== null">
           {{family.address.street1}}<br/>
@@ -32,16 +32,6 @@
         <mat-form-field appearance="standard" class="input-standard">
           <mat-label>Family Name</mat-label>
           <input matInput formControlName="surname" required/>
-        </mat-form-field><br/>
-
-        <mat-form-field appearance="standard" class="input-standard">
-          <mat-label>Phone Number</mat-label>
-          <input matInput formControlName="homePhone" (keyup)="formatPhoneNumber()" maxlength="14">
-        </mat-form-field><br/>
-
-        <mat-form-field appearance="standard" class="input-standard">
-          <mat-label>Envelope Number</mat-label>
-          <input matInput type="number" formControlName="envelopeNumber"/>
         </mat-form-field><br/>
 
         <mat-form-field appearance="standard" class="input-standard">
@@ -110,7 +100,7 @@
     </div>  
     <div *ngIf="loginService.userCan('donation.read')">
       Total Donations: <strong>{{totalDonations | currency:"$"}}</strong> <br/>
-      <table>
+      <table class="sc-table">
         <thead>
           <tr>
             <th>Donation Date</th>

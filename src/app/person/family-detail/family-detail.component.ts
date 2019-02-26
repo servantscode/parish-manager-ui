@@ -39,7 +39,7 @@ export class FamilyDetailComponent implements OnInit {
       id: '',
       surname: ['', Validators.required],
       homePhone: ['', Validators.pattern(SCValidation.PHONE)],
-      envelopeNumber: [0, Validators.pattern(SCValidation.NUMBER)],
+      envelopeNumber: ['', Validators.pattern(SCValidation.NUMBER)],
       address: this.fb.group({
         street1: ['', Validators.required],
         city: ['', Validators.required],

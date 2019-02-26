@@ -23,6 +23,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   @Input('value') _value;
   @Input() required = false;
   @Input() disabled = false;
+  @Input() fieldSize = 'standard';
 
   @Input() selectIdentity = false;
   @Input() autocompleteService: PaginatedService<T>

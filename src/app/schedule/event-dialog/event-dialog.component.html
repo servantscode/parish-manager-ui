@@ -43,7 +43,7 @@
         <div class="row">
           <div class="col">
             <!-- *ngFor="let roomRes of rooms" -->
-            <mat-form-field >
+            <mat-form-field class="input-standard">
               <input type="text" placeholder="Room" aria-label="Room Name" matInput formControlName="room" [matAutocomplete]="autoRoom">
               <mat-autocomplete #autoRoom="matAutocomplete" autoActiveFirstOption [displayWith]="selectRoomName" (optionSelected)="addRoom($event)">
                 <mat-option *ngFor="let room of filteredRooms | async" [value]="room">
@@ -52,7 +52,7 @@
               </mat-autocomplete>
             </mat-form-field>
           </div>
-          <div class="col-4">
+          <div class="col-2">
             <div height="55px">&nbsp;</div>
             <app-availability [res]="rooms.length>0?rooms[0]:null"></app-availability>
           </div>
@@ -69,7 +69,7 @@
         <button *ngIf="!addingRoom" mat-button class="btn btn-primary" (click)="addingRoom=true">Additional Room</button><br/> -->
 
         
-        <mat-form-field>
+        <mat-form-field class="input-standard">
           <input type="text" placeholder="Equipment" aria-label="Equipment Name" matInput formControlName="equipment" [matAutocomplete]="autoEquipment">
           <mat-autocomplete #autoEquipment="matAutocomplete" [displayWith]="selectEquipmentName" (optionSelected)="addEquipment($event)">
             <mat-option *ngFor="let item of filteredEquipment | async" [value]="item">
@@ -78,14 +78,12 @@
           </mat-autocomplete>
         </mat-form-field><br/>
 
-        <div *ngFor="let item of equipment">
-          <div class="row">
-            <div class="col reservation">
-              {{item.name}}
-            </div>
-            <div class="col-4">
-              <app-availability [res]="item"></app-availability>
-            </div>
+        <div *ngFor="let item of equipment" class="row">
+          <div class="col reservation">
+            {{item.name}}
+          </div>
+          <div class="col-2">
+            <app-availability [res]="item"></app-availability>
           </div>
         </div> <br/>
 
