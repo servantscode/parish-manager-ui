@@ -26,6 +26,8 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Input() pageSize: number = 20;
   @Input() dialogComponent = null;
 
+  @Input() newItemTemplate:any;
+
   @Input() selectable: boolean = false;
   @Output() onSelect: EventEmitter<T> = new EventEmitter<T>(); 
   @Input() refreshOn: Subject<any>;
@@ -96,6 +98,9 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
     if(this.openDialogRef != null)
       return;
+
+    if(!item)
+      item = this.newItemTemplate;
 
     this.openDialogRef = this.dialog.open(this.dialogComponent, {
       width: '400px',

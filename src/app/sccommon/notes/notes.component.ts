@@ -34,7 +34,7 @@ export class NotesComponent implements OnChanges {
     });
 
   constructor(private fb: FormBuilder,
-              private loginService: LoginService,
+              public loginService: LoginService,
               private noteService: NoteService) { }
 
   ngOnChanges() {

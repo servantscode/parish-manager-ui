@@ -37,8 +37,10 @@ export class CredentialDialogComponent implements OnInit {
   ngOnInit() {
     if(this.data.item) {
       this.credentialForm.patchValue(this.data.item);
-      this.createNew = false;
       this.credentialForm.get("password").clearValidators();
+      if(this.data.item.id > 0) {
+        this.createNew = false;
+      }
     }
   }
 
