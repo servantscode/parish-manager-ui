@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="save()">
-  <h1 *ngIf="data.item !== null && data.item.id > 0" mat-dialog-title>Update Role</h1>
+  <h1 *ngIf="data.item && data.item.id > 0" mat-dialog-title>Update Role</h1>
   <h1 *ngIf="data.item == null || data.item.id == 0" mat-dialog-title>Create Role</h1>
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="id"/>

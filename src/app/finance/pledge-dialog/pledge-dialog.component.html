@@ -1,5 +1,5 @@
 <form [formGroup]="pledgeForm" (ngSubmit)="createDonation()">
-  <h1 *ngIf="data.pledge !== null && data.pledge.id > 0" mat-dialog-title>Update Pledge</h1>
+  <h1 *ngIf="data.pledge && data.pledge.id > 0" mat-dialog-title>Update Pledge</h1>
   <h1 *ngIf="data.pledge == null || data.pledge.id == 0" mat-dialog-title>Record Pledge</h1>
   <div mat-dialog-content>
     <div class="row">
