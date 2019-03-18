@@ -26,7 +26,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Input() pageSize: number = 20;
   @Input() dialogComponent = null;
 
-  @Input() newItemTemplate:any;
+  @Input() newItemTemplate:any = null;
 
   @Input() selectable: boolean = false;
   @Output() onSelect: EventEmitter<T> = new EventEmitter<T>(); 

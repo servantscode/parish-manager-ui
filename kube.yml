@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: parish-manager
-        image: servantscode/parish-manager
+        image: servantcode/parish-manager
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
