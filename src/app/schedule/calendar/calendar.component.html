@@ -25,8 +25,9 @@
       <button *ngIf="loginService.userCan('event.create')" class="btn btn-primary" type="button" (click)="openEventModal()">Schedule Event</button>
     </div>
   </div>
-  <br>
+</div>
 
+<div class="container calendar-container scrollable">
   <ng-template
     #cellTemplate
     let-day="day"
