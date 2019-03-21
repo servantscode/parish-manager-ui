@@ -1,13 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 
 import { LoginService } from '../services/login.service';
-import { MessageService } from '../services/message.service';
 import { PhotoService } from '../services/photo.service';
 
 @Component({
@@ -19,9 +17,7 @@ export class PhotoUploadDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<PhotoUploadDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private fb: FormBuilder,
               private loginService: LoginService,
-              private messageService: MessageService,
               private photoService: PhotoService) { }
 
   ngOnInit() {

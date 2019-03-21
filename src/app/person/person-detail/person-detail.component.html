@@ -3,17 +3,21 @@
 
 <div *ngIf="!editMode">
   <div class="container rounded-rect">
-    <h3>Personal Details</h3>
     <div class="row">
       <div class="col">
-        Name: {{person.name}}<br/>
-        Email: {{person.email}}<br/>
-        Phone: {{person.phoneNumber}}<br/>
-        <mat-checkbox [checked]="person.headOfHousehold" [disabled]="true"> Head of Household</mat-checkbox>
-      </div>
-      <div class="col">
-        Birthdate: {{person.birthdate | date: 'MM/dd/yyyy'}}<br/>
-        Member Since: {{person.memberSince | date: 'MM/dd/yyyy'}}
+        <h3>Personal Details</h3>
+        <div class="row">
+          <div class="col">
+            Name: {{person.name}}<br/>
+            Email: {{person.email}} <span *ngIf="loginService.userCan('email.send')" class="clickable" (click)="openMailDialog()">(email)</span><br/>
+            Phone: {{person.phoneNumber}}<br/>
+            <mat-checkbox [checked]="person.headOfHousehold" [disabled]="true"> Head of Household</mat-checkbox>
+          </div>
+          <div class="col">
+            Birthdate: {{person.birthdate | date: 'MM/dd/yyyy'}}<br/>
+            Member Since: {{person.memberSince | date: 'MM/dd/yyyy'}}
+          </div>
+        </div>
       </div>
       <div class="col-auto">
         <app-photo class="portrait" [guid]="person.photoGuid" [altText]="person.name" [editable]="loginService.userCan('person.update')" (photoStored)="attachPhoto($event)"></app-photo>

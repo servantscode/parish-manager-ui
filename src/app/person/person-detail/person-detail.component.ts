@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { PhotoService } from '../../sccommon/services/photo.service';
@@ -14,6 +15,7 @@ import { PersonService } from '../services/person.service';
 import { FamilyService } from '../services/family.service';
 
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
+import { EmailDialogComponent } from '../../sccommon/email-dialog/email-dialog.component';
 
 export enum KEY_CODE {
   ENTER = 13,
@@ -62,7 +64,8 @@ export class PersonDetailComponent implements OnInit {
               private familyService: FamilyService,
               public loginService: LoginService,  
               private photoService: PhotoService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.personId = +this.route.snapshot.paramMap.get('id');
@@ -196,6 +199,16 @@ export class PersonDetailComponent implements OnInit {
     this.personService.attachPhoto(this.person.id, guid)
     .subscribe(() => {
       this.person.photoGuid = guid
+    });
+  }
+
+  openMailDialog(): void {
+    if(!this.loginService.userCan('email.send'))
+      return;
+
+    const donationRef = this.dialog.open(EmailDialogComponent, {
+      width: '800px', 
+      data: {"to": this.person.email}
     });
   }
 }

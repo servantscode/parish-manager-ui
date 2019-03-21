@@ -1,0 +1,39 @@
+<form [formGroup]="form" (ngSubmit)="send()">
+  <h1 mat-dialog-title>Compose Email</h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>From</mat-label>
+      <input type="text" matInput formControlName="from" autocomplete="off" cdkFocusInitial required/>
+    </mat-form-field><br/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>To</mat-label>
+      <input type="text" matInput formControlName="to" autocomplete="off"/>
+    </mat-form-field><br/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>CC</mat-label>
+      <input type="text" matInput formControlName="cc" autocomplete="off"/>
+    </mat-form-field><br/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Reply To</mat-label>
+      <input type="text" matInput formControlName="replyTo" autocomplete="off"/>
+    </mat-form-field><br/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Subject</mat-label>
+      <input type="text" matInput formControlName="subject" autocomplete="off"/>
+    </mat-form-field><br/>
+
+    <mat-form-field appearance="standard" class="input-long">
+      <mat-label>Message</mat-label>
+      <textarea matInput type="textarea" cdkTextareaAutosize cdkAutosizeMaxRows="10" formControlName="message"></textarea>
+    </mat-form-field><br/>
+  </div>
+
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Send</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+  </div>
+</form>

@@ -22,11 +22,13 @@ import { LoginComponent } from './login/login.component';
 import { ApiLocatorService } from './services/api-locator.service';
 import { LoginService } from './services/login.service';
 import { PhotoService } from './services/photo.service';
+import { EmailService } from './services/email.service';
 import { ScAutoCompleteComponent } from './sc-auto-complete/sc-auto-complete.component';
 import { PhotoComponent } from './photo/photo.component';
 import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-dialog.component';
 import { environment } from '../../environments/environment';
 import { NotesComponent } from './notes/notes.component';
+import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -40,7 +42,8 @@ export function tokenGetter() {
     ScAutoCompleteComponent,
     PhotoComponent,
     PhotoUploadDialogComponent,
-    NotesComponent
+    NotesComponent,
+    EmailDialogComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -82,10 +85,12 @@ export function tokenGetter() {
   providers: [ 
     LoginService,
     PhotoService,
-    ApiLocatorService
+    ApiLocatorService,
+    EmailService
   ],
   entryComponents: [
-    PhotoUploadDialogComponent
+    PhotoUploadDialogComponent,
+    EmailDialogComponent
   ]
 })
 export class SCCommonModule { }

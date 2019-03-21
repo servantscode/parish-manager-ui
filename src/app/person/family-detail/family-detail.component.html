@@ -3,19 +3,23 @@
 
 <form [formGroup]="familyForm" (ngSubmit)="save()">
   <div *ngIf="!editMode" class="container rounded-rect">
-    <h3>Family Details</h3>
     <div class="row">
       <div class="col">
-        Family Name: {{family.surname}}<br/>
-        Home Phone: {{family.homePhone}}<br/>
-        Envelope Number: {{family.envelopeNumber > 0? family.envelopeNumber: ""}}<br/>
-        Address:<br/>
-        <div *ngIf="family.address.street1 !== '' && family.address.street1 !== null">
-          {{family.address.street1}}<br/>
-          {{family.address.city}}, {{family.address.state}} {{family.address.zip}}
-        </div>
-        <div *ngIf="family.address.street1 == ''">
-          No address on file.
+        <h3>Family Details</h3>
+        <div class="row">
+          <div class="col">
+            Family Name: {{family.surname}}<br/>
+            Home Phone: {{family.homePhone}}<br/>
+            Envelope Number: {{family.envelopeNumber > 0? family.envelopeNumber: ""}}<br/>
+            Address:<br/>
+            <div *ngIf="family.address.street1 !== '' && family.address.street1 !== null">
+              {{family.address.street1}}<br/>
+              {{family.address.city}}, {{family.address.state}} {{family.address.zip}}
+            </div>
+            <div *ngIf="family.address.street1 == ''">
+              No address on file.
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-auto">
