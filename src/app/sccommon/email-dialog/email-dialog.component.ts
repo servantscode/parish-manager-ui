@@ -11,12 +11,16 @@ import { EmailService } from '../services/email.service';
 import { Email } from '../email';
 import { SCValidation } from '../validation';
 
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 @Component({
   selector: 'app-email-dialog',
   templateUrl: './email-dialog.component.html',
   styleUrls: ['./email-dialog.component.scss']
 })
 export class EmailDialogComponent implements OnInit {
+
+  public Editor = ClassicEditor;
 
   form = this.fb.group({
       from: [this.loginService.getUserName(), [Validators.required, Validators.pattern(SCValidation.EMAIL)]],

@@ -12,6 +12,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { FileDropModule } from 'ngx-file-drop';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { SCCommonRoutingModule } from './sccommon-routing.module';
 
@@ -72,7 +73,8 @@ export function tokenGetter() {
       }
     }),
 
-    FileDropModule
+    FileDropModule,
+    CKEditorModule
   ],
   exports: [
     PaginatedListComponent,
