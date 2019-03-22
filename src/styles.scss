@@ -198,6 +198,11 @@ div.rounded-rect {
   cursor: pointer;
 }
 
+.delete {
+  background-image: url('./assets/images/trash.png');
+  cursor: pointer;
+}
+
 .locked {
   background-image: url('./assets/images/locked.png');
   cursor: pointer;

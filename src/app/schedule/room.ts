@@ -10,7 +10,7 @@ export class Room extends Autocompletable {
   capacity: number;
 
   public identify(): string {
-    return name;
+    return this.name;
   }
 
   public identifyAs(identity: string): Room {

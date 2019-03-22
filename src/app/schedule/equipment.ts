@@ -10,7 +10,7 @@ export class Equipment extends Autocompletable {
   description: string;
 
   public identify(): string {
-    return name;
+    return this.name;
   }
 
   public identifyAs(identity: string): Equipment {

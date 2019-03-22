@@ -12,16 +12,20 @@
   <table class="sc-table">
     <thead>
       <tr>
-        <td *ngIf="selectable">&nbsp;</td>
         <th *ngFor="let field of fields">{{field | titlecase }}</th>
+        <td *ngIf="selectable">&nbsp;</td>
+        <td>&nbsp;</td>
       </tr>
     </thead>
     <tbody (mouseleave)="highlight(null)">
       <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass]="{'highlight' : item === highlighted, 'selected' : item === selected}">
+        <td  *ngFor="let field of fields" (click)="clicked(item)">{{item[field]}}</td>
         <td *ngIf="selectable" class="icon">
           <div class="icon" (click)='edit(item)' [ngClass]="{'edit' : item === highlighted}">&nbsp;</div>
         </td>
-        <td  *ngFor="let field of fields" (click)="clicked(item)">{{item[field]}}</td>
+        <td class="icon">
+          <div class="icon" (click)='delete(item)' [ngClass]="{'delete' : item === highlighted}">&nbsp;</div>
+        </td>
       </tr>
     </tbody>
   </table>

@@ -57,6 +57,13 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
       );
   }
 
+  delete(item: T): Observable<void> {
+    return this.http.delete<void>(this.url + `/${item.id}`).pipe(
+        tap(item => this.log('Deleted!')),
+        catchError(this.handleError('delete', null))
+      );
+  }
+
   protected mapResults(resp: PaginatedResponse<T>): PaginatedResponse<T> {
     resp.results = resp.results.map(result => this.mapObject(result));
     return resp;

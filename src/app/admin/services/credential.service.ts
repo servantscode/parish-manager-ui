@@ -38,21 +38,27 @@ export class CredentialService extends PaginatedService<Credentials> {
       throw new Error("No selected role");
 
     return this.http.get<PaginatedResponse<Credentials>>(this.url+`/role/${this.selectedRole.name}?start=${start}&count=${count}&partial_name=${search}`).pipe(
+        map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );
   }
 
   public getCredsPage(role:string, start = 0, count = 10, search = ''): Observable<PaginatedResponse<Credentials>> {
     return this.http.get<PaginatedResponse<Credentials>>(this.url+`/role/${role}?start=${start}&count=${count}&partial_name=${search}`).pipe(
+        map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );
   }
 
-  public delete(id: number): Observable<any> {
-    return this.http.delete<any>(this.url + `/${id}`).pipe(
-        tap(resp => this.log('Deleted!')),
-        catchError(this.handleError('delete', null))
-      );
+  protected mapResults(resp: PaginatedResponse<Credentials>): PaginatedResponse<Credentials> {
+    resp.results = resp.results.map(result => this.mapObject(result));
+    return resp;
   }
 
+  protected mapObject(obj: Credentials): Credentials {
+    var resp: Credentials = new Credentials().asTemplate();
+    for(let key of Object.keys(resp))
+      resp[key] = obj[key];
+    return resp;
+  }
 }

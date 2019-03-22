@@ -1,19 +1,12 @@
-import { Component, OnInit, HostListener, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 import { PaginatedService } from '../services/paginated.service';
 import { LoginService } from '../services/login.service';
 
 import { Identifiable } from '../identifiable';
-
-export enum KEY_CODE {
-  PLUS = 107,
-  EQUALS = 187,
-  ENTER = 13,
-  UP = 38,
-  DOWN = 40
-}
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-paginated-list',
@@ -67,29 +60,6 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
       });
   }
 
-  // @HostListener('window:keyup', ['$event'])
-  // keyEvent(event: KeyboardEvent) {    
-  //   if (event.keyCode === KEY_CODE.DOWN) {
-  //     if(this.highlighted == null) {
-  //       this.highlight(this.items[0]);
-  //     } else if (this.highlighted !== this.items[this.items.length -1]) {
-  //       this.highlight(this.items[this.items.indexOf(this.highlighted) + 1]);
-  //     }
-  //   }
-
-  //   if (event.keyCode === KEY_CODE.UP) {
-  //     if(this.highlighted == null) {
-  //       this.highlight(this.items[0]);
-  //     } else if (this.highlighted != this.items[0]) {
-  //       this.highlight(this.items[this.items.indexOf(this.highlighted) - 1]);
-  //     }
-  //   }
-
-  //   if(event.keyCode === KEY_CODE.ENTER && this.highlighted != null) {
-  //     this.navigate(this.highlighted.id);
-  //   }
-  // }
-
   openModal(item: T) {
     if(!item && !this.verifyPermission("create"))
       return;
@@ -115,6 +85,23 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   edit(item: T) {
     this.openModal(item);
+  }
+
+  delete(item: T) {
+    this.openDialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: {"title": "Confirm Delete",
+             "text" : "Are you sure you want to delete " + item.identify() + "?",
+             "delete": (): Observable<void> => { 
+                 return this.dataService.delete(item); 
+               }
+            }
+    });
+
+    this.openDialogRef.afterClosed().subscribe(result => {
+      this.openDialogRef= null;
+      this.populateList();
+    });
   }
 
   clicked(item: T) {

@@ -1,7 +1,12 @@
 import { Reservation } from './reservation';
+import { Identifiable } from '../sccommon/identifiable';
 
-export class Event {
-  id: number;
+export class Event extends Identifiable {
+
+  constructor() { 
+    super(); 
+  }
+
   startTime: Date;
   endTime: Date;
   description: string;
@@ -11,6 +16,23 @@ export class Event {
 
   reservations: Reservation[] = [];
   recurrence: Recurrence;
+
+  identify(): string {
+    return this.description;
+  }
+
+  asTemplate(): Identifiable {
+    this.startTime = null;
+    this.endTime = null;
+    this.description = '';
+    this.schedulerId = 0;
+    this.ministryName = '';
+    this.ministryId = 0;
+
+    this.reservations = [];
+    this.recurrence = null;
+    return this;
+  }
 }
 
 export class Recurrence {

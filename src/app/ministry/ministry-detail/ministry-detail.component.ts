@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { SCValidation } from '../../sccommon/validation';
@@ -12,6 +13,8 @@ import { EventService } from '../../schedule/services/event.service';
 
 import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
+
+import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
 
 export enum KEY_CODE {
   ENTER = 13,
@@ -44,7 +47,8 @@ export class MinistryDetailComponent implements OnInit {
               private ministryService: MinistryService,
               private eventService: EventService,
               public loginService: LoginService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getMinistry();
@@ -122,6 +126,21 @@ export class MinistryDetailComponent implements OnInit {
           this.router.navigate(['ministry', 'detail', ministry.id]);
         });      
     }
+  }
+
+  delete(): void {
+    this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: {"title": "Confirm Delete",
+             "text" : "Are you sure you want to delete " + this.ministry.identify() + "?",
+             "delete": (): Observable<void> => { 
+               return this.ministryService.delete(this.ministry); 
+             },
+             "nav": () => { 
+               this.goBack();
+             }
+        }
+    });
   }
 
   enableEdit(): void {

@@ -30,6 +30,7 @@ import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-d
 import { environment } from '../../environments/environment';
 import { NotesComponent } from './notes/notes.component';
 import { EmailDialogComponent } from './email-dialog/email-dialog.component';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -44,7 +45,8 @@ export function tokenGetter() {
     PhotoComponent,
     PhotoUploadDialogComponent,
     NotesComponent,
-    EmailDialogComponent
+    EmailDialogComponent,
+    DeleteDialogComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -92,7 +94,8 @@ export function tokenGetter() {
   ],
   entryComponents: [
     PhotoUploadDialogComponent,
-    EmailDialogComponent
+    EmailDialogComponent,
+    DeleteDialogComponent
   ]
 })
 export class SCCommonModule { }
