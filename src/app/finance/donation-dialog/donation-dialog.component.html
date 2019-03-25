@@ -1,5 +1,6 @@
-<form [formGroup]="donationForm" (ngSubmit)="createDonation()">
-  <h1 mat-dialog-title>Record Donation</h1>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <h1 *ngIf="data.item && data.item.id" mat-dialog-title>Update Donation</h1>
+  <h1 *ngIf="!data.item || !data.item.id" mat-dialog-title>Record Donation</h1>
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="familyId"/>
     
@@ -35,7 +36,7 @@
   </div>
 
   <div mat-dialog-actions class="align-right">
-    <button mat-button type="submit" class="btn btn-primary" [disabled]="!donationForm.valid">Save</button>
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
     <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
   </div>
 </form>

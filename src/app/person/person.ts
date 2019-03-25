@@ -17,6 +17,7 @@ export class Person extends Autocompletable {
   birthdate: Date;
   memberSince: Date;
   photoGuid: string;
+  inactive: boolean;
 
   public identify(): string { 
     return this.name;
@@ -36,6 +37,7 @@ export class Person extends Autocompletable {
     this.birthdate=new Date();
     this.memberSince=new Date();
     this.photoGuid="";
+    this.inactive=false;
     return this;
   }
 }

@@ -26,11 +26,4 @@ export class RoleService extends PaginatedService<Role> {
   public getTemplate(): Role {
     return new Role().asTemplate();
   }
-
-  // public getRoleNames(): Observable<string[]> {
-  //   return this.http.get<string[]>(this.url + '/autocomplete', this.httpOptions)
-  //     .pipe(
-  //       catchError(this.handleError('get roles', null))
-  //     );
-  // }
 }

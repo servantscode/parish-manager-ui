@@ -5,10 +5,13 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
-import { BaseService } from '../../sccommon/services/base.service';
+import { PaginatedService } from '../../sccommon/services/paginated.service';
+import { PaginatedResponse } from '../../sccommon/paginated.response';
 
 import { Donation } from '../donation';
 import { DonationPrediction } from '../donation-prediction';
+
+import { Family } from '../../person/family';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -19,26 +22,31 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class DonationService extends BaseService {
-  private url:string;
+export class DonationService extends PaginatedService<Donation> {
+
+  public selectedFamily:Family;
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) {
-    super(http, messageService);
-    this.url = apiService.getServiceUrl("donation");
+    super(apiService.prefaceUrl("/rest/donation"), http, messageService);
   }
 
-  getFamilyContributions(familyId: number): Observable<Donation[]> {
-    return this.http.get<Donation[]>(this.url+`/family/${familyId}`).pipe(
+  public getPermissionType(): string {
+    return "admin.login";
+  }
+
+  public getTemplate(): Donation {
+    return new Donation().asTemplate();
+  }
+
+  getPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Donation>> {
+    if(!this.selectedFamily) 
+      throw new Error("No selected family");
+
+    return this.http.get<PaginatedResponse<Donation>>(this.url+`/family/${this.selectedFamily.id}?start=${start}&count=${count}&partial_name=${search}`).pipe(
+        map(resp => this.mapResults(resp)),
         catchError(this.handleError('getFamilyContributions', null))
-      );
-  }
-
-  createDonation(donation: Donation): Observable<Donation> {
-    return this.http.post<Donation>(this.url, donation, httpOptions).pipe(
-        tap(donation => this.log('Created donation ' + donation.amount)),
-        catchError(this.handleError('createDonation', null))
       );
   }
 
@@ -46,13 +54,6 @@ export class DonationService extends BaseService {
     return this.http.post<Donation[]>(this.url + '/batch', donations, httpOptions).pipe(
         tap(donations => this.log(`Created ${donations.length} donations`)),
         catchError(this.handleError('createDonations', null))
-      );
-  }
-
-  updateDonation(donation: Donation): Observable<Donation> {
-    return this.http.put<Donation>(this.url, donation, httpOptions).pipe(
-        tap(donation => this.log('Updated donation ' + donation.amount)),
-        catchError(this.handleError('updateDonation', null))
       );
   }
 

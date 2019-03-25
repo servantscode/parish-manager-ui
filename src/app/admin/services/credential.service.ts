@@ -49,16 +49,4 @@ export class CredentialService extends PaginatedService<Credentials> {
         catchError(this.handleError('getPage', null))
       );
   }
-
-  protected mapResults(resp: PaginatedResponse<Credentials>): PaginatedResponse<Credentials> {
-    resp.results = resp.results.map(result => this.mapObject(result));
-    return resp;
-  }
-
-  protected mapObject(obj: Credentials): Credentials {
-    var resp: Credentials = new Credentials().asTemplate();
-    for(let key of Object.keys(resp))
-      resp[key] = obj[key];
-    return resp;
-  }
 }

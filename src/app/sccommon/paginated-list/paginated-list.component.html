@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search..." (ngModelChange)="populateList()" aria-label="Search">
+      <input *ngIf="searchable" type="text" class="form-control" [(ngModel)]="search" placeholder="Search..." (ngModelChange)="populateList()" aria-label="Search">
     </div>
     <div class="col controls">
       <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="populateList()"></ngb-pagination>
@@ -12,18 +12,24 @@
   <table class="sc-table">
     <thead>
       <tr>
-        <th *ngFor="let field of fields">{{field | titlecase }}</th>
-        <td *ngIf="selectable">&nbsp;</td>
-        <td>&nbsp;</td>
+        <th *ngFor="let field of fields">{{formatFieldName(field) | titlecase }}</th>
+        <td *ngIf="selectable && verifyPermission('edit')">&nbsp;</td>
+        <td *ngIf="verifyPermission('delete')">>&nbsp;</td>
       </tr>
     </thead>
     <tbody (mouseleave)="highlight(null)">
       <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass]="{'highlight' : item === highlighted, 'selected' : item === selected}">
-        <td  *ngFor="let field of fields" (click)="clicked(item)">{{item[field]}}</td>
-        <td *ngIf="selectable" class="icon">
+        <td *ngFor="let field of fields" (click)="clicked(item)">
+          <div [ngSwitch]="fieldType(field)">
+            <div *ngSwitchCase="'date'">{{item[fieldName(field)] | date: 'MM/dd/yyyy'}}</div>
+            <div *ngSwitchCase="'currency'">{{item[fieldName(field)] | currency:"$"}}</div>
+            <div *ngSwitchDefault>{{item[fieldName(field)]}}</div>
+          </div>
+        </td>
+        <td *ngIf="selectable && verifyPermission('edit')" class="icon">
           <div class="icon" (click)='edit(item)' [ngClass]="{'edit' : item === highlighted}">&nbsp;</div>
         </td>
-        <td class="icon">
+        <td *ngIf="verifyPermission('delete')" class="icon">
           <div class="icon" (click)='delete(item)' [ngClass]="{'delete' : item === highlighted}">&nbsp;</div>
         </td>
       </tr>

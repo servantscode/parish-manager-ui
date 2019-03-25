@@ -1,5 +1,11 @@
-export class Donation {
-  id: number;
+import { Identifiable } from '../sccommon/identifiable';
+
+export class Donation extends Identifiable {
+
+  constructor() {
+    super();
+  }
+
   familyId: number;
   amount: number
   donationDate: Date;
@@ -7,15 +13,18 @@ export class Donation {
   checkNumber: number;
   transactionId: number;
 
-  static template(): any {
-    var template = new Donation();
-    template.id=0;
-    template.familyId=0;
-    template.amount=0;
-    template.donationDate=new Date();
-    template.donationType ="";
-    template.checkNumber=0;
-    template.transactionId=0;
-    return template;
+  public identify(): string {
+    return this.id.toString();
+  }
+
+  public asTemplate(): Donation {
+    this.id=0;
+    this.familyId=0;
+    this.amount=0;
+    this.donationDate=new Date();
+    this.donationType ="";
+    this.checkNumber=0;
+    this.transactionId=0;
+    return this;
   }
 }

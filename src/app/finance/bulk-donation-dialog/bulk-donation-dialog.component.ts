@@ -119,7 +119,7 @@ export class BulkDonationDialogComponent implements OnInit {
       const donationDate = this.donationForm.get('donationDate').value;
 
       for(let control of (<FormArray>this.donationForm.controls['donations']).controls) {
-        var tempDon = this.cleaningService.prune(control.value, Donation.template());
+        var tempDon = this.cleaningService.prune(control.value, new Donation().asTemplate());
         tempDon.donationDate = donationDate;
         donations.push(tempDon);
       }

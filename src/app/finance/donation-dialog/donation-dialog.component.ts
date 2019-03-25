@@ -15,8 +15,9 @@ import { DonationService } from '../services/donation.service';
 })
 export class DonationDialogComponent implements OnInit {
 
-  donationForm = this.fb.group({
-      familyId: [this.data.id, Validators.required],
+  form = this.fb.group({
+      id: [''],
+      familyId: ['', Validators.required],
       amount: ['', [Validators.required, Validators.pattern(SCValidation.USD)]],
       donationDate: [new Date(), Validators.required],
       donationType: ['', Validators.required],
@@ -32,7 +33,10 @@ export class DonationDialogComponent implements OnInit {
               private donationService: DonationService) { }
   
   ngOnInit() {
-    this.filteredTypes = this.donationForm.get('donationType').valueChanges
+    if(this.data.item)
+      this.form.patchValue(this.data.item);
+
+    this.filteredTypes = this.form.get('donationType').valueChanges
       .pipe(
         debounceTime(300),
         switchMap(value => this.donationService.getDonationTypes()
@@ -41,8 +45,8 @@ export class DonationDialogComponent implements OnInit {
             ))
       );
 
-    const checkNumber = this.donationForm.get('checkNumber');
-    this.donationForm.get('donationType').valueChanges.subscribe(
+    const checkNumber = this.form.get('checkNumber');
+    this.form.get('donationType').valueChanges.subscribe(
       (type: string) => {
           if (type === 'CHECK') {
               checkNumber.setValidators([Validators.required, Validators.pattern(SCValidation.NUMBER)]);
@@ -55,17 +59,25 @@ export class DonationDialogComponent implements OnInit {
   }
 
   donationType(): string {
-    return this.donationForm.get('donationType').value;
+    return this.form.get('donationType').value;
   }
 
-  createDonation() {
-    if(this.donationForm.valid) {
-      this.donationService.createDonation(this.donationForm.value).
+  save() {
+    if(!this.form.valid) {
+      this.cancel();
+      return;
+    }
+
+    if(this.form.get("id").value > 0) {
+      this.donationService.update(this.form.value).
         subscribe(() => {
           this.dialogRef.close();
         });
     } else {
-      this.cancel();
+      this.donationService.create(this.form.value).
+        subscribe(() => {
+          this.dialogRef.close();
+        });
     }
   }
 

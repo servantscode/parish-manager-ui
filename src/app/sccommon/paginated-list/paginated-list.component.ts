@@ -21,6 +21,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   @Input() newItemTemplate:any = null;
 
+  @Input() searchable: boolean = true;
   @Input() selectable: boolean = false;
   @Output() onSelect: EventEmitter<T> = new EventEmitter<T>(); 
   @Input() refreshOn: Subject<any>;
@@ -129,5 +130,19 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   verifyPermission(action: string): boolean {
     const permType = this.dataService.getPermissionType();
     return this.loginService.userCan(permType + "." + action);
+  }
+
+  formatFieldName(field: any): string {
+    var fieldName = this.fieldName(field);
+    var bits = fieldName.split(/(?=[A-Z])/);
+    return bits.join(" ");
+  }
+
+  fieldName(field:any): string {
+    return typeof field === 'string' ? field : field.name;
+  }
+
+  fieldType(field:any): string {
+    return typeof field === 'string' ? 'string' : field.type;
   }
 }

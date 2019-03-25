@@ -1,5 +1,6 @@
 <button *ngIf="!editMode && loginService.userCan('family.update')" class="btn btn-primary float-right edit-button" (click)="enableEdit()">Edit</button>
-<h2>{{family.surname}}</h2>
+<button *ngIf="!editMode && loginService.userCan('family.delete')" class="btn btn-outline-primary float-right edit-button" (click)="delete()">Delete</button>
+<h2 [ngClass]="{inactive: family.inactive}">{{family.surname}}</h2>
 
 <form [formGroup]="familyForm" (ngSubmit)="save()">
   <div *ngIf="!editMode" class="container rounded-rect">
@@ -101,8 +102,12 @@
       <div class="col align-right"> 
         <button *ngIf="loginService.userCan('pledge.create')" class="btn btn-primary" (click)="openPledgeForm()">Record Pledge</button>   
       </div>  
-    </div>  
+    </div>
     <div *ngIf="loginService.userCan('donation.read')">
+      Total Donations: <strong>{{totalDonations | currency:"$"}}</strong> <br/>
+      <app-paginated-list [dataService]="donationService" [fields]="[{'name':'donationDate', 'type':'date'}, 'donationType', {'name':'amount', 'type':'currency'}]" [pageSize]='5' [dialogComponent]="DonationDialogComponent" [newItemTemplate]="{'familyId':family.id}" [searchable]='false'></app-paginated-list>
+    </div>
+<!--     <div *ngIf="loginService.userCan('donation.read')">
       Total Donations: <strong>{{totalDonations | currency:"$"}}</strong> <br/>
       <table class="sc-table">
         <thead>
@@ -123,7 +128,7 @@
       <div class="container-fluid align-right">
         <button *ngIf="loginService.userCan('donation.create')" class="btn btn-primary" (click)="openDonationForm()">Record Donation</button> 
       </div>
-    </div>
+    </div> -->
   </div>
 
   <div *ngIf="loginService.userCan('note.list')" class="container rounded-rect">

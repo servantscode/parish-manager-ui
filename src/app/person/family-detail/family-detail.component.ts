@@ -20,6 +20,8 @@ import { Family } from '../family';
 import { FamilyService } from '../services/family.service';
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
 
+import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
+
 @Component({
   selector: 'app-family-detail',
   templateUrl: './family-detail.component.html',
@@ -27,12 +29,12 @@ import { FamilyMemberListComponent } from '../family-member-list/family-member-l
 })
 export class FamilyDetailComponent implements OnInit {
 
+  DonationDialogComponent = DonationDialogComponent;
+
   family: Family;
 
   public editMode = false;
-  private donations: Donation[];
   private pledge: Pledge;
-  private highlightedDonation: Donation;
   private totalDonations: number;
 
   familyForm = this.fb.group({
@@ -81,9 +83,8 @@ export class FamilyDetailComponent implements OnInit {
         subscribe(family => {
           this.family = family;
           this.familyForm.patchValue(family);
+          this.donationService.selectedFamily = family;
         });
-
-      this.loadDonations(id);
 
       this.loadPledge(id);
 
@@ -93,17 +94,6 @@ export class FamilyDetailComponent implements OnInit {
 
       this.editMode = true;
     }
-  }
-
-  loadDonations(id): void {
-    if(!this.loginService.userCan('donation.read'))
-      return;
-
-    this.donationService.getFamilyContributions(id).
-      subscribe(donations => {
-          this.donations = donations;
-          this.totalDonations = donations.map(donation => donation.amount).reduce((acc, amount) => acc + amount, 0);
-        });
   }
 
   loadPledge(id): void {
@@ -160,24 +150,6 @@ export class FamilyDetailComponent implements OnInit {
     this.editMode=true;
   }
 
-  highlightDonation(donation: Donation) {
-    this.highlightedDonation = donation;
-  }
-
-  public openDonationForm() {
-    if(!this.loginService.userCan('donation.create'))
-      return;
-
-    const donationRef = this.dialog.open(DonationDialogComponent, {
-      width: '400px',
-      data: {"id": this.family.id}
-    });
-
-    donationRef.afterClosed().subscribe(result => {
-      this.loadDonations(this.family.id);
-    });
-  }
-
   public openPledgeForm() {
     if(!this.loginService.userCan('pledge.create'))
       return;
@@ -189,6 +161,21 @@ export class FamilyDetailComponent implements OnInit {
 
     pledgeRef.afterClosed().subscribe(result => {
       this.loadPledge(this.family.id);
+    });
+  }
+
+  delete(): void {
+    this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: {"title": "Confirm Delete",
+             "text" : "Are you sure you want to delete " + this.family.identify() + "?",
+             "delete": (): Observable<void> => { 
+               return this.familyService.delete(this.family); 
+             },
+             "nav": () => { 
+               this.goBack();
+             }
+        }
     });
   }
 

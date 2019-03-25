@@ -17,6 +17,8 @@ import { FamilyService } from '../services/family.service';
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
 import { EmailDialogComponent } from '../../sccommon/email-dialog/email-dialog.component';
 
+import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
+
 export enum KEY_CODE {
   ENTER = 13,
   ESCAPE = 27
@@ -170,6 +172,22 @@ export class PersonDetailComponent implements OnInit {
         });      
     }
   }
+
+  delete(): void {
+    this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: {"title": "Confirm Delete",
+             "text" : "Are you sure you want to delete " + this.person.identify() + "?",
+             "delete": (): Observable<void> => { 
+               return this.personService.delete(this.person); 
+             },
+             "nav": () => { 
+               this.goBack();
+             }
+        }
+    });
+  }
+
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();

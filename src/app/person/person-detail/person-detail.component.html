@@ -1,5 +1,6 @@
 <button *ngIf="!editMode && loginService.userCan('person.update')" class="btn btn-primary float-right edit-button" (click)="enableEdit()">Edit</button>
-<h2>{{personForm.get("name").value}}&nbsp;</h2>
+<button *ngIf="!editMode && loginService.userCan('person.delete')" class="btn btn-outline-primary float-right edit-button" (click)="delete()">Delete</button>
+<h2 [ngClass]="{inactive: person.inactive}">{{personForm.get("name").value}}</h2>
 
 <div *ngIf="!editMode">
   <div class="container rounded-rect">
@@ -27,7 +28,7 @@
 
   <div class="container rounded-rect">
     <h3>Family Details</h3>
-    Family Name: <a routerLink="/family/detail/{{person.family.id}}">{{person.family.surname}}</a><br/>
+    Family Name: <a [ngClass]="{inactive: person.family.inactive}" routerLink="/family/detail/{{person.family.id}}">{{person.family.surname}}</a><br/>
     Home Phone: {{person.family.homePhone}}<br/>
     Envelope Number: {{person.family.envelopeNumber > 0? person.family.envelopeNumber: ""}}<br/>
     Address:<br/>
