@@ -33,7 +33,7 @@ export class DonationService extends PaginatedService<Donation> {
   }
 
   public getPermissionType(): string {
-    return "admin.login";
+    return "donation";
   }
 
   public getTemplate(): Donation {

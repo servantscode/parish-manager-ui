@@ -144,6 +144,8 @@
   </div>
 
   <div *ngIf="(eventForm.get('id').value > 0 && loginService.userCan('event.update')) || loginService.userCan('event.create')" mat-dialog-actions class="align-right">
+    <button *ngIf="(data.event && data.event.id > 0) && loginService.userCan('event.delete')" 
+ mat-button type="button" class="btn btn-outline-primary" (click)="delete()">Delete</button>
     <button mat-button type="submit" class="btn btn-primary" [disabled]="!eventForm.valid">Save</button>
     <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
   </div>

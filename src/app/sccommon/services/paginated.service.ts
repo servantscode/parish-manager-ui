@@ -57,8 +57,10 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
       );
   }
 
-  delete(item: T): Observable<void> {
-    return this.http.delete<void>(this.url + `/${item.id}`).pipe(
+  delete(item: T, deletePermenantly: boolean = false): Observable<void> {
+    var finalUrl = this.url + `/${item.id}`;
+    if(deletePermenantly) finalUrl += "?delete_permenantly=true";
+    return this.http.delete<void>(finalUrl).pipe(
         tap(item => this.log('Deleted!')),
         catchError(this.handleError('delete', null))
       );

@@ -1,5 +1,10 @@
-export class Pledge {
-  id: number;
+import { Identifiable } from '../sccommon/identifiable';
+
+export class Pledge extends Identifiable {
+  constructor() {
+    super();
+  }
+
   familyId: number;
   pledgeType: string;
   pledgeDate: Date;
@@ -8,4 +13,21 @@ export class Pledge {
   pledgeFrequency: string;
   pledgeAmount: number;
   annualPledgeAmount: number;
+
+  public identify(): string {
+    return this.pledgeFrequency.toLowerCase() + " pledge of $" + this.pledgeAmount;
+  }
+
+  public asTemplate(): Pledge {
+    this.id=0;
+    this.familyId=0;
+    this.pledgeType="";
+    this.pledgeDate=null;
+    this.pledgeStart=null;
+    this.pledgeEnd=null;
+    this.pledgeFrequency="";
+    this.pledgeAmount=0;
+    this.annualPledgeAmount=0;
+    return this;
+  }
 }

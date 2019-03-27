@@ -10,6 +10,8 @@ import { SCValidation } from '../../sccommon/validation';
 
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
+import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
+
 import { MinistryService } from '../../ministry/services/ministry.service';
 import { Ministry } from '../../ministry/ministry';
 
@@ -74,6 +76,7 @@ export class EventDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<EventDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
+              private dialog: MatDialog,
               private eventService: EventService,
               public ministryService: MinistryService,
               private roomService: RoomService,
@@ -235,6 +238,22 @@ export class EventDialogComponent implements OnInit {
           this.dialogRef.close();
         });
     }
+  }
+
+  delete(): void {
+    var description = this.getValue("description");
+    this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: {"title": "Confirm Delete",
+             "text" : "Are you sure you want to delete " + description + "?",
+             "delete": (): Observable<void> => { 
+               return this.eventService.deleteEvent(this.getValue("id"), description); 
+             },
+             "nav": () => { 
+               this.cancel();
+             }
+        }
+    });
   }
 
   selectRoomName(room?: Room): string | undefined {

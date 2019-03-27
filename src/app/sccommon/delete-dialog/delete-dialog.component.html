@@ -1,6 +1,11 @@
 <h1 md-dialog-title>{{ data.title }}</h1>
 <div mat-dialog-content>
-  <p [innerHTML]="data.text"></p>
+  <span [innerHTML]="data.text"></span><br/>
+  <br/>
+  <div *ngIf="data.permaDelete && data.allowPermaDelete">
+    <mat-checkbox [(ngModel)]="deletePermanently">Delete Permenantly?</mat-checkbox><br/>
+  </div>
+  <span *ngIf="!data.permaDelete || deletePermanently" class="warning">This cannot be undone!</span><br/>
 </div>
 <div mat-dialog-actions>
   <button mat-button type="button" class="btn btn-primary" (click)="delete()">Delete</button>

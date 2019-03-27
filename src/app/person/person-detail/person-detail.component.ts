@@ -181,13 +181,16 @@ export class PersonDetailComponent implements OnInit {
              "delete": (): Observable<void> => { 
                return this.personService.delete(this.person); 
              },
+             "allowPermaDelete": this.loginService.userCan("admin.person.delete"),
+             "permaDelete": (): Observable<void> => { 
+               return this.personService.delete(this.person, true); 
+             },
              "nav": () => { 
                this.goBack();
              }
         }
     });
   }
-
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();

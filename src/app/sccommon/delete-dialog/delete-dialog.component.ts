@@ -14,11 +14,14 @@ import { MessageService } from '../services/message.service';
 })
 export class DeleteDialogComponent implements OnInit {
 
+  deletePermanently = false;
+
   constructor(public dialogRef: MatDialogRef<DeleteDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
                 title: string,
                 text: string,
                 delete: () => Observable<void>,
+                permaDelete?: () => Observable<void>,
                 nav?: () => void
               },
               public messageService: MessageService,
@@ -28,7 +31,13 @@ export class DeleteDialogComponent implements OnInit {
   }
 
   delete() {
-    this.data.delete().subscribe(() =>
+    if(this.deletePermanently) {
+      var call = this.data.permaDelete();
+    } else {
+      var call = this.data.delete();
+    }
+
+    call.subscribe(() =>
       {
         if(this.data.nav)
           this.data.nav();

@@ -5,7 +5,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
-import { BaseService } from '../../sccommon/services/base.service';
+import { PaginatedService } from '../../sccommon/services/paginated.service';
+import { PaginatedResponse } from '../../sccommon/paginated.response';
 
 import { Pledge } from '../pledge';
 
@@ -19,33 +20,30 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PledgeService extends BaseService {
-  private url:string;
+export class PledgeService extends PaginatedService<Pledge> {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) { 
-    super(http, messageService);
-    this.url = apiService.getServiceUrl("pledge");
+    super(apiService.prefaceUrl("/rest/pledge"), http, messageService);
+  }
+
+  public getPermissionType(): string {
+    return "pledge";
+  }
+
+  public getTemplate(): Pledge {
+    return new Pledge().asTemplate();
+  }
+
+  getPage(start?: number, count?: number, search?: string): Observable<PaginatedResponse<Pledge>> {
+    alert("Not implemented!!");
+    return null;
   }
 
   getPledge(familyId: number): Observable<Pledge> {
     return this.http.get<Pledge>(this.url+`/family/${familyId}`).pipe(
         catchError(this.handleError('getPledge', null))
-      );
-  }
-
-  createPledge(pledge: Pledge): Observable<Pledge> {
-    return this.http.post<Pledge>(this.url, pledge, httpOptions).pipe(
-        tap(pledge => this.log('Created pledge ' + pledge.pledgeAmount)),
-        catchError(this.handleError('createPledge', null))
-      );
-  }
-
-  updatePledge(pledge: Pledge): Observable<Pledge> {
-    return this.http.put<Pledge>(this.url + `/${pledge.id}`, pledge, httpOptions).pipe(
-        tap(pledge => this.log('Updated pledge ' + pledge.pledgeAmount)),
-        catchError(this.handleError('updatePledge', null))
       );
   }
 

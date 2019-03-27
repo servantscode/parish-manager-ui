@@ -89,6 +89,9 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   }
 
   delete(item: T) {
+    if(!this.verifyPermission("delete"))
+      return;
+
     this.openDialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '400px',
       data: {"title": "Confirm Delete",

@@ -60,4 +60,11 @@ export class EventService extends BaseService {
         catchError(this.handleError('updateEvent', null))
       );
   }
+
+  deleteEvent(id: number, description: string): Observable<void> {
+    return this.http.delete<void>(this.url + `/${id}`).pipe(
+        tap(event => this.log('Deleted event ' + description)),
+        catchError(this.handleError('deleteEvent', null))
+      );
+  }
 }

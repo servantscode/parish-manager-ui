@@ -5,8 +5,12 @@ import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { SCValidation } from '../../sccommon/validation';
+import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
+import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
 
 import { PledgeService } from '../services/pledge.service';
+
+import { Pledge } from '../pledge';
 
 @Component({
   selector: 'app-pledge-dialog',
@@ -33,7 +37,9 @@ export class PledgeDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<PledgeDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
-              private pledgeService: PledgeService) { }
+              private dialog: MatDialog,
+              private pledgeService: PledgeService,
+              private dataCleanup: DataCleanupService) { }
   
   ngOnInit() {
     if(this.data.pledge != null) {
@@ -73,16 +79,32 @@ export class PledgeDialogComponent implements OnInit {
     }
 
     if(this.pledgeForm.get("id").value > 0) {
-      this.pledgeService.updatePledge(this.pledgeForm.value).
+      this.pledgeService.update(this.pledgeForm.value).
         subscribe(() => {
           this.dialogRef.close();
         });
     } else {
-      this.pledgeService.createPledge(this.pledgeForm.value).
+      this.pledgeService.create(this.pledgeForm.value).
         subscribe(() => {
           this.dialogRef.close();
         });
     }
+  }
+
+  delete(): void {
+    var pledge = this.dataCleanup.prune<Pledge>(this.pledgeForm.value, new Pledge().asTemplate());
+    this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: {"title": "Confirm Delete",
+             "text" : "Are you sure you want to delete " + pledge.identify() + "?",
+             "delete": (): Observable<void> => { 
+               return this.pledgeService.delete(pledge); 
+             },
+             "nav": () => { 
+               this.cancel();
+             }
+        }
+    });
   }
 
   calculateAnnual() {

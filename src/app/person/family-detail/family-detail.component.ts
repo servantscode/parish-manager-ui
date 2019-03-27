@@ -172,6 +172,10 @@ export class FamilyDetailComponent implements OnInit {
              "delete": (): Observable<void> => { 
                return this.familyService.delete(this.family); 
              },
+             "allowPermaDelete": this.loginService.userCan("admin.family.delete"),
+             "permaDelete": (): Observable<void> => { 
+               return this.familyService.delete(this.family, true); 
+             },
              "nav": () => { 
                this.goBack();
              }

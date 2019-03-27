@@ -1,7 +1,6 @@
 import { Identifiable } from '../sccommon/identifiable';
 
 export class Donation extends Identifiable {
-
   constructor() {
     super();
   }
@@ -14,7 +13,7 @@ export class Donation extends Identifiable {
   transactionId: number;
 
   public identify(): string {
-    return this.id.toString();
+    return this.donationType.toLowerCase() + " donation of $" + this.amount;
   }
 
   public asTemplate(): Donation {
