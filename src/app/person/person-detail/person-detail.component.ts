@@ -31,7 +31,7 @@ export enum KEY_CODE {
 })
 export class PersonDetailComponent implements OnInit {
   private personId: number;
-  private person: Person;
+  public person: Person;
 
   public editMode = false;
 
@@ -174,6 +174,9 @@ export class PersonDetailComponent implements OnInit {
   }
 
   delete(): void {
+    if(!this.loginService.userCan('person.delete'))
+      return;
+
     this.dialog.open(DeleteDialogComponent, {
       width: '400px',
       data: {"title": "Confirm Delete",

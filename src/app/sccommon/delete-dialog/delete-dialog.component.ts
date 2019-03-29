@@ -21,6 +21,7 @@ export class DeleteDialogComponent implements OnInit {
                 title: string,
                 text: string,
                 delete: () => Observable<void>,
+                allowPermaDelete: boolean,
                 permaDelete?: () => Observable<void>,
                 nav?: () => void
               },

@@ -6,6 +6,7 @@ import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { SCValidation } from '../../sccommon/validation';
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
+import { LoginService } from '../../sccommon/services/login.service';
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
 
 import { PledgeService } from '../services/pledge.service';
@@ -39,6 +40,7 @@ export class PledgeDialogComponent implements OnInit {
               private fb: FormBuilder,
               private dialog: MatDialog,
               private pledgeService: PledgeService,
+              public loginService: LoginService,
               private dataCleanup: DataCleanupService) { }
   
   ngOnInit() {
@@ -92,6 +94,9 @@ export class PledgeDialogComponent implements OnInit {
   }
 
   delete(): void {
+    if(!this.loginService.userCan('pledge.delete'))
+      return;
+
     var pledge = this.dataCleanup.prune<Pledge>(this.pledgeForm.value, new Pledge().asTemplate());
     this.dialog.open(DeleteDialogComponent, {
       width: '400px',
