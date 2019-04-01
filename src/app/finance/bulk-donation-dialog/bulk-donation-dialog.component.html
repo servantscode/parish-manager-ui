@@ -39,14 +39,7 @@
             </mat-form-field>
           </td>
           <td>
-            <mat-form-field class="input-small">
-              <input type="text" placeholder="Type" aria-label="Donation Type" matInput formControlName="donationType"  [matAutocomplete]="auto" required>
-              <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
-                <mat-option *ngFor="let option of filteredTypes[i] | async" [value]="option">
-                  {{option}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
+            <app-sc-enum formControlName="donationType" label="Type" [required]="true" [valueSource]="donationTypes"></app-sc-enum>
           </td>
           <td>
             <mat-form-field *ngIf="donationType(i) === 'CHECK'" appearance="standard" class="input-5">

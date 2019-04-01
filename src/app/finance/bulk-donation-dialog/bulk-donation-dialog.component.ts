@@ -22,7 +22,7 @@ import { DonationPrediction } from '../donation-prediction';
 })
 export class BulkDonationDialogComponent implements OnInit {
 
-  filteredTypes: Observable<string[]>[] = [];
+  donationTypes = this.donationService.getDonationTypes.bind(this.donationService);
 
   donationForm = this.fb.group({
       donationDate: [new Date(), Validators.required],
@@ -58,9 +58,8 @@ export class BulkDonationDialogComponent implements OnInit {
   }
 
   deleteRow(i: number) {
-    const control = <FormArray>this.donationForm.controls['donations'];
+    const control = this.donationControls();
     control.removeAt(i);
-    this.filteredTypes.splice(i, 1);
     if(control.length == 0) {
       this.cancel();
     }
@@ -76,17 +75,8 @@ export class BulkDonationDialogComponent implements OnInit {
       transactionId: ['', Validators.pattern(SCValidation.NUMBER)]
     });
 
-    this.filteredTypes.push(
-      group.get('donationType').valueChanges
-        .pipe(
-          debounceTime(300),
-          switchMap(value => (value === null)? null: this.donationService.getDonationTypes()
-            .pipe(
-                map(resp => resp.filter(type => type.startsWith(value.toUpperCase())))              
-              ))
-        ));
-
     const checkNumber = group.get('checkNumber');
+    const transactionId = group.get('transactionId');
     group.get('donationType').valueChanges.subscribe(
       (type: string) => {
           if (type === 'CHECK') {
@@ -94,6 +84,11 @@ export class BulkDonationDialogComponent implements OnInit {
           }
           else {
               checkNumber.setValidators([Validators.pattern(SCValidation.NUMBER)]);
+              checkNumber.setValue(null);
+          }
+
+          if (type === 'CHECK' || type === 'CASH') {
+            transactionId.setValue(null);
           }
           checkNumber.updateValueAndValidity();
       });
@@ -143,9 +138,16 @@ export class BulkDonationDialogComponent implements OnInit {
     var envelopeNumber = (type === 'envelopeNumber')? group.get("envelopeNumber").value: 0;
     this.donationService.getDonationPrediction(familyId, envelopeNumber)
       .subscribe( prediction => {
-          group.patchValue(prediction);
-          this.clearZero(group.get("envelopeNumber"));
-          this.clearZero(group.get("amount"));
+          if(!prediction) {
+            group.get("envelopeNumber").setErrors({'Envelope number not found': true});
+            group.get("familyId").reset();
+            group.get("amount").reset();
+            group.get("donationType").reset();
+          } else {
+            group.patchValue(prediction);
+            this.clearZero(group.get("envelopeNumber"));
+            this.clearZero(group.get("amount"));
+          }
         });
   }
 

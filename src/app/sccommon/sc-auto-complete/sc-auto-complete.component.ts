@@ -45,22 +45,45 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   set value(val) {
-    this._value = val;
-    this.onChange(val);
+    var rawVal = val? (typeof val === 'string' || typeof val === 'number')? 
+        val: 
+        this.itemValue(val): 
+      null;
+
+    this._value = rawVal;
+    this.onChange(rawVal);
     this.onTouched();
-    if(!this.selected) {
-      if(this.selectIdentity) {
-        const mockItem =this.autocompleteService.getTemplate()
-        mockItem.identifyAs(val);
-        this.autocompleteForm.get("input").setValue(mockItem);
-        this.selectItem(mockItem);
-      }
-      else {
-        this.autocompleteService.get(val).subscribe(item => {
-              this.autocompleteForm.get("input").setValue(item);
-              this.selectItem(item);
-            });
-      }
+
+    if((typeof val === 'string' && val !== "") || (typeof val === 'number' && val != 0)) { 
+      this.resolveSelectedItem(rawVal);
+    } else {
+      this.selected = val;
+      this.autocompleteForm.get("input").setValue(val);
+    }
+  }
+
+  itemValue(item: any) {
+    return this.selectIdentity? item.identify(): item.id;
+  }
+
+  resolveSelectedItem(rawValue) {
+    if(!rawValue) {
+      alert("setting null raw");
+      this.selected = null;
+      this.autocompleteForm.get("input").reset();
+      return;
+    }
+
+    if(this.selectIdentity) {
+      const mockItem =this.autocompleteService.getTemplate()
+      mockItem.identifyAs(rawValue);
+      this.autocompleteForm.get("input").setValue(mockItem);
+      this.selected = mockItem;
+    } else {
+      this.autocompleteService.get(rawValue).subscribe(item => {
+            this.autocompleteForm.get("input").setValue(item);
+            this.selected = item;
+          });
     }
   }
 
@@ -73,7 +96,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
       this.filteredItems = this.autocompleteForm.get('input').valueChanges
         .pipe(
           debounceTime(300),
-          map(value => typeof value === 'string' ? value : value.identify()),
+          map(value => value? typeof value === 'string' ? value : value.identify(): ""),
           switchMap(value => this.autocompleteService.getPage(0, 10, value)
               .pipe(map(resp => (this.filter? this.filter(resp.results): resp.results)))
             )
@@ -86,10 +109,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   selectItem(item: T): void {
-    this.selected = item;
-    this.value = this.selectIdentity? item.identify(): item.id;
-    if(!this.value)
-       alert('Could not set value from: ' + JSON.stringify(item));
+    this.value = item;
   }
 
   //ControlValueAccesssor
@@ -102,8 +122,6 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   writeValue(value) {
-    if (value) {
-      this.value = value;
-    }
+    this.value = value;
   }
 }

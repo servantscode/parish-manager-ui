@@ -31,6 +31,7 @@ import { environment } from '../../environments/environment';
 import { NotesComponent } from './notes/notes.component';
 import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { ScEnumComponent } from './sc-enum/sc-enum.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -46,7 +47,8 @@ export function tokenGetter() {
     PhotoUploadDialogComponent,
     NotesComponent,
     EmailDialogComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    ScEnumComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -84,7 +86,8 @@ export function tokenGetter() {
     LoginComponent,
     ScAutoCompleteComponent,
     PhotoComponent,
-    NotesComponent
+    NotesComponent,
+    ScEnumComponent
   ],
   providers: [ 
     LoginService,

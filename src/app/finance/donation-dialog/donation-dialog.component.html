@@ -15,24 +15,17 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field><br/>
 
-    <mat-form-field class="input-standard">
-      <input type="text" placeholder="Type" aria-label="Donation Type" matInput formControlName="donationType"  [matAutocomplete]="auto" class="input-standard" required>
-      <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
-        <mat-option *ngFor="let option of filteredTypes | async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field><br/>
+    <app-sc-enum formControlName="donationType" label="Donation Type" [required]="true" [valueSource]="donationTypes" ></app-sc-enum>
 
     <mat-form-field *ngIf="donationType() === 'CHECK'" appearance="standard" class="input-standard">
       <mat-label>Check Number</mat-label>
       <input type="text" matInput formControlName="checkNumber" autocomplete="off" required/>
-    </mat-form-field><br/>
+    </mat-form-field>
 
     <mat-form-field *ngIf="donationType() === 'EGIFT' || donationType() === 'CREDIT_CARD'" appearance="standard" class="input-standard">
       <mat-label>Transaction Id</mat-label>
       <input type="text" matInput formControlName="transactionId" autocomplete="off"/>
-    </mat-form-field><br/>
+    </mat-form-field>
   </div>
 
   <div mat-dialog-actions class="align-right">
