@@ -20,20 +20,20 @@ import { MinistryModule } from '../ministry/ministry.module';
 import { ScheduleRoutingModule } from './schedule-routing.module';
 
 import { CalendarComponent } from './calendar/calendar.component';
-import { EventDialogComponent } from './event-dialog/event-dialog.component';
 import { SettingsComponent } from './settings/settings.component';
 import { RoomDialogComponent } from './room-dialog/room-dialog.component';
 import { EquipmentDialogComponent } from './equipment-dialog/equipment-dialog.component';
 import { AvailabilityComponent } from './availability/availability.component';
+import { EventDetailsComponent } from './event-details/event-details.component';
 
 @NgModule({
   declarations: [
     CalendarComponent,
-    EventDialogComponent,
     SettingsComponent,
     RoomDialogComponent,
     EquipmentDialogComponent,
-    AvailabilityComponent
+    AvailabilityComponent,
+    EventDetailsComponent
   ],
   imports: [
     ScheduleRoutingModule,
@@ -64,7 +64,6 @@ import { AvailabilityComponent } from './availability/availability.component';
 
   ],
   entryComponents: [
-    EventDialogComponent,
     RoomDialogComponent,
     EquipmentDialogComponent
   ]

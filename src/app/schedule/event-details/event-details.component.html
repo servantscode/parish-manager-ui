@@ -1,0 +1,139 @@
+<form [formGroup]="eventForm" (ngSubmit)="createEvent()">
+  <h2 *ngIf="(event && event.id > 0) && loginService.userCan('event.update')">Update Event</h2>
+  <h2 *ngIf="(event && event.id > 0) && !loginService.userCan('event.update')">Event Details</h2>
+  <h2 *ngIf="!event || event.id == 0">New Event</h2>
+  <div class="container rounded-rect">
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Description</mat-label>
+          <input type="text" matInput formControlName="description" autocomplete="off" required/>
+        </mat-form-field><br/>
+
+        <mat-form-field>
+          <input matInput formControlName="startDate" [matDatepicker]="startpicker" placeholder="Start Date" class="input-5" (focus)="focusField('startDate')" (blur)="focusField(null)" required>
+          <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
+          <mat-datepicker #startpicker></mat-datepicker>
+        </mat-form-field>&nbsp;
+
+        <mat-form-field appearance="standard" class="input-5">
+          <mat-label>Start Time</mat-label>
+          <input type="text" matInput formControlName="startTime" autocomplete="off" (blur)="formatTime('startTime')" required/>
+        </mat-form-field><br/>
+
+        <mat-form-field>
+          <input matInput formControlName="endDate" [matDatepicker]="endpicker" placeholder="End Date" class="input-5" (focus)="focusField('endDate')" (blur)="focusField(null)" required>
+          <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+          <mat-datepicker #endpicker></mat-datepicker>
+        </mat-form-field>&nbsp;
+
+        <mat-form-field appearance="standard" class="input-5">
+          <mat-label>End Time</mat-label>
+          <input type="text" matInput formControlName="endTime" autocomplete="off" (blur)="formatTime('endTime')" required/>
+        </mat-form-field><br/>
+
+        <app-sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService"></app-sc-auto-complete>
+
+        <input type="hidden" autocomplete="off" formControlName="id"/>
+        <input type="hidden" autocomplete="off" formControlName="schedulerId"/>
+      </div>
+      <div class="col">
+        <mat-checkbox formControlName="recurringMeeting">Recurring Meeting</mat-checkbox>
+        <div *ngIf="recurringMeeting">
+          <input type="hidden" autocomplete="off" formControlName="recurrenceId"/>
+          Repeats every<br/>
+          <mat-form-field appearance="standard" class="input-2">
+            <mat-label></mat-label>
+            <input type="number" matInput formControlName="recurrenceFreq" autocomplete="off"/>
+          </mat-form-field>&nbsp;
+
+           <mat-form-field class="input-medium">
+            <mat-select formControlName="recurrenceType">
+              <mat-option *ngFor="let option of cycleOptions" [value]="option.value">
+                {{option.text}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field><br/>
+
+          <div *ngIf="recurringWeekly()">
+            On...<br/>
+            <table>
+              <tr>
+                <th *ngFor="let day of daysOfTheWeek">{{day.substring(0, 3)}}</th>
+              </tr>
+              <tr>
+                <td *ngFor="let day of daysOfTheWeek">
+                  <mat-checkbox formControlName="{{day.toLowerCase()}}"></mat-checkbox>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <mat-form-field>
+            <input matInput formControlName="recurUntil" [matDatepicker]="recurpicker" placeholder="Until..." class="input-5">
+            <mat-datepicker-toggle matSuffix [for]="recurpicker"></mat-datepicker-toggle>
+            <mat-datepicker #recurpicker></mat-datepicker>
+          </mat-form-field><br/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container rounded-rect">
+    <h3>Reservations</h3>  
+    <div class="row">
+      <div class="col">
+        <!-- *ngFor="let roomRes of rooms" -->
+        <mat-form-field class="input-standard">
+          <input type="text" placeholder="Room" aria-label="Room Name" matInput formControlName="room" [matAutocomplete]="autoRoom">
+          <mat-autocomplete #autoRoom="matAutocomplete" autoActiveFirstOption [displayWith]="selectRoomName" (optionSelected)="addRoom($event)">
+            <mat-option *ngFor="let room of filteredRooms | async" [value]="room">
+              {{room.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <div height="55px">&nbsp;</div>
+        <app-availability [res]="rooms.length>0?rooms[0]:null"></app-availability>
+      </div>
+    </div>
+    
+    <mat-form-field class="input-standard">
+      <input type="text" placeholder="Equipment" aria-label="Equipment Name" matInput formControlName="equipment" [matAutocomplete]="autoEquipment">
+      <mat-autocomplete #autoEquipment="matAutocomplete" [displayWith]="selectEquipmentName" (optionSelected)="addEquipment($event)">
+        <mat-option *ngFor="let item of filteredEquipment | async" [value]="item">
+          {{item.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field><br/>
+
+    <div *ngFor="let item of equipment" class="row">
+      <div class="col reservation">
+        {{item.resourceName}}
+      </div>
+      <div class="col-2">
+        <app-availability [res]="item"></app-availability>
+      </div>
+    </div> <br/>
+
+    <mat-form-field appearance="standard" class="input-5">
+      <mat-label>Setup</mat-label>
+      <input type="number" matInput formControlName="setupTime" autocomplete="off"/>
+    </mat-form-field>&nbsp;
+    <mat-form-field appearance="standard" class="input-5">
+      <mat-label>Cleanup</mat-label>
+      <input type="number" matInput formControlName="cleanupTime" autocomplete="off"/>
+    </mat-form-field><br/>
+
+  </div>
+
+  <div class="container">
+    <button mat-button *ngIf="(eventForm.get('id').value > 0 && loginService.userCan('event.update')) || loginService.userCan('event.create')" type="submit" class="btn btn-primary" [disabled]="!eventForm.valid">Save</button>
+    <button mat-button *ngIf="(eventForm.get('id').value > 0 && loginService.userCan('event.update')) || loginService.userCan('event.create')" type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+    <button *ngIf="(event && event.id > 0) && loginService.userCan('event.delete')" 
+ mat-button type="button" class="btn btn-outline-primary" (click)="delete()">Delete</button>
+ 
+    <button mat-button *ngIf="(eventForm.get('id').value > 0 && !loginService.userCan('event.update'))" type="button" class="btn btn-primary" (click)="cancel()">Ok</button>
+  </div>
+</form>

@@ -66,27 +66,6 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
     return this.selectIdentity? item.identify(): item.id;
   }
 
-  resolveSelectedItem(rawValue) {
-    if(!rawValue) {
-      alert("setting null raw");
-      this.selected = null;
-      this.autocompleteForm.get("input").reset();
-      return;
-    }
-
-    if(this.selectIdentity) {
-      const mockItem =this.autocompleteService.getTemplate()
-      mockItem.identifyAs(rawValue);
-      this.autocompleteForm.get("input").setValue(mockItem);
-      this.selected = mockItem;
-    } else {
-      this.autocompleteService.get(rawValue).subscribe(item => {
-            this.autocompleteForm.get("input").setValue(item);
-            this.selected = item;
-          });
-    }
-  }
-
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -110,6 +89,22 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
 
   selectItem(item: T): void {
     this.value = item;
+  }
+
+  resolveSelectedItem(rawValue) {
+    if(this.selectIdentity) {
+      //If all we need is the identity, just mock it to save the round trip...
+      const mockItem =this.autocompleteService.getTemplate()
+      mockItem.identifyAs(rawValue);
+      this.autocompleteForm.get("input").setValue(mockItem);
+      this.selected = mockItem;
+    } else {
+      //Otherwise, go get it from the server.
+      this.autocompleteService.get(rawValue).subscribe(item => {
+            this.autocompleteForm.get("input").setValue(item);
+            this.selected = item;
+          });
+    }
   }
 
   //ControlValueAccesssor
