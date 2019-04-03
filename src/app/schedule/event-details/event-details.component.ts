@@ -34,10 +34,8 @@ export class EventDetailsComponent implements OnInit {
   eventForm = this.fb.group({
       id: [0],
       description: ['', Validators.required],
-      startDate:[new Date(), Validators.required],
-      startTime:['', [Validators.required, Validators.pattern(SCValidation.TIME)]],
-      endDate:['', Validators.required],
-      endTime:['', [Validators.required, Validators.pattern(SCValidation.TIME)]],
+      startTime: [startOfHour(addHours(new Date(), 1)), Validators.required],
+      endTime: [startOfHour(addHours(new Date(), 2)), Validators.required],
       schedulerId:[this.loginService.getUserId(), [Validators.required, Validators.pattern(SCValidation.NUMBER)]],
       ministryId:[''],
       room:[''],
@@ -58,6 +56,8 @@ export class EventDetailsComponent implements OnInit {
       sunday: [false]
     });
 
+  event: Event;
+
   addingRoom = false;
   filteredRooms: Observable<Room[]>;
   rooms = [];
@@ -68,7 +68,6 @@ export class EventDetailsComponent implements OnInit {
   recurringMeeting = false;
 
   meetingLength: number = 3600;
-  focusedDateField: string = null;
 
   cycleOptions: any[] = [];
 
@@ -111,50 +110,31 @@ export class EventDetailsComponent implements OnInit {
             ))
       );
 
-    this.eventForm.get('startDate').valueChanges
-      .pipe(distinctUntilChanged())
-      .subscribe( value => {
-          const endDate = this.eventForm.get('endDate');
-          if(value > endDate.value) 
-            endDate.setValue(value);
+    this.eventForm.get('startTime').valueChanges.subscribe( start => {
+        if(!start) return;
 
-          this.updateRecurrence();
-          this.checkAvailability();
-        });
-
-    this.eventForm.get('startTime').valueChanges
-      .pipe(distinctUntilChanged())
-      .subscribe( value => {
-        if( !this.eventForm.get('startDate').valid || !this.eventForm.get('startTime').valid)
-          return;
-
-        const start = this.mergeDatetime(this.getValue('startDate'), this.getValue('startTime'));
         const end = addSeconds(start, this.meetingLength);
-        this.eventForm.get('endDate').setValue(end);
-        this.eventForm.get('endTime').setValue(this.formatTimeString(end));
+        if(!end) return;
+
+        this.eventForm.get('endTime').setValue(end);
         this.checkAvailability();
-      }); 
+      });
 
-    this.eventForm.get('endDate').valueChanges
-      .pipe(distinctUntilChanged())
-      .subscribe( value => {
-          this.checkAvailability();
-        });
+    this.eventForm.get('endTime').valueChanges.subscribe( end => {
+        if(!end) return;
 
-    this.eventForm.get('endTime').valueChanges
-      .pipe(distinctUntilChanged())
-      .subscribe( () => {
-          const start: Date = this.mergeDatetime(this.getValue('startDate'), this.getValue('startTime'));
-          const end: Date = this.mergeDatetime(this.getValue('endDate'), this.getValue('endTime'));
-          this.meetingLength = (end.getTime() - start.getTime())/1000;
-          this.checkAvailability();
-       });
+        var start = this.eventForm.get('startTime').value;
+        if(!start) return;
+
+        this.meetingLength = (end.getTime() - start.getTime())/1000;
+        this.checkAvailability();
+      });
 
     this.eventForm.get('recurringMeeting').valueChanges
       .subscribe( value => { this.recurringMeeting = value; });
 
     this.eventForm.get('recurrenceFreq').valueChanges
-      .subscribe( () => { this.updateRecurrence() });
+      .subscribe( () => { this.updateRecurrenceOptions() });
 
     this.eventForm.get('setupTime').valueChanges
       .subscribe( () => this.checkAvailability());
@@ -162,10 +142,8 @@ export class EventDetailsComponent implements OnInit {
     this.eventForm.get('cleanupTime').valueChanges
       .subscribe( () => this.checkAvailability());
 
-    this.updateRecurrence();
+    this.updateRecurrenceOptions();
   }
-
-  event: Event;
 
   getEvent(): void {
     this.event = new Event();
@@ -191,9 +169,9 @@ export class EventDetailsComponent implements OnInit {
     return this.getValue('recurrenceType') === 'WEEKLY';
   }
 
-  updateRecurrence() {
+  updateRecurrenceOptions() {
     const freq = this.getValue('recurrenceFreq');
-    const start = this.mergeDatetime(this.getValue('startDate'), this.getValue('startTime'));
+    const start = this.getValue('startTime');
 
     this.cycleOptions.length = 0;
     this.cycleOptions.push({value: "DAILY", text: (freq === 1? "day": "days")});
@@ -218,8 +196,8 @@ export class EventDetailsComponent implements OnInit {
   }
 
   checkAvailability() {
-    var start = this.mergeDatetime(this.getValue('startDate'), this.getValue('startTime'));
-    var end = this.mergeDatetime(this.getValue('endDate'), this.getValue('endTime'));
+    var start = this.getValue('startTime');
+    var end = this.getValue('endTime');
     start = addMinutes(start, -this.getValue('setupTime'));
     end = addMinutes(end, this.getValue('cleanupTime'));
 
@@ -322,31 +300,13 @@ export class EventDetailsComponent implements OnInit {
     this.location.back();
   }
 
-  focusField(fieldName: string): void {
-    this.focusedDateField = fieldName;
-  }
-
-  formatTime(fieldName: string): void {
-    const field = this.eventForm.get(fieldName);
-    const timeOnly = this.calculateTime(field.value);
-    field.setValue(this.formatTimeString(timeOnly));
-  }
-
   private getValue(fieldName: string): any {
     return this.eventForm.get(fieldName).value;
   }
 
-
   private populateEvent(eventData: Event): void {
     this.meetingLength = (eventData.endTime.getTime() - eventData.startTime.getTime())/1000;
-    this.eventForm.get('id').setValue(eventData.id);
-    this.eventForm.get('description').setValue(eventData.description);
-    this.eventForm.get('startDate').setValue(eventData.startTime);
-    this.eventForm.get('startTime').setValue(this.formatTimeString(eventData.startTime));
-    this.eventForm.get('endDate').setValue(eventData.endTime);
-    this.eventForm.get('endTime').setValue(this.formatTimeString(eventData.endTime));
-    this.eventForm.get('schedulerId').setValue(eventData.schedulerId);
-    this.eventForm.get('ministryId').setValue(eventData.ministryId);
+    this.eventForm.patchValue(eventData);
 
     if(eventData.reservations != undefined && eventData.reservations != null) {
       this.rooms = eventData.reservations.filter((r) => r.resourceType == 'ROOM');
@@ -365,6 +325,7 @@ export class EventDetailsComponent implements OnInit {
 
     if(eventData.recurrence != undefined && eventData.recurrence != null) {
       const recur = eventData.recurrence;
+      this.eventForm.get('recurrenceId').setValue(recur.id);
       this.eventForm.get('recurringMeeting').setValue(true);
       this.recurringMeeting=true;
       var recurType = recur.cycle;
@@ -387,13 +348,10 @@ export class EventDetailsComponent implements OnInit {
   }
 
   private translateForm(formData: any): Event {
-    const event: Event = new Event();
-    event.id = formData.id;
-    event.description = formData.description;
-    event.startTime = this.mergeDatetime(formData.startDate, formData.startTime);
-    event.endTime = this.mergeDatetime(formData.endDate, formData.endTime);
-    event.schedulerId = formData.schedulerId;
-    event.ministryId = formData.ministryId;
+    const event: Event = this.cleaningService.prune<Event>(formData, new Event().asTemplate());
+
+    if(!event.reservations)
+      event.reservations = [];
 
     for(let room of this.rooms) {
       const res = this.cleaningService.prune(room, Reservation.template());
@@ -425,52 +383,6 @@ export class EventDetailsComponent implements OnInit {
     return event;
   }
 
-  private mergeDatetime(date: Date, time: string): Date {
-    const timeOnly = this.calculateTime(time);
-    if(timeOnly) {
-      date = setHours(date, timeOnly.getHours());
-      date = setMinutes(date, timeOnly.getMinutes());
-      date = setSeconds(date, timeOnly.getSeconds());
-    }
-    return date;
-  }
-
-  private calculateTime(time: string): Date {
-    const parser = /^(\d+)(:(\d+))?(:(\d+))?\s*(\w+)?$/;
-    var match = parser.exec(time);
-    if(match == null)
-      return;
-
-    var hours = match[1]? +match[1]: 0;
-    const minutes = match[3]? +match[3]: 0;
-    const seconds = match[5]? +match[5]: 0;
-    var dayHalf = match[6]? match[6]: "";
-
-    if(dayHalf.toUpperCase().startsWith("A"))
-      dayHalf = "AM"
-    else if(dayHalf.toUpperCase().startsWith("P"))
-      dayHalf = "PM"
-    else
-      dayHalf = hours > 8 && hours !== 12? "AM": "PM"
-
-    if(dayHalf === "AM" && hours >= 12)
-      hours -= 12;
-    if(dayHalf === "PM" && hours < 12)
-      hours += 12;
-
-    return new Date(0, 0, 0, hours, minutes, seconds);
-  }
-
-  private formatTimeString(date: Date): string {
-    return format(date, date.getSeconds() > 0? 'h:mm:ss A': 'h:mm A');
-  }
-
-  private pad(num:number, size:number): string {
-    let s = num+"";
-    while (s.length < size) s = "0" + s;
-    return s;
-  }
-
   private positionize(input: number): string {
     var lastPosition = input % 10;
     switch (lastPosition) {
@@ -488,5 +400,4 @@ export class EventDetailsComponent implements OnInit {
   private toDayName(input: number): string {
     return this.daysOfTheWeek[input];
   }
-
 }

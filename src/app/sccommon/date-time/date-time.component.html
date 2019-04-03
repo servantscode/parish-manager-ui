@@ -1,0 +1,12 @@
+<form [formGroup]="form">
+  <mat-form-field>
+    <input matInput formControlName="date" [matDatepicker]="datepicker" placeholder="{{label}} Date" class="input-5" required>
+    <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+    <mat-datepicker #datepicker></mat-datepicker>
+  </mat-form-field>&nbsp;
+
+  <mat-form-field appearance="standard" class="input-5">
+    <mat-label>{{label}} Time</mat-label>
+    <input type="text" matInput formControlName="time" autocomplete="off" (blur)="formatTime()" required/>
+  </mat-form-field>
+</form>

@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -32,6 +33,7 @@ import { NotesComponent } from './notes/notes.component';
 import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { ScEnumComponent } from './sc-enum/sc-enum.component';
+import { DateTimeComponent } from './date-time/date-time.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -48,7 +50,8 @@ export function tokenGetter() {
     NotesComponent,
     EmailDialogComponent,
     DeleteDialogComponent,
-    ScEnumComponent
+    ScEnumComponent,
+    DateTimeComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -67,6 +70,7 @@ export function tokenGetter() {
     MatInputModule,
     MatAutocompleteModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     
     //JWT
     JwtModule.forRoot({
@@ -87,7 +91,8 @@ export function tokenGetter() {
     ScAutoCompleteComponent,
     PhotoComponent,
     NotesComponent,
-    ScEnumComponent
+    ScEnumComponent,
+    DateTimeComponent
   ],
   providers: [ 
     LoginService,
