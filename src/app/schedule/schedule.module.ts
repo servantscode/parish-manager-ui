@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -55,7 +56,8 @@ import { EventDetailsComponent } from './event-details/event-details.component';
     MatDatepickerModule,
     MatAutocompleteModule,
     MatSelectModule,
-
+    MatTooltipModule,
+    
     //Calendar
     CalendarModule.forRoot({
       provide: DateAdapter,

@@ -89,6 +89,12 @@ export class EventDetailsComponent implements OnInit {
   ngOnInit() {
     this.getEvent();
 
+    this.route.params.subscribe(
+        params => {
+            this.getEvent();
+        }
+    );
+
     this.filteredRooms = this.eventForm.get('room').valueChanges
       .pipe(
         debounceTime(300),

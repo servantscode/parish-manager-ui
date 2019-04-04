@@ -1,7 +1,11 @@
 <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
+  <button *ngIf="(event && event.id > 0) && loginService.userCan('event.delete')" 
+ mat-button type="button" class="btn btn-outline-primary float-right edit-button" (click)="delete()">Delete</button>
+
   <h2 *ngIf="(event && event.id > 0) && loginService.userCan('event.update')">Update Event</h2>
   <h2 *ngIf="(event && event.id > 0) && !loginService.userCan('event.update')">Event Details</h2>
   <h2 *ngIf="!event || event.id == 0">New Event</h2>
+
   <div class="container rounded-rect">
     <div class="row">
       <div class="col">
@@ -64,7 +68,7 @@
   <div class="container rounded-rect">
     <h3>Reservations</h3>  
     <div class="row">
-      <div class="col">
+      <div class="col-4">
         <mat-form-field class="input-standard">
           <input type="text" placeholder="Room" aria-label="Room Name" matInput formControlName="room" [matAutocomplete]="autoRoom">
           <mat-autocomplete #autoRoom="matAutocomplete" autoActiveFirstOption [displayWith]="selectRoomName" (optionSelected)="addRoom($event)">
@@ -74,9 +78,9 @@
           </mat-autocomplete>
         </mat-form-field>
       </div>
-      <div class="col-2">
+      <div class="col-8">
         <div height="55px">&nbsp;</div>
-        <app-availability [res]="rooms.length>0?rooms[0]:null"></app-availability>
+        <app-availability [reservation]="rooms.length>0?rooms[0]:null"></app-availability>
       </div>
     </div>
     
@@ -90,11 +94,11 @@
     </mat-form-field><br/>
 
     <div *ngFor="let item of equipment" class="row">
-      <div class="col reservation">
+      <div class="col-4 reservation">
         {{item.resourceName}}
       </div>
-      <div class="col-2">
-        <app-availability [res]="item"></app-availability>
+      <div class="col-8">
+        <app-availability [reservation]="item"></app-availability>
       </div>
     </div> <br/>
 
@@ -112,8 +116,6 @@
   <div class="container">
     <button mat-button *ngIf="(eventForm.get('id').value > 0 && loginService.userCan('event.update')) || loginService.userCan('event.create')" type="submit" class="btn btn-primary" [disabled]="!eventForm.valid">Save</button>
     <button mat-button *ngIf="(eventForm.get('id').value > 0 && loginService.userCan('event.update')) || loginService.userCan('event.create')" type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
-    <button *ngIf="(event && event.id > 0) && loginService.userCan('event.delete')" 
- mat-button type="button" class="btn btn-outline-primary" (click)="delete()">Delete</button>
  
     <button mat-button *ngIf="(eventForm.get('id').value > 0 && !loginService.userCan('event.update'))" type="button" class="btn btn-primary" (click)="cancel()">Ok</button>
   </div>

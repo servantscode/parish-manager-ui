@@ -1,2 +1,10 @@
-<div *ngIf="isAvailable" class="green circle">&nbsp;</div>
-<div *ngIf="res != null && !isAvailable" class="red circle">&nbsp;</div>
+<div class="hours">
+  <div class="hour" *ngFor="let hour of  [].constructor(24); let i = index" [style.width.%]="100/24">
+    {{i%2==0? i: "&nbsp;"}}
+  </div>
+</div>
+<div class="timeline">
+  <div class="timespan" *ngFor="let window of availability" [ngClass]="{'busy': window.resourceType, 'requested': window === reservation, 'conflict': window.overlaps}" [style.width.%]="window.width" [style.left.%]="window.left" [style.top.%]="window.top" [style.height.%]="window.height">
+    <span class="clickable" (click)="gotoEvent(window.eventId)">{{window.eventId}}</span>
+  </div>
+</div>
