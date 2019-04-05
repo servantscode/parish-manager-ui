@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AvailabilityService } from '../services/availability.service';
 import { Reservation } from '../reservation';
 import { AvailabilityResponse, AvailabilityWindow } from '../availability-response';
-import { startOfDay, endOfDay, differenceInMinutes, addMinutes } from 'date-fns';
+import { startOfDay, endOfDay, differenceInMinutes, addMinutes, addHours } from 'date-fns';
 
 @Component({
   selector: 'app-availability',
@@ -12,6 +12,7 @@ import { startOfDay, endOfDay, differenceInMinutes, addMinutes } from 'date-fns'
   styleUrls: ['./availability.component.scss']
 })
 export class AvailabilityComponent implements OnInit, OnChanges {
+  @Input() displayHeader = false;
   @Input() reservation: Reservation;
   _reservation: Reservation;
   
@@ -20,6 +21,10 @@ export class AvailabilityComponent implements OnInit, OnChanges {
   isAvailable: boolean = false;
 
   availability: any[];
+
+  dayStartHour = 6;
+  dayEndHour = 22;
+  openMinutes = (this.dayEndHour-this.dayStartHour)*60;
 
   constructor(private availabilityService: AvailabilityService,
               private router: Router) { }
@@ -34,7 +39,8 @@ export class AvailabilityComponent implements OnInit, OnChanges {
     if(this.reservations &&
        this._reservation.id == this.reservation.id &&
        this._reservation.resourceType == this.reservation.resourceType &&
-       this._reservation.resourceId == this.reservation.resourceId) {
+       this._reservation.resourceId == this.reservation.resourceId &&
+       startOfDay(this._reservation.startTime) == startOfDay(this.reservation.startTime)) {
 
       this.processReservations();
     } else {
@@ -55,6 +61,10 @@ export class AvailabilityComponent implements OnInit, OnChanges {
       });
   }
 
+  formatTime(hour: number) {
+    return (hour > 12? hour - 12: hour) + " " + (hour > 11? "PM": "AM");
+  }
+
   private processReservations() {
     this.isAvailable = this.reservations.filter(res => this.overlaps(res, this.reservation)).length == 0;
 
@@ -65,11 +75,11 @@ export class AvailabilityComponent implements OnInit, OnChanges {
   }
 
   private calculateWidth(window: any) {
-    return this.diffMin(window.startTime, window.endTime)/1440*100;
+    return this.diffMin(window.startTime, window.endTime)*100/this.openMinutes;
   }
 
   private calculateStart(window: any) {
-    return this.diffMin(window.startTime, startOfDay(window.startTime))/1440*100;    
+    return differenceInMinutes(window.startTime, addHours(startOfDay(window.startTime), this.dayStartHour))*100/this.openMinutes;    
   }
 
   private markOverlaps() {
