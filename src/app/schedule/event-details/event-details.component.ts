@@ -78,8 +78,8 @@ export class EventDetailsComponent implements OnInit {
               private eventService: EventService,
               public ministryService: MinistryService,
               public personService: PersonService,
-              private roomService: RoomService,
-              private equipmentService: EquipmentService,
+              public roomService: RoomService,
+              public equipmentService: EquipmentService,
               public loginService: LoginService,
               private cleaningService: DataCleanupService,
               private changeDetectorRef: ChangeDetectorRef) { }
