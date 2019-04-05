@@ -1,5 +1,15 @@
 .reservation {
   border-bottom: 1px solid #cccccc;
+  position: relative;
+
+  span {
+    position: absolute;
+    top: calc(50% - 0.59em);
+  }
+}
+
+.reservation-avail {
+  border-bottom: 1px solid #cccccc;
 }
 
 .col {
@@ -15,4 +25,12 @@ th {
   font-weight: normal;
   padding: 0 .375em 0 .375em;
   text-align: center;
+}
+
+.float-clear {
+  clear: right;
+}
+
+.half-width {
+  width: 50%;
 }

@@ -17,6 +17,8 @@ import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialo
 import { MinistryService } from '../../ministry/services/ministry.service';
 import { Ministry } from '../../ministry/ministry';
 
+import { PersonService } from '../../person/services/person.service';
+
 import { Event, Recurrence } from '../event';
 import { Room } from '../room';
 import { Equipment } from '../equipment';
@@ -40,8 +42,8 @@ export class EventDetailsComponent implements OnInit {
       ministryId:[''],
       room:[''],
       equipment:[''],
-      setupTime:[0, [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
-      cleanupTime:[0, [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
+      setupTime:['', [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
+      cleanupTime:['', [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
       recurringMeeting: [false],
       recurrenceId: [''],
       recurrenceType: ['DAILY'],
@@ -57,19 +59,14 @@ export class EventDetailsComponent implements OnInit {
     });
 
   event: Event;
-
-  addingRoom = false;
-  filteredRooms: Observable<Room[]>;
-  rooms = [];
-  
-  filteredEquipment: Observable<Equipment[]>;
-  equipment = [];
-
   recurringMeeting = false;
+  cycleOptions: any[] = [];
+
+  rooms = [];
+  equipment = [];
 
   meetingLength: number = 3600;
 
-  cycleOptions: any[] = [];
 
   private daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -80,6 +77,7 @@ export class EventDetailsComponent implements OnInit {
               private dialog: MatDialog,
               private eventService: EventService,
               public ministryService: MinistryService,
+              public personService: PersonService,
               private roomService: RoomService,
               private equipmentService: EquipmentService,
               public loginService: LoginService,
@@ -94,27 +92,6 @@ export class EventDetailsComponent implements OnInit {
             this.getEvent();
         }
     );
-
-    this.filteredRooms = this.eventForm.get('room').valueChanges
-      .pipe(
-        debounceTime(300),
-        map(value => typeof value === 'string' ? value : value.name),
-        switchMap(value => this.roomService.getPage(0, 10, value)
-          .pipe(
-              map(resp => resp.results)
-            ))
-      );
-
-    this.filteredEquipment = this.eventForm.get('equipment').valueChanges
-      .pipe(
-        debounceTime(300),
-        map(value => typeof value === 'string' ? value : value.name),
-        switchMap(value => this.equipmentService.getPage(0, 10, value)
-          .pipe(
-              map(resp => resp.results
-                .filter(e => !this.equipment.find(item => item.resourceId === e.id)))
-            ))
-      );
 
     this.eventForm.get('startTime').valueChanges.subscribe( start => {
         if(!start) return;
@@ -135,6 +112,12 @@ export class EventDetailsComponent implements OnInit {
         this.meetingLength = (end.getTime() - start.getTime())/1000;
         this.checkAvailability();
       });
+
+    this.eventForm.get('room').valueChanges
+      .subscribe( value => this.addRoom(value));
+
+    this.eventForm.get('equipment').valueChanges
+      .subscribe( value => this.addEquipment(value));
 
     this.eventForm.get('recurringMeeting').valueChanges
       .subscribe( value => { this.recurringMeeting = value; });
@@ -261,40 +244,37 @@ export class EventDetailsComponent implements OnInit {
     });
   }
 
-  selectRoomName(room?: any): string | undefined {
-    return room ? typeof room === 'string' ? room : (room.name)? room.name: room.resourceName : undefined;
-  }
+  addRoom(room: Room): void {
+    if(!room) return;
 
-  selectEquipmentName(equipment?: Equipment): string | undefined {
-    return equipment ? typeof equipment === 'string' ? equipment : equipment.name : undefined;
-  }
-
-  addRoom(event: any): void {
-    const room = event.option.value;
-    this.rooms[0] = {
-      name: room.name,
+    this.rooms.push({
+      resourceName: room.name,
       type: room.type,
       capacity: room.capacity,
       resourceType: 'ROOM',
       resourceId: room.id,
-      eventId: this.eventForm.get('id').value,
-      reservingPersonId: this.eventForm.get('schedulerId').value,
-    };
+      eventId: this.getValue('id'),
+      eventDescription: this.getValue('description'),
+      reservingPersonId: this.eventForm.get('schedulerId').value
+    });
+    this.eventForm.get('room').reset();
     this.checkAvailability();
   }
 
-  addEquipment(event: any): void {
-    const equip = event.option.value;
+  addEquipment(equip: Equipment): void {
+    if(!equip) return;
+
     this.equipment.push({
       resourceName: equip.name,
       description: equip.description,
       manufacturer: equip.manufacturer,
       resourceType: 'EQUIPMENT',
       resourceId: equip.id,
-      eventId: this.eventForm.get('id').value,
-      reservingPersonId: this.eventForm.get('schedulerId').value,
+      eventId: this.getValue('id'),
+      eventDescription: this.getValue('description'),
+      reservingPersonId: this.getValue('schedulerId')
     });
-    this.eventForm.get('equipment').setValue('');
+    this.eventForm.get('equipment').reset();
     this.checkAvailability();
   }
 
@@ -314,19 +294,16 @@ export class EventDetailsComponent implements OnInit {
     this.meetingLength = (eventData.endTime.getTime() - eventData.startTime.getTime())/1000;
     this.eventForm.patchValue(eventData);
 
-    if(eventData.reservations != undefined && eventData.reservations != null) {
-      this.rooms = eventData.reservations.filter((r) => r.resourceType == 'ROOM');
-      this.equipment = eventData.reservations.filter((r) => r.resourceType == 'EQUIPMENT');
-      if(this.rooms.length > 0) {
-        this.eventForm.get('room').setValue(this.rooms[0]);
-      }
-
+    if(eventData.reservations) {
       if(eventData.reservations.length > 0) {
-        const setupTime = Math.abs(differenceInMinutes(eventData.startTime, eventData.reservations[0].startTime));
-        const cleanupTime = Math.abs(differenceInMinutes(eventData.endTime, eventData.reservations[0].endTime));
+        const setupTime = differenceInMinutes(eventData.startTime, eventData.reservations[0].startTime);
+        const cleanupTime = differenceInMinutes(eventData.reservations[0].endTime, eventData.endTime);
         this.eventForm.get('setupTime').setValue(setupTime);
         this.eventForm.get('cleanupTime').setValue(cleanupTime);
       }
+
+      this.rooms = eventData.reservations.filter((r) => r.resourceType == 'ROOM');
+      this.equipment = eventData.reservations.filter((r) => r.resourceType == 'EQUIPMENT');
     }
 
     if(eventData.recurrence != undefined && eventData.recurrence != null) {
@@ -359,15 +336,11 @@ export class EventDetailsComponent implements OnInit {
     if(!event.reservations)
       event.reservations = [];
 
-    for(let room of this.rooms) {
-      const res = this.cleaningService.prune(room, Reservation.template());
-      event.reservations.push(res);
-    }
+    for(let room of this.rooms)
+      event.reservations.push(this.cleaningService.prune(room, Reservation.template()));
 
-    for(let equip of this.equipment) {
-      const res = this.cleaningService.prune(equip, Reservation.template());
-      event.reservations.push(res);
-    }
+    for(let equip of this.equipment)
+      event.reservations.push(this.cleaningService.prune(equip, Reservation.template()));
 
     if(this.recurringMeeting) {
       const r = new Recurrence();

@@ -26,6 +26,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   @Input() fieldSize = 'standard';
 
   @Input() selectIdentity = false;
+  @Input() selectObject = false;
   @Input() autocompleteService: PaginatedService<T>
 
   @Input() filter;
@@ -50,20 +51,20 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
         this.itemValue(val): 
       null;
 
-    this._value = rawVal;
-    this.onChange(rawVal);
-    this.onTouched();
-
     if((typeof val === 'string' && val !== "") || (typeof val === 'number' && val != 0)) { 
       this.resolveSelectedItem(rawVal);
     } else {
       this.selected = val;
       this.autocompleteForm.get("input").setValue(val);
     }
+
+    this._value = rawVal;
+    this.onChange(rawVal);
+    this.onTouched();
   }
 
   itemValue(item: any) {
-    return this.selectIdentity? item.identify(): item.id;
+    return this.selectObject? item: this.selectIdentity? item.identify(): item.id;
   }
 
   constructor(private fb: FormBuilder) { }

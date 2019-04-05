@@ -4,7 +4,7 @@
 
   <h2 *ngIf="(event && event.id > 0) && loginService.userCan('event.update')">Update Event</h2>
   <h2 *ngIf="(event && event.id > 0) && !loginService.userCan('event.update')">Event Details</h2>
-  <h2 *ngIf="!event || event.id == 0">New Event</h2>
+  <h2 *ngIf="!event || !event.id">New Event</h2>
 
   <div class="container rounded-rect">
     <div class="row">
@@ -20,8 +20,9 @@
 
         <app-sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService"></app-sc-auto-complete>
 
+        <app-sc-auto-complete formControlName="schedulerId" label='Event Owner' [autocompleteService]="personService"></app-sc-auto-complete>
+
         <input type="hidden" autocomplete="off" formControlName="id"/>
-        <input type="hidden" autocomplete="off" formControlName="schedulerId"/>
       </div>
       <div class="col">
         <mat-checkbox formControlName="recurringMeeting">Recurring Meeting</mat-checkbox>
@@ -66,50 +67,41 @@
   </div>
 
   <div class="container rounded-rect">
-    <h3>Reservations</h3>  
-    <div class="row">
-      <div class="col-4">
-        <mat-form-field class="input-standard">
-          <input type="text" placeholder="Room" aria-label="Room Name" matInput formControlName="room" [matAutocomplete]="autoRoom">
-          <mat-autocomplete #autoRoom="matAutocomplete" autoActiveFirstOption [displayWith]="selectRoomName" (optionSelected)="addRoom($event)">
-            <mat-option *ngFor="let room of filteredRooms | async" [value]="room">
-              {{room.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+    <div class="float-right half-width">
+      <span>Additional Time:&nbsp;&nbsp;</span>
+      <mat-form-field appearance="standard" class="input-5">
+        <mat-label>Setup</mat-label>
+        <input type="number" matInput formControlName="setupTime" autocomplete="off"/>
+      </mat-form-field>&nbsp;
+      <mat-form-field appearance="standard" class="input-5">
+        <mat-label>Cleanup</mat-label>
+        <input type="number" matInput formControlName="cleanupTime" autocomplete="off"/>
+      </mat-form-field>
+    </div>
+    <h3>Reservations</h3> <br/>
+
+    <div class="float-clear"></div>
+
+    <div *ngFor="let item of rooms; let i = index" class="row">
+      <div class="col-4 reservation">
+        <span>{{item.resourceName}}</span>
       </div>
-      <div class="col-8">
-        <div height="55px">&nbsp;</div>
-        <app-availability [reservation]="rooms.length>0?rooms[0]:null" [displayHeader]="true"></app-availability>
+      <div class="col-8 reservation-avail">
+        <app-availability [reservation]="item" [displayHeader]="i == 0"></app-availability>
       </div>
     </div>
-    
-    <mat-form-field class="input-standard">
-      <input type="text" placeholder="Equipment" aria-label="Equipment Name" matInput formControlName="equipment" [matAutocomplete]="autoEquipment">
-      <mat-autocomplete #autoEquipment="matAutocomplete" [displayWith]="selectEquipmentName" (optionSelected)="addEquipment($event)">
-        <mat-option *ngFor="let item of filteredEquipment | async" [value]="item">
-          {{item.name}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field><br/>
 
-    <div *ngFor="let item of equipment" class="row">
+    <app-sc-auto-complete formControlName="room" label='+ Room' [selectObject]="true" [autocompleteService]="roomService"></app-sc-auto-complete>
+
+    <div *ngFor="let item of equipment; let i = index" class="row">
       <div class="col-4 reservation">
-        {{item.resourceName}}
+        <span>{{item.resourceName}}</span>
       </div>
-      <div class="col-8">
-        <app-availability [reservation]="item"></app-availability>
+      <div class="col-8 reservation-avail">
+        <app-availability [reservation]="item" [displayHeader]="i == 0 && rooms.length == 0"></app-availability>
       </div>
-    </div> <br/>
-
-    <mat-form-field appearance="standard" class="input-5">
-      <mat-label>Setup</mat-label>
-      <input type="number" matInput formControlName="setupTime" autocomplete="off"/>
-    </mat-form-field>&nbsp;
-    <mat-form-field appearance="standard" class="input-5">
-      <mat-label>Cleanup</mat-label>
-      <input type="number" matInput formControlName="cleanupTime" autocomplete="off"/>
-    </mat-form-field><br/>
+    </div>
+    <app-sc-auto-complete formControlName="equipment" label='+ Equipment' [selectObject]="true" [autocompleteService]="equipmentService"></app-sc-auto-complete>
 
   </div>
 
