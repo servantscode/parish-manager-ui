@@ -7,9 +7,11 @@
     <mat-form-field appearance="standard" class="input-standard">
       <mat-label>Name</mat-label>
       <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
-    </mat-form-field><br/>
+    </mat-form-field>
 
-    <mat-form-field class="input-standard">
+    <app-sc-enum formControlName="type" label="Room Type" [required]="true" [valueSource]="roomTypes"></app-sc-enum>
+
+<!--     <mat-form-field class="input-standard">
       <input type="text" placeholder="Type" aria-label="Room Type" matInput formControlName="type"  [matAutocomplete]="typeauto" class="input-standard" required>
       <mat-autocomplete #typeauto="matAutocomplete" autoActiveFirstOption>
         <mat-option *ngFor="let option of types | async" [value]="option">
@@ -18,10 +20,10 @@
       </mat-autocomplete>
     </mat-form-field><br/>
 
-    <mat-form-field appearance="standard" class="input-standard">
+ -->    <mat-form-field appearance="standard" class="input-standard">
       <mat-label>Room Capacity</mat-label>
       <input type="text" matInput formControlName="capacity" autocomplete="off"/>
-    </mat-form-field><br/>
+    </mat-form-field>
   </div>
 
   <div mat-dialog-actions class="align-right">

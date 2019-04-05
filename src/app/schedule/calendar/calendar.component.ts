@@ -10,7 +10,6 @@ import { ColorService } from '../../sccommon/services/color.service';
 
 import { Event } from '../event';
 import { EventService } from '../services/event.service';
-import { EventDialogComponent } from '../event-dialog/event-dialog.component';
 
 export enum KEY_CODE {
   PLUS = 107,
@@ -48,8 +47,6 @@ export class CalendarComponent implements OnInit {
     }
   ];
 
-  refresh: Subject<any> = new Subject();
-
   constructor(private router: Router,
               private dialog: MatDialog,
               private eventService: EventService,
@@ -59,7 +56,7 @@ export class CalendarComponent implements OnInit {
   keyEvent(event: KeyboardEvent) {
     if (event.keyCode === KEY_CODE.PLUS || 
         event.keyCode === KEY_CODE.EQUALS && event.shiftKey) {
-      this.openEventModal(null);
+      this.newEvent();
     }
   }
 
@@ -105,38 +102,16 @@ export class CalendarComponent implements OnInit {
       });
   }
 
-  openEventModal(event: any) {
+  newEvent() {
+    this.router.navigate(['calendar', 'event']);
+  }
 
-    if(this.openDialogRef != null)
-      return;
-
-    if(event == undefined) {
-      event = {
-        id: 0,
-        start: addHours(startOfHour(this.viewDate), 1),
-        end: addHours(startOfHour(this.viewDate), 2),
-        title: '',
-        schedulerId: this.loginService.getUserId()
-      };
-    } 
-
-    if((event.id != 0 && !this.loginService.userCan('event.read')) ||
-       (event.id == 0 && !this.loginService.userCan('event.create')))
-        return;
-
-    this.openDialogRef = this.dialog.open(EventDialogComponent, {
-      width: '1000px',
-      data: {"event": event}
-    });
-
-   this.openDialogRef.afterClosed().subscribe(result => {
-      this.openDialogRef= null;
-      this.loadEvents();
-    });
+  editEvent(event: any) {
+    this.router.navigate(['calendar', 'event', event.id]);
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.openEventModal(event);
+    this.editEvent(event);
   }
 
   displayCount(): number {
@@ -156,7 +131,7 @@ export class CalendarComponent implements OnInit {
   }
 
   hourClicked(date: Date) {
-    this.openEventModal({
+    this.editEvent({
         id: 0,
         start: date,
         end: addHours(date, 1),
@@ -176,7 +151,7 @@ export class CalendarComponent implements OnInit {
 
     event.start = newStart;
     event.end = newEnd;
-    this.openEventModal(event); 
+    this.editEvent(event); 
   }
 
   highlightEvent(event) {

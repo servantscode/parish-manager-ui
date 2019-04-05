@@ -1,8 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { SCValidation } from '../../sccommon/validation';
 
@@ -21,7 +19,7 @@ export class RoomDialogComponent implements OnInit {
       capacity: ['', Validators.pattern(SCValidation.NUMBER)]
     });
 
-  types: Observable<string[]>;
+  public roomTypes = this.roomService.getRoomTypes.bind(this.roomService);
 
   constructor(public dialogRef: MatDialogRef<RoomDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -32,15 +30,6 @@ export class RoomDialogComponent implements OnInit {
     if(this.data.item != null) {
       this.form.patchValue(this.data.item)
     }
-
-    this.types = this.form.get('type').valueChanges
-      .pipe(
-        debounceTime(300),
-        switchMap(value => this.roomService.getRoomTypes()
-          .pipe(
-              map(resp => resp.filter(type => type.startsWith(value.toUpperCase())))              
-            ))
-      );
   }
 
   save() {

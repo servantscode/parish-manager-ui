@@ -22,7 +22,7 @@
       <span class="clickable" mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">Today</span>
     </div>
     <div class="col controls align-right">
-      <button *ngIf="loginService.userCan('event.create')" class="btn btn-primary" type="button" (click)="openEventModal()">Schedule Event</button>
+      <button *ngIf="loginService.userCan('event.create')" class="btn btn-primary" type="button" (click)="newEvent()">Schedule Event</button>
     </div>
   </div>
 </div>
@@ -73,7 +73,6 @@
       *ngSwitchCase="CalendarView.Month"
       [viewDate]="viewDate"
       [events]="events"
-      [refresh]="refresh"
       (dayClicked)="dayClicked($event.day)"
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)"
@@ -83,7 +82,6 @@
       *ngSwitchCase="CalendarView.Week"
       [viewDate]="viewDate"
       [events]="events"
-      [refresh]="refresh"
       [dayStartHour]="6"
       [dayEndHour]="22"
       (hourSegmentClicked)="hourClicked($event.date)"
@@ -94,7 +92,6 @@
       *ngSwitchCase="CalendarView.Day"
       [viewDate]="viewDate"
       [events]="events"
-      [refresh]="refresh"
       [dayStartHour]="6"
       [dayEndHour]="22"
       (hourSegmentClicked)="hourClicked($event.date)"

@@ -6,23 +6,9 @@
       <div class="col">
         <input type="hidden" autocomplete="off" formControlName="familyId"/>
         
-        <mat-form-field class="input-standard">
-          <input type="text" placeholder="Type" aria-label="Pledge Type" matInput formControlName="pledgeType"  [matAutocomplete]="typeauto" class="input-standard" required cdkFocusInitial>
-          <mat-autocomplete #typeauto="matAutocomplete" autoActiveFirstOption>
-            <mat-option *ngFor="let option of pledgeTypes | async" [value]="option">
-              {{option | titlecase}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field><br/>
-      
-        <mat-form-field class="input-standard">
-          <input type="text" placeholder="Type" aria-label="Pledge Frequency" matInput formControlName="pledgeFrequency"  [matAutocomplete]="auto" class="input-standard" required>
-          <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
-            <mat-option *ngFor="let option of pledgeFrequencies | async" [value]="option">
-              {{option | titlecase}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field><br/>
+        <app-sc-enum formControlName="pledgeType" label="Pledge Type" [required]="true" [valueSource]="pledgeTypes"></app-sc-enum>
+
+        <app-sc-enum formControlName="pledgeFrequency" label="Pledge Frequency" [required]="true" [valueSource]="pledgeFrequencies"></app-sc-enum>
 
         <mat-form-field appearance="standard" class="input-standard">
           <mat-label>Pledge Amount</mat-label>

@@ -25,7 +25,7 @@ export class DonationDialogComponent implements OnInit {
       transactionId: ['', Validators.pattern(SCValidation.NUMBER)]
     });
 
-  filteredTypes: Observable<string[]>;
+  public donationTypes = this.donationService.getDonationTypes.bind(this.donationService);
 
   constructor(public dialogRef: MatDialogRef<DonationDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -35,15 +35,6 @@ export class DonationDialogComponent implements OnInit {
   ngOnInit() {
     if(this.data.item)
       this.form.patchValue(this.data.item);
-
-    this.filteredTypes = this.form.get('donationType').valueChanges
-      .pipe(
-        debounceTime(300),
-        switchMap(value => this.donationService.getDonationTypes()
-          .pipe(
-              map(resp => resp.filter(type => type.startsWith(value.toUpperCase())))              
-            ))
-      );
 
     const checkNumber = this.form.get('checkNumber');
     this.form.get('donationType').valueChanges.subscribe(

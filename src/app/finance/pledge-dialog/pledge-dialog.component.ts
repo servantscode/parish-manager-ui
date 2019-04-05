@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
+// import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { SCValidation } from '../../sccommon/validation';
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
@@ -31,8 +31,9 @@ export class PledgeDialogComponent implements OnInit {
       annualPledgeAmount: ['', [Validators.required, Validators.pattern(SCValidation.NUMBER)]]
     });
 
-  pledgeTypes: Observable<string[]>;
-  pledgeFrequencies: Observable<string[]>;
+  public pledgeTypes = this.pledgeService.getPledgeTypes.bind(this.pledgeService);
+  public pledgeFrequencies = this.pledgeService.getPledgeFrequencies.bind(this.pledgeService);
+
   calculatedAnnualPledge: number = 0;
 
   constructor(public dialogRef: MatDialogRef<PledgeDialogComponent>,
@@ -48,25 +49,7 @@ export class PledgeDialogComponent implements OnInit {
       this.pledgeForm.patchValue(this.data.pledge)
       this.calculateAnnual();
     }
-
-    this.pledgeTypes = this.pledgeForm.get('pledgeType').valueChanges
-      .pipe(
-        debounceTime(300),
-        switchMap(value => this.pledgeService.getPledgeTypes()
-          .pipe(
-              map(resp => resp.filter(type => type.startsWith(value.toUpperCase())))              
-            ))
-      );
-
-    this.pledgeFrequencies = this.pledgeForm.get('pledgeFrequency').valueChanges
-      .pipe(
-        debounceTime(300),
-        switchMap(value => this.pledgeService.getPledgeFrequencies()
-          .pipe(
-              map(resp => resp.filter(type => type.startsWith(value.toUpperCase())))              
-            ))
-      );
-
+    
     this.pledgeForm.get('pledgeFrequency').valueChanges
       .subscribe(() => this.calculateAnnual());
 
@@ -124,10 +107,14 @@ export class PledgeDialogComponent implements OnInit {
     switch (freq) {
       case "WEEKLY":
         return 52;
+      case "SEMI_MONTHLY":
+        return 24;
       case "MONTHLY": 
         return 12;
       case "QUARTERLY":
         return 4;
+      case "SEMI_ANNUALLY":
+        return 2;
       default:
         return 1;
     }

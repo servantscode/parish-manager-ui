@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EventDialogComponent } from './event-dialog.component';
+import { ScEnumComponent } from './sc-enum.component';
 
-describe('EventDialogComponent', () => {
-  let component: EventDialogComponent;
-  let fixture: ComponentFixture<EventDialogComponent>;
+describe('ScEnumComponent', () => {
+  let component: ScEnumComponent;
+  let fixture: ComponentFixture<ScEnumComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EventDialogComponent ]
+      declarations: [ ScEnumComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EventDialogComponent);
+    fixture = TestBed.createComponent(ScEnumComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
