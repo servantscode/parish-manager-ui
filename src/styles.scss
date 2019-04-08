@@ -204,6 +204,10 @@ div.rounded-rect {
 .delete {
   background-image: url('./assets/images/trash.png');
   cursor: pointer;
+
+  &:hover {
+    background-image: url('./assets/images/trash-active.png');
+  }
 }
 
 .locked {

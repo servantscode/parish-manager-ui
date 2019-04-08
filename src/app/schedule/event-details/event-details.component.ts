@@ -85,6 +85,9 @@ export class EventDetailsComponent implements OnInit {
               private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
+    if(!this.loginService.userCan("event.update"))
+      this.disableAll();
+
     this.getEvent();
 
     this.route.params.subscribe(
@@ -216,11 +219,17 @@ export class EventDetailsComponent implements OnInit {
     }
 
     if(this.getValue("id") > 0) {
+      if(!this.loginService.userCan("event.create"))
+        this.goBack();
+
       this.eventService.updateEvent(this.translateForm(this.eventForm.value)).
         subscribe(() => {
           this.goBack();
         });
     } else {
+      if(!this.loginService.userCan("event.update"))
+        this.goBack();
+
       this.eventService.createEvent(this.translateForm(this.eventForm.value)).
         subscribe(() => {
           this.goBack();
@@ -244,6 +253,12 @@ export class EventDetailsComponent implements OnInit {
     });
   }
 
+  roomFilter() {
+    return function(rooms: Room[]) {
+      return rooms.filter(room => !this.rooms.find(res => res.resourceId == room.id));
+    }.bind(this);
+  }
+
   addRoom(room: Room): void {
     if(!room) return;
 
@@ -261,6 +276,16 @@ export class EventDetailsComponent implements OnInit {
     this.checkAvailability();
   }
 
+  removeRoom(index: number): void {
+    this.rooms.splice(index, 1);
+  }
+
+  equipmentFilter() {
+    return function(equipment: Equipment[]) {
+        return equipment.filter(equip => !this.equipment.find(res => res.resourceId == equip.id));
+    }.bind(this);
+  }
+
   addEquipment(equip: Equipment): void {
     if(!equip) return;
 
@@ -276,6 +301,10 @@ export class EventDetailsComponent implements OnInit {
     });
     this.eventForm.get('equipment').reset();
     this.checkAvailability();
+  }
+
+  removeEquipment(index: number): void {
+    this.equipment.splice(index, 1);
   }
 
   cancel() {

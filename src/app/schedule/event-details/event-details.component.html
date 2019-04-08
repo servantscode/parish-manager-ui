@@ -34,7 +34,7 @@
             <input type="number" matInput formControlName="recurrenceFreq" autocomplete="off"/>
           </mat-form-field>&nbsp;
 
-           <mat-form-field class="input-medium">
+           <mat-form-field appearance="standard" class="input-medium">
             <mat-select formControlName="recurrenceType">
               <mat-option *ngFor="let option of cycleOptions" [value]="option.value">
                 {{option.text}}
@@ -56,7 +56,7 @@
             </table>
           </div>
 
-          <mat-form-field>
+          <mat-form-field appearance="standard">
             <input matInput formControlName="recurUntil" [matDatepicker]="recurpicker" placeholder="Until..." class="input-5">
             <mat-datepicker-toggle matSuffix [for]="recurpicker"></mat-datepicker-toggle>
             <mat-datepicker #recurpicker></mat-datepicker>
@@ -82,26 +82,46 @@
 
     <div class="float-clear"></div>
 
-    <div *ngFor="let item of rooms; let i = index" class="row">
+    <div *ngFor="let item of rooms; let i = index" class="row reservation-row">
       <div class="col-4 reservation">
-        <span>{{item.resourceName}}</span>
+        <table class="content">
+          <td>
+            {{item.resourceName}}
+          </td>
+          <td>
+            <div class="actions icon delete" (click)="removeRoom(i)">&nbsp;</div>
+          </td>
+        </table>
       </div>
-      <div class="col-8 reservation-avail">
+      <div class="col-8">
         <app-availability [reservation]="item" [displayHeader]="i == 0"></app-availability>
       </div>
     </div>
-
-    <app-sc-auto-complete formControlName="room" label='+ Room' [selectObject]="true" [autocompleteService]="roomService"></app-sc-auto-complete>
-
-    <div *ngFor="let item of equipment; let i = index" class="row">
-      <div class="col-4 reservation">
-        <span>{{item.resourceName}}</span>
+    <div class="row">
+      <div class="col-4">
+        <app-sc-auto-complete formControlName="room" label='+ Room' [selectObject]="true" [autocompleteService]="roomService" [filter]="roomFilter()"></app-sc-auto-complete>
       </div>
-      <div class="col-8 reservation-avail">
+    </div>
+
+    <div *ngFor="let item of equipment; let i = index" class="row reservation-row">
+      <div class="col-4 reservation">
+        <table class="content">
+          <td>
+            {{item.resourceName}}
+          </td>
+          <td>
+            <div class="actions icon delete" (click)="removeEquipment(i)">&nbsp;</div>
+          </td>
+        </table>      </div>
+      <div class="col-8">
         <app-availability [reservation]="item" [displayHeader]="i == 0 && rooms.length == 0"></app-availability>
       </div>
     </div>
-    <app-sc-auto-complete formControlName="equipment" label='+ Equipment' [selectObject]="true" [autocompleteService]="equipmentService"></app-sc-auto-complete>
+    <div class="row">
+      <div class="col-4">
+        <app-sc-auto-complete formControlName="equipment" label='+ Equipment' [selectObject]="true" [autocompleteService]="equipmentService" [filter]="equipmentFilter()"></app-sc-auto-complete>
+      </div>
+    </div>
 
   </div>
 
