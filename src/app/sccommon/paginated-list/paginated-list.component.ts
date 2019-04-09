@@ -5,6 +5,7 @@ import { Subject, Observable } from 'rxjs';
 import { PaginatedService } from '../services/paginated.service';
 import { LoginService } from '../services/login.service';
 
+import { PaginatedResponse } from '../paginated.response';
 import { Identifiable } from '../identifiable';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
@@ -15,6 +16,8 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
 })
 export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Input() dataService: PaginatedService<T>;
+  @Input() pageImpl: (start:number, count:number, search:string) => Observable<PaginatedResponse<T>> = null;
+
   @Input() fields: string[];
   @Input() pageSize: number = 20;
   @Input() dialogComponent = null;
@@ -54,7 +57,11 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
     if(!this.verifyPermission("list"))
       return;
     
-    this.dataService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search).
+    var observable: Observable<PaginatedResponse<T>> = this.pageImpl?
+      this.pageImpl((this.page-1)*this.pageSize, this.pageSize, this.search): 
+      this.dataService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search);
+
+    observable.
       subscribe(resp => {
         this.items = resp.results;
         this.totalCount = resp.totalResults;

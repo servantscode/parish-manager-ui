@@ -28,7 +28,7 @@ export class MetricsService extends BaseService {
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) { 
     super(http, messageService);
-    this.url = apiService.getServiceUrl("metrics");
+    this.url = apiService.prefaceUrl("/rest/metrics");
   }
 
   getYearlyRegistrations(): Observable<MetricsResponse> {

@@ -19,7 +19,7 @@ export class PermissionService extends BaseService {
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) {
     super(http, messageService);
-    this.url = apiService.getServiceUrl("permission");
+    this.url = apiService.prefaceUrl('/rest/permission');
   }
 
   getAvailablePermissions(): Observable<Permission[]> {

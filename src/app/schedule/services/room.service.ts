@@ -17,7 +17,7 @@ export class RoomService extends PaginatedService<Room> {
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) { 
-    super(apiService.getServiceUrl("room"), http, messageService);
+    super(apiService.prefaceUrl("/rest/room"), http, messageService);
   }
 
   public getPermissionType(): string {

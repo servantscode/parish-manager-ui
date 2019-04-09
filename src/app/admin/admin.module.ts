@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { SCCommonModule } from '../sccommon/sccommon.module';
 
@@ -19,13 +20,17 @@ import { RoleComponent } from './role/role.component';
 import { RoleDialogComponent } from './role-dialog/role-dialog.component';
 
 import { RoleService } from './services/role.service';
+import { AdminTabsComponent } from './admin-tabs/admin-tabs.component';
+import { UserAccessComponent } from './user-access/user-access.component';
 
 @NgModule({
   declarations: [
     CredentialDialogComponent,
     PermissionTreeComponent,
     RoleComponent,
-    RoleDialogComponent
+    RoleDialogComponent,
+    AdminTabsComponent,
+    UserAccessComponent
   ],
   imports: [
     AdminRoutingModule,
@@ -42,7 +47,8 @@ import { RoleService } from './services/role.service';
     MatDialogModule,
     MatInputModule,
     MatTreeModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatToolbarModule
   ],
   exports: [
   ],

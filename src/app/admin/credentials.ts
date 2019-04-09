@@ -8,6 +8,8 @@ export class Credentials extends Identifiable {
   name: string;
   email: string;
   role: string;
+  password: string;
+  resetPassword: boolean;
 
   public identify(): string {
     return this.name;
@@ -18,6 +20,8 @@ export class Credentials extends Identifiable {
     this.name="";
     this.email="";
     this.role="";
+    this.password="";
+    this.resetPassword=false;
     return this;
   }
 }

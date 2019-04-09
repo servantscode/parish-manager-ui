@@ -16,7 +16,7 @@ export class RoleService extends PaginatedService<Role> {
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) {
-    super(apiService.getServiceUrl("role"), http, messageService);
+    super(apiService.prefaceUrl("/rest/role"), http, messageService);
   }
 
   public getPermissionType(): string {

@@ -13,8 +13,8 @@
     <thead>
       <tr>
         <th *ngFor="let field of fields">{{formatFieldName(field) | titlecase }}</th>
-        <td *ngIf="selectable && verifyPermission('edit')">&nbsp;</td>
-        <td *ngIf="verifyPermission('delete')">>&nbsp;</td>
+        <th *ngIf="selectable && verifyPermission('edit')">&nbsp;</th>
+        <th *ngIf="verifyPermission('delete')">&nbsp;</th>
       </tr>
     </thead>
     <tbody (mouseleave)="highlight(null)">

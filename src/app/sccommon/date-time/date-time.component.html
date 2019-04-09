@@ -1,6 +1,7 @@
 <form [formGroup]="form">
   <mat-form-field appearance="standard">
-    <input matInput  formControlName="date" [matDatepicker]="datepicker" placeholder="{{label}} Date" class="input-5" required>
+    <mat-label>{{label}} Date</mat-label>
+    <input matInput  formControlName="date" [matDatepicker]="datepicker" class="input-5" required>
     <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
     <mat-datepicker #datepicker></mat-datepicker>
   </mat-form-field>&nbsp;

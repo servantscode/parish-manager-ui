@@ -20,7 +20,7 @@ export class LoginService extends BaseService {
               private jwtHelper: JwtHelperService,
               protected apiService: ApiLocatorService) { 
     super(http, messageService);
-    this.url = apiService.getServiceUrl("login");
+    this.url = apiService.prefaceUrl("/rest/login");
   }
 
   public loginEmitter = new EventEmitter<string>();
@@ -76,6 +76,12 @@ export class LoginService extends BaseService {
     const decoded = this.jwtHelper.decodeToken(localStorage.getItem('jwt-token'));
     return decoded.permissions.some(userPerm => this.matches(userPerm, reqPerm));
   }
+
+  public userMust(reqPerm: string): boolean {
+    const decoded = this.jwtHelper.decodeToken(localStorage.getItem('jwt-token'));
+    return decoded.permissions.length == 1 && decoded.permissions.some(userPerm => userPerm == reqPerm);
+  }
+
 
   public matches(userPerm: string, permRequest: string): boolean {
       return this.matchesInternal(userPerm.split(/\./), permRequest.split(/\./), 0);

@@ -17,12 +17,10 @@ import { Role } from '../role';
 })
 export class CredentialService extends PaginatedService<Credentials> {
 
-  public selectedRole:Role;
-
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) {
-    super(apiService.getServiceUrl("credentials"), http, messageService);
+    super(apiService.prefaceUrl("/rest/credentials"), http, messageService);
   }
 
   public getPermissionType(): string {
@@ -31,16 +29,6 @@ export class CredentialService extends PaginatedService<Credentials> {
 
   public getTemplate(): Credentials {
     return new Credentials().asTemplate();
-  }
-
-  public getPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Credentials>> {
-    if(this.selectedRole == null) 
-      throw new Error("No selected role");
-
-    return this.http.get<PaginatedResponse<Credentials>>(this.url+`/role/${this.selectedRole.name}?start=${start}&count=${count}&partial_name=${search}`).pipe(
-        map(resp => this.mapResults(resp)),
-        catchError(this.handleError('getPage', null))
-      );
   }
 
   public getCredsPage(role:string, start = 0, count = 10, search = ''): Observable<PaginatedResponse<Credentials>> {

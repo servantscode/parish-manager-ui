@@ -21,7 +21,8 @@ export class CredentialDialogComponent implements OnInit {
   credentialForm = this.fb.group({
       id: ['', Validators.required],
       role: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      resetPassword: [false]
     });
 
 

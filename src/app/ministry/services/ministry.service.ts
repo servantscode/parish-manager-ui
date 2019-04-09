@@ -17,7 +17,7 @@ export class MinistryService extends PaginatedService<Ministry> {
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) { 
-    super(apiService.getServiceUrl("ministry"), http, messageService);
+    super(apiService.prefaceUrl("/rest/ministry"), http, messageService);
   }
 
   public getPermissionType(): string {

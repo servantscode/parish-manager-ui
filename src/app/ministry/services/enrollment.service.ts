@@ -26,7 +26,7 @@ export class EnrollmentService extends BaseService {
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) { 
     super(http, messageService);
-    this.url = apiService.getServiceUrl("enrollment");
+    this.url = apiService.prefaceUrl("/rest/enrollment");
   }
 
   getEnrollmentsForPerson(personId: number): Observable<Enrollment[]> {

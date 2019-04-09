@@ -19,6 +19,7 @@ import { FinanceModule } from './finance/finance.module';
 import { PersonModule } from './person/person.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { MetricsModule } from './metrics/metrics.module';
+import { AccountModule } from './account/account.module';
 
 import { AutofocusDirective } from './autofocus.directive';
 import { DateInterceptor } from './services/date-interceptor';
@@ -40,6 +41,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     PersonModule,
     ScheduleModule,
     MetricsModule,
+    AccountModule,
 
     AppRoutingModule,
 

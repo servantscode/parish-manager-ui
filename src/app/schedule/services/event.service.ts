@@ -26,7 +26,7 @@ export class EventService extends BaseService {
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) { 
     super(http, messageService);
-    this.url = apiService.getServiceUrl("event");
+    this.url = apiService.prefaceUrl("/rest/event");
   }
 
   getEvents(startTime:Date, endTime:Date, search = ''): Observable<Event[]> {

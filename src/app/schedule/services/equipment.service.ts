@@ -17,7 +17,7 @@ export class EquipmentService extends PaginatedService<Equipment> {
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) { 
-    super(apiService.getServiceUrl("equipment"), http, messageService);
+    super(apiService.prefaceUrl("/rest/equipment"), http, messageService);
   }
 
   public getPermissionType(): string {

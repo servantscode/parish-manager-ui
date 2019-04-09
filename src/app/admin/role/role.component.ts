@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
+
+import { PaginatedResponse } from '../../sccommon/paginated.response';
 
 import { RoleDialogComponent } from '../role-dialog/role-dialog.component';
 import { CredentialDialogComponent } from '../credential-dialog/credential-dialog.component';
@@ -8,6 +10,7 @@ import { CredentialDialogComponent } from '../credential-dialog/credential-dialo
 import { CredentialService } from '../services/credential.service';
 import { RoleService } from '../services/role.service';
 
+import { Credentials } from '../credentials';
 import { Role } from '../role';
 
 @Component({
@@ -31,12 +34,19 @@ export class RoleComponent implements OnInit {
   }
 
   roleSelected(role: Role) {
-    this.credentialService.selectedRole=role;
     this.selectedRole=role;
     this.refreshNeeded.next(role.name);
   }
 
   ngOnDestroy() {
     this.refreshNeeded.complete();
+  }
+
+  bindCredsPage() {
+    return this.getCredsPage.bind(this);
+  }
+
+  getCredsPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Credentials>> {
+    return this.credentialService.getCredsPage(this.selectedRole.name, start, count, search);
   }
 }

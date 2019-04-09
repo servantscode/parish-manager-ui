@@ -120,7 +120,6 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
     for(let control in this.autocompleteForm.controls) {
       var field = this.autocompleteForm.get(control);
       isDisabled ? field.disable() : field.enable();
-
     }
   }
 }

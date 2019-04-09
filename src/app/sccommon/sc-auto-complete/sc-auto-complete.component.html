@@ -1,6 +1,7 @@
 <form [formGroup]="autocompleteForm">
   <mat-form-field appearance="standard" class="mat-form-field mat-primary mat-form-field-type-mat-input input-{{fieldSize}}">
-    <input type="text" formControlName="input" placeholder="{{label}}" aria-label="label" matInput [matAutocomplete]="auto" [required]="required">
+    <mat-label>{{label}}</mat-label>
+    <input type="text" formControlName="input" aria-label="label" matInput [matAutocomplete]="auto" [required]="required">
     <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="identifyItem" (optionSelected)="selectItem($event.option.value)">
       <mat-option *ngFor="let item of filteredItems | async" [value]="item">
         {{item.identify()}}

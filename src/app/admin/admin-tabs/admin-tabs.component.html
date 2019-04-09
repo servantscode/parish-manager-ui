@@ -1,0 +1,11 @@
+<mat-toolbar>
+  <span class="tab clickable" (click)="selectTab('roles')" [ngClass]="{'highlighted': 'roles' === selectedTab}">Roles</span>
+  <span class="tab clickable" (click)="selectTab('users')" [ngClass]="{'highlighted': 'users' === selectedTab}">Users</span>
+</mat-toolbar>
+
+<div class="tab-content scrollable">
+  <div [ngSwitch]="selectedTab">
+    <app-role *ngSwitchCase="'roles'">Hello</app-role>
+    <app-user-access *ngSwitchCase="'users'">Hi!</app-user-access>
+  </div>
+</div>
