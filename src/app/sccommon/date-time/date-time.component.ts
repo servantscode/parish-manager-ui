@@ -24,8 +24,7 @@ export class DateTimeComponent implements ControlValueAccessor, OnInit {
   @Input() label = 'Some';
   @Input('value') _value;
   @Input() required = false;
-  @Input() disabled = false;
-  
+
   onChange: any = () => { };
   onTouched: any = () => { };
 
@@ -34,6 +33,7 @@ export class DateTimeComponent implements ControlValueAccessor, OnInit {
       time: ['', Validators.pattern(SCValidation.TIME)]
     });
   
+
   get value() {
     return this._value;
   }
@@ -47,11 +47,6 @@ export class DateTimeComponent implements ControlValueAccessor, OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    if(this.disabled) {
-      this.form.get("date").disable();
-      this.form.get("time").disable();
-    }
-
     this.form.get('date').valueChanges
       .pipe(distinctUntilChanged())
       .subscribe( () => {
@@ -142,4 +137,12 @@ export class DateTimeComponent implements ControlValueAccessor, OnInit {
     this.form.get('date').setValue(value);
     this.form.get('time').setValue(this.formatTimeString(value));
     this.value = value;
-  }}
+  }
+
+  setDisabledState( isDisabled : boolean ) : void {
+    for(let control in this.form.controls) {
+      var field = this.form.get(control);
+      isDisabled ? field.disable() : field.enable();
+    }
+  }
+}

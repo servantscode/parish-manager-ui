@@ -88,7 +88,7 @@
           <td>
             {{item.resourceName}}
           </td>
-          <td>
+          <td *ngIf="!disabled">
             <div class="actions icon delete" (click)="removeRoom(i)">&nbsp;</div>
           </td>
         </table>
@@ -97,9 +97,9 @@
         <app-availability [reservation]="item" [displayHeader]="i == 0"></app-availability>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="!disabled">
       <div class="col-4">
-        <app-sc-auto-complete formControlName="room" label='+ Room' [selectObject]="true" [autocompleteService]="roomService" [filter]="roomFilter()"></app-sc-auto-complete>
+        <app-sc-auto-complete formControlName="room" label='+ Room' [selectObject]="true" [autocompleteService]="roomService" [filter]="roomFilter()" [disabled]="disabled"></app-sc-auto-complete>
       </div>
     </div>
 
@@ -109,7 +109,7 @@
           <td>
             {{item.resourceName}}
           </td>
-          <td>
+          <td *ngIf="!disabled">
             <div class="actions icon delete" (click)="removeEquipment(i)">&nbsp;</div>
           </td>
         </table>      </div>
@@ -117,9 +117,9 @@
         <app-availability [reservation]="item" [displayHeader]="i == 0 && rooms.length == 0"></app-availability>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="!disabled">
       <div class="col-4">
-        <app-sc-auto-complete formControlName="equipment" label='+ Equipment' [selectObject]="true" [autocompleteService]="equipmentService" [filter]="equipmentFilter()"></app-sc-auto-complete>
+        <app-sc-auto-complete formControlName="equipment" label='+ Equipment' [selectObject]="true" [autocompleteService]="equipmentService" [filter]="equipmentFilter()" [disabled]="disabled"></app-sc-auto-complete>
       </div>
     </div>
 

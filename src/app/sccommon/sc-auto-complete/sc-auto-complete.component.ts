@@ -22,7 +22,6 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   @Input() label = 'AutoSelect';
   @Input('value') _value;
   @Input() required = false;
-  @Input() disabled = false;
   @Input() fieldSize = 'standard';
 
   @Input() selectIdentity = false;
@@ -70,18 +69,14 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    if(this.disabled) {
-      this.autocompleteForm.get("input").disable();
-    } else {
-      this.filteredItems = this.autocompleteForm.get('input').valueChanges
-        .pipe(
-          debounceTime(300),
-          map(value => value? typeof value === 'string' ? value : value.identify(): ""),
-          switchMap(value => this.autocompleteService.getPage(0, 10, value)
-              .pipe(map(resp => (this.filter? this.filter(resp.results): resp.results)))
-            )
-        );
-    }
+    this.filteredItems = this.autocompleteForm.get('input').valueChanges
+      .pipe(
+        debounceTime(300),
+        map(value => value? typeof value === 'string' ? value : value.identify(): ""),
+        switchMap(value => this.autocompleteService.getPage(0, 10, value)
+            .pipe(map(resp => (this.filter? this.filter(resp.results): resp.results)))
+          )
+      );
   }
 
   identifyItem(item?: any): string | undefined {
@@ -119,5 +114,13 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
 
   writeValue(value) {
     this.value = value;
+  }
+
+  setDisabledState( isDisabled : boolean ) : void {
+    for(let control in this.autocompleteForm.controls) {
+      var field = this.autocompleteForm.get(control);
+      isDisabled ? field.disable() : field.enable();
+
+    }
   }
 }

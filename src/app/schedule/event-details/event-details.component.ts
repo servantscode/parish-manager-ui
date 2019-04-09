@@ -62,6 +62,8 @@ export class EventDetailsComponent implements OnInit {
   recurringMeeting = false;
   cycleOptions: any[] = [];
 
+  disabled: boolean = false;
+
   rooms = [];
   equipment = [];
 
@@ -82,12 +84,13 @@ export class EventDetailsComponent implements OnInit {
               public equipmentService: EquipmentService,
               public loginService: LoginService,
               private cleaningService: DataCleanupService,
-              private changeDetectorRef: ChangeDetectorRef) { }
-
-  ngOnInit() {
+              private changeDetectorRef: ChangeDetectorRef) { 
+    
     if(!this.loginService.userCan("event.update"))
       this.disableAll();
+  }
 
+  ngOnInit() {
     this.getEvent();
 
     this.route.params.subscribe(
@@ -355,6 +358,7 @@ export class EventDetailsComponent implements OnInit {
   }
 
   private disableAll() {
+    this.disabled = true;
     for(let control in this.eventForm.controls)
       this.eventForm.get(control).disable();
   }

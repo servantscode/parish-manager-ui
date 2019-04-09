@@ -21,7 +21,6 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   @Input() label = 'Enum';
   @Input('value') _value;
   @Input() required = false;
-  @Input() disabled = false;
   @Input() fieldSize = 'standard';
 
   @Input() valueSource: () => Observable<string[]>;
@@ -55,19 +54,15 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    if(this.disabled) {
-      this.autocompleteForm.get("input").disable();
-    } else {
-      this.filteredItems = this.autocompleteForm.get('input').valueChanges
-        .pipe(
-          debounceTime(300),
-          map(value => value? typeof value === 'string' ? value : value.display: ""),
-          switchMap(value => this.valueSource().pipe(
-            map(resp => resp? resp.filter(val => val.startsWith(value.toUpperCase().replace(/\s/, "_")))
-                            .map(item => new EnumValue(item)): null)
-          ))
-        );
-    }
+    this.filteredItems = this.autocompleteForm.get('input').valueChanges
+      .pipe(
+        debounceTime(300),
+        map(value => value? typeof value === 'string' ? value : value.display: ""),
+        switchMap(value => this.valueSource().pipe(
+          map(resp => resp? resp.filter(val => val.startsWith(value.toUpperCase().replace(/\s/, "_")))
+                          .map(item => new EnumValue(item)): null)
+        ))
+      );
   }
 
   selectItem(item: EnumValue): void {
@@ -93,5 +88,12 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
 
   writeValue(value) {
     this.value = value;
+  }
+
+  setDisabledState( isDisabled : boolean ) : void {
+    for(let control in this.autocompleteForm.controls) {
+      var field = this.autocompleteForm.get(control);
+      isDisabled ? field.disable() : field.enable();
+    }
   }
 }
