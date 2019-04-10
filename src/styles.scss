@@ -199,6 +199,9 @@ div.rounded-rect {
 .edit {
   background-image: url('./assets/images/pencil.png');
   cursor: pointer;
+  &:hover {
+    background-image: url('./assets/images/pencil-active.png');
+  }
 }
 
 .delete {
@@ -208,6 +211,19 @@ div.rounded-rect {
   &:hover {
     background-image: url('./assets/images/trash-active.png');
   }
+}
+
+.password {
+  background-image: url('./assets/images/key.png');
+  cursor: pointer;
+
+  &:hover {
+    background-image: url('./assets/images/key-active.png');
+  }
+}
+
+.password.inactive {
+  background-image: url('./assets/images/key-unset.png');
 }
 
 .locked {

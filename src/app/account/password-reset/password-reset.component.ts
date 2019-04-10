@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { LoginService } from '../../sccommon/services/login.service';
 
@@ -16,6 +16,7 @@ import { PasswordRequest } from '../password-request';
 export class PasswordResetComponent implements OnInit {
 
   private userId: string;
+  private resetToken: string;
 
   passwordResetForm = this.fb.group({
       oldPassword: ['', Validators.required],
@@ -26,11 +27,20 @@ export class PasswordResetComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private passwordService: PasswordService,
               private loginService: LoginService,
-              private router: Router) { 
+              private router: Router,
+              private route: ActivatedRoute) { 
+
     this.userId = loginService.getUserId();
+    this.resetToken = this.route.snapshot.paramMap.get('token');
+
+    if(!this.resetToken && !this.loginService.isAuthenticated())
+      this.router.navigate(['login']);
   }
 
   ngOnInit() {
+    if(this.resetToken)
+      this.passwordResetForm.get('oldPassword').setValidators(null);
+
   }
 
   submit() {
@@ -41,6 +51,7 @@ export class PasswordResetComponent implements OnInit {
     var req = new PasswordRequest();
     req.oldPassword = reset.oldPassword;
     req.newPassword = reset.newPassword;
+    req.passwordToken = this.resetToken;
 
     this.passwordService.updatePassword(req).subscribe(
       resp => {

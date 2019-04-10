@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { LoginService } from '../sccommon/services/login.service';
+
+import { MatMenu } from '@angular/material/menu';
 
 @Component({
   selector: 'app-user-menu',
@@ -13,7 +15,7 @@ export class UserMenuComponent implements OnInit {
   public userName: string;
 
   constructor(private loginService: LoginService,
-              private router: Router) { }
+              private router: Router) {}
 
   ngOnInit() {
     this.userName = this.loginService.getUserName();
