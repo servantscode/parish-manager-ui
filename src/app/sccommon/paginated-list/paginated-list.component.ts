@@ -7,6 +7,7 @@ import { LoginService } from '../services/login.service';
 
 import { PaginatedResponse } from '../paginated.response';
 import { Identifiable } from '../identifiable';
+import { CustomControl } from '../custom-control';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
@@ -19,6 +20,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Input() pageImpl: (start:number, count:number, search:string) => Observable<PaginatedResponse<T>> = null;
 
   @Input() fields: string[];
+  @Input() customControls: CustomControl<T>[];
   @Input() pageSize: number = 20;
   @Input() dialogComponent = null;
 

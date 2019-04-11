@@ -9,7 +9,6 @@ import { PaginatedService } from '../../sccommon/services/paginated.service';
 import { PaginatedResponse } from '../../sccommon/paginated.response';
 
 import { Credentials } from '../credentials';
-import { CredentialRequest } from '../credential-request';
 import { Role } from '../role';
 
 @Injectable({

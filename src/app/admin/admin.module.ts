@@ -59,7 +59,8 @@ import { PasswordDialogComponent } from './password-dialog/password-dialog.compo
   ],
   entryComponents: [
     CredentialDialogComponent,
-    RoleDialogComponent
+    RoleDialogComponent,
+    PasswordDialogComponent
   ]
 })
 export class AdminModule { }

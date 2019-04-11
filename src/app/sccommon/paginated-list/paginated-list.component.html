@@ -13,6 +13,7 @@
     <thead>
       <tr>
         <th *ngFor="let field of fields">{{formatFieldName(field) | titlecase }}</th>
+        <th *ngFor="let control of customControls">&nbsp;</th>
         <th *ngIf="selectable && verifyPermission('edit')">&nbsp;</th>
         <th *ngIf="verifyPermission('delete')">&nbsp;</th>
       </tr>
@@ -25,6 +26,9 @@
             <div *ngSwitchCase="'currency'">{{item[fieldName(field)] | currency:"$"}}</div>
             <div *ngSwitchDefault>{{item[fieldName(field)]}}</div>
           </div>
+        </td>
+        <td *ngFor="let control of customControls" class="icon">
+          <div class="icon" (click)='control.invoke(item)' [ngClass]=" item === highlighted? control.type: ''">&nbsp;</div>
         </td>
         <td *ngIf="selectable && verifyPermission('edit')" class="icon">
           <div class="icon" (click)='edit(item)' [ngClass]="{'edit' : item === highlighted}">&nbsp;</div>

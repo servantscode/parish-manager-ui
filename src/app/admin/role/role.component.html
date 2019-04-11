@@ -3,5 +3,5 @@
 </div>
 <div *ngIf="selectedRole" class="container rounded-rect">
   <h3>{{selectedRole.name | titlecase }} Access</h3>
-  <app-paginated-list [dataService]="credentialService" [pageImpl]="bindCredsPage()" [fields]="['name', 'email']" [pageSize]='10' [dialogComponent]="CredentialDialogComponent" [newItemTemplate]="{'role':selectedRole.identify()}" [refreshOn]="refreshNeeded"></app-paginated-list>
+  <app-paginated-list [dataService]="credentialService" [pageImpl]="bindCredsPage()" [fields]="['name', 'email']" [pageSize]='10' [dialogComponent]="CredentialDialogComponent" [newItemTemplate]="{'role':selectedRole.identify()}" [refreshOn]="refreshNeeded" [customControls]="controls"></app-paginated-list>
 </div>

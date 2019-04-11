@@ -15,10 +15,12 @@ export class PasswordDialogComponent implements OnInit {
 
   passwordForm = this.fb.group({
       id: ['', Validators.required],
-      password: ['', Validators.required],
-      resetPassword: [false],
-      sendEmail: [false]
+      password: [{value:'', disabled: true}, Validators.required],
+      resetPassword: [true],
+      sendEmail: [true]
     });
+
+  passwordRequired: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<PasswordDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -33,7 +35,13 @@ export class PasswordDialogComponent implements OnInit {
     }
 
     this.passwordForm.get('sendEmail').valueChanges.subscribe( email => {
-        this.passwordForm.get('password').setValidators(email? []: [Validators.required]);
+        this.passwordRequired = !email;
+        if(email) {
+          this.passwordForm.get('password').disable();
+          this.passwordForm.get('resetPassword').setValue(true);
+        }
+        else
+          this.passwordForm.get('password').enable();
       });
   }
 

@@ -16,14 +16,16 @@ import { RoleService } from '../services/role.service';
 })
 export class CredentialDialogComponent implements OnInit {
 
-  createNew: boolean = true;
-
   credentialForm = this.fb.group({
       id: ['', Validators.required],
       role: ['', Validators.required],
-      password: ['', Validators.required],
-      resetPassword: [false]
+      password: [{value:'', disabled:true}, Validators.required],
+      resetPassword: [true],
+      sendEmail: [true]
     });
+
+  createNew: boolean = true;
+  passwordRequired: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<CredentialDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -35,21 +37,37 @@ export class CredentialDialogComponent implements OnInit {
   ngOnInit() {
     if(this.data.item) {
       this.credentialForm.patchValue(this.data.item);
-      this.createNew = this.data.item.id == 0;
-      if(!this.createNew)
-        this.credentialForm.get("password").clearValidators();
+      if(this.data.item.id) {
+        this.createNew = false;
+        this.credentialForm.get('id').disable();
+        this.credentialForm.get("resetPassword").disable();
+        this.credentialForm.get("sendEmail").disable();
+        this.passwordRequired=false;
+      }
     }
+
+    this.credentialForm.get('sendEmail').valueChanges.subscribe( email => {
+      this.passwordRequired = !email;
+      if(email) {
+        this.credentialForm.get('password').disable();
+        this.credentialForm.get('resetPassword').setValue(true);
+      }
+      else {
+        this.credentialForm.get('password').enable();
+      }
+    });  
   }
 
   createCredential() {
     if(this.credentialForm.valid) {
+      var credentialReq = this.credentialForm.value;
       if(this.createNew) {
-        this.credentialService.create(this.credentialForm.value).
+        this.credentialService.create(credentialReq).
           subscribe(() => {
             this.dialogRef.close();
           });
       } else {
-        this.credentialService.update(this.credentialForm.value).
+        this.credentialService.update(credentialReq).
           subscribe(() => {
             this.dialogRef.close();
           });
