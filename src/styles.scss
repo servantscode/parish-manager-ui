@@ -102,11 +102,12 @@ div.rounded-rect {
 
 .clickable {
   cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
-.clickable:hover {
-  text-decoration: underline;
-}
 
 .scrollable {
   overflow-y: auto;

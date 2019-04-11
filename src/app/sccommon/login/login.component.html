@@ -10,6 +10,7 @@
         <mat-label>Password</mat-label>
         <input type="password" matInput formControlName="password" required/>
       </mat-form-field><br/>
+      <span class="clickable forgot" [routerLink]="['/forgot']">Forgot Password?</span><br/><br/>
 
       <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">Login</button>
     </form>

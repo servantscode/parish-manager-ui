@@ -10,9 +10,10 @@ import { SCCommonModule } from '../sccommon/sccommon.module';
 import { AccountRoutingModule } from './account-routing.module';
 
 import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { RequestResetComponent } from './request-reset/request-reset.component';
 
 @NgModule({
-  declarations: [PasswordResetComponent],
+  declarations: [PasswordResetComponent, RequestResetComponent],
   imports: [
     AccountRoutingModule,
 

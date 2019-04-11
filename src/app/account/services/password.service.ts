@@ -35,4 +35,12 @@ export class PasswordService extends BaseService {
         catchError(this.handleError('password reset', null))
       );
   }
+
+  requestReset(req: any): Observable<void> {
+    return this.http.post(this.url + "/reset", req, this.httpOptions).pipe(
+        tap(item => this.log('Password reset requested!')),
+        catchError(this.handleError('request password reset', null))
+      );
+  }
+
 }

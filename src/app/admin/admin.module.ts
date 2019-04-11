@@ -22,6 +22,7 @@ import { RoleDialogComponent } from './role-dialog/role-dialog.component';
 import { RoleService } from './services/role.service';
 import { AdminTabsComponent } from './admin-tabs/admin-tabs.component';
 import { UserAccessComponent } from './user-access/user-access.component';
+import { PasswordDialogComponent } from './password-dialog/password-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { UserAccessComponent } from './user-access/user-access.component';
     RoleComponent,
     RoleDialogComponent,
     AdminTabsComponent,
-    UserAccessComponent
+    UserAccessComponent,
+    PasswordDialogComponent
   ],
   imports: [
     AdminRoutingModule,

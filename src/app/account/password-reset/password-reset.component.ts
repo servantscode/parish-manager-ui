@@ -16,7 +16,7 @@ import { PasswordRequest } from '../password-request';
 export class PasswordResetComponent implements OnInit {
 
   private userId: string;
-  private resetToken: string;
+  public resetToken: string;
 
   passwordResetForm = this.fb.group({
       oldPassword: ['', Validators.required],

@@ -25,9 +25,6 @@ export class CredentialDialogComponent implements OnInit {
       resetPassword: [false]
     });
 
-
-  filteredRoles: Observable<string[]>;
-
   constructor(public dialogRef: MatDialogRef<CredentialDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
@@ -38,10 +35,9 @@ export class CredentialDialogComponent implements OnInit {
   ngOnInit() {
     if(this.data.item) {
       this.credentialForm.patchValue(this.data.item);
-      this.credentialForm.get("password").clearValidators();
-      if(this.data.item.id > 0) {
-        this.createNew = false;
-      }
+      this.createNew = this.data.item.id == 0;
+      if(!this.createNew)
+        this.credentialForm.get("password").clearValidators();
     }
   }
 

@@ -1,0 +1,19 @@
+<div class="login-background">
+  <div class="login-modal rounded-rect">
+    <h1>Reset Password</h1>
+    <form [formGroup]="resetForm" (ngSubmit)="requestReset()">
+      <span>Forgot your password? No problem, just enter your email address and we'll send you a link to reset it.</span><br/>
+      <div *ngIf="!requestSent">
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required/>
+        </mat-form-field><br/>
+        <button class="btn btn-primary" type="submit" [disabled]="!resetForm.valid">Reset Password</button>
+      </div>
+      <div *ngIf="requestSent">
+        <br/><span>Request away! You should receive an email shortly.</span><br/><br/>
+        <span class="clickable return" [routerLink]="['/login']">Return to login page.</span>
+      </div>
+    </form>
+  </div>
+</div>
