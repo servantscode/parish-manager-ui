@@ -301,3 +301,7 @@ app-notes .mat-form-field-infix {
 app-notes .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-empty.mat-form-field-label {
   display: none;
 }
+
+.ck-editor__editable {
+  min-height: 15em;
+}
