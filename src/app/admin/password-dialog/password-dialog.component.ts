@@ -15,9 +15,9 @@ export class PasswordDialogComponent implements OnInit {
 
   passwordForm = this.fb.group({
       id: ['', Validators.required],
-      password: [{value:'', disabled: true}, Validators.required],
+      sendEmail: [true],
       resetPassword: [true],
-      sendEmail: [true]
+      password: [{value:'', disabled: true}, Validators.required]
     });
 
   passwordRequired: boolean = false;
@@ -47,6 +47,7 @@ export class PasswordDialogComponent implements OnInit {
 
   updatePassword() {
     if(this.passwordForm.valid) {
+      alert("updating password: " + JSON.stringify(this.passwordForm.value));
       this.credentialService.update(this.passwordForm.value).
         subscribe(() => {
           this.dialogRef.close();

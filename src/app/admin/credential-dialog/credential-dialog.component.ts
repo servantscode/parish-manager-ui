@@ -61,6 +61,9 @@ export class CredentialDialogComponent implements OnInit {
   createCredential() {
     if(this.credentialForm.valid) {
       var credentialReq = this.credentialForm.value;
+      if(credentialReq.sendEmail)
+        credentialReq.resetPassword = true;
+
       if(this.createNew) {
         this.credentialService.create(credentialReq).
           subscribe(() => {
