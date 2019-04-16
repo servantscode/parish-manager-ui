@@ -31,9 +31,44 @@ export class PermissionTreeComponent implements OnInit {
       });
   }
 
+  selectAll() {
+    this.permissionTree.forEach(perm => perm.active = true);
+    this.updateSelectedPermissions();
+  }
+
+  selectNotAdmin() {
+    this.permissionTree.forEach(perm => perm.active = perm.name !== "admin");
+    this.updateSelectedPermissions();
+  }
+
+  selectNone() {
+    this.permissionTree.forEach(perm => perm.active = false);
+    this.updateSelectedPermissions();
+  }
+
+  selectAction(action:string, checked:boolean) {
+    this.permissionTree.forEach(perm => this.markPerm(perm, action, checked));
+
+    if(action == "read") {
+      this.permissionTree.forEach(perm => this.markPerm(perm, 'list', checked));
+      this.permissionTree.forEach(perm => this.markPerm(perm, 'metrics', checked));
+    }
+    this.updateSelectedPermissions();
+  }
+
+  markPerm(perm: Permission, action:string, checked:boolean) {
+    if(perm.name == action) 
+      perm.active = checked;
+    else if(perm.children)
+      perm.children.forEach(perm => this.markPerm(perm, action, checked));
+  }
+
   permChanged(perm: Permission) {
     perm.active = !perm.active;
+    this.updateSelectedPermissions();
+  }
 
+  private updateSelectedPermissions() {
     //Be careful not to replace the array shared with the parent
     const newPerms = this.permissionService.collectPermissions(this.permissionTree);
     this.permissions.length=0;
@@ -41,7 +76,7 @@ export class PermissionTreeComponent implements OnInit {
   }
 
   hasNestedChild(_: number, node: Permission) {
-    return node.children != null && node.children.length > 0;
+    return node.children;
   }
 
   private markPermissions(perms: Permission[]) {

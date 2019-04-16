@@ -102,9 +102,9 @@ div.rounded-rect {
 
 .clickable {
   cursor: pointer;
+  text-decoration: underline;
 
   &:hover {
-    text-decoration: underline;
   }
 }
 

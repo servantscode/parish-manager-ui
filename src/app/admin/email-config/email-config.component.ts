@@ -32,7 +32,7 @@ export class EmailConfigComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialog: MatDialog,
-              private loginService: LoginService,
+              public loginService: LoginService,
               private emailConfigService: EmailConfigService) { }
 
   ngOnInit() {
