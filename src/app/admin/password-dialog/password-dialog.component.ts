@@ -47,8 +47,11 @@ export class PasswordDialogComponent implements OnInit {
 
   updatePassword() {
     if(this.passwordForm.valid) {
-      alert("updating password: " + JSON.stringify(this.passwordForm.value));
-      this.credentialService.update(this.passwordForm.value).
+      var form = this.passwordForm.value;
+      //Ensure that reset is always set if sending email.
+      if(form.sendEmail)
+        form.resetPassword = true;
+      this.credentialService.update(form).
         subscribe(() => {
           this.dialogRef.close();
         });

@@ -23,6 +23,7 @@ import { RoleService } from './services/role.service';
 import { AdminTabsComponent } from './admin-tabs/admin-tabs.component';
 import { UserAccessComponent } from './user-access/user-access.component';
 import { PasswordDialogComponent } from './password-dialog/password-dialog.component';
+import { EmailConfigComponent } from './email-config/email-config.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { PasswordDialogComponent } from './password-dialog/password-dialog.compo
     RoleDialogComponent,
     AdminTabsComponent,
     UserAccessComponent,
-    PasswordDialogComponent
+    PasswordDialogComponent,
+    EmailConfigComponent
   ],
   imports: [
     AdminRoutingModule,

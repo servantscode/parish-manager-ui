@@ -1,11 +1,13 @@
 <mat-toolbar>
   <span class="tab clickable" (click)="selectTab('roles')" [ngClass]="{'highlighted': 'roles' === selectedTab}">Roles</span>
   <span class="tab clickable" (click)="selectTab('users')" [ngClass]="{'highlighted': 'users' === selectedTab}">Users</span>
+  <span *ngIf="loginService.hasAny('admin.mail.config')" class="tab clickable" (click)="selectTab('email')" [ngClass]="{'highlighted': 'email' === selectedTab}">Email</span>
 </mat-toolbar>
 
 <div class="tab-content scrollable">
   <div [ngSwitch]="selectedTab">
-    <app-role *ngSwitchCase="'roles'">Hello</app-role>
-    <app-user-access *ngSwitchCase="'users'">Hi!</app-user-access>
+    <app-role *ngSwitchCase="'roles'"></app-role>
+    <app-user-access *ngSwitchCase="'users'"></app-user-access>
+    <app-email-config *ngSwitchCase="'email'"></app-email-config>
   </div>
 </div>

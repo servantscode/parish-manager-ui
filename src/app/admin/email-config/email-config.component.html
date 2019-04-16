@@ -1,0 +1,32 @@
+<form [formGroup]="configForm" (submit)="setConfig()" #formDirective="ngForm">
+  <div class="container rounded-rect">
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>SMTP Host</mat-label>
+      <input type="text" matInput formControlName="smtpHost" autocomplete="off" cdkFocusInitial/>
+    </mat-form-field>&nbsp;
+
+    <mat-form-field appearance="standard" class="input-5">
+      <mat-label>Port</mat-label>
+      <input type="number" matInput formControlName="smtpPort" autocomplete="off"/>
+    </mat-form-field> <br/>
+
+    <mat-checkbox formControlName="useSsl">SSL</mat-checkbox>&nbsp;&nbsp;
+    <mat-checkbox formControlName="useTls">TLS</mat-checkbox><br/>
+    <mat-checkbox formControlName="requireAuth">Authentication Required?</mat-checkbox><br/>
+
+    <mat-form-field *ngIf="authRequired" appearance="standard" class="input-standard">
+      <mat-label>Outgoing Email Account</mat-label>
+      <input type="text" matInput formControlName="emailAccount" autocomplete="off"/>
+    </mat-form-field><br/>
+
+    <mat-form-field *ngIf="authRequired" appearance="standard" class="input-standard">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput formControlName="accountPassword" autocomplete="off"/>
+    </mat-form-field><br/>
+
+    <button *ngIf="!disabled" mat-button type="submit" class="btn btn-primary" [disabled]="!configForm.dirty || !configForm.valid">Save</button>
+    <button *ngIf="!disabled" mat-button type="button" class="btn btn-outline-primary" (click)="reset()">Reset</button>
+    <button *ngIf="loginService.userCan('admin.mail.config.delete')" mat-button type="button" class="btn btn-outline-primary" (click)="delete(formDirective)">Delete</button>
+  </div>
+</form>

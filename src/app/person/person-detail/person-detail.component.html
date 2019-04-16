@@ -10,7 +10,7 @@
         <div class="row">
           <div class="col">
             Name: {{person.name}}<br/>
-            Email: {{person.email}} <img *ngIf="loginService.userCan('email.send')" src="../../assets/images/mail.png" class="clickable big-icon" (click)="openMailDialog()"/><br/>
+            Email: {{person.email}}&nbsp;&nbsp;<div *ngIf="loginService.userCan('email.send')" src="../../assets/images/mail.png" class="big-icon email" (click)="openMailDialog()">&nbsp;</div><br/>
             Phone: {{person.phoneNumber}}<br/>
             <mat-checkbox [checked]="person.headOfHousehold" [disabled]="true"> Head of Household</mat-checkbox>
           </div>

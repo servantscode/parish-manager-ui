@@ -187,18 +187,19 @@ div.rounded-rect {
   width: 15px;
   background-size: 15px 15px;
   padding: 2px;
+  cursor: pointer;
 }
 
 .big-icon {
+  display: inline-block;
   height: 18px;
-  width: 22px;
-  background-size: 25px 25px;
-  padding: 2px;
+  width: 18px;
+  background-size: 18px 18px;
+  cursor: pointer;
 }
 
 .edit {
   background-image: url('./assets/images/pencil.png');
-  cursor: pointer;
   &:hover {
     background-image: url('./assets/images/pencil-active.png');
   }
@@ -206,8 +207,6 @@ div.rounded-rect {
 
 .delete {
   background-image: url('./assets/images/trash.png');
-  cursor: pointer;
-
   &:hover {
     background-image: url('./assets/images/trash-active.png');
   }
@@ -215,10 +214,15 @@ div.rounded-rect {
 
 .password {
   background-image: url('./assets/images/key.png');
-  cursor: pointer;
-
   &:hover {
     background-image: url('./assets/images/key-active.png');
+  }
+}
+
+.email {
+  background-image: url('./assets/images/mail.png'); 
+  &:hover {
+    background-image: url('./assets/images/mail-active.png');
   }
 }
 

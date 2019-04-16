@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { LoginService } from '../../sccommon/services/login.service';
+
 @Component({
   selector: 'app-admin-tabs',
   templateUrl: './admin-tabs.component.html',
@@ -11,7 +13,8 @@ export class AdminTabsComponent implements OnInit {
   public selectedTab: string;
 
   constructor(private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              public loginService: LoginService) { }
 
   ngOnInit() {
     var tab = this.route.snapshot.paramMap.get('tab');
