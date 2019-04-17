@@ -4,11 +4,12 @@ import { FormBuilder, Validators, FormArray, FormGroup, AbstractControl } from '
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
-import { SCValidation } from '../../sccommon/validation';
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
+import { SCValidation } from '../../sccommon/validation';
+import { Family } from '../../sccommon/family';
+
 import { FamilyService } from '../../person/services/family.service';
-import { Family } from '../../person/family';
 
 import { DonationService } from '../services/donation.service';
 import { Donation } from '../donation';

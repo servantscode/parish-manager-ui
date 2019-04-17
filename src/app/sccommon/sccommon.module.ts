@@ -17,23 +17,25 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { SCCommonRoutingModule } from './sccommon-routing.module';
 
+import { environment } from '../../environments/environment';
+
 import { PaginatedListComponent } from './paginated-list/paginated-list.component';
 import { MessagesComponent } from './messages/messages.component';
 import { LoginComponent } from './login/login.component';
-
-import { ApiLocatorService } from './services/api-locator.service';
-import { LoginService } from './services/login.service';
-import { PhotoService } from './services/photo.service';
-import { EmailService } from './services/email.service';
 import { ScAutoCompleteComponent } from './sc-auto-complete/sc-auto-complete.component';
 import { PhotoComponent } from './photo/photo.component';
 import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-dialog.component';
-import { environment } from '../../environments/environment';
 import { NotesComponent } from './notes/notes.component';
 import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { ScEnumComponent } from './sc-enum/sc-enum.component';
 import { DateTimeComponent } from './date-time/date-time.component';
+
+import { ApiLocatorService } from './services/api-locator.service';
+import { EmailService } from './services/email.service';
+import { LoginService } from './services/login.service';
+import { PersonService } from './services/person.service';
+import { PhotoService } from './services/photo.service';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -95,10 +97,11 @@ export function tokenGetter() {
     DateTimeComponent
   ],
   providers: [ 
-    LoginService,
-    PhotoService,
     ApiLocatorService,
-    EmailService
+    EmailService,
+    LoginService,
+    PersonService,
+    PhotoService
   ],
   entryComponents: [
     PhotoUploadDialogComponent,

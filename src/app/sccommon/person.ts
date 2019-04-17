@@ -1,4 +1,4 @@
-import { Autocompletable } from '../sccommon/identifiable';
+import { Autocompletable } from './identifiable';
 
 import { Family } from './family';
 

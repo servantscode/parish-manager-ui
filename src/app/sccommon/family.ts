@@ -1,7 +1,6 @@
+import { Autocompletable } from './identifiable';
 import { Address } from './address';
 import { Person } from './person';
-
-import { Autocompletable } from '../sccommon/identifiable';
 
 export class Family extends Autocompletable {
 

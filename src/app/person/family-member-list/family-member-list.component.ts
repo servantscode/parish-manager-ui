@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { LoginService } from '../../sccommon/services/login.service';
 
-import { Person } from '../person';
+import { Person } from '../../sccommon/person';
 
 @Component({
   selector: 'app-family-member-list',

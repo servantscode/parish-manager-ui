@@ -7,11 +7,12 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { PhotoService } from '../../sccommon/services/photo.service';
-import { SCValidation } from '../../sccommon/validation';
+import { PersonService } from '../../sccommon/services/person.service';
 
-import { Person } from '../person';
-import { Family } from '../family';
-import { PersonService } from '../services/person.service';
+import { SCValidation } from '../../sccommon/validation';
+import { Person } from '../../sccommon/person';
+import { Family } from '../../sccommon/family';
+
 import { FamilyService } from '../services/family.service';
 
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
@@ -160,14 +161,14 @@ export class PersonDetailComponent implements OnInit {
       this.personService.update(this.personForm.value).
         subscribe(person => {
           this.person = person;
-          this.router.navigate(['person', 'detail', person.id]);
+          this.router.navigate(['person', person.id, 'detail']);
           this.editMode=false;
         });
     } else {
       this.personService.create(this.personForm.value).
         subscribe(person => {
           this.person = person;
-          this.router.navigate(['person', 'detail', person.id]);
+          this.router.navigate(['person', person.id, 'detail']);
           this.editMode=false;
         });      
     }

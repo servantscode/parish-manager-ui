@@ -17,7 +17,7 @@ import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialo
 import { MinistryService } from '../../ministry/services/ministry.service';
 import { Ministry } from '../../ministry/ministry';
 
-import { PersonService } from '../../person/services/person.service';
+import { PersonService } from '../../sccommon/services/person.service';
 
 import { Event, Recurrence } from '../event';
 import { Room } from '../room';

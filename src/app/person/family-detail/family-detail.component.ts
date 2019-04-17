@@ -7,6 +7,8 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { SCValidation } from '../../sccommon/validation';
+import { Person } from '../../sccommon/person';
+import { Family } from '../../sccommon/family';
 
 import { Donation } from '../../finance/donation';
 import { Pledge } from '../../finance/pledge';
@@ -15,8 +17,6 @@ import { PledgeDialogComponent } from '../../finance/pledge-dialog/pledge-dialog
 import { DonationService } from '../../finance/services/donation.service';
 import { PledgeService } from '../../finance/services/pledge.service';
 
-import { Person } from '../person';
-import { Family } from '../family';
 import { FamilyService } from '../services/family.service';
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
 

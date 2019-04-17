@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { tap, map, filter, switchMap, startWith, debounceTime } from 'rxjs/operators'
 
 import { LoginService } from '../../sccommon/services/login.service';
+import { PersonService } from '../../sccommon/services/person.service';
 
-import { Person } from '../../person/person';
-import { PersonService } from '../../person/services/person.service';
+import { Person } from '../../sccommon/person';
 
 import { Enrollment } from '../enrollment';
 import { EnrollmentService } from '../services/enrollment.service';
