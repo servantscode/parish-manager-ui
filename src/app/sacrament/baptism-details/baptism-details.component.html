@@ -1,0 +1,27 @@
+{{baptism.person.name}}<br/>
+<div *ngIf="baptism.father || baptism.mother">
+  Child of
+  <span *ngIf="baptism.father"> {{baptism.father.name}}</span>
+  <span *ngIf="baptism.mother"><span *ngIf="baptism.father"> and</span> {{baptism.mother.name}}</span>
+</div>
+<div *ngIf="baptism.birthDate || baptism.birthLocation">
+  Who was Born
+  <span *ngIf="baptism.birthDate"> on {{baptism.birthDate | date: 'MM/dd/yyyy'}}</span>
+  <span *ngIf="baptism.birthLocation"> at {{baptism.birthLocation}}</span>
+</div>
+<span *ngIf="baptism.conditional">Conditionally baptized </span>
+<span *ngIf="baptism.received">Received into full communion </span>
+<span *ngIf="!baptism.conditional && !baptism.received">Baptized </span>
+on {{baptism.baptismDate | date: 'MM/dd/yyyy'}} at {{baptism.baptismLocation}} by {{baptism.minister.name}}
+<div *ngIf="baptism.godfather || baptism.godmother">
+  Godparents
+  <span *ngIf="baptism.godfather"> {{baptism.godfather.name}}</span>
+  <span *ngIf="baptism.godmother"><span *ngIf="baptism.godfather"> and</span> {{baptism.godmother.name}}</span>
+</div>
+<div *ngIf="baptism.witness">
+  Witnessed by {{baptism.witness.name}}
+</div><br/>
+<strong>Notations</strong>
+<div *ngFor="let note of baptism.notations; let i=index" [ngClass]="i%2==0? 'even': 'odd'">
+  <span>{{note}}</span>
+</div>
