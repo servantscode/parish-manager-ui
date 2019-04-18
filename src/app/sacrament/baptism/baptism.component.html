@@ -1,17 +1,18 @@
 <div class="container rounded-rect">
-  <h2>Baptism</h2>
+  <h3>Baptism</h3>
   <form [formGroup]="baptismForm" (submit)="submitForm()">
     <input type="hidden" formControlName="id"/>
 
-    <app-sc-auto-complete formControlName="person" label='Name' [autocompleteService]="personService" [required]="true"></app-sc-auto-complete>
-    
+    <!-- <app-sc-auto-complete formControlName="person" label='Name' [autocompleteService]="personService" [required]="true"></app-sc-auto-complete> -->
+    <app-identity-picker formControlName="person" label='Name' [required]="true"></app-identity-picker>
+
     <mat-form-field appearance="standard" class="input-standard">
       <mat-label>Location of Baptism</mat-label>
-      <input type="text" matInput formControlName="baptismLocation" autocomplete="off"/>
+      <input type="text" matInput formControlName="baptismLocation" autocomplete="off" required/>
     </mat-form-field>&nbsp;&nbsp;
 
     <mat-form-field>
-      <input matInput formControlName="baptismDate" [matDatepicker]="picker" placeholder="Date of Baptism">
+      <input matInput formControlName="baptismDate" [matDatepicker]="picker" placeholder="Date of Baptism" required>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field><br/>
@@ -27,26 +28,25 @@
       <mat-datepicker #birthDatePicker></mat-datepicker>
     </mat-form-field><br/>
 
-
-    <app-sc-auto-complete formControlName="minister" label='Minister' [autocompleteService]="personService" [required]="true"></app-sc-auto-complete>
+    <app-identity-picker formControlName="minister" label='Minister' [required]="true"></app-identity-picker>
     <div class="row">
       <div class="col">
-        <app-sc-auto-complete formControlName="father" label='Father' [autocompleteService]="personService" [required]="true"></app-sc-auto-complete>
+        <app-identity-picker formControlName="father" label='Father'></app-identity-picker>
       </div>
       <div class="col">
-        <app-sc-auto-complete formControlName="mother" label='Mother' [autocompleteService]="personService" [required]="true"></app-sc-auto-complete>
+        <app-identity-picker formControlName="mother" label='Mother'></app-identity-picker>
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <app-sc-auto-complete formControlName="godfather" label='Godfather' [autocompleteService]="personService" [required]="true"></app-sc-auto-complete>
-        <app-sc-auto-complete formControlName="witness" label='Witness' [autocompleteService]="personService" [required]="true"></app-sc-auto-complete>
+        <app-identity-picker formControlName="godfather" label='Godfather'></app-identity-picker>
           </div>
           <div class="col">
-        <app-sc-auto-complete formControlName="godmother" label='Godmother' [autocompleteService]="personService" [required]="true"></app-sc-auto-complete>
+        <app-identity-picker formControlName="godmother" label='Godmother'></app-identity-picker>
       </div>
     </div>
+    <app-identity-picker formControlName="witness" label='Witness'></app-identity-picker>
 
     <mat-checkbox formControlName="conditional">Conditional Baptism?</mat-checkbox><br/>
     <mat-checkbox formControlName="reception">Formal Reception into the Catholic Church?</mat-checkbox><br/>

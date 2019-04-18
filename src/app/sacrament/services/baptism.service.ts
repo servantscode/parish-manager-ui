@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
@@ -26,5 +26,12 @@ export class BaptismService extends PaginatedService<Baptism> {
 
   public getTemplate(): Baptism {
     return new Baptism().asTemplate();
+  }
+
+  getByPerson(personId: number): Observable<Baptism> {
+    return this.http.get<Baptism>(this.url + `/person/${personId}`).pipe(
+        map(resp => this.mapObject(resp)),
+        catchError(this.handleError('getByPerson', null))
+      );
   }
 }

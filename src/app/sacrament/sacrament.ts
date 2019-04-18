@@ -30,6 +30,7 @@ export class Baptism extends Identifiable {
   }
 
   public asTemplate(): Baptism {
+    this.id=0;
     this.person = null;
     this.baptismLocation = null;
     this.baptismDate = null;

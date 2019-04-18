@@ -14,9 +14,13 @@ import { SCCommonModule } from '../sccommon/sccommon.module';
 import { SacramentRoutingModule } from './sacrament-routing.module';
 
 import { BaptismComponent } from './baptism/baptism.component';
+import { IdentityPickerComponent } from './identity-picker/identity-picker.component';
 
 @NgModule({
-  declarations: [BaptismComponent],
+  declarations: [
+    BaptismComponent,
+    IdentityPickerComponent
+  ],
   imports: [
     SacramentRoutingModule,
 
