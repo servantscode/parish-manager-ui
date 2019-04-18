@@ -7,11 +7,10 @@ import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
 import { PaginatedService } from '../../sccommon/services/paginated.service';
 import { PaginatedResponse } from '../../sccommon/paginated.response';
+import { Family } from '../../sccommon/family';
 
 import { Donation } from '../donation';
 import { DonationPrediction } from '../donation-prediction';
-
-import { Family } from '../../person/family';
 
 const httpOptions = {
   headers: new HttpHeaders({

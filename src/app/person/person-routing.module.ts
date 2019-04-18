@@ -3,14 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PeopleListComponent } from './people-list/people-list.component';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
+import { PersonTabsComponent } from './person-tabs/person-tabs.component';
 import { FamilyDetailComponent } from './family-detail/family-detail.component';
 
 import { AuthGuardService as AuthGuard } from '../services/auth-guard.service';
 
 const routes: Routes = [
   { path: 'person', component: PeopleListComponent, canActivate: [AuthGuard] },
-  { path: 'person/detail', component: PersonDetailComponent, canActivate: [AuthGuard] },
-  { path: 'person/detail/:id', component: PersonDetailComponent, canActivate: [AuthGuard] },
+  { path: 'person/new', component: PersonDetailComponent, canActivate: [AuthGuard] },
+  { path: 'person/:id', component: PersonTabsComponent, canActivate: [AuthGuard] },
+  { path: 'person/:id/:tab', component: PersonTabsComponent, canActivate: [AuthGuard] },
   { path: 'family/detail', component: FamilyDetailComponent, canActivate: [AuthGuard] },
   { path: 'family/detail/:id', component: FamilyDetailComponent, canActivate: [AuthGuard] }
 ];

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { LoginService } from '../../sccommon/services/login.service';
 
-import { Person } from '../person';
+import { Person } from '../../sccommon/person';
 
 @Component({
   selector: 'app-family-member-list',
@@ -30,7 +30,7 @@ export class FamilyMemberListComponent implements OnInit {
     if(id > 0) {
       if(!this.loginService.userCan('person.read'))
         return;
-      this.router.navigate(['person', 'detail', id]);
+      this.router.navigate(['person', id, 'detail']);
     } else {
       if(!this.loginService.userCan('person.create'))
         return;

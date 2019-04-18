@@ -2,12 +2,12 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { LoginService } from '../../sccommon/services/login.service';
+import { PersonService } from '../../sccommon/services/person.service';
 
-import { Person } from '../person';
-import { Family } from '../family';
-import { PersonService } from '../services/person.service';
+import { Person } from '../../sccommon/person';
+import { Family } from '../../sccommon/family';
+
 import { FamilyService } from '../services/family.service';
-
 
 export enum KEY_CODE {
   PLUS = 107,
@@ -79,7 +79,11 @@ export class PeopleListComponent implements OnInit {
     if(event.keyCode === KEY_CODE.ENTER && this.highlighted != null) {
       if(!this.loginService.userCan(this.mode + '.read'))
         return;
-      this.router.navigate([this.mode, 'detail', this.highlighted.id]);
+
+      if(this.mode === 'family')
+        this.router.navigate(['family', 'detail', this.highlighted.id]);
+      else
+        this.router.navigate(['person', this.highlighted.id, 'detail']);
     }
   }
 
@@ -121,7 +125,11 @@ export class PeopleListComponent implements OnInit {
   viewDetails(item: any) {
     if(!this.loginService.userCan(this.mode + '.read'))
       return;
-    this.router.navigate([this.mode, 'detail', item.id]);
+
+    if(this.mode === 'family')
+      this.router.navigate(['family', 'detail', item.id]);
+    else
+      this.router.navigate(['person', item.id, 'detail']);
   }
 
   highlight(item: any) {

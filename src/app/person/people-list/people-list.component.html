@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="col controls align-right">
-      <button *ngIf="mode === 'person' && loginService.userCan('person.create')" type="button" class="btn btn-primary" [routerLink]="['/person/detail/']">Add Person</button>
+      <button *ngIf="mode === 'person' && loginService.userCan('person.create')" type="button" class="btn btn-primary" [routerLink]="['/person/new']">Add Person</button>
       <button *ngIf="mode === 'family' && loginService.userCan('family.create')" type="button" class="btn btn-primary" [routerLink]="['/family/detail/']">Add Family</button>
     </div>
   </div>

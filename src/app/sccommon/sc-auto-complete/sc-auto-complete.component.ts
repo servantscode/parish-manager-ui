@@ -63,7 +63,11 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   itemValue(item: any) {
-    return this.selectObject? item: this.selectIdentity? item.identify(): item.id;
+    return this.selectObject? 
+        item: 
+        this.selectIdentity? 
+            item.identify(): 
+            item.id;
   }
 
   constructor(private fb: FormBuilder) { }

@@ -8,7 +8,7 @@ import { MessageService } from '../../sccommon/services/message.service';
 import { PaginatedService } from '../../sccommon/services/paginated.service';
 import { PaginatedResponse } from '../../sccommon/paginated.response';
 
-import { Family } from '../family';
+import { Family } from '../../sccommon/family';
 
 const httpOptions = {
   headers: new HttpHeaders({
