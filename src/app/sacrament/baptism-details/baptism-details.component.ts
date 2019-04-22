@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import { BaptismService } from '../services/baptism.service';
+
 import { Baptism } from '../sacrament';
 
 @Component({
@@ -11,7 +13,8 @@ export class BaptismDetailsComponent implements OnInit {
 
   @Input() baptism: Baptism;
 
-  constructor() { }
+  constructor(public baptismService: BaptismService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 }

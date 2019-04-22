@@ -7,12 +7,14 @@ import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
 import { PaginatedService } from '../../sccommon/services/paginated.service';
 
+import { BaseSacramentService } from './base-sacrament.service';
+
 import { Baptism } from '../sacrament';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BaptismService extends PaginatedService<Baptism> {
+export class BaptismService extends BaseSacramentService<Baptism> {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
@@ -21,17 +23,10 @@ export class BaptismService extends PaginatedService<Baptism> {
   }
 
   public getPermissionType(): string {
-    return "baptism";
+    return "sacrament.baptism";
   }
 
   public getTemplate(): Baptism {
     return new Baptism().asTemplate();
-  }
-
-  getByPerson(personId: number): Observable<Baptism> {
-    return this.http.get<Baptism>(this.url + `/person/${personId}`).pipe(
-        map(resp => this.mapObject(resp)),
-        catchError(this.handleError('getByPerson', null))
-      );
   }
 }

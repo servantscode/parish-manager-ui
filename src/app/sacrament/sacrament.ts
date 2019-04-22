@@ -5,12 +5,24 @@ export class Identity {
   id: number;
 }
 
-export class Baptism extends Identifiable {
+export abstract class Sacrament extends Identifiable {
   constructor() {
     super();
   }
 
-  person: Identity;
+  person:Identity;
+  notations: string[];
+
+  identify(): string {
+    return this.person.name;
+  }
+}
+
+export class Baptism extends Sacrament {
+  constructor() {
+    super();
+  }
+
   baptismLocation: string;
   baptismDate: Date;
   birthLocation: string;
@@ -23,15 +35,11 @@ export class Baptism extends Identifiable {
   witness: Identity;
   conditional: boolean;
   reception: boolean;
-  notations: string[];
-
-  identify(): string {
-    return this.person.name;
-  }
 
   public asTemplate(): Baptism {
-    this.id=0;
+    this.id = 0;
     this.person = null;
+    this.notations = [];
     this.baptismLocation = null;
     this.baptismDate = null;
     this.birthLocation = null;
@@ -44,7 +52,6 @@ export class Baptism extends Identifiable {
     this.witness = null;
     this.conditional = false;
     this.reception = false;
-    this.notations = [];
     return this;
   } 
 }

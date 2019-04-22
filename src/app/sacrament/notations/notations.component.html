@@ -1,0 +1,14 @@
+<form [formGroup]="notationsForm" (submit)="addNotation()">
+  <strong>Notations</strong><br/>
+  <div *ngFor="let note of notations; let i=index" [ngClass]="i%2==0? 'even': 'odd'">
+    <span class="pad-5">{{note}}</span>
+  </div>
+
+  <div *ngIf="userCanAnnotate()">
+    <mat-form-field appearance="standard" class="input-long">
+      <mat-label>Add Notation:</mat-label>
+      <input type="text" matInput formControlName="input" autocomplete="off"/>
+    </mat-form-field>
+    <button class="btn btn-primary" type="submit">Save</button>
+  </div>
+</form>

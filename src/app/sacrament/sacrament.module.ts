@@ -17,13 +17,15 @@ import { BaptismComponent } from './baptism/baptism.component';
 import { IdentityPickerComponent } from './identity-picker/identity-picker.component';
 import { BaptismDetailsComponent } from './baptism-details/baptism-details.component';
 import { BaptismFormComponent } from './baptism-form/baptism-form.component';
+import { NotationsComponent } from './notations/notations.component';
 
 @NgModule({
   declarations: [
     BaptismComponent,
     IdentityPickerComponent,
     BaptismDetailsComponent,
-    BaptismFormComponent
+    BaptismFormComponent,
+    NotationsComponent
   ],
   imports: [
     SacramentRoutingModule,

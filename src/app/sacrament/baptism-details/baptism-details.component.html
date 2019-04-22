@@ -5,13 +5,14 @@
   <span *ngIf="baptism.mother"><span *ngIf="baptism.father"> and</span> {{baptism.mother.name}}</span>
 </div>
 <div *ngIf="baptism.birthDate || baptism.birthLocation">
-  Who was Born
+  Who was born
   <span *ngIf="baptism.birthDate"> on {{baptism.birthDate | date: 'MM/dd/yyyy'}}</span>
   <span *ngIf="baptism.birthLocation"> at {{baptism.birthLocation}}</span>
 </div>
-<span *ngIf="baptism.conditional">Conditionally baptized </span>
-<span *ngIf="baptism.received">Received into full communion </span>
-<span *ngIf="!baptism.conditional && !baptism.received">Baptized </span>
+Was
+<span *ngIf="baptism.conditional"> conditionally baptized </span>
+<span *ngIf="baptism.reception"> received into full communion </span>
+<span *ngIf="!baptism.conditional && !baptism.reception"> baptized </span>
 on {{baptism.baptismDate | date: 'MM/dd/yyyy'}} at {{baptism.baptismLocation}} by {{baptism.minister.name}}
 <div *ngIf="baptism.godfather || baptism.godmother">
   Godparents
@@ -21,7 +22,4 @@ on {{baptism.baptismDate | date: 'MM/dd/yyyy'}} at {{baptism.baptismLocation}} b
 <div *ngIf="baptism.witness">
   Witnessed by {{baptism.witness.name}}
 </div><br/>
-<strong>Notations</strong>
-<div *ngFor="let note of baptism.notations; let i=index" [ngClass]="i%2==0? 'even': 'odd'">
-  <span>{{note}}</span>
-</div>
+<app-notations [value]='baptism.notations' [sacramentId]='baptism.id' [dataService]='baptismService'></app-notations>

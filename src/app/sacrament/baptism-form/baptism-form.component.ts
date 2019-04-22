@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -18,6 +18,9 @@ import { Baptism } from '../sacrament';
 })
 export class BaptismFormComponent implements OnInit {
 
+  @Input() baptism: Baptism;
+  @Output() baptismStored: EventEmitter<Baptism> = new EventEmitter();
+
   baptismForm = this.fb.group({
       id: [''],
       person: ['', Validators.required],
@@ -32,11 +35,9 @@ export class BaptismFormComponent implements OnInit {
       godmother: null,
       witness: null,
       conditional: [false],
-      reception: [false]
-      // notations: ''
+      reception: [false],
+      notations: null
     });
-
-  baptism: Baptism;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -46,15 +47,8 @@ export class BaptismFormComponent implements OnInit {
               private fb: FormBuilder) { }
 
   ngOnInit() {
-    const personId = +this.route.snapshot.paramMap.get('id');
-
-    this.baptismService.getByPerson(personId).subscribe(
-        resp => {
-          this.baptism=resp;
-          if(resp)
-            this.baptismForm.patchValue(resp);
-        }
-      );
+    if(this.baptism)
+      this.baptismForm.patchValue(this.baptism);
   }
 
   submitForm() {
@@ -63,24 +57,26 @@ export class BaptismFormComponent implements OnInit {
 
     const formValue = this.baptismForm.value;
     if(formValue.id == 0) {
-      if(!this.loginService.userCan("baptism.create"))
+      if(!this.loginService.userCan("sacrament.baptism.create"))
         return;
 
       this.baptismService.create(formValue).subscribe(
         resp => {
-          this.baptism=resp
-          this.baptismForm.patchValue(resp);
+          this.baptismStored.emit(resp);
         });
 
     } else {
-      if(!this.loginService.userCan("baptism.update"))
+      if(!this.loginService.userCan("sacrament.baptism.update"))
         return;
 
       this.baptismService.update(formValue).subscribe(
         resp => {
-          this.baptism=resp
-          this.baptismForm.patchValue(resp);
+          this.baptismStored.emit(resp);
         });
     }
+  }
+
+  close() {
+    this.baptismStored.emit(null);
   }
 }

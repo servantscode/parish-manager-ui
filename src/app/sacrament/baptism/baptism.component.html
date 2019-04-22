@@ -1,5 +1,8 @@
 <div class="container rounded-rect">
-  <h3>Baptism</h3>
-  <app-baptism-details *ngIf="baptism" [baptism]="baptism"></app-baptism-details>
-  <app-baptism-form *ngIf="!baptism"></app-baptism-form>
+  <button *ngIf="baptism && loginService.userCan('admin.baptism.edit')" class="btn btn-primary float-right" (click)="openForm()">Edit</button>
+  <button *ngIf="!baptism && loginService.userCan('sacrament.baptism.create')" class="btn btn-primary float-right" (click)="openForm()">Record Baptism</button>
+  <h3>Baptism</h3> 
+  <app-baptism-details *ngIf="baptism && !showForm" [baptism]="baptism"></app-baptism-details>
+  <app-baptism-form *ngIf="showForm" [baptism]="baptism" (baptismStored)="closeForm($event)"></app-baptism-form>
+  <span *ngIf="!baptism && !showForm"><em>No baptismal information available.</em></span>
 </div>
