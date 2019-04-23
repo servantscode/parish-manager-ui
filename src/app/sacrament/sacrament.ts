@@ -55,3 +55,33 @@ export class Baptism extends Sacrament {
     return this;
   } 
 }
+
+export class Confirmation extends Sacrament {
+  constructor() {
+    super();
+  }
+
+  father: Identity;
+  mother: Identity;
+  baptismLocation: string;
+  baptismDate: Date;
+  sponsor: Identity;
+  confirmationLocation: string;
+  confirmationDate: Date;
+  minister: Identity;
+
+  public asTemplate(): Confirmation {
+    this.id = 0;
+    this.person = null;
+    this.notations = [];
+    this.father = null;
+    this.mother = null;
+    this.baptismLocation = null;
+    this.baptismDate = null;
+    this.sponsor = null;
+    this.confirmationLocation = null;
+    this.confirmationDate = null;
+    this.minister = null;
+    return this;
+  } 
+}

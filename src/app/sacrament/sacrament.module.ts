@@ -18,6 +18,10 @@ import { IdentityPickerComponent } from './identity-picker/identity-picker.compo
 import { BaptismDetailsComponent } from './baptism-details/baptism-details.component';
 import { BaptismFormComponent } from './baptism-form/baptism-form.component';
 import { NotationsComponent } from './notations/notations.component';
+import { ConfirmationFormComponent } from './confirmation-form/confirmation-form.component';
+import { ConfirmationDetailsComponent } from './confirmation-details/confirmation-details.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { SacramentsComponent } from './sacraments/sacraments.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,11 @@ import { NotationsComponent } from './notations/notations.component';
     IdentityPickerComponent,
     BaptismDetailsComponent,
     BaptismFormComponent,
-    NotationsComponent
+    NotationsComponent,
+    ConfirmationFormComponent,
+    ConfirmationDetailsComponent,
+    ConfirmationComponent,
+    SacramentsComponent
   ],
   imports: [
     SacramentRoutingModule,
@@ -47,7 +55,7 @@ import { NotationsComponent } from './notations/notations.component';
     MatAutocompleteModule
   ],
   exports: [
-    BaptismComponent
+    SacramentsComponent
   ]
 })
 export class SacramentModule { }

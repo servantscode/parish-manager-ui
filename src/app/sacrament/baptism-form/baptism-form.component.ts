@@ -25,7 +25,7 @@ export class BaptismFormComponent implements OnInit {
       id: [''],
       person: ['', Validators.required],
       baptismLocation: ['', Validators.required],
-      baptismDate: ['', Validators.required],
+      baptismDate: [new Date(), Validators.required],
       birthLocation: [''],
       birthDate: [''],
       minister: ['', Validators.required],
@@ -36,7 +36,7 @@ export class BaptismFormComponent implements OnInit {
       witness: null,
       conditional: [false],
       reception: [false],
-      notations: null
+      notations: []
     });
 
   constructor(private router: Router,
@@ -47,8 +47,15 @@ export class BaptismFormComponent implements OnInit {
               private fb: FormBuilder) { }
 
   ngOnInit() {
-    if(this.baptism)
+    if(this.baptism) {
       this.baptismForm.patchValue(this.baptism);
+    } else {
+      const personId = +this.route.snapshot.paramMap.get('id');
+
+      this.personService.get(personId).subscribe(resp => {
+          this.baptismForm.get('person').setValue({name:resp.name, id:resp.id});
+        });
+    }
   }
 
   submitForm() {

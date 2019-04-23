@@ -1,0 +1,42 @@
+<form [formGroup]="confirmationForm" (submit)="submitForm()">
+  <input type="hidden" formControlName="id"/>
+
+  <app-identity-picker formControlName="person" label='Name' [required]="true"></app-identity-picker>
+
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Location of Confirmation</mat-label>
+    <input type="text" matInput formControlName="confirmationLocation" autocomplete="off" required/>
+  </mat-form-field>&nbsp;&nbsp;
+
+  <mat-form-field>
+    <input matInput formControlName="confirmationDate" [matDatepicker]="picker" placeholder="Date of Confirmation" required>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field><br/>
+
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Location of Baptism</mat-label>
+    <input type="text" matInput formControlName="baptismLocation" autocomplete="off"/>
+  </mat-form-field>&nbsp;&nbsp;
+
+  <mat-form-field>
+    <input matInput formControlName="baptismDate" [matDatepicker]="baptismDatePicker" placeholder="Date of Baptism">
+    <mat-datepicker-toggle matSuffix [for]="baptismDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #baptismDatePicker></mat-datepicker>
+  </mat-form-field><br/>
+
+  <app-identity-picker formControlName="minister" label='Minister' [required]="true"></app-identity-picker>
+  <div class="row">
+    <div class="col">
+      <app-identity-picker formControlName="father" label='Father'></app-identity-picker>
+    </div>
+    <div class="col">
+      <app-identity-picker formControlName="mother" label='Mother'></app-identity-picker>
+    </div>
+  </div>
+
+  <app-identity-picker formControlName="sponsor" label='Sponsor' [required]="true"></app-identity-picker>
+
+  <button class="btn btn-primary" type="submit" [disabled]="!confirmationForm.valid">Save</button>
+  <button class="btn btn-outline-primary" type="button" (click)="close()">Cancel</button>
+</form>

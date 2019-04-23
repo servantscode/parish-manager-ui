@@ -1,0 +1,16 @@
+{{confirmation.person.name}}<br/>
+<div *ngIf="confirmation.father || confirmation.mother">
+  Child of
+  <span *ngIf="confirmation.father"> {{confirmation.father.name}}</span>
+  <span *ngIf="confirmation.mother"><span *ngIf="confirmation.father"> and</span> {{confirmation.mother.name}}</span>
+</div>
+<div *ngIf="confirmation.baptismDate || confirmation.baptismLocation">
+  Who was baptized
+  <span *ngIf="confirmation.baptismDate"> on {{confirmation.baptismDate | date: 'MM/dd/yyyy'}}</span>
+  <span *ngIf="confirmation.baptismLocation"> at {{confirmation.baptismLocation}}</span>
+</div>
+Was confirmed on {{confirmation.confirmationDate | date: 'MM/dd/yyyy'}} at {{confirmation.confirmationLocation}} by {{confirmation.minister.name}}
+<div *ngIf="confirmation.sponsor">
+  Sponsored by {{confirmation.sponsor.name}}
+</div><br/>
+<app-notations [value]='confirmation.notations' [sacramentId]='confirmation.id' [dataService]='confirmationService'></app-notations>

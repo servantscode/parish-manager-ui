@@ -1,0 +1,8 @@
+<div class="container rounded-rect">
+  <button *ngIf="confirmation && loginService.userCan('admin.confirmation.edit') && !showForm" class="btn btn-primary float-right" (click)="openForm()">Edit</button>
+  <button *ngIf="!confirmation && loginService.userCan('sacrament.confirmation.create') && !showForm" class="btn btn-primary float-right" (click)="openForm()">Record Confirmation</button>
+  <h3>Confirmation</h3> 
+  <app-confirmation-details *ngIf="confirmation && !showForm" [confirmation]="confirmation"></app-confirmation-details>
+  <app-confirmation-form *ngIf="showForm" [confirmation]="confirmation" (confirmationStored)="closeForm($event)"></app-confirmation-form>
+  <span *ngIf="!confirmation && !showForm"><em>No confirmation information available.</em></span>
+</div>
