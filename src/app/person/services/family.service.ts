@@ -36,6 +36,13 @@ export class FamilyService extends PaginatedService<Family> {
     return new Family().asTemplate();
   }
 
+  public getPage(start = 0, count = 10, search = '', includeInactive=false): Observable<PaginatedResponse<Family>> {
+    return this.http.get<PaginatedResponse<Family>>(this.url+`?start=${start}&count=${count}&partial_name=${search}&include_inactive=${includeInactive}`).pipe(
+        map(resp => this.mapResults(resp)),
+        catchError(this.handleError('getPage', null))
+      );
+  }
+
   public attachPhoto(id: number, photoGuid: string) {
     return this.http.put(this.url + `/${id}/photo`, photoGuid, {headers: {"Content-Type": "text/plain"}}).pipe(
         catchError(this.handleError('attachPhoto', null))

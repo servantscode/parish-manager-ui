@@ -18,8 +18,11 @@
 </div>
 <div class="container-fluid">
   <div class="row">
-    <div class="col">
+    <div class="col-8">
       <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search..." (ngModelChange)="populateList()" aria-label="Search">
+    </div>
+    <div class="col">
+      <mat-checkbox [(ngModel)]="includeInactive" (change)="populateList()">Show Inactive?</mat-checkbox>
     </div>
     <div class="col controls">
       <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="populateList()"></ngb-pagination>
@@ -36,8 +39,8 @@
   	</thead>
   	<tbody (mouseleave)="highlight(null)">
   		<tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}" (click)="viewDetails(item)">
-  			<td>{{item.name}}</td>
-        <td>{{getAddressString(item)}}</td>
+  			<td [ngClass]="{'inactive': item.inactive}">{{item.name}}</td>
+        <td [ngClass]="{'inactive': item.inactive}">{{getAddressString(item)}}</td>
   		</tr>
   	</tbody>
   </table>
@@ -50,8 +53,8 @@
     </thead>
     <tbody (mouseleave)="highlight(null)">
       <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}" (click)="viewDetails(item)">
-        <td>{{item.surname}}</td>
-        <td>{{getAddressString(item)}}</td>
+        <td [ngClass]="{'inactive': item.inactive}">{{item.surname}}</td>
+        <td [ngClass]="{'inactive': item.inactive}">{{getAddressString(item)}}</td>
       </tr>
     </tbody>
   </table>

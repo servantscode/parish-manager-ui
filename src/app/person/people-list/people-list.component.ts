@@ -31,6 +31,7 @@ export class PeopleListComponent implements OnInit {
   pageSize = 20;
   totalCount = 0;
   search = '';
+  includeInactive = false;
 
   mode = "person";
 
@@ -104,7 +105,7 @@ export class PeopleListComponent implements OnInit {
     if(!this.loginService.userCan('person.list'))
       return;
 
-    this.personService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search)
+    this.personService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search, this.includeInactive)
       .subscribe(peopleResp => {
         this.items = peopleResp.results;
         this.totalCount = peopleResp.totalResults;
@@ -115,7 +116,7 @@ export class PeopleListComponent implements OnInit {
     if(!this.loginService.userCan('family.list'))
       return;
 
-    this.familyService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search).
+    this.familyService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search, this.includeInactive).
       subscribe(familyResp => {
         this.items = familyResp.results;
         this.totalCount = familyResp.totalResults;

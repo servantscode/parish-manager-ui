@@ -36,12 +36,13 @@ export class PersonService extends PaginatedService<Person> {
     return new Person().asTemplate();
   }
    
-  public getPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Person>> {
-    return this.http.get<PaginatedResponse<Person>>(this.url+`?start=${start}&count=${count}&partial_name=${search}&families=true`).pipe(
+  public getPage(start = 0, count = 10, search = '', includeInactive=false): Observable<PaginatedResponse<Person>> {
+    return this.http.get<PaginatedResponse<Person>>(this.url+`?start=${start}&count=${count}&partial_name=${search}&families=true&include_inactive=${includeInactive}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );
   }
+
   public attachPhoto(id: number, photoGuid: string) {
     return this.http.put(this.url + `/${id}/photo`, photoGuid, {headers: {"Content-Type": "text/plain"}}).pipe(
         catchError(this.handleError('attachPhoto', null))
