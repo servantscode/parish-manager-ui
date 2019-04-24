@@ -47,14 +47,14 @@
     <mat-datepicker #brideBaptismDatePicker></mat-datepicker>
   </mat-form-field><br/>
 
-  <strong>Wedding Details</strong>
+  <strong>Wedding Details</strong><br/>
   <mat-form-field appearance="standard" class="input-standard">
     <mat-label>Wedding Location</mat-label>
     <input type="text" matInput formControlName="marriageLocation" autocomplete="off"/>
   </mat-form-field>&nbsp;&nbsp;
 
   <mat-form-field>
-    <input matInput formControlName="marriageDate" [matDatepicker]="marriageDatePicker" placeholder="Date of Bride's Baptism">
+    <input matInput formControlName="marriageDate" [matDatepicker]="marriageDatePicker" placeholder="Wedding Date">
     <mat-datepicker-toggle matSuffix [for]="marriageDatePicker"></mat-datepicker-toggle>
     <mat-datepicker #marriageDatePicker></mat-datepicker>
   </mat-form-field><br/>
@@ -62,8 +62,14 @@
 
   <app-identity-picker formControlName="minister" label='Minister' [required]="true"></app-identity-picker>
 
-  <app-identity-picker formControlName="witness1" label='Witness' [required]="true"></app-identity-picker>
-  <app-identity-picker formControlName="witness2" label='Witness' [required]="true"></app-identity-picker>
+  <div class="row">
+    <div class="col">
+      <app-identity-picker formControlName="witness1" label='Witness' [required]="true"></app-identity-picker>
+    </div>
+    <div class="col">
+      <app-identity-picker formControlName="witness2" label='Witness' [required]="true"></app-identity-picker>
+    </div>
+  </div>
 
   <button class="btn btn-primary" type="submit" [disabled]="!marriageForm.valid">Save</button>
   <button class="btn btn-outline-primary" type="button" (click)="close()">Cancel</button>

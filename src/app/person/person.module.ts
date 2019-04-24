@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { SCCommonModule } from '../sccommon/sccommon.module';
 import { MinistryModule } from '../ministry/ministry.module';
@@ -55,7 +56,8 @@ import { FamilyService } from './services/family.service';
     MatCheckboxModule,
     MatDatepickerModule,
     MatAutocompleteModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatRadioModule
   ],
   exports: [
   ],

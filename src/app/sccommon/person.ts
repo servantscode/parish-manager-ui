@@ -11,6 +11,7 @@ export class Person extends Autocompletable {
 
   name: string;
   email: string;
+  male: boolean;
   phoneNumber: string;
   headOfHousehold: boolean;
   family: Family;
@@ -30,7 +31,8 @@ export class Person extends Autocompletable {
 
   public asTemplate(): Person {
     this.id=0;
-    this.name=""
+    this.name="";
+    this.male=false;
     this.email="";
     this.phoneNumber="";
     this.headOfHousehold =false;

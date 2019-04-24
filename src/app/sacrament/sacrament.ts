@@ -3,6 +3,10 @@ import { Identifiable } from '../sccommon/identifiable';
 export class Identity {
   name: string;
   id: number;
+
+  identify(): string {
+    return this.name;
+  }
 }
 
 export abstract class Sacrament extends Identifiable {

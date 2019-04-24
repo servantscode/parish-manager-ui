@@ -8,10 +8,12 @@ export class BaseService {
   constructor(protected http: HttpClient,
               protected messageService: MessageService) { }
 
-  protected handleError<T> (operation = 'operation', result?: T) {
+  protected handleError<T> (operation = 'operation', result?: T, ignoredErrorCodes?: number[]) {
     return (error: any): Observable<T> => {
-      console.error(error);
-      this.logError(`${operation} failed: ${error.message}`);
+      if(!ignoredErrorCodes || ignoredErrorCodes.indexOf(error.status) == -1) {
+        console.error(error);
+        this.logError(`${operation} failed: ${error.message}`);
+      }
       return of(result as T);
     };
   }

@@ -66,7 +66,13 @@ export class IdentityPickerComponent implements OnInit {
     this.filteredItems = this.autocompleteForm.get('input').valueChanges
       .pipe(
         debounceTime(300),
-        map(value => value? typeof value === 'string' ? value : value.identify(): ""),
+        map(value => value? 
+                      typeof value === 'string' ? 
+                        value : 
+                        value.identify?
+                          value.identify(): 
+                          value.name:
+                      ""),
         switchMap(value => this.personService.getPage(0, 10, value)
             .pipe(map(resp => resp.results))
           )

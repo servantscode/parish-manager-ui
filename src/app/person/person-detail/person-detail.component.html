@@ -10,6 +10,10 @@
         <div class="row">
           <div class="col">
             Name: {{person.name}}<br/>
+            <mat-radio-group aria-label="Gender" [disabled]="true">
+              <mat-radio-button value="true" [checked]="person.male">Male</mat-radio-button>&nbsp;&nbsp;
+              <mat-radio-button value="false" [checked]="!person.male">Female</mat-radio-button>
+            </mat-radio-group><br/>
             Email: {{person.email}}&nbsp;&nbsp;<div *ngIf="person.email && loginService.userCan('email.send')" class="big-icon email" (click)="openMailDialog()">&nbsp;</div><br/>
             Phone: {{person.phoneNumber}}<br/>
             <mat-checkbox [checked]="person.headOfHousehold" [disabled]="true"> Head of Household</mat-checkbox>
@@ -76,6 +80,10 @@
           <mat-label>Name</mat-label>
           <input matInput formControlName="name" (keyup)="guessSurname()" required>
         </mat-form-field><br/>
+          <mat-radio-group aria-label="Gender" formControlName="male">
+            <mat-radio-button value="true" [checked]="personForm.value.male">Male</mat-radio-button>&nbsp;&nbsp;
+            <mat-radio-button value="false" [checked]="!personForm.value.male">Female</mat-radio-button>
+          </mat-radio-group><br/>
 
         <mat-form-field appearance="standard" class="input-standard">
           <mat-label>Email</mat-label> 

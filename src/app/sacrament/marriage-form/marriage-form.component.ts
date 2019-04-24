@@ -61,19 +61,38 @@ export class MarriageFormComponent implements OnInit {
       const personId = +this.route.snapshot.paramMap.get('id');
 
       this.personService.get(personId).subscribe(resp => {
-          this.marriageForm.get('groom').setValue({name:resp.name, id:resp.id});
+          const party = resp.male? "groom": "bride";
+          this.marriageForm.get(party).setValue({name:resp.name, id:resp.id});
+          this.baptismService.getByPerson(personId).subscribe(baptism => {
+              if(baptism) 
+                this.autofill(baptism, party);
+            });
         });
 
-      this.baptismService.getByPerson(personId).subscribe(resp =>{
-          if(resp) {
-            this.marriageForm.get('groomBaptismId').setValue(resp.id);
-            this.marriageForm.get('groomBaptismLocation').setValue(resp.baptismLocation);
-            this.marriageForm.get('groomBaptismDate').setValue(resp.baptismDate);
-            this.marriageForm.get('groomFather').setValue(resp.father);
-            this.marriageForm.get('groomMother').setValue(resp.mother);
-          }
+      this.marriageForm.get('groom').valueChanges.subscribe(value => {
+          if(value && value.id)
+            this.baptismService.getByPerson(value.id).subscribe(baptism =>{
+                if(baptism) 
+                  this.autofill(baptism, 'groom');
+              });
+        });
+
+        this.marriageForm.get('bride').valueChanges.subscribe(value => {
+          if(value && value.id)
+            this.baptismService.getByPerson(value.id).subscribe(baptism => {
+                if(baptism) 
+                  this.autofill(baptism, 'bride');
+              });
         });
     }
+  }
+
+  private autofill(baptism: Baptism, party: string) {
+      this.marriageForm.get(party + 'BaptismId').setValue(baptism.id);
+      this.marriageForm.get(party + 'BaptismLocation').setValue(baptism.baptismLocation);
+      this.marriageForm.get(party + 'BaptismDate').setValue(baptism.baptismDate);
+      this.marriageForm.get(party + 'Father').setValue(baptism.father);
+      this.marriageForm.get(party + 'Mother').setValue(baptism.mother);
   }
 
   submitForm() {

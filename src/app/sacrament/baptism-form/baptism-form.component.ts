@@ -54,6 +54,7 @@ export class BaptismFormComponent implements OnInit {
 
       this.personService.get(personId).subscribe(resp => {
           this.baptismForm.get('person').setValue({name:resp.name, id:resp.id});
+          this.baptismForm.get('birthDate').setValue(resp.birthdate);
         });
     }
   }

@@ -19,7 +19,7 @@ export abstract class BaseSacramentService<T extends Sacrament> extends Paginate
   getByPerson(personId: number): Observable<T> {
     return this.http.get<T>(this.url + `/person/${personId}`).pipe(
         map(resp => this.mapObject(resp)),
-        catchError(this.handleError('getByPerson', null))
+        catchError(this.handleError('getByPerson', null, [404]))
       );
   }
 

@@ -39,6 +39,7 @@ export class PersonDetailComponent implements OnInit {
   personForm = this.fb.group({
       id: [''],
       name: ['', Validators.required],
+      male: true,
       email: ['', Validators.email],
       phoneNumber: ['', Validators.pattern(SCValidation.PHONE)],
       headOfHousehold: [''],
