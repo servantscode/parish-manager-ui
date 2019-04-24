@@ -1,0 +1,30 @@
+{{marriage.groom.name}}<br/>
+<div *ngIf="marriage.groomFather || marriage.groomMother">
+  Child of
+  <span *ngIf="marriage.groomFather"> {{marriage.groomFather.name}}</span>
+  <span *ngIf="marriage.groomMother"><span *ngIf="marriage.groomFather"> and</span> {{marriage.groomMother.name}}</span>
+</div>
+<div *ngIf="marriage.groomBaptismDate || marriage.groomBaptismLocation">
+  Who was baptized
+  <span *ngIf="marriage.groomBaptismDate"> on {{marriage.groomBaptismDate | date: 'MM/dd/yyyy'}}</span>
+  <span *ngIf="marriage.groomBaptismLocation"> at {{marriage.groomBaptismLocation}}</span>
+</div>
+And
+{{marriage.bride.name}}<br/>
+<div *ngIf="marriage.brideFather || marriage.brideMother">
+  Child of
+  <span *ngIf="marriage.brideFather"> {{marriage.brideFather.name}}</span>
+  <span *ngIf="marriage.brideMother"><span *ngIf="marriage.brideFather"> and</span> {{marriage.brideMother.name}}</span>
+</div>
+<div *ngIf="marriage.brideBaptismDate || marriage.brideBaptismLocation">
+  Who was baptized
+  <span *ngIf="marriage.brideBaptismDate"> on {{marriage.brideBaptismDate | date: 'MM/dd/yyyy'}}</span>
+  <span *ngIf="marriage.brideBaptismLocation"> at {{marriage.brideBaptismLocation}}</span>
+</div>
+
+Were married on {{marriage.marriageDate | date: 'MM/dd/yyyy'}} at {{marriage.marriageLocation}} by {{marriage.minister.name}}<br/>
+
+<div *ngIf="marriage.witness1">
+  Their marrige was witnessed by {{marriage.witness1.name}}<span *ngIf="marriage.witness2"> and {{marriage.witness2.name}}></span>
+</div>
+<app-notations [value]='marriage.notations' [sacramentId]='marriage.id' [dataService]='marriageService'></app-notations>

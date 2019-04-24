@@ -1,0 +1,8 @@
+<div class="container rounded-rect">
+  <button *ngIf="marriage && loginService.userCan('admin.marriage.edit') && !showForm" class="btn btn-primary float-right" (click)="openForm()">Edit</button>
+  <button *ngIf="!marriage && loginService.userCan('sacrament.marriage.create') && !showForm" class="btn btn-primary float-right" (click)="openForm()">Record Marriage</button>
+  <h3>Marriage</h3> 
+  <app-marriage-details *ngIf="marriage && !showForm" [marriage]="marriage"></app-marriage-details>
+  <app-marriage-form *ngIf="showForm" [marriage]="marriage" (marriageStored)="closeForm($event)"></app-marriage-form>
+  <span *ngIf="!marriage && !showForm"><em>No marriage information available.</em></span>
+</div>

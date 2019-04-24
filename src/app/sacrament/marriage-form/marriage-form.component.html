@@ -1,0 +1,70 @@
+<form [formGroup]="marriageForm" (submit)="submitForm()">
+  <input type="hidden" formControlName="id"/>
+
+  <strong>Groom's Information</strong>
+  <app-identity-picker formControlName="groom" label="Groom's Name" [required]="true"></app-identity-picker>
+
+  <div class="row">
+    <div class="col">
+      <app-identity-picker formControlName="groomFather" label="Groom's Father"></app-identity-picker>
+    </div>
+    <div class="col">
+      <app-identity-picker formControlName="groomMother" label="Groom's Mother"></app-identity-picker>
+    </div>
+  </div>
+
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Location of Groom's Baptism</mat-label>
+    <input type="text" matInput formControlName="groomBaptismLocation" autocomplete="off"/>
+  </mat-form-field>&nbsp;&nbsp;
+
+  <mat-form-field>
+    <input matInput formControlName="groomBaptismDate" [matDatepicker]="groomBaptismDatePicker" placeholder="Date of Groom's Baptism">
+    <mat-datepicker-toggle matSuffix [for]="groomBaptismDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #groomBaptismDatePicker></mat-datepicker>
+  </mat-form-field><br/>
+
+  <strong>Bride's Information</strong>
+  <app-identity-picker formControlName="bride" label="Bride's Name" [required]="true"></app-identity-picker>
+
+  <div class="row">
+    <div class="col">
+      <app-identity-picker formControlName="brideFather" label="Bride's Father"></app-identity-picker>
+    </div>
+    <div class="col">
+      <app-identity-picker formControlName="brideMother" label="Bride's Mother"></app-identity-picker>
+    </div>
+  </div>
+
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Location of Bride's Baptism</mat-label>
+    <input type="text" matInput formControlName="brideBaptismLocation" autocomplete="off"/>
+  </mat-form-field>&nbsp;&nbsp;
+
+  <mat-form-field>
+    <input matInput formControlName="brideBaptismDate" [matDatepicker]="brideBaptismDatePicker" placeholder="Date of Bride's Baptism">
+    <mat-datepicker-toggle matSuffix [for]="brideBaptismDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #brideBaptismDatePicker></mat-datepicker>
+  </mat-form-field><br/>
+
+  <strong>Wedding Details</strong>
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Wedding Location</mat-label>
+    <input type="text" matInput formControlName="marriageLocation" autocomplete="off"/>
+  </mat-form-field>&nbsp;&nbsp;
+
+  <mat-form-field>
+    <input matInput formControlName="marriageDate" [matDatepicker]="marriageDatePicker" placeholder="Date of Bride's Baptism">
+    <mat-datepicker-toggle matSuffix [for]="marriageDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #marriageDatePicker></mat-datepicker>
+  </mat-form-field><br/>
+
+
+  <app-identity-picker formControlName="minister" label='Minister' [required]="true"></app-identity-picker>
+
+  <app-identity-picker formControlName="witness1" label='Witness' [required]="true"></app-identity-picker>
+  <app-identity-picker formControlName="witness2" label='Witness' [required]="true"></app-identity-picker>
+
+  <button class="btn btn-primary" type="submit" [disabled]="!marriageForm.valid">Save</button>
+  <button class="btn btn-outline-primary" type="button" (click)="close()">Cancel</button>
+</form>

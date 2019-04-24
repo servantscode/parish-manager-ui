@@ -22,6 +22,9 @@ import { ConfirmationFormComponent } from './confirmation-form/confirmation-form
 import { ConfirmationDetailsComponent } from './confirmation-details/confirmation-details.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { SacramentsComponent } from './sacraments/sacraments.component';
+import { MarriageComponent } from './marriage/marriage.component';
+import { MarriageDetailsComponent } from './marriage-details/marriage-details.component';
+import { MarriageFormComponent } from './marriage-form/marriage-form.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { SacramentsComponent } from './sacraments/sacraments.component';
     ConfirmationFormComponent,
     ConfirmationDetailsComponent,
     ConfirmationComponent,
-    SacramentsComponent
+    SacramentsComponent,
+    MarriageComponent,
+    MarriageDetailsComponent,
+    MarriageFormComponent
   ],
   imports: [
     SacramentRoutingModule,
