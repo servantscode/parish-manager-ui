@@ -205,7 +205,7 @@ export class EventDetailsComponent implements OnInit {
       return;
     }
 
-    var conflicts = this.roomAvailability.filter(avail => !avail).length + this.equipmentAvailability.filter(avail => !avail).length;
+    var conflicts = this.countConflicts();
 
     if(conflicts == 0) {
       this.storeEvent();
@@ -221,6 +221,14 @@ export class EventDetailsComponent implements OnInit {
           }
       });
     }
+  }
+
+  canSave() {
+    return this.countConflicts() == 0 || this.loginService.userCan("admin.event.override");
+  }
+
+  private countConflicts() {
+    return this.roomAvailability.filter(avail => !avail).length + this.equipmentAvailability.filter(avail => !avail).length;
   }
 
   private storeEvent() {
