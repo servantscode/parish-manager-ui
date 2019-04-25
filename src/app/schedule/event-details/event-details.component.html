@@ -79,8 +79,7 @@
         <input type="number" matInput formControlName="cleanupTime" autocomplete="off"/>
       </mat-form-field>
     </div>
-    <h3>Reservations</h3> <br/>
-
+    <h3>Reservations</h3>
     <div class="float-clear"></div>
 
     <div *ngFor="let item of rooms; let i = index" class="row reservation-row">
@@ -95,7 +94,7 @@
         </table>
       </div>
       <div class="col-8">
-        <app-availability [reservation]="item" [displayHeader]="i == 0"></app-availability>
+        <app-availability [reservation]="item" [isAvailable]="roomAvailability[i]" (isAvailableChange)="setRoomAvailability(i, $event)" [displayHeader]="i == 0"></app-availability>
       </div>
     </div>
     <div class="row" *ngIf="!disabled">
@@ -111,11 +110,12 @@
             {{item.resourceName}}
           </td>
           <td *ngIf="!disabled">
-            <div class="actions icon delete" (click)="removeEquipment(i)">&nbsp;</div>
+            &nbsp;<div class="actions icon delete" (click)="removeEquipment(i)">&nbsp;</div>
           </td>
-        </table>      </div>
+        </table>
+      </div>
       <div class="col-8">
-        <app-availability [reservation]="item" [displayHeader]="i == 0 && rooms.length == 0"></app-availability>
+        <app-availability [reservation]="item" ([isAvailable])="equipmentAvailability[i]" (isAvailableChange)="setEquipmentAvailability(i, $event)" [displayHeader]="i == 0 && rooms.length == 0"></app-availability>
       </div>
     </div>
     <div class="row" *ngIf="!disabled">

@@ -36,6 +36,7 @@ import { EmailService } from './services/email.service';
 import { LoginService } from './services/login.service';
 import { PersonService } from './services/person.service';
 import { PhotoService } from './services/photo.service';
+import { AdminOverrideDialogComponent } from './admin-override-dialog/admin-override-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -53,7 +54,8 @@ export function tokenGetter() {
     EmailDialogComponent,
     DeleteDialogComponent,
     ScEnumComponent,
-    DateTimeComponent
+    DateTimeComponent,
+    AdminOverrideDialogComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -106,7 +108,8 @@ export function tokenGetter() {
   entryComponents: [
     PhotoUploadDialogComponent,
     EmailDialogComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    AdminOverrideDialogComponent
   ]
 })
 export class SCCommonModule { }

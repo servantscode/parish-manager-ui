@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AvailabilityService } from '../services/availability.service';
@@ -18,7 +18,8 @@ export class AvailabilityComponent implements OnInit, OnChanges {
   
   reservations: Reservation[];
 
-  isAvailable: boolean = false;
+  @Input() isAvailable: boolean = false;
+  @Output() isAvailableChange = new EventEmitter<boolean>();
 
   availability: any[];
 
@@ -67,6 +68,7 @@ export class AvailabilityComponent implements OnInit, OnChanges {
 
   private processReservations() {
     this.isAvailable = this.reservations.filter(res => this.overlaps(res, this.reservation)).length == 0;
+    this.isAvailableChange.emit(this.isAvailable);
 
     this.availability = this.reservations.concat([this.reservation]);
     this.availability.sort((a,b) => differenceInMinutes(a.startTime, b.startTime));

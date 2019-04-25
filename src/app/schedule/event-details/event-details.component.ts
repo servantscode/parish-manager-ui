@@ -13,6 +13,7 @@ import { SCValidation } from '../../sccommon/validation';
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
+import { AdminOverrideDialogComponent } from '../../sccommon/admin-override-dialog/admin-override-dialog.component';
 
 import { MinistryService } from '../../ministry/services/ministry.service';
 import { Ministry } from '../../ministry/ministry';
@@ -65,7 +66,9 @@ export class EventDetailsComponent implements OnInit {
   disabled: boolean = false;
 
   rooms = [];
+  roomAvailability = [];
   equipment = [];
+  equipmentAvailability = [];
 
   meetingLength: number = 3600;
 
@@ -106,7 +109,7 @@ export class EventDetailsComponent implements OnInit {
         if(!end) return;
 
         this.eventForm.get('endTime').setValue(end);
-        this.checkAvailability();
+        this.updateReservationTimes();
       });
 
     this.eventForm.get('endTime').valueChanges.subscribe( end => {
@@ -116,7 +119,7 @@ export class EventDetailsComponent implements OnInit {
         if(!start) return;
 
         this.meetingLength = (end.getTime() - start.getTime())/1000;
-        this.checkAvailability();
+        this.updateReservationTimes();
       });
 
     this.eventForm.get('room').valueChanges
@@ -132,10 +135,16 @@ export class EventDetailsComponent implements OnInit {
       .subscribe( () => { this.updateRecurrenceOptions() });
 
     this.eventForm.get('setupTime').valueChanges
-      .subscribe( () => this.checkAvailability());
+      .subscribe( () => this.updateReservationTimes());
 
     this.eventForm.get('cleanupTime').valueChanges
-      .subscribe( () => this.checkAvailability());
+      .subscribe( () => this.updateReservationTimes());
+
+    this.eventForm.get('description').valueChanges
+      .subscribe( desc => {
+         this.rooms.forEach(room => room.eventDescription = desc);
+         this.equipment.forEach(equip => equip.eventDescription = desc);
+      });
 
     this.updateRecurrenceOptions();
   }
@@ -190,37 +199,31 @@ export class EventDetailsComponent implements OnInit {
     }
   }
 
-  checkAvailability() {
-    var start = this.getValue('startTime');
-    var end = this.getValue('endTime');
-    start = addMinutes(start, -this.getValue('setupTime'));
-    end = addMinutes(end, this.getValue('cleanupTime'));
-
-    var newRooms = [];
-    for(let room of this.rooms) {
-      var newRoom = Object.assign({}, room);
-      newRoom.startTime = start;
-      newRoom.endTime = end;
-      newRooms.push(newRoom);
-    }
-    this.rooms = newRooms;
-
-    var newEquipment = [];
-    for(let equip of this.equipment) {
-      var newEquip = Object.assign({}, equip);
-      newEquip.startTime = start;
-      newEquip.endTime = end;
-      newEquipment.push(newEquip);
-    }
-    this.equipment = newEquipment;
-  }
-
   createEvent() {
     if(!this.eventForm.valid) {
       this.cancel();
       return;
     }
 
+    var conflicts = this.roomAvailability.filter(avail => !avail).length + this.equipmentAvailability.filter(avail => !avail).length;
+
+    if(conflicts == 0) {
+      this.storeEvent();
+    } else if(this.loginService.userCan("admin.event.override")) {
+      var description = this.getValue("description");
+      this.dialog.open(AdminOverrideDialogComponent, {
+        width: '400px',
+        data: {"title": "Reservation Conflicts",
+               "text" : "This meeting request has "+ conflicts + (conflicts == 1? " conflict": " conflicts") + ". Are you sure you wish to proceed?",
+               "confirm": () => { 
+                 return this.storeEvent(); 
+               }
+          }
+      });
+    }
+  }
+
+  private storeEvent() {
     if(this.getValue("id") > 0) {
       if(!this.loginService.userCan("event.create"))
         this.goBack();
@@ -275,12 +278,18 @@ export class EventDetailsComponent implements OnInit {
       eventDescription: this.getValue('description'),
       reservingPersonId: this.eventForm.get('schedulerId').value
     });
+    this.roomAvailability.push(false);
     this.eventForm.get('room').reset();
-    this.checkAvailability();
+    this.updateReservationTimes();
+  }
+
+  setRoomAvailability(index: number, available: boolean) {
+    this.roomAvailability[index]=available;
   }
 
   removeRoom(index: number): void {
     this.rooms.splice(index, 1);
+    this.roomAvailability.splice(index, 1);  
   }
 
   equipmentFilter() {
@@ -302,12 +311,18 @@ export class EventDetailsComponent implements OnInit {
       eventDescription: this.getValue('description'),
       reservingPersonId: this.getValue('schedulerId')
     });
+    this.equipmentAvailability.push(false);
     this.eventForm.get('equipment').reset();
-    this.checkAvailability();
+    this.updateReservationTimes();
+  }
+
+  setEquipmentAvailability(index: number, available: boolean) {
+    this.equipmentAvailability[index]=available;
   }
 
   removeEquipment(index: number): void {
     this.equipment.splice(index, 1);
+    this.equipmentAvailability.splice(index, 1);  
   }
 
   cancel() {
@@ -316,6 +331,24 @@ export class EventDetailsComponent implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+
+  private updateReservationTimes() {
+    var start = this.getValue('startTime');
+    var end = this.getValue('endTime');
+    start = addMinutes(start, -this.getValue('setupTime'));
+    end = addMinutes(end, this.getValue('cleanupTime'));
+
+    this.rooms = this.rooms.map(room => this.cloneToNewTime(room, start, end));
+    this.equipment = this.equipment.map(equip => this.cloneToNewTime(equip, start, end));
+  }
+
+  private cloneToNewTime(res: any, start:Date, end:Date) {
+    var clone = Object.assign({}, res);
+    clone.startTime = start;
+    clone.endTime = end;
+    return clone;
   }
 
   private getValue(fieldName: string): any {
@@ -335,7 +368,9 @@ export class EventDetailsComponent implements OnInit {
       }
 
       this.rooms = eventData.reservations.filter((r) => r.resourceType == 'ROOM');
+      this.roomAvailability = [].fill(false, 0, this.rooms.length);
       this.equipment = eventData.reservations.filter((r) => r.resourceType == 'EQUIPMENT');
+      this.equipmentAvailability = [].fill(false, 0, this.equipment.length);
     }
 
     if(eventData.recurrence != undefined && eventData.recurrence != null) {
