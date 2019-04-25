@@ -83,7 +83,9 @@ export class CalendarComponent implements OnInit {
               start: serverEvent.startTime,
               end: serverEvent.endTime,
               title: serverEvent.description,
-              color: ColorService.CALENDAR_COLORS.blue,
+              color: this.hasConflict(serverEvent, eventResponse)?
+                        ColorService.CALENDAR_COLORS.red:
+                        ColorService.CALENDAR_COLORS.blue,
               actions: this.actions,
               allDay: false,
               resizable: {
@@ -100,6 +102,28 @@ export class CalendarComponent implements OnInit {
             };
           });
       });
+  }
+
+  hasConflict(event: Event, allEvents: Event[]) {
+    var conflicts = allEvents.filter(e => e !== event && this.overlaps(e, event) && this.sharedResources(e, event));
+    return conflicts.length > 0;
+  }
+
+  private overlaps(win1: any, win2: any): boolean {
+    return !(win1.startTime <= win2.startTime && win1.endTime <= win2.startTime) &&
+           !(win1.startTime >= win2.endTime && win1.endTime >= win2.endTime);
+  }
+
+  private sharedResources(e1: Event, e2: Event): boolean {
+    if(!e1.reservations)
+      return false;
+
+    const sharedResources = e1.reservations.filter(r => {
+        if(!e2.reservations)
+          return false;
+        return e2.reservations.filter(r2 => r.resourceId === r2.resourceId && r.resourceType == r2.resourceType).length > 0;
+      });
+    return sharedResources.length > 0;
   }
 
   newEvent() {
@@ -155,11 +179,15 @@ export class CalendarComponent implements OnInit {
   }
 
   highlightEvent(event) {
-    event.color = ColorService.CALENDAR_COLORS.darkBlue;
+    event.color = event.color === ColorService.CALENDAR_COLORS.blue?
+      ColorService.CALENDAR_COLORS.darkBlue:
+      ColorService.CALENDAR_COLORS.darkRed;
   }
 
   unhighlightEvent(event) {
-    event.color = ColorService.CALENDAR_COLORS.blue;
+    event.color = event.color === ColorService.CALENDAR_COLORS.darkBlue?
+      ColorService.CALENDAR_COLORS.blue:
+      ColorService.CALENDAR_COLORS.red;
   }
 
   private calculateRange(date: Date, view: CalendarView) {

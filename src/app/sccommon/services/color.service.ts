@@ -21,6 +21,10 @@ export class ColorService {
     darkBlue: {
       primary: '#0061BF',
       secondary: '#B3D7FF'
+    },
+    darkRed: {
+      primary: '#ad0d0d',
+      secondary: '#ffbfbf'
     }
   };
 
