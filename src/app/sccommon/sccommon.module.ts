@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -37,6 +38,7 @@ import { LoginService } from './services/login.service';
 import { PersonService } from './services/person.service';
 import { PhotoService } from './services/photo.service';
 import { AdminOverrideDialogComponent } from './admin-override-dialog/admin-override-dialog.component';
+import { ScSelectComponent } from './sc-select/sc-select.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -55,7 +57,8 @@ export function tokenGetter() {
     DeleteDialogComponent,
     ScEnumComponent,
     DateTimeComponent,
-    AdminOverrideDialogComponent
+    AdminOverrideDialogComponent,
+    ScSelectComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -75,7 +78,8 @@ export function tokenGetter() {
     MatAutocompleteModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    
+    MatSelectModule,
+
     //JWT
     JwtModule.forRoot({
       config: {
@@ -96,7 +100,8 @@ export function tokenGetter() {
     PhotoComponent,
     NotesComponent,
     ScEnumComponent,
-    DateTimeComponent
+    DateTimeComponent,
+    ScSelectComponent
   ],
   providers: [ 
     ApiLocatorService,

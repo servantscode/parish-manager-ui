@@ -4,6 +4,8 @@
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="familyId"/>
     
+    <app-sc-auto-complete formControlName="fundId" label='Fund' [autocompleteService]="fundService" [required]="true" [fieldSize]="standard"></app-sc-auto-complete>
+
     <mat-form-field appearance="standard" class="input-standard">
       <mat-label>Amount</mat-label>
       <input type="text" matInput formControlName="amount" autocomplete="off" cdkFocusInitial required/>

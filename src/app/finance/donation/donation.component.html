@@ -1,3 +1,9 @@
+
+<form [formGroup]="fundForm">
+  <app-sc-select formControlName="fundId" [autocompleteService]="fundService" [label]="Fund" [fieldSize]="standard"></app-sc-select>
+  <span class="clickable" [routerLink]="['/fund']">Manage Funds</span>
+</form>
+
 <div *ngIf="loginService.userCan('pledge.metrics')" class="container rounded-rect">
   <div class='row'>
     <div class='col'>

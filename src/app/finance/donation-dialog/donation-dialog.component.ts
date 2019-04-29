@@ -7,6 +7,7 @@ import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 import { SCValidation } from '../../sccommon/validation';
 
 import { DonationService } from '../services/donation.service';
+import { FundService } from '../services/fund.service';
 
 @Component({
   selector: 'app-donation-dialog',
@@ -18,6 +19,7 @@ export class DonationDialogComponent implements OnInit {
   form = this.fb.group({
       id: [''],
       familyId: ['', Validators.required],
+      fundId: [1, Validators.required],
       amount: ['', [Validators.required, Validators.pattern(SCValidation.USD)]],
       donationDate: [new Date(), Validators.required],
       donationType: ['', Validators.required],
@@ -30,7 +32,8 @@ export class DonationDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<DonationDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
-              private donationService: DonationService) { }
+              private donationService: DonationService,
+              public fundService: FundService) { }
   
   ngOnInit() {
     if(this.data.item)

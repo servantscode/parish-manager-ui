@@ -12,6 +12,8 @@ import { Family } from '../../sccommon/family';
 import { FamilyService } from '../../person/services/family.service';
 
 import { DonationService } from '../services/donation.service';
+import { FundService } from '../services/fund.service';
+
 import { Donation } from '../donation';
 import { DonationPrediction } from '../donation-prediction';
 
@@ -27,6 +29,7 @@ export class BulkDonationDialogComponent implements OnInit {
 
   donationForm = this.fb.group({
       donationDate: [new Date(), Validators.required],
+      fundId: [this.defaultFund(), Validators.required],
       donations: this.fb.array([
           this.newRow()
         ])
@@ -36,6 +39,7 @@ export class BulkDonationDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               private donationService: DonationService,
+              public fundService: FundService,
               private familyService: FamilyService,
               private cleaningService: DataCleanupService) { }
   
@@ -113,13 +117,17 @@ export class BulkDonationDialogComponent implements OnInit {
     if(this.donationForm.valid) {
       var donations: Donation[] = [];
       const donationDate = this.donationForm.get('donationDate').value;
+      const fundId = this.donationForm.get('fundId').value;
 
       for(let control of (<FormArray>this.donationForm.controls['donations']).controls) {
         var tempDon = this.cleaningService.prune(control.value, new Donation().asTemplate());
         tempDon.donationDate = donationDate;
+        tempDon.fundId = fundId;
         donations.push(tempDon);
       }
       
+      localStorage.setItem('donation-fund', fundId);
+
       this.donationService.createDonations(donations).
         subscribe(() => {
           this.dialogRef.close();
@@ -156,4 +164,10 @@ export class BulkDonationDialogComponent implements OnInit {
     if(field.value == 0)
       field.reset();
   }
+
+  private defaultFund(): number {
+    const fundId = localStorage.getItem('donation-fund');
+    return fundId? +fundId: 1;
+  }
+
 }

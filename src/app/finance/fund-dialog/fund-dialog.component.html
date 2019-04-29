@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="save()">
-  <h1 *ngIf="data.item && data.item.id > 0" mat-dialog-title>Update Room</h1>
-  <h1 *ngIf="data.item == null || data.item.id == 0" mat-dialog-title>Record Room</h1>
+  <h1 *ngIf="data.item && data.item.id > 0" mat-dialog-title>Rename Fund</h1>
+  <h1 *ngIf="data.item == null || data.item.id == 0" mat-dialog-title>Create Fund</h1>
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="id"/>
     
@@ -9,14 +9,7 @@
       <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field>
 
-    <app-sc-enum formControlName="type" label="Room Type" [required]="true" [valueSource]="roomTypes"></app-sc-enum>
-
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Room Capacity</mat-label>
-      <input type="text" matInput formControlName="capacity" autocomplete="off"/>
-    </mat-form-field>
   </div>
-
   <div mat-dialog-actions class="align-right">
     <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
     <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>

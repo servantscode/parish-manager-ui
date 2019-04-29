@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { ColorService } from '../../sccommon/services/color.service';
 
 import { ChartData } from '../../metrics/chart-data';
 import { MetricsService } from '../../metrics/services/metrics.service';
+
+import { FundService } from '../services/fund.service';
 
 import { DonationReport } from '../donation-report';
 import { BulkDonationDialogComponent } from '../bulk-donation-dialog/bulk-donation-dialog.component';
@@ -22,13 +25,22 @@ export class DonationComponent implements OnInit {
   pledgeFulfillment: ChartData = new ChartData(null, ['#2222dd']);
   monthlyDonations: DonationReport[];
 
+
+  fundForm = this.fb.group({
+      fundId: [1]
+    });
+
   constructor(private metricsService: MetricsService,
               private colorService: ColorService,
               public loginService: LoginService,
-              private dialog: MatDialog) { }
+              public fundService: FundService,
+              private dialog: MatDialog,
+              private fb: FormBuilder) { }
 
   ngOnInit() {
     this.updateMetrics();
+
+    this.fundForm.get('fundId').valueChanges.subscribe(val => alert("Fund is now: " + JSON.stringify(val)));
   }
 
   updateMetrics() {

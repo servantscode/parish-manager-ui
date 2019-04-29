@@ -21,13 +21,17 @@ import { PledgeDialogComponent } from './pledge-dialog/pledge-dialog.component';
 
 import { DonationService } from './services/donation.service';
 import { PledgeService } from './services/pledge.service';
+import { FundComponent } from './fund/fund.component';
+import { FundDialogComponent } from './fund-dialog/fund-dialog.component';
 
 @NgModule({
   declarations: [
     BulkDonationDialogComponent,
     DonationComponent,
     DonationDialogComponent,
-    PledgeDialogComponent
+    PledgeDialogComponent,
+    FundComponent,
+    FundDialogComponent
   ],
   imports: [
     FinanceRoutingModule,
@@ -55,7 +59,8 @@ import { PledgeService } from './services/pledge.service';
   entryComponents: [
     DonationDialogComponent, 
     PledgeDialogComponent, 
-    BulkDonationDialogComponent
+    BulkDonationDialogComponent,
+    FundDialogComponent
   ]
 })
 export class FinanceModule { }
