@@ -24,6 +24,8 @@ export class ScSelectComponent<T extends Identifiable> implements ControlValueAc
   @Input() required = false;
   @Input() fieldSize = 'standard';
 
+  @Input() nullValue: string;
+
   @Input() selectObject = false;
   @Input() autocompleteService: PaginatedService<T>
 
@@ -50,7 +52,7 @@ export class ScSelectComponent<T extends Identifiable> implements ControlValueAc
 
     if((typeof val === 'string' && val !== "") || (typeof val === 'number' && val != 0)) { 
       this.resolveSelectedItem(rawVal);
-    } else {
+    } else if(val) {
       this.selected = val;
       this.autocompleteForm.get("input").setValue(val);
     }
@@ -58,6 +60,13 @@ export class ScSelectComponent<T extends Identifiable> implements ControlValueAc
     this._value = rawVal;
     this.onChange(rawVal);
     this.onTouched();
+  }
+
+  calculateLabel() {
+    if(!this.value && this.nullValue)
+      return this.nullValue
+    else
+      return this.label;
   }
 
   itemValue(item: any) {

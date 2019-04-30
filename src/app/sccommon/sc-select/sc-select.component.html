@@ -1,7 +1,7 @@
 <form [formGroup]="autocompleteForm">
   <mat-form-field>
-    <mat-select formControlName="input" aria-label="label" [required]="required" (selectionChange)="selectItem($event.value)">
-        <mat-label>{{label}}</mat-label>
+    <mat-select formControlName="input" [placeholder]="calculateLabel()" [aria-label]="label" [required]="required" (selectionChange)="selectItem($event.value)">
+        <mat-option *ngIf="nullValue">{{nullValue}}</mat-option>
         <mat-option *ngFor="let item of items" [value]="item">
         {{item.identify()}}
       </mat-option>

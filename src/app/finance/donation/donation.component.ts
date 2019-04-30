@@ -25,9 +25,8 @@ export class DonationComponent implements OnInit {
   pledgeFulfillment: ChartData = new ChartData(null, ['#2222dd']);
   monthlyDonations: DonationReport[];
 
-
   fundForm = this.fb.group({
-      fundId: [1]
+      fundId: ''
     });
 
   constructor(private metricsService: MetricsService,
@@ -40,7 +39,7 @@ export class DonationComponent implements OnInit {
   ngOnInit() {
     this.updateMetrics();
 
-    this.fundForm.get('fundId').valueChanges.subscribe(val => alert("Fund is now: " + JSON.stringify(val)));
+    this.fundForm.get('fundId').valueChanges.subscribe(() => this.updateDonations());
   }
 
   updateMetrics() {
@@ -53,9 +52,13 @@ export class DonationComponent implements OnInit {
           this.vsProjection = results.donationsToDate - projectedDonations;
           this.pledgeFulfillment = new ChartData(results.data, this.colorService.trafficLight());
         });
+    
+    this.updateDonations();
+  }
 
+  private updateDonations() {
     if(this.loginService.userCan('donation.metrics'))
-      this.metricsService.getMonthlyDonations().
+      this.metricsService.getMonthlyDonations(this.fundForm.get('fundId').value).
         subscribe(results => this.monthlyDonations = results );
   }
 

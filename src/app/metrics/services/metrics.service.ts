@@ -67,8 +67,11 @@ export class MetricsService extends BaseService {
       );
   }
 
-  getMonthlyDonations(): Observable<DonationReport[]> {
-    return this.http.get<PledgeStatus>(this.url+`/pledges/monthly`).pipe(
+  getMonthlyDonations(fundId = 0): Observable<DonationReport[]> {
+    var url = this.url+`/pledges/monthly`;
+    if(fundId > 0)
+      url += `/fund/${fundId}`;
+    return this.http.get<PledgeStatus>(url).pipe(
         catchError(this.handleError('getMonthlyDonations', null))
       );
   }
