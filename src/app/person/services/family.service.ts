@@ -48,4 +48,15 @@ export class FamilyService extends PaginatedService<Family> {
         catchError(this.handleError('attachPhoto', null))
       );
   }
+
+  public getReport(search = '', includeInactive=false): Observable<any> {
+    return this.http.get(this.url + `/report?search=${search}&include_inactive=${includeInactive}`, {
+                        headers: new HttpHeaders({
+                          'Accept': 'text/plain'
+                        }),
+                        responseType: 'text'
+                      }).pipe(
+        catchError(this.handleError('familyReport', null))
+      );
+  }
 }

@@ -1,8 +1,11 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { formatDate } from '@angular/common';
+
+import { DownloadService } from '../../sccommon/services/download.service';
+import { LoginService } from '../../sccommon/services/login.service';
 
 import { MinistryService } from '../services/ministry.service';
-import { LoginService } from '../../sccommon/services/login.service';
 
 export enum KEY_CODE {
   PLUS = 107,
@@ -29,6 +32,7 @@ export class MinistryListComponent implements OnInit {
   search = '';
 
   constructor(private ministryService: MinistryService,
+              private downloadService: DownloadService,
               public loginService: LoginService,
               private router: Router) { }
 
@@ -92,5 +96,10 @@ export class MinistryListComponent implements OnInit {
   pageEnd(): number {
     var pageEnd = (this.page)*this.pageSize;
     return pageEnd > this.totalCount? this.totalCount: pageEnd;
+  }
+
+  downloadReport() {
+    const filename = "ministry-report-" + formatDate(new Date(), "yyyy-MM-dd", "en_US") + ".csv";
+    this.downloadService.downloadReport(this.ministryService.getReport(this.search), filename);
   }
 }

@@ -37,6 +37,7 @@ import { EmailService } from './services/email.service';
 import { LoginService } from './services/login.service';
 import { PersonService } from './services/person.service';
 import { PhotoService } from './services/photo.service';
+import { DownloadService } from './services/download.service';
 import { AdminOverrideDialogComponent } from './admin-override-dialog/admin-override-dialog.component';
 import { ScSelectComponent } from './sc-select/sc-select.component';
 
@@ -108,7 +109,8 @@ export function tokenGetter() {
     EmailService,
     LoginService,
     PersonService,
-    PhotoService
+    PhotoService,
+    DownloadService
   ],
   entryComponents: [
     PhotoUploadDialogComponent,

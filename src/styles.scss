@@ -198,6 +198,14 @@ div.rounded-rect {
   cursor: pointer;
 }
 
+.huge-icon {
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  background-size: 24px 24px;
+  cursor: pointer;
+}
+
 .edit {
   background-image: url('./assets/images/pencil.png');
   &:hover {
@@ -223,6 +231,13 @@ div.rounded-rect {
   background-image: url('./assets/images/mail.png'); 
   &:hover {
     background-image: url('./assets/images/mail-active.png');
+  }
+}
+
+.download {
+  background-image: url('./assets/images/download.png'); 
+  &:hover {
+    background-image: url('./assets/images/download-active.png');
   }
 }
 

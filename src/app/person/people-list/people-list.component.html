@@ -59,6 +59,13 @@
     </tbody>
   </table>
 </div>
-<div class="container-fluid align-right">
-  <span class="page-status">Showing: {{this.pageStart()}}-{{this.pageEnd()}} of {{totalCount}}</span>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div *ngIf="loginService.userCan(mode + 'export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
+    </div>
+    <div class="col align-right">
+      <span class="page-status">Showing: {{this.pageStart()}}-{{this.pageEnd()}} of {{totalCount}}</span>
+    </div>
+  </div>
 </div>

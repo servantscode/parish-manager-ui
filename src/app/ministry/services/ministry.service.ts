@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
@@ -26,5 +26,16 @@ export class MinistryService extends PaginatedService<Ministry> {
 
   public getTemplate(): Ministry {
     return new Ministry().asTemplate();
+  }
+
+  public getReport(search = ''): Observable<any> {
+    return this.http.get(this.url + `/report?search=${search}`, {
+                        headers: new HttpHeaders({
+                          'Accept': 'text/plain'
+                        }),
+                        responseType: 'text'
+                      }).pipe(
+        catchError(this.handleError('ministryReport', null))
+      );
   }
 }

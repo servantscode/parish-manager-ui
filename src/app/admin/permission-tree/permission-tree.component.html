@@ -5,6 +5,7 @@
 <mat-checkbox (change)="selectAction('read', $event.checked)">Read</mat-checkbox>&nbsp;&nbsp;
 <mat-checkbox (change)="selectAction('create', $event.checked)">Create</mat-checkbox>&nbsp;&nbsp;
 <mat-checkbox (change)="selectAction('update', $event.checked)">Update</mat-checkbox>&nbsp;&nbsp;
+<mat-checkbox (change)="selectAction('export', $event.checked)">Export</mat-checkbox>&nbsp;&nbsp;
 <mat-checkbox (change)="selectAction('delete', $event.checked)">Delete</mat-checkbox><br/>
 
 <mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl" class="permission-tree">

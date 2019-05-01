@@ -1,6 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { formatDate } from '@angular/common';
 
+import { DownloadService } from '../../sccommon/services/download.service';
 import { LoginService } from '../../sccommon/services/login.service';
 import { PersonService } from '../../sccommon/services/person.service';
 
@@ -38,6 +40,7 @@ export class PeopleListComponent implements OnInit {
   constructor(private personService: PersonService,
               private familyService: FamilyService,
               public loginService: LoginService,
+              private downloadService: DownloadService,
               private router: Router) { }
 
   ngOnInit() {
@@ -162,5 +165,12 @@ export class PeopleListComponent implements OnInit {
 
     const addr = obj.address;
     return addr.street1 + " " + addr.city + ", " + addr.state + " " + addr.zip;
+  }  
+
+  downloadReport() {
+    const filename = this.mode + "-report-" + formatDate(new Date(), "yyyy-MM-dd", "en_US") + ".csv";
+    const service = (this.mode === "person")? this.personService: this.familyService;
+
+    this.downloadService.downloadReport(service.getReport(this.search, this.includeInactive), filename);
   }
 }
