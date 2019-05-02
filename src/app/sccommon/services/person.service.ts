@@ -50,12 +50,7 @@ export class PersonService extends PaginatedService<Person> {
   }
 
   public getReport(search = '', includeInactive=false): Observable<any> {
-    return this.http.get(this.url + `/report?search=${search}&include_inactive=${includeInactive}`, {
-                        headers: new HttpHeaders({
-                          'Accept': 'text/plain'
-                        }),
-                        responseType: 'text'
-                      }).pipe(
+    return this.http.get(this.url + `/report?search=${search}&include_inactive=${includeInactive}`, PersonService.csvOptions).pipe(
         catchError(this.handleError('personReport', null))
       );
   }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { LoginService } from '../../sccommon/services/login.service';
 import { ColorService } from '../../sccommon/services/color.service';
+import { DownloadService } from '../../sccommon/services/download.service';
+import { LoginService } from '../../sccommon/services/login.service';
 
 import { ChartData } from '../../metrics/chart-data';
 import { MetricsService } from '../../metrics/services/metrics.service';
@@ -31,6 +33,7 @@ export class DonationComponent implements OnInit {
 
   constructor(private metricsService: MetricsService,
               private colorService: ColorService,
+              private downloadService: DownloadService,
               public loginService: LoginService,
               public fundService: FundService,
               private dialog: MatDialog,
@@ -75,6 +78,10 @@ export class DonationComponent implements OnInit {
     });
   }
 
+  downloadReport() {
+    const filename = "donation-report-" + formatDate(new Date(), "yyyy-MM-dd", "en_US") + ".csv";
+    this.downloadService.downloadReport(this.metricsService.getMonthlyDonationReport(this.fundForm.get('fundId').value), filename);
+  }
 
   private dayOfYear(): number {
     const now = new Date();

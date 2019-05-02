@@ -54,4 +54,7 @@
       </tr>
     </tbody>
   </table>
+  <div class="container-fluid">
+    <div *ngIf="loginService.userCan('donation.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
+  </div>
 </div>

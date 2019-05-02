@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ResponseContentType } from '@angular/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
@@ -11,12 +12,6 @@ import { DonationReport } from '../../finance/donation-report';
 
 import { MetricsResponse } from '../metrics-response';
 import { PledgeStatus } from '../pledge-status';
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Accept': 'application/json'
-  })
-};
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +66,17 @@ export class MetricsService extends BaseService {
     var url = this.url+`/pledges/monthly`;
     if(fundId > 0)
       url += `/fund/${fundId}`;
-    return this.http.get<PledgeStatus>(url).pipe(
+    return this.http.get<DonationReport[]>(url).pipe(
+        catchError(this.handleError('getMonthlyDonations', null))
+      );
+  }
+
+  getMonthlyDonationReport(fundId = 0): Observable<any> {
+    var url = this.url+`/pledges/monthly`;
+    if(fundId > 0)
+      url += `/fund/${fundId}`;
+
+    return this.http.get(url, BaseService.csvOptions).pipe(
         catchError(this.handleError('getMonthlyDonations', null))
       );
   }

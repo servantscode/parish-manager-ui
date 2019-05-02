@@ -5,6 +5,11 @@ import { MessageService } from './message.service';
 
 export class BaseService {
 
+  protected static csvOptions = {
+      headers: new HttpHeaders({'Accept': 'text/plain'}),
+      responseType: 'text' as 'text'
+    };
+
   constructor(protected http: HttpClient,
               protected messageService: MessageService) { }
 
