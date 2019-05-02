@@ -34,8 +34,7 @@ export class FamilyDetailComponent implements OnInit {
   family: Family;
 
   public editMode = false;
-  private pledge: Pledge;
-  private totalDonations: number;
+  private pledges: Pledge[];
 
   familyForm = this.fb.group({
       id: '',
@@ -86,7 +85,7 @@ export class FamilyDetailComponent implements OnInit {
           this.donationService.selectedFamily = family;
         });
 
-      this.loadPledge(id);
+      this.loadPledges(id);
 
     } else {
       if(!this.loginService.userCan('family.create'))
@@ -96,12 +95,12 @@ export class FamilyDetailComponent implements OnInit {
     }
   }
 
-  loadPledge(id): void {
+  loadPledges(id): void {
     if(!this.loginService.userCan('pledge.read'))
       return;
 
-    this.pledgeService.getPledge(id).
-      subscribe(pledge => this.pledge = pledge);
+    this.pledgeService.getPledges(id).
+      subscribe(pledges => this.pledges = pledges);
   }
 
   goBack(): void {
@@ -150,17 +149,17 @@ export class FamilyDetailComponent implements OnInit {
     this.editMode=true;
   }
 
-  public openPledgeForm() {
+  public openPledgeForm(pledge: Pledge) {
     if(!this.loginService.userCan('pledge.create'))
       return;
 
     const pledgeRef = this.dialog.open(PledgeDialogComponent, {
       width: '800px',
-      data: {"id": this.family.id, "pledge": this.pledge}
+      data: {"id": this.family.id, "pledge": pledge}
     });
 
     pledgeRef.afterClosed().subscribe(result => {
-      this.loadPledge(this.family.id);
+      this.loadPledges(this.family.id);
     });
   }
 

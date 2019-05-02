@@ -87,25 +87,20 @@
   
   <div *ngIf="family.id > 0 && (loginService.userCan('donation.read') || loginService.userCan('pledge.read'))" class="container rounded-rect">
     <h3>Donations</h3>
-    <div *ngIf="pledge != undefined && pledge != null" class="row"> 
-      <div class="col"> 
-        Pledged Amount: <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> <br/> 
+    <div class="row container"> 
+      <div class="col">
+        <span *ngIf="!pledges || pledges.length == 0"><em>No pledge information available.</em></span> 
+        <div *ngFor="let pledge of pledges"> 
+          Pledged <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> to fund <strong>{{pledge.fundName}}</strong>&nbsp;&nbsp;
+          <div class="big-icon edit" (click)="openPledgeForm(pledge)">&nbsp;</div>
+        </div>
       </div>  
       <div class="col align-right"> 
-        <button *ngIf="loginService.userCan('pledge.update')" class="btn btn-primary" (click)="openPledgeForm()">Update Pledge</button>   
-      </div>  
-    </div>  
-    <div *ngIf="pledge == undefined || pledge == null" class="row"> 
-      <div class="col"> 
-        <em>No pledge information available.</em> <br/> 
-      </div>  
-      <div class="col align-right"> 
-        <button *ngIf="loginService.userCan('pledge.create')" class="btn btn-primary" (click)="openPledgeForm()">Record Pledge</button>   
+        <button *ngIf="loginService.userCan('pledge.create')" class="btn btn-primary" (click)="openPledgeForm()">Add Pledge</button>   
       </div>  
     </div>
     <div *ngIf="loginService.userCan('donation.read')">
-      Total Donations: <strong>{{totalDonations | currency:"$"}}</strong> <br/>
-      <app-paginated-list [dataService]="donationService" [fields]="[{'name':'donationDate', 'type':'date'}, 'donationType', {'name':'amount', 'type':'currency'}]" [pageSize]='5' [dialogComponent]="DonationDialogComponent" [newItemTemplate]="{'familyId':family.id}" [searchable]='false'></app-paginated-list>
+      <app-paginated-list [dataService]="donationService" [fields]="[{'name':'donationDate', 'type':'date'}, 'fundName', 'donationType', {'name':'amount', 'type':'currency'}]" [pageSize]='5' [dialogComponent]="DonationDialogComponent" [newItemTemplate]="{'familyId':family.id}" [searchable]='false'></app-paginated-list>
     </div>
   </div>
 

@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-// import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
+import { addYears, addDays } from 'date-fns';
 
 import { SCValidation } from '../../sccommon/validation';
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
@@ -58,6 +58,9 @@ export class PledgeDialogComponent implements OnInit {
 
     this.pledgeForm.get('pledgeAmount').valueChanges
       .subscribe(() => this.calculateAnnual());
+
+    this.pledgeForm.get('pledgeStart').valueChanges
+      .subscribe(start => this.pledgeForm.get('pledgeEnd').setValue(addDays(addYears(start, 1), -1)));
   }
 
   createDonation() {

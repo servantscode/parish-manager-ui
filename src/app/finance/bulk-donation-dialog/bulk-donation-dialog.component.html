@@ -10,7 +10,7 @@
         </mat-form-field>
       </div>
       <div class="col">
-        <app-sc-auto-complete formControlName="fundId" label='Fund' [autocompleteService]="fundService" [required]="true" fieldSize='standard'></app-sc-auto-complete>
+      <app-sc-select formControlName="fundId" [autocompleteService]="fundService" [label]="'Fund'" [fieldSize]="standard"></app-sc-select>
       </div>
     </div>
     <table class="sc-table">
