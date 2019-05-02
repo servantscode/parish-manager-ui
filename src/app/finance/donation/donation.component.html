@@ -1,5 +1,12 @@
-<div class="align-right">
-  <button *ngIf="loginService.hasAny('fund')" class="btn btn-primary edit-button"[routerLink]="['/fund']">Manage Funds</button>
+<div class="row container-fluid">
+  <div class="col">
+    <form [formGroup]="fundForm">
+      <app-sc-select formControlName="fundId" [autocompleteService]="fundService" [label]="'Fund'" [fieldSize]="standard" [nullValue]="'All Funds'"></app-sc-select>
+    </form>
+  </div>
+  <div class="col align-right">
+    <button *ngIf="loginService.hasAny('fund')" class="btn btn-primary edit-button"[routerLink]="['/fund']">Manage Funds</button>
+  </div>
 </div>
 
 <div *ngIf="loginService.userCan('pledge.metrics')" class="container rounded-rect clear-float">
@@ -26,9 +33,6 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <form [formGroup]="fundForm">
-          <app-sc-select formControlName="fundId" [autocompleteService]="fundService" [label]="'Fund'" [fieldSize]="standard" [nullValue]="'All Funds'"></app-sc-select>
-        </form>
       </div>
       <div class="col align-right">
         <button *ngIf="loginService.userCan('donation.create')" mat-button class="btn btn-primary" (click)="openDonationForm()">Record Donations</button>

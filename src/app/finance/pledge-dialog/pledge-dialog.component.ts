@@ -9,6 +9,7 @@ import { DataCleanupService } from '../../sccommon/services/data-cleanup.service
 import { LoginService } from '../../sccommon/services/login.service';
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
 
+import { FundService } from '../services/fund.service';
 import { PledgeService } from '../services/pledge.service';
 
 import { Pledge } from '../pledge';
@@ -22,6 +23,7 @@ export class PledgeDialogComponent implements OnInit {
   pledgeForm = this.fb.group({
       id: [0],
       familyId: [this.data.id, Validators.required],
+      fundId: [1, Validators.required],
       pledgeType: ['', Validators.required], 
       pledgeDate: [new Date(), Validators.required],
       pledgeStart: ['', Validators.required],
@@ -40,6 +42,7 @@ export class PledgeDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               private dialog: MatDialog,
+              public fundService: FundService,
               private pledgeService: PledgeService,
               public loginService: LoginService,
               private dataCleanup: DataCleanupService) { }

@@ -56,8 +56,11 @@ export class MetricsService extends BaseService {
       );
   }
 
-  getPledgeFulfillments(): Observable<PledgeStatus> {
-    return this.http.get<PledgeStatus>(this.url+`/pledges/status`).pipe(
+  getPledgeFulfillments(fundId = 0): Observable<PledgeStatus> {
+    var url = this.url+`/pledges/status`;
+    if(fundId > 0)
+      url += `/fund/${fundId}`;
+    return this.http.get<PledgeStatus>(url).pipe(
         catchError(this.handleError('getPledgeFulfillment', null))
       );
   }

@@ -62,13 +62,15 @@ export class DonationService extends PaginatedService<Donation> {
       );
   }
 
-  getDonationPrediction(familyId: number = 0, envelopeNum: number = 0): Observable<DonationPrediction> {
+  getDonationPrediction(fundId: number, familyId: number = 0, envelopeNum: number = 0): Observable<DonationPrediction> {
     var options = '';
     if(envelopeNum > 0) {
       options = `envelopeNumber=${envelopeNum}`;
     } else {
       options = `familyId=${familyId}`;
     }
+
+    options += `&fundId=${fundId}`;
 
     return this.http.get(this.url + `/predict?${options}`).pipe(
         catchError(this.handleError('getDonationPrediction', null))

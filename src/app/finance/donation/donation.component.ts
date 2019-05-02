@@ -42,12 +42,12 @@ export class DonationComponent implements OnInit {
   ngOnInit() {
     this.updateMetrics();
 
-    this.fundForm.get('fundId').valueChanges.subscribe(() => this.updateDonations());
+    this.fundForm.get('fundId').valueChanges.subscribe(() => this.updateMetrics());
   }
 
   updateMetrics() {
     if(this.loginService.userCan('pledge.metrics'))
-      this.metricsService.getPledgeFulfillments().
+      this.metricsService.getPledgeFulfillments(this.getFundId()).
         subscribe(results => {
           this.annualPledgeTotal = results.totalPledges;
           this.ytdDonations = results.donationsToDate;
@@ -61,8 +61,12 @@ export class DonationComponent implements OnInit {
 
   private updateDonations() {
     if(this.loginService.userCan('donation.metrics'))
-      this.metricsService.getMonthlyDonations(this.fundForm.get('fundId').value).
+      this.metricsService.getMonthlyDonations(this.getFundId()).
         subscribe(results => this.monthlyDonations = results );
+  }
+
+  private getFundId() {
+    return this.fundForm.get('fundId').value;
   }
 
   public openDonationForm() {

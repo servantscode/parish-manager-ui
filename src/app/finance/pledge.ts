@@ -6,6 +6,7 @@ export class Pledge extends Identifiable {
   }
 
   familyId: number;
+  fundId: number;
   pledgeType: string;
   pledgeDate: Date;
   pledgeStart: Date;
@@ -21,6 +22,7 @@ export class Pledge extends Identifiable {
   public asTemplate(): Pledge {
     this.id=0;
     this.familyId=0;
+    this.fundId=0;
     this.pledgeType="";
     this.pledgeDate=null;
     this.pledgeStart=null;
