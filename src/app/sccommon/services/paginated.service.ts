@@ -26,39 +26,38 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
 
   public abstract getTemplate(): T;
 
-  public getPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<T>> {
-    return this.http.get<PaginatedResponse<T>>(this.url+`?start=${start}&count=${count}&partial_name=${search}`).pipe(
+  public getPage(start = 0, count = 10, search = '', pathVars?: any): Observable<PaginatedResponse<T>> {
+    return this.http.get<PaginatedResponse<T>>(this.modifyUrl(this.url, pathVars)+`?start=${start}&count=${count}&partial_name=${search}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );
   }
 
-  get(id: number): Observable<T> {
-    return this.http.get<T>(this.url + `/${id}`).pipe(
+  get(id: number, pathVars?: any): Observable<T> {
+    return this.http.get<T>(this.modifyUrl(this.url, pathVars) + `/${id}`).pipe(
         map(resp => this.mapObject(resp)),
         catchError(this.handleError('get', null))
       );
   }
 
-
-  create(item: T): Observable<T> {
-    return this.http.post<T>(this.url, item, this.httpOptions).pipe(
+  create(item: T, pathVars?: any): Observable<T> {
+    return this.http.post<T>(this.modifyUrl(this.url, pathVars), item, this.httpOptions).pipe(
         map(resp => this.mapObject(resp)),
         tap(item => this.log('Created!')),
         catchError(this.handleError('create', null))
       );
   }
 
-  update(item: T): Observable<T> {
-    return this.http.put<T>(this.url, item, this.httpOptions).pipe(
+  update(item: T, pathVars?: any): Observable<T> {
+    return this.http.put<T>(this.modifyUrl(this.url, pathVars), item, this.httpOptions).pipe(
         map(resp => this.mapObject(resp)),
         tap(item => this.log('Updated!')),
         catchError(this.handleError('update', null))
       );
   }
 
-  delete(item: T, deletePermenantly: boolean = false): Observable<void> {
-    var finalUrl = this.url + `/${item.id}`;
+  delete(item: T, deletePermenantly: boolean = false, pathVars?: any): Observable<void> {
+    var finalUrl = this.modifyUrl(this.url, pathVars) + `/${item.id}`;
     if(deletePermenantly) finalUrl += "?delete_permenantly=true";
     return this.http.delete<void>(finalUrl).pipe(
         tap(item => this.log('Deleted!')),
@@ -75,6 +74,19 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
     var resp: T = this.getTemplate();
     for(let key of Object.keys(resp))
       resp[key] = obj[key];
+    return resp;
+  }
+
+  private modifyUrl(url:string, vars:any) {
+    if(!vars)
+      return url;
+  
+    var resp = url;
+    for(let key of Object.keys(vars)) {
+      if(!vars[key])
+        alert("Null value for pathParam: " + key);
+      resp = resp.replace(':' + key + ':', vars[key]);
+    }
     return resp;
   }
 }

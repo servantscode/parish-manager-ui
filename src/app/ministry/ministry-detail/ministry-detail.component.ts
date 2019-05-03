@@ -11,10 +11,15 @@ import { SCValidation } from '../../sccommon/validation';
 import { Event } from '../../schedule/event';
 import { EventService } from '../../schedule/services/event.service';
 
+import { MetricsService } from '../../metrics/services/metrics.service';
+import { MinistryEnrollmentStats } from '../../metrics/metrics-response';
+
 import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
+import { MinistryRoleService } from '../services/ministry-role.service';
 
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
+import { MinistryRoleDialogComponent } from '../ministry-role-dialog/ministry-role-dialog.component';
 
 export enum KEY_CODE {
   ENTER = 13,
@@ -28,10 +33,14 @@ export enum KEY_CODE {
 })
 export class MinistryDetailComponent implements OnInit {
   private ministry: Ministry;
-  private upcomingEvents: Event[];
+  public upcomingEvents: Event[];
   private highlightedEvent: Event;
 
+  private ministryStats: MinistryEnrollmentStats;
+
   public editMode = false;
+
+  MinistryRoleDialogComponent = MinistryRoleDialogComponent;
 
   ministryForm = this.fb.group({
       id: [''],
@@ -45,8 +54,10 @@ export class MinistryDetailComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private ministryService: MinistryService,
+              public ministryRoleService: MinistryRoleService,
               private eventService: EventService,
               public loginService: LoginService,
+              private metricsService: MetricsService,
               private fb: FormBuilder,
               private dialog: MatDialog) { }
 
@@ -74,7 +85,7 @@ export class MinistryDetailComponent implements OnInit {
 
   getMinistry(): void {
     this.ministry = new Ministry();
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = this.ministryId();
 
     if(id > 0) {
       if(!this.loginService.userCan('ministry.read'))
@@ -85,6 +96,8 @@ export class MinistryDetailComponent implements OnInit {
           this.ministry = ministry;
           this.ministryForm.patchValue(ministry);
         });
+
+      this.metricsService.getMinistryEnrollment(id).subscribe(stats => this.ministryStats = stats);
 
       this.eventService.getUpcomingEvents(id).
         subscribe(events => {
@@ -149,5 +162,13 @@ export class MinistryDetailComponent implements OnInit {
 
   highlightEvent(event: Event) {
     this.highlightedEvent = event;
+  }
+
+  ministryId() {
+    return +this.route.snapshot.paramMap.get('id');
+  }
+
+  pathParams() {
+    return {'id': this.ministryId()};
   }
 }

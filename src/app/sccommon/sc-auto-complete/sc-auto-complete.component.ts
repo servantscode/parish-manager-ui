@@ -27,6 +27,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   @Input() selectIdentity = false;
   @Input() selectObject = false;
   @Input() autocompleteService: PaginatedService<T>
+  @Input() pathParams: any = null;
 
   @Input() filter;
 
@@ -77,7 +78,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
       .pipe(
         debounceTime(300),
         map(value => value? typeof value === 'string' ? value : value.identify(): ""),
-        switchMap(value => this.autocompleteService.getPage(0, 10, value)
+        switchMap(value => this.autocompleteService.getPage(0, 10, value, this.pathParams)
             .pipe(map(resp => (this.filter? this.filter(resp.results): resp.results)))
           )
       );
@@ -94,13 +95,13 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   resolveSelectedItem(rawValue) {
     if(this.selectIdentity) {
       //If all we need is the identity, just mock it to save the round trip...
-      const mockItem =this.autocompleteService.getTemplate()
+      const mockItem =this.autocompleteService.getTemplate();
       mockItem.identifyAs(rawValue);
       this.autocompleteForm.get("input").setValue(mockItem);
       this.selected = mockItem;
     } else {
       //Otherwise, go get it from the server.
-      this.autocompleteService.get(rawValue).subscribe(item => {
+      this.autocompleteService.get(rawValue, this.pathParams).subscribe(item => {
             this.autocompleteForm.get("input").setValue(item);
             this.selected = item;
           });

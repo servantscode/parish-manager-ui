@@ -2,12 +2,41 @@
 <button *ngIf="!editMode && loginService.userCan('ministry.delete')" class="btn btn-outline-primary float-right edit-button" (click)="delete()">Delete</button>
 <h2>{{ministryForm.get("name").value}}&nbsp;</h2>
 
-<div *ngIf="!editMode">
-  <div class="container rounded-rect">
-    Name: {{ministry.name}}<br/>
-    Description:<br/>
-    <pre>{{ministry.description}}</pre>
-    <br/>
+<form [formGroup]="ministryForm" (ngSubmit)="save()">
+  <div *ngIf="!editMode">
+    <div class="container rounded-rect">
+      <div class="row">
+        <div class="col">
+          Name: {{ministry.name}}<br/>
+          Description:<br/>
+          <span>{{ministry.description}}</span>
+        </div>
+        <div *ngIf="ministryStats" class="col">
+          Contacts: {{ministryStats.contacts}}<br/>
+          Leaders: {{ministryStats.leaders}}<br/>
+          Members: {{ministryStats.members}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="editMode" class="container rounded-rect">
+    <input type="hidden" formControlName="id"/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required>
+    </mat-form-field><br/>
+
+    <mat-form-field appearance="standard" class="input-long">
+      <mat-label>Description</mat-label>
+      <textarea matInput type="textarea" cdkTextareaAutosize cdkAutosizeMaxRows="10" formControlName="description"></textarea>
+    </mat-form-field><br/>
+  </div>
+
+  <div *ngIf="editMode && loginService.userCan('ministry.role.list')" class="container rounded-rect">
+  <h3>Roles</h3>
+  <app-paginated-list [dataService]="ministryRoleService" [fields]="['name','leader','contact']" [pageSize]='5' [pathParams]="pathParams()" [dialogComponent]="MinistryRoleDialogComponent"  [newItemTemplate]="{'ministryId': ministryId()}"></app-paginated-list>
   </div>
 
   <div *ngIf="loginService.userCan('ministry.enrollment.list')" class="container rounded-rect">
@@ -38,51 +67,11 @@
     <app-notes [resourceType]="'ministry'" [resourceId]="ministry.id"></app-notes>
   </div>
 
-  <div class="container">
+  <div *ngIf="!editMode" class="container">
     <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 
   </div>
-</div>
 
-<form *ngIf="editMode" [formGroup]="ministryForm" (ngSubmit)="save()">
-  <div class="container rounded-rect">
-    <input type="hidden" formControlName="id"/>
-
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name" required>
-    </mat-form-field><br/>
-
-
-    <mat-form-field appearance="standard" class="input-long">
-      <mat-label>Description</mat-label>
-      <textarea matInput type="textarea" cdkTextareaAutosize cdkAutosizeMaxRows="10" formControlName="description"></textarea>
-    </mat-form-field><br/>
-  </div>
-
-  <div class="container rounded-rect">
-    <h3>Membership</h3>  
-    <app-ministry-member-list [ministryId]="ministry.id" [columns]="['member', 'role']"></app-ministry-member-list>
-  </div>
-  
-  <div class="container rounded-rect">
-    <h3>Upcoming Events</h3>  
-    <table class="sc-table">
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody (mouseleave)="highlightEvent(null)">
-        <tr *ngFor="let event of upcomingEvents" (mouseover)="highlightEvent(enrollment)"  [ngClass] = "{'highlight' : event === highlightedEvent}">
-          <td>{{event.description}}</td>
-          <td>{{event.startTime}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  <div class="container">
+  <div *ngIf="editMode" class="container">
     <button class="btn btn-primary" type="submit" [disabled]="!ministryForm.valid">Save</button>
     <button class="btn btn-outline-primary" (click)="goBack()">Cancel</button> 
   </div>

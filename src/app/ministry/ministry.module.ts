@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { FormsModule } from '@angular/forms';
 
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -17,12 +18,14 @@ import { MinistryService } from './services/ministry.service';
 import { EnrollmentService } from './services/enrollment.service';
 
 import { MinistryRoutingModule } from './ministry-routing.module';
+import { MinistryRoleDialogComponent } from './ministry-role-dialog/ministry-role-dialog.component';
 
 @NgModule({
   declarations: [
     MinistryListComponent,
     MinistryDetailComponent,
-    MinistryMemberListComponent
+    MinistryMemberListComponent,
+    MinistryRoleDialogComponent
   ],
   imports: [
     MinistryRoutingModule,
@@ -38,7 +41,8 @@ import { MinistryRoutingModule } from './ministry-routing.module';
     NgbModule,
 
     //Material
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule
   ],
   exports: [
     MinistryMemberListComponent
@@ -46,6 +50,9 @@ import { MinistryRoutingModule } from './ministry-routing.module';
   providers: [
     MinistryService,
     EnrollmentService
+  ],
+  entryComponents: [
+    MinistryRoleDialogComponent
   ]
 })
 export class MinistryModule { }

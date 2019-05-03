@@ -31,6 +31,8 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Output() onSelect: EventEmitter<T> = new EventEmitter<T>(); 
   @Input() refreshOn: Subject<any>;
 
+  @Input() pathParams: any = null;
+
   items: T[] = [];
 
   highlighted: T = null;
@@ -61,7 +63,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
     
     var observable: Observable<PaginatedResponse<T>> = this.pageImpl?
       this.pageImpl((this.page-1)*this.pageSize, this.pageSize, this.search): 
-      this.dataService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search);
+      this.dataService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search, this.pathParams);
 
     observable.
       subscribe(resp => {
@@ -106,7 +108,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
       data: {"title": "Confirm Delete",
              "text" : "Are you sure you want to delete " + item.identify() + "?",
              "delete": (): Observable<void> => { 
-                 return this.dataService.delete(item); 
+                 return this.dataService.delete(item, false, this.pathParams); 
                }
             }
     });

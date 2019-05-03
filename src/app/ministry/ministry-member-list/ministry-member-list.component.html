@@ -22,10 +22,7 @@
             <app-sc-auto-complete formControlName="personId" label='Name' [autocompleteService]="personService" [required]="true" [filter]="peopleFilter()"></app-sc-auto-complete>            
           </td>
           <td *ngIf="columns.includes('role')">
-            <mat-form-field appearance="standard" class="input-standard">
-              <mat-label>Role</mat-label>
-              <input matInput formControlName="role" required/>
-            </mat-form-field>
+            <app-sc-auto-complete formControlName="roleId" label='Role' [autocompleteService]="ministryRoleService" [required]="true" [pathParams]="{'id': getMinistryId()}"></app-sc-auto-complete> 
           </td>
         </tr>
       </tbody>

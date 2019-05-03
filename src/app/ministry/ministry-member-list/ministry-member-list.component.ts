@@ -13,6 +13,7 @@ import { Enrollment } from '../enrollment';
 import { EnrollmentService } from '../services/enrollment.service';
 import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
+import { MinistryRoleService } from '../services/ministry-role.service';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class MinistryMemberListComponent implements OnInit {
   enrollmentForm = this.fb.group({
       personId: ['', Validators.required],
       ministryId: ['', Validators.required],
-      role: ['', Validators.required]
+      roleId: ['', Validators.required]
     });
 
   private highlightedEnrollment: Enrollment;
@@ -42,6 +43,7 @@ export class MinistryMemberListComponent implements OnInit {
               public loginService: LoginService,
               private personService: PersonService,
               private ministryService: MinistryService,
+              public ministryRoleService: MinistryRoleService,
               private fb: FormBuilder) { }
 
   ngOnInit() { }
@@ -84,7 +86,7 @@ export class MinistryMemberListComponent implements OnInit {
 
   viewPerson(id: number): void {
     if(id > 0 && this.loginService.userCan('person.read')) {
-      this.router.navigate(['person', 'detail', id]);
+      this.router.navigate(['person', id, 'detail']);
     }
   }
 
@@ -109,6 +111,10 @@ export class MinistryMemberListComponent implements OnInit {
           this.loadEnrollments();
           this.clearEnrollmentForm();
         });
+  }
+
+  getMinistryId() {
+    return this.enrollmentForm.get('ministryId').value;
   }
 
   clearEnrollmentForm() {

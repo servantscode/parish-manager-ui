@@ -10,7 +10,7 @@ import { BaseService } from '../../sccommon/services/base.service';
 
 import { DonationReport } from '../../finance/donation-report';
 
-import { MetricsResponse } from '../metrics-response';
+import { MetricsResponse, MinistryEnrollmentStats } from '../metrics-response';
 import { PledgeStatus } from '../pledge-status';
 
 @Injectable({
@@ -81,6 +81,12 @@ export class MetricsService extends BaseService {
 
     return this.http.get(url, BaseService.csvOptions).pipe(
         catchError(this.handleError('getMonthlyDonations', null))
+      );
+  }
+
+  getMinistryEnrollment(ministryId: number): Observable<MinistryEnrollmentStats> {
+    return this.http.get<MinistryEnrollmentStats>(this.url+`/ministry/${ministryId}/membership`).pipe(
+        catchError(this.handleError('getMinistryEnrollment', null))
       );
   }
 }
