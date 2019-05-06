@@ -9,6 +9,12 @@ import { PaginatedService } from '../../sccommon/services/paginated.service';
 
 import { Ministry } from '../ministry';
 
+export enum ContactType {
+  CONTACTS,
+  LEADERS,
+  ALL
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -31,6 +37,12 @@ export class MinistryService extends PaginatedService<Ministry> {
   public getReport(search = ''): Observable<any> {
     return this.http.get(this.url + `/report?search=${search}`, PaginatedService.csvOptions).pipe(
         catchError(this.handleError('ministryReport', null))
+      );
+  }
+
+  public getEmailList(ministryId: number, contactType: ContactType): Observable<string[]> {
+    return this.http.get<string[]>(this.url + `/${ministryId}/email/${ContactType[contactType]}`).pipe(
+        catchError(this.handleError('getEmailList', []))
       );
   }
 }

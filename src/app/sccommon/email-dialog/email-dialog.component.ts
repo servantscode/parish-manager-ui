@@ -67,6 +67,8 @@ export class EmailDialogComponent implements OnInit {
   }
 
   private splitAddresses(input: string): string[] {
+    if(Array.isArray(input))
+      return input;
     return input.split(/[,;\s]/).map(addr => addr.trim());
   }
 }

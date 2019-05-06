@@ -12,9 +12,9 @@
           <span>{{ministry.description}}</span>
         </div>
         <div *ngIf="ministryStats" class="col">
-          Contacts: {{ministryStats.contacts}}<br/>
-          Leaders: {{ministryStats.leaders}}<br/>
-          Members: {{ministryStats.members}}
+          Contacts: {{ministryStats.contacts}}&nbsp;&nbsp;<div *ngIf="ministryStats.contacts > 0 && loginService.userCan('email.send')" class="big-icon email" (click)="openMailDialog(ContactType.CONTACTS)">&nbsp;</div><br/>
+          Leaders: {{ministryStats.leaders}}&nbsp;&nbsp;<div *ngIf="ministryStats.leaders > 0 && loginService.userCan('email.send')" class="big-icon email" (click)="openMailDialog(ContactType.LEADERS)">&nbsp;</div><br/>
+          Members: {{ministryStats.members}}&nbsp;&nbsp;<div *ngIf="ministryStats.members > 0 && loginService.userCan('email.send')" class="big-icon email" (click)="openMailDialog(ContactType.ALL)">&nbsp;</div>
         </div>
       </div>
     </div>

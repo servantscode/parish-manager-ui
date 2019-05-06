@@ -15,16 +15,18 @@ import { MetricsService } from '../../metrics/services/metrics.service';
 import { MinistryEnrollmentStats } from '../../metrics/metrics-response';
 
 import { Ministry } from '../ministry';
-import { MinistryService } from '../services/ministry.service';
+import { MinistryService, ContactType } from '../services/ministry.service';
 import { MinistryRoleService } from '../services/ministry-role.service';
 
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
+import { EmailDialogComponent } from '../../sccommon/email-dialog/email-dialog.component';
 import { MinistryRoleDialogComponent } from '../ministry-role-dialog/ministry-role-dialog.component';
 
 export enum KEY_CODE {
   ENTER = 13,
   ESCAPE = 27
 }
+
 
 @Component({
   selector: 'app-ministry-detail',
@@ -41,6 +43,7 @@ export class MinistryDetailComponent implements OnInit {
   public editMode = false;
 
   MinistryRoleDialogComponent = MinistryRoleDialogComponent;
+  ContactType = ContactType;
 
   ministryForm = this.fb.group({
       id: [''],
@@ -154,6 +157,18 @@ export class MinistryDetailComponent implements OnInit {
              }
         }
     });
+  }
+
+  openMailDialog(contactType: ContactType) {
+    if(!this.loginService.userCan('email.send'))
+      return;
+
+    this.ministryService.getEmailList(this.ministryId(), contactType).subscribe(list => {
+        const donationRef = this.dialog.open(EmailDialogComponent, {
+          width: '800px', 
+          data: {"to": list}
+        });
+      });
   }
 
   enableEdit(): void {
