@@ -43,7 +43,7 @@ export class DonationService extends PaginatedService<Donation> {
     if(!this.selectedFamily) 
       throw new Error("No selected family");
 
-    return this.http.get<PaginatedResponse<Donation>>(this.url+`/family/${this.selectedFamily.id}?start=${start}&count=${count}&partial_name=${search}`).pipe(
+    return this.http.get<PaginatedResponse<Donation>>(this.url+`/family/${this.selectedFamily.id}?start=${start}&count=${count}&partial_name=${encodeURI(search)}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getFamilyContributions', null))
       );

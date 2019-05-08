@@ -31,7 +31,7 @@ export class NoteService extends PaginatedService<Note> {
 
   // Just until everything says search
   public getPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Note>> {
-    return this.http.get<PaginatedResponse<Note>>(this.url+`?start=${start}&count=${count}&search=${search}`).pipe(
+    return this.http.get<PaginatedResponse<Note>>(this.url+`?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );

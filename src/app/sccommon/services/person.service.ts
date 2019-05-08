@@ -37,7 +37,7 @@ export class PersonService extends PaginatedService<Person> {
   }
    
   public getPage(start = 0, count = 10, search = '', includeInactive=false): Observable<PaginatedResponse<Person>> {
-    return this.http.get<PaginatedResponse<Person>>(this.url+`?start=${start}&count=${count}&partial_name=${search}&families=true&include_inactive=${includeInactive}`).pipe(
+    return this.http.get<PaginatedResponse<Person>>(this.url+`?start=${start}&count=${count}&partial_name=${encodeURI(search)}&families=true&include_inactive=${includeInactive}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );

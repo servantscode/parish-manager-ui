@@ -34,7 +34,7 @@
     </mat-form-field><br/>
   </div>
 
-  <div *ngIf="editMode && loginService.userCan('ministry.role.list')" class="container rounded-rect">
+  <div *ngIf="editMode && ministryId() !== 0 && loginService.userCan('ministry.role.list')" class="container rounded-rect">
   <h3>Roles</h3>
   <app-paginated-list [dataService]="ministryRoleService" [fields]="['name','leader','contact']" [pageSize]='5' [pathParams]="pathParams()" [dialogComponent]="MinistryRoleDialogComponent"  [newItemTemplate]="{'ministryId': ministryId()}"></app-paginated-list>
   </div>
