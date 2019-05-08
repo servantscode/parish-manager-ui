@@ -1,10 +1,12 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { DownloadService } from '../../sccommon/services/download.service';
 import { LoginService } from '../../sccommon/services/login.service';
 import { PersonService } from '../../sccommon/services/person.service';
+import { SearchDialogComponent } from '../../sccommon/search-dialog/search-dialog.component';
 
 import { Person } from '../../sccommon/person';
 import { Family } from '../../sccommon/family';
@@ -41,7 +43,8 @@ export class PeopleListComponent implements OnInit {
               private familyService: FamilyService,
               public loginService: LoginService,
               private downloadService: DownloadService,
-              private router: Router) { }
+              private router: Router,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.populateList();
@@ -172,5 +175,24 @@ export class PeopleListComponent implements OnInit {
     const service = (this.mode === "person")? this.personService: this.familyService;
 
     this.downloadService.downloadReport(service.getReport(this.search, this.includeInactive), filename);
+  }
+
+  openSearch() {
+    const donationRef = this.dialog.open(SearchDialogComponent, {
+      width: '400px',
+      data: {"title": "Search People",
+             "fields" : {
+               "name": "text",
+               "male": "boolean",
+               "birthdate": "date"
+           }}
+    });
+
+    donationRef.afterClosed().subscribe(result => {
+        if(result) {
+          this.search = result;
+          this.populateList();
+        }
+      });
   }
 }

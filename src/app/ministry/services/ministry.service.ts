@@ -35,7 +35,7 @@ export class MinistryService extends PaginatedService<Ministry> {
   }
 
   public getReport(search = ''): Observable<any> {
-    return this.http.get(this.url + `/report?search=${search}`, PaginatedService.csvOptions).pipe(
+    return this.http.get(this.url + `/report?search=${encodeURI(search)}`, PaginatedService.csvOptions).pipe(
         catchError(this.handleError('ministryReport', null))
       );
   }

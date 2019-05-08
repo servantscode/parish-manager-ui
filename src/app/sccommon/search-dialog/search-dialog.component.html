@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="search()">
+  <h3 mat-dialog-title>{{ data.title }}</h3>
+  <div mat-dialog-content>
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required>
+    </mat-form-field><br/>
+
+    <mat-radio-group aria-label="Gender" formControlName="male">
+      <mat-radio-button value="true">Male</mat-radio-button>&nbsp;&nbsp;
+      <mat-radio-button value="false">Female</mat-radio-button>
+    </mat-radio-group><br/>
+
+    <mat-form-field>
+      <input matInput formControlName="birthdateStart" [matDatepicker]="picker" placeholder="Birthdate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field><br/>
+
+    <mat-form-field>
+      <input matInput formControlName="birthdateEnd" [matDatepicker]="endpicker" placeholder="Birthdate">
+      <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+      <mat-datepicker #endpicker></mat-datepicker>
+    </mat-form-field><br/>
+
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button type="submit" class="btn btn-primary" >Search</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+  </div>
+</form>

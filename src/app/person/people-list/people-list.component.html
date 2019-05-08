@@ -22,7 +22,8 @@
       <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search..." (ngModelChange)="populateList()" aria-label="Search">
     </div>
     <div class="col">
-      <mat-checkbox [(ngModel)]="includeInactive" (change)="populateList()">Show Inactive?</mat-checkbox>
+        <div *ngIf="mode === 'person'" class="big-icon edit" (click)="openSearch()">&nbsp;&nbsp;</div>&nbsp;&nbsp;
+        <mat-checkbox [(ngModel)]="includeInactive" (change)="populateList()">Show Inactive?</mat-checkbox>
     </div>
     <div class="col controls">
       <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="populateList()"></ngb-pagination>
