@@ -10,6 +10,8 @@ import { Identifiable } from '../identifiable';
 import { CustomControl } from '../custom-control';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
+import { SCValidation } from '../validation';
+
 @Component({
   selector: 'app-paginated-list',
   templateUrl: './paginated-list.component.html',
@@ -55,6 +57,11 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
         this.populateList();
       });
     }
+  }
+
+  updateSearch(search:string) {
+    this.search = search;
+    this.populateList();
   }
 
   populateList() {

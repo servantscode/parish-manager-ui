@@ -50,6 +50,11 @@ export class PeopleListComponent implements OnInit {
     this.populateList();
   }
 
+  updateSearch(search:string) {
+    this.search = search;
+    this.populateList();
+  }
+
   populateList() {
     if(this.mode == "person") {
       this.getPeople();

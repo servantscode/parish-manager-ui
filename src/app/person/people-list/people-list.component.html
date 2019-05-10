@@ -19,7 +19,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-8">
-      <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search..." (ngModelChange)="populateList()" aria-label="Search">
+      <app-sc-search-bar (search)="updateSearch($event)"></app-sc-search-bar>
     </div>
     <div class="col">
         <div *ngIf="mode === 'person'" class="big-icon edit" (click)="openSearch()">&nbsp;&nbsp;</div>&nbsp;&nbsp;

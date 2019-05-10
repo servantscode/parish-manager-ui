@@ -40,6 +40,11 @@ export class MinistryListComponent implements OnInit {
     this.populateList();
   }
 
+  updateSearch(search:string) {
+    this.search = search;
+    this.populateList();
+  }
+
   populateList() {
     this.getMinistries();
   }

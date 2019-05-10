@@ -14,6 +14,36 @@ export class SCValidation {
   static EMAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   static MULTI_EMAIL = /^(\s*(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))[,;\s]?)*$/
 
+  static verifySearchString(search: string): boolean {
+    var quoted = false;
+    var braced = false;
+    for (var x = 0; x < search.length; x++) {
+      switch (search.charAt(x)) {
+        case "\"":
+          quoted = !quoted;
+          break;
+        case "[":
+          if(quoted || braced)
+            return false;
+          braced = true;
+          break;
+        case "]":
+          if(quoted || !braced)
+            return false;
+          braced=false;
+          break;
+      }
+    }
+    return !quoted && !braced;
+  }
+
+  static validSearch(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const validSearch = SCValidation.verifySearchString(control.value);
+      return validSearch? null: {'Invalid search string': {value: control.value}};      
+    }
+  }
+
   static actualState(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       const validState = SCValidation.STATES.some(option => option == control.value);

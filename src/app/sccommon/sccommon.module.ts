@@ -43,6 +43,7 @@ import { AdminOverrideDialogComponent } from './admin-override-dialog/admin-over
 import { ScSelectComponent } from './sc-select/sc-select.component';
 import { SearchDialogComponent } from './search-dialog/search-dialog.component';
 import { ScPhoneNumberComponent } from './sc-phone-number/sc-phone-number.component';
+import { ScSearchBarComponent } from './sc-search-bar/sc-search-bar.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -64,7 +65,8 @@ export function tokenGetter() {
     AdminOverrideDialogComponent,
     ScSelectComponent,
     SearchDialogComponent,
-    ScPhoneNumberComponent
+    ScPhoneNumberComponent,
+    ScSearchBarComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -109,7 +111,8 @@ export function tokenGetter() {
     ScEnumComponent,
     DateTimeComponent,
     ScSelectComponent,
-    ScPhoneNumberComponent
+    ScPhoneNumberComponent,
+    ScSearchBarComponent
   ],
   providers: [ 
     ApiLocatorService,

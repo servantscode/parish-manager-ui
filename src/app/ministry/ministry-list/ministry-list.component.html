@@ -4,7 +4,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search..." (ngModelChange)="populateList()" aria-label="Search">
+      <app-sc-search-bar (search)="updateSearch($event)"></app-sc-search-bar>
     </div>
     <div class="col controls">
       <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="populateList()"></ngb-pagination>

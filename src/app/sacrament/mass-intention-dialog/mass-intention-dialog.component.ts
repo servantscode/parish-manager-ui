@@ -6,6 +6,8 @@ import { SCValidation } from '../../sccommon/validation';
 
 import { MassIntentionService } from '../services/mass-intention.service';
 
+import { PersonService } from '../../sccommon/services/person.service';
+
 @Component({
   selector: 'app-mass-intention-dialog',
   templateUrl: './mass-intention-dialog.component.html',
@@ -26,11 +28,21 @@ export class MassIntentionDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<MassIntentionDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
-              private massIntentionService: MassIntentionService) { }
+              private massIntentionService: MassIntentionService,
+              private personService: PersonService) { }
   
   ngOnInit() {
     if(this.data.item)
       this.form.patchValue(this.data.item)
+
+    this.form.get('requester').valueChanges.subscribe(val => {
+        if(val.id) {
+          this.personService.get(val.id).subscribe(person => {
+              if(person.phoneNumber)
+                this.form.get('requesterPhone').setValue(person.phoneNumber);
+            });
+        }
+      });
   }
 
   save() {

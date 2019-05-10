@@ -15,12 +15,8 @@
 
     <app-identity-picker formControlName="requester" label="Requested by" [required]="true"></app-identity-picker>
 
-    <app-sc-phone-number formControlName="requesterPhone"></app-sc-phone-number>
-<!--     <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Requester Phone</mat-label>
-      <input type="text" matInput formControlName="requesterPhone" autocomplete="off"/>
-    </mat-form-field>
- -->  </div>
+    <app-sc-phone-number formControlName="requesterPhone"></app-sc-phone-number>  
+ </div>
 
   <div mat-dialog-actions class="align-right">
     <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
