@@ -14,60 +14,6 @@ export class SCValidation {
   static EMAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   static MULTI_EMAIL = /^(\s*(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))[,;\s]?)*$/
 
-  static formatPhone (tel): string {
-    if (!tel) { return ''; }
-
-    var value = tel.toString().trim().replace(/^\+/, '');
-    value = value.replace(/[\D]/g, '');
-    console.log('value: ' + value);
-
-    if (value.match(/[^0-9]/)) {
-      return tel;
-    }
-
-    var country, city, number;
-
-    switch (value.length) {
-      case 4:
-      case 5:
-      case 6:
-      case 7:
-        return value.slice(0, 3) + '-' + value.slice(3);
-        break;
-
-      case 8: 
-      case 9:
-      case 10: // +1PPP####### -> C (PPP) ###-####
-        country = 1;
-        city = value.slice(0, 3);
-        number = value.slice(3);
-        break;
-
-      case 11: // +CPPP####### -> CCC (PP) ###-####
-        country = value[0];
-        city = value.slice(1, 4);
-        number = value.slice(4);
-        break;
-
-      case 12: // +CCCPP####### -> CCC (PP) ###-####
-        country = value.slice(0, 3);
-        city = value.slice(3, 5);
-        number = value.slice(5);
-        break;
-
-      default:
-        return value;
-    }
-
-    if (country == 1) {
-      country = "";
-    }
-
-    number = number.slice(0, 3) + '-' + number.slice(3);
-
-    return (country + " (" + city + ") " + number).trim();
-  };
-
   static actualState(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       const validState = SCValidation.STATES.some(option => option == control.value);

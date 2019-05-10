@@ -135,11 +135,6 @@ export class FamilyDetailComponent implements OnInit {
     }
   }
 
-  formatPhoneNumber(): void {
-    const phoneField = this.familyForm.get("homePhone");
-    phoneField.setValue(SCValidation.formatPhone(phoneField.value));
-  }
-
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return SCValidation.STATES.filter(option => option.toLowerCase().startsWith(filterValue));

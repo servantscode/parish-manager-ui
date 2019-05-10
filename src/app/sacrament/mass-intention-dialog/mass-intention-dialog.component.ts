@@ -18,7 +18,7 @@ export class MassIntentionDialogComponent implements OnInit {
       person: [null, Validators.required],
       intentionType: ['', Validators.required],
       requester: [null, Validators.required],
-      requesterPhone: ['']
+      requesterPhone: ['', Validators.pattern(SCValidation.PHONE)]
     });
 
   public intentionTypes = this.massIntentionService.getIntentionTypes.bind(this.massIntentionService);

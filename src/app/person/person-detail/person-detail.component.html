@@ -80,20 +80,18 @@
           <mat-label>Name</mat-label>
           <input matInput formControlName="name" (keyup)="guessSurname()" required>
         </mat-form-field><br/>
-          <mat-radio-group aria-label="Gender" formControlName="male">
-            <mat-radio-button value="true" [checked]="personForm.value.male">Male</mat-radio-button>&nbsp;&nbsp;
-            <mat-radio-button value="false" [checked]="!personForm.value.male">Female</mat-radio-button>
-          </mat-radio-group><br/>
+
+        <mat-radio-group aria-label="Gender" formControlName="male">
+          <mat-radio-button value="true" [checked]="personForm.value.male">Male</mat-radio-button>&nbsp;&nbsp;
+          <mat-radio-button value="false" [checked]="!personForm.value.male">Female</mat-radio-button>
+        </mat-radio-group><br/>
 
         <mat-form-field appearance="standard" class="input-standard">
           <mat-label>Email</mat-label> 
           <input matInput formControlName="email">
         </mat-form-field><br/>
 
-        <mat-form-field appearance="standard" class="input-standard">
-          <mat-label>Phone Number</mat-label>
-          <input matInput formControlName="phoneNumber" (keyup)="formatPhoneNumber()" maxlength="14">
-        </mat-form-field><br/>
+        <app-sc-phone-number formControlName="phoneNumber"></app-sc-phone-number>  
 
         <mat-checkbox formControlName="headOfHousehold"> Head of Household</mat-checkbox>
       </div>
@@ -126,10 +124,7 @@
       <input matInput formControlName="surname" required/>
     </mat-form-field><br/>
 
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Phone Number</mat-label>
-      <input matInput formControlName="homePhone" (keyup)="formatHomePhone()" maxlength="14">
-    </mat-form-field><br/>
+    <app-sc-phone-number formControlName="homePhone"></app-sc-phone-number>  
 
     <mat-form-field appearance="standard" class="input-standard">
       <mat-label>Envelope Number</mat-label>

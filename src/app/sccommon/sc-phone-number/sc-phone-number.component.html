@@ -1,0 +1,6 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Phone Number</mat-label>
+    <input matInput formControlName="input" (keyup)="formatPhoneNumber()" maxlength="14">
+  </mat-form-field>
+</form>

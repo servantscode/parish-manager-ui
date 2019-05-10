@@ -39,10 +39,7 @@
           <input matInput formControlName="surname" required/>
         </mat-form-field><br/>
 
-        <mat-form-field appearance="standard" class="input-standard">
-          <mat-label>Phone Number</mat-label>
-          <input matInput formControlName="homePhone" (keyup)="formatPhoneNumber()" maxlength="14">
-        </mat-form-field><br/>
+        <app-sc-phone-number formControlName="homePhone"></app-sc-phone-number>  
 
         <mat-form-field appearance="standard" class="input-standard">
           <mat-label>Envelope Number</mat-label>

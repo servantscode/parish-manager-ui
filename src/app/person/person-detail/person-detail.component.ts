@@ -202,16 +202,6 @@ export class PersonDetailComponent implements OnInit {
     return SCValidation.STATES.filter(option => option.toLowerCase().startsWith(filterValue));
   }
 
-  formatPhoneNumber(): void {
-    const phoneField = this.personForm.get("phoneNumber");
-    phoneField.setValue(SCValidation.formatPhone(phoneField.value));
-  }
-
-  formatHomePhone(): void {
-    const phoneField = this.personForm.get("family.homePhone");
-    phoneField.setValue(SCValidation.formatPhone(phoneField.value));
-  }
-
   capitalizeState(): void {
     const stateField = this.personForm.get("family.address.state");
     stateField.setValue(stateField.value.toUpperCase());
