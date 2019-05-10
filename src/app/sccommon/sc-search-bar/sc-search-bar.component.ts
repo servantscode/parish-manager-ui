@@ -1,6 +1,9 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators'
+import { MatDialog, MatDialogRef } from '@angular/material';
+
+import { SearchDialogComponent } from '../search-dialog/search-dialog.component';
 
 import { SCValidation } from '../validation';
 
@@ -11,12 +14,14 @@ import { SCValidation } from '../validation';
 })
 export class ScSearchBarComponent implements OnInit {
   @Output() search = new EventEmitter<string>();
+  @Input() type: string;
 
   form = this.fb.group({
       input: ['', SCValidation.validSearch()]
     });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.form.get('input').valueChanges
@@ -24,6 +29,23 @@ export class ScSearchBarComponent implements OnInit {
       .subscribe(search => {
         if(this.form.valid)
           this.search.emit(search);
+      });
+  }
+
+  openSearch() {
+    const donationRef = this.dialog.open(SearchDialogComponent, {
+      width: '400px',
+      data: {"title": "Search People",
+             "fields" : {
+               "name": "text",
+               "male": "boolean",
+               "birthdate": "date"
+           }}
+    });
+
+    donationRef.afterClosed().subscribe(result => {
+        if(result)
+          this.form.get('input').setValue(result);
       });
   }
 }

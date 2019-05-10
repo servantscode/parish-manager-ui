@@ -108,6 +108,10 @@ div.rounded-rect {
   }
 }
 
+.no-pad {
+  padding: 0;
+}
+
 .scrollable {
   overflow-y: auto;
 }
@@ -210,6 +214,13 @@ div.rounded-rect {
   background-image: url('./assets/images/pencil.png');
   &:hover {
     background-image: url('./assets/images/pencil-active.png');
+  }
+}
+
+.search {
+  background-image: url('./assets/images/search.png');
+  &:hover {
+    background-image: url('./assets/images/search-active.png');
   }
 }
 

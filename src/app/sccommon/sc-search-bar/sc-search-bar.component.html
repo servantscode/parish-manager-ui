@@ -1,3 +1,10 @@
 <form [formGroup]="form">
-  <input type="text" class="form-control" formControlName="input" placeholder="Search..." aria-label="Search">
+  <div class="row">
+    <div class="col-11 no-pad">
+      <input type="text" class="form-control" formControlName="input" placeholder="Search..." aria-label="Search">
+    </div>
+    <div class="col-1 no-pad adv-search">
+      &nbsp;&nbsp;<div *ngIf="type === 'person'" class="huge-icon search" (click)="openSearch()">&nbsp;&nbsp;</div>
+    </div>
+  </div>
 </form>
