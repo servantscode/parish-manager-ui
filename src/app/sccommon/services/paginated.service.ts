@@ -26,6 +26,10 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
 
   public abstract getTemplate(): T;
 
+  public deleteRequiresAdmin(): boolean {
+    return false;
+  }
+
   public getPage(start = 0, count = 10, search = '', pathVars?: any): Observable<PaginatedResponse<T>> {
     return this.http.get<PaginatedResponse<T>>(this.modifyUrl(this.url, pathVars)+`?start=${start}&count=${count}&partial_name=${encodeURI(search)}`).pipe(
         map(resp => this.mapResults(resp)),

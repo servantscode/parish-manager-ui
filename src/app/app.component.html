@@ -15,6 +15,9 @@
         <span *ngIf="loginService.userCan('event.list')" >
           <a routerLink="/calendar" routerLinkActive="active">Calendar</a><br>
         </span>
+        <span *ngIf="loginService.userCan('sacrament.mass.intention.list')">
+          <a routerLink="/mass/intention" routerLinkActive="active">Masses</a><br>
+        </span>
         <span *ngIf="loginService.userCan('pledge.metrics') || loginService.userCan('donation.metrics')"> 
           <a routerLink="/donations" routerLinkActive="active">Finances</a><br>
         </span>

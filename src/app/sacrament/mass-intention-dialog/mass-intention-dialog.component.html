@@ -1,0 +1,28 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <h1 *ngIf="data.item && data.item.id > 0" mat-dialog-title>Update Mass Intention</h1>
+  <h1 *ngIf="data.item == null || data.item.id == 0" mat-dialog-title>Record Mass Intention</h1>
+  <div mat-dialog-content>
+    <input type="hidden" autocomplete="off" formControlName="id"/>
+    
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>EventId</mat-label>
+      <input type="number" matInput formControlName="eventId" autocomplete="off" cdkFocusInitial required/>
+    </mat-form-field>
+
+    <app-identity-picker formControlName="person" label="Intention for" [required]="true"></app-identity-picker>
+
+    <app-sc-enum formControlName="intentionType" label="Intention Type" [required]="true" [valueSource]="intentionTypes"></app-sc-enum>
+
+    <app-identity-picker formControlName="requester" label="Requested by" [required]="true"></app-identity-picker>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Requester Phone</mat-label>
+      <input type="text" matInput formControlName="requesterPhone" autocomplete="off"/>
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+  </div>
+</form>

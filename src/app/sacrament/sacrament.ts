@@ -141,5 +141,31 @@ export class Marriage extends Sacrament {
     this.witness1 = null;
     this.witness2 = null;
     return this;
-  } 
+  }
+}
+
+export class MassIntention extends Identifiable {
+  constructor() {
+    super();
+  }
+
+  eventId: number;
+  person: Identity;
+  intentionType: string;
+  requester: Identity;
+  requesterPhone: string;
+
+  identify(): string {
+    return this.person.name;
+  }
+
+  public asTemplate(): MassIntention {
+    this.id = 0;
+    this.eventId = 0;
+    this.person = null;
+    this.intentionType = null;
+    this.requester = null;
+    this.requesterPhone = null;
+    return this;
+  }
 }

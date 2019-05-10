@@ -143,7 +143,8 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   verifyPermission(action: string): boolean {
     const permType = this.dataService.getPermissionType();
-    return this.loginService.userCan(permType + "." + action);
+    const prefix = this.dataService.deleteRequiresAdmin()? "admin.": ""
+    return this.loginService.userCan(prefix + permType + "." + action);
   }
 
   formatFieldName(field: any): string {

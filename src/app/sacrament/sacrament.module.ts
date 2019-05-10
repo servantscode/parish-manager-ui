@@ -25,6 +25,8 @@ import { SacramentsComponent } from './sacraments/sacraments.component';
 import { MarriageComponent } from './marriage/marriage.component';
 import { MarriageDetailsComponent } from './marriage-details/marriage-details.component';
 import { MarriageFormComponent } from './marriage-form/marriage-form.component';
+import { MassIntentionComponent } from './mass-intention/mass-intention.component';
+import { MassIntentionDialogComponent } from './mass-intention-dialog/mass-intention-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { MarriageFormComponent } from './marriage-form/marriage-form.component';
     SacramentsComponent,
     MarriageComponent,
     MarriageDetailsComponent,
-    MarriageFormComponent
+    MarriageFormComponent,
+    MassIntentionComponent,
+    MassIntentionDialogComponent
   ],
   imports: [
     SacramentRoutingModule,
@@ -61,7 +65,11 @@ import { MarriageFormComponent } from './marriage-form/marriage-form.component';
     MatAutocompleteModule
   ],
   exports: [
-    SacramentsComponent
+    SacramentsComponent,
+    MassIntentionComponent
+  ],
+  entryComponents: [
+    MassIntentionDialogComponent
   ]
 })
 export class SacramentModule { }

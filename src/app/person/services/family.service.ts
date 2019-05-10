@@ -50,7 +50,7 @@ export class FamilyService extends PaginatedService<Family> {
   }
 
   public getReport(search = '', includeInactive=false): Observable<any> {
-    return this.http.get(this.url + `/report?search=${search}&include_inactive=${includeInactive}`, PaginatedService.csvOptions).pipe(
+    return this.http.get(this.url + `/report?search=${encodeURI(search)}&include_inactive=${includeInactive}`, PaginatedService.csvOptions).pipe(
         catchError(this.handleError('familyReport', null))
       );
   }
