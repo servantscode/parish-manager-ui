@@ -150,6 +150,7 @@ export class MassIntention extends Identifiable {
   }
 
   eventId: number;
+  massTime: Date;
   person: Identity;
   intentionType: string;
   requester: Identity;
@@ -162,6 +163,7 @@ export class MassIntention extends Identifiable {
   public asTemplate(): MassIntention {
     this.id = 0;
     this.eventId = 0;
+    this.massTime = null;
     this.person = null;
     this.intentionType = null;
     this.requester = null;

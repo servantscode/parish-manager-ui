@@ -23,6 +23,7 @@
         <td *ngFor="let field of fields" (click)="clicked(item)">
           <div [ngSwitch]="fieldType(field)">
             <div *ngSwitchCase="'date'">{{item[fieldName(field)] | date: 'MM/dd/yyyy'}}</div>
+            <div *ngSwitchCase="'dateTime'">{{item[fieldName(field)] | date: 'MM/dd/yyyy hh:mma'}}</div>
             <div *ngSwitchCase="'currency'">{{item[fieldName(field)] | currency:"$"}}</div>
             <div *ngSwitchCase="'identity'">{{item[fieldName(field)].name}}</div>
             <div *ngSwitchDefault>{{item[fieldName(field)]}}</div>

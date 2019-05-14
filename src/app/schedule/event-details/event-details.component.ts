@@ -157,7 +157,7 @@ export class EventDetailsComponent implements OnInit {
       if(!this.loginService.userCan('event.read'))
         this.router.navigate(['not-found']);
 
-      this.eventService.getEvent(id).
+      this.eventService.get(id).
         subscribe(event => {
           this.event = event;
           this.populateEvent(event);
@@ -236,7 +236,7 @@ export class EventDetailsComponent implements OnInit {
       if(!this.loginService.userCan("event.create"))
         this.goBack();
 
-      this.eventService.updateEvent(this.translateForm(this.eventForm.value)).
+      this.eventService.update(this.translateForm(this.eventForm.value)).
         subscribe(() => {
           this.goBack();
         });
@@ -244,7 +244,7 @@ export class EventDetailsComponent implements OnInit {
       if(!this.loginService.userCan("event.update"))
         this.goBack();
 
-      this.eventService.createEvent(this.translateForm(this.eventForm.value)).
+      this.eventService.create(this.translateForm(this.eventForm.value)).
         subscribe(() => {
           this.goBack();
         });
@@ -258,7 +258,7 @@ export class EventDetailsComponent implements OnInit {
       data: {"title": "Confirm Delete",
              "text" : "Are you sure you want to delete " + description + "?",
              "delete": (): Observable<void> => { 
-               return this.eventService.deleteEvent(this.getValue("id"), description); 
+               return this.eventService.delete(this.event, description); 
              },
              "nav": () => { 
                this.cancel();

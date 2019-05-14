@@ -28,6 +28,8 @@ export class CalendarComponent implements OnInit {
   events: CalendarEvent[] = [];
   openDialogRef = null;
 
+  search: string = "";
+
   _displayCount = 5;
   displayAll = true;
 
@@ -76,14 +78,14 @@ export class CalendarComponent implements OnInit {
     const dateRange = this.calculateRange(this.viewDate, this.view);
     const isDraggable = this.loginService.userCan('event.update');
 
-    this.eventService.getEvents(dateRange.start, dateRange.end).
+    this.eventService.getPage(0, 32768, this.eventService.timeRangeQuery(this.search, dateRange.start, dateRange.end)).
       subscribe(eventResponse => {
-        this.events = eventResponse.map(serverEvent => {
+        this.events = eventResponse.results.map(serverEvent => {
             return {
               start: serverEvent.startTime,
               end: serverEvent.endTime,
               title: serverEvent.description,
-              color: this.hasConflict(serverEvent, eventResponse)?
+              color: this.hasConflict(serverEvent, eventResponse.results)?
                         ColorService.CALENDAR_COLORS.red:
                         ColorService.CALENDAR_COLORS.blue,
               actions: this.actions,
@@ -140,6 +142,11 @@ export class CalendarComponent implements OnInit {
 
   displayCount(): number {
     return this.displayAll? 1000: this._displayCount;
+  }
+
+  updateSearch(search:string) {
+    this.search = search;
+    this.loadEvents();
   }
 
   showAll(): void {

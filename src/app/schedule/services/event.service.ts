@@ -5,7 +5,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
-import { BaseService } from '../../sccommon/services/base.service';
+import { PaginatedService } from '../../sccommon/services/paginated.service';
+
+import { PaginatedResponse } from '../../sccommon/paginated.response'
 
 import { Event } from '../event';
 
@@ -19,52 +21,37 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class EventService extends BaseService { 
-  private url: string;
+export class EventService extends PaginatedService<Event> { 
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService) { 
-    super(http, messageService);
-    this.url = apiService.prefaceUrl("/rest/event");
+    super(apiService.prefaceUrl("/rest/event"), http, messageService);
   }
 
-  getEvents(startTime:Date, endTime:Date, search = ''): Observable<Event[]> {
-    return this.http.get<Event[]>(this.url+`?start_date=${startTime.toISOString()}&end_date=${endTime.toISOString()}&partial_description=${search}`).pipe(
-        catchError(this.handleError('getEvents', null))
+  public getPermissionType(): string {
+    return "event";
+  }
+
+  public getTemplate(): Event {
+    return new Event().asTemplate();
+  }
+
+  public timeRangeQuery(search: string, startTime: Date, endTime: Date): string {
+    return `${search} startTime:[* TO ${endTime.toISOString()}] endTime:[${startTime.toISOString()} TO *]`;
+  }
+
+  public getPage(start = 0, count = 10, search = '', pathVars?: any): Observable<PaginatedResponse<Event>> {
+    return this.http.get<PaginatedResponse<Event>>(this.modifyUrl(this.url, pathVars)+`?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
+        map(resp => this.mapResults(resp)),
+        catchError(this.handleError('getPage', null))
       );
   }
+
 
   getUpcomingEvents(ministryId:number, count:number = 10): Observable<Event[]> {
     return this.http.get<Event[]>(this.url+`/ministry/${ministryId}?count=${count}`).pipe(
         catchError(this.handleError('getUpcomingEvents', null))
-      );
-  }
-
-  getEvent(id: number): Observable<Event> {
-    return this.http.get<Event>(this.url + `/${id}`).pipe(
-        catchError(this.handleError('getEvent', null))
-      );
-  }
-
-  createEvent(event: Event): Observable<Event> {
-    return this.http.post<Event>(this.url, event, httpOptions).pipe(
-        tap(event => this.log('Created event ' + event.description)),
-        catchError(this.handleError('createEvent', null))
-      );
-  }
-
-  updateEvent(event: Event): Observable<Event> {
-    return this.http.put<Event>(this.url, event, httpOptions).pipe(
-        tap(event => this.log('Updated event ' + event.description)),
-        catchError(this.handleError('updateEvent', null))
-      );
-  }
-
-  deleteEvent(id: number, description: string): Observable<void> {
-    return this.http.delete<void>(this.url + `/${id}`).pipe(
-        tap(event => this.log('Deleted event ' + description)),
-        catchError(this.handleError('deleteEvent', null))
       );
   }
 }

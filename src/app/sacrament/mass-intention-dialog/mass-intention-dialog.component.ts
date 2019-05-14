@@ -1,12 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 import { SCValidation } from '../../sccommon/validation';
-
-import { MassIntentionService } from '../services/mass-intention.service';
+import { PaginatedResponse } from '../../sccommon/paginated.response';
 
 import { PersonService } from '../../sccommon/services/person.service';
+
+import { MassIntentionService } from '../services/mass-intention.service';
+import { MassAvailabilityService } from '../services/mass-availability.service';
+
 
 @Component({
   selector: 'app-mass-intention-dialog',
@@ -29,7 +33,8 @@ export class MassIntentionDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               private massIntentionService: MassIntentionService,
-              private personService: PersonService) { }
+              private personService: PersonService,
+              public availabilityService: MassAvailabilityService) { }
   
   ngOnInit() {
     if(this.data.item)

@@ -26,6 +26,13 @@
     </div>
   </div>
 </div>
+<div class="container">
+  <div class="row ">
+      <div class="col-8 no-pad">
+        <app-sc-search-bar (search)="updateSearch($event)" type="event"></app-sc-search-bar>
+      </div>
+  </div>
+</div>
 
 <div class="container calendar-container scrollable">
   <ng-template

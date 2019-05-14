@@ -5,6 +5,7 @@ import { map, debounceTime, switchMap } from 'rxjs/operators'
 
 import { PaginatedService } from '../services/paginated.service';
 import { Autocompletable } from '../identifiable';
+import { PaginatedResponse } from '../paginated.response';
 
 @Component({
   selector: 'app-sc-auto-complete',
@@ -26,7 +27,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
 
   @Input() selectIdentity = false;
   @Input() selectObject = false;
-  @Input() autocompleteService: PaginatedService<T>
+  @Input() autocompleteService: PaginatedService<T>;
   @Input() pathParams: any = null;
 
   @Input() filter;
@@ -42,25 +43,26 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
     });
   
   get value() {
-    return this._value;
+    return this.itemValue(this.selected);
   }
 
   set value(val) {
-    var rawVal = val? (typeof val === 'string' || typeof val === 'number')? 
-        val: 
-        this.itemValue(val): 
-      null;
+    alert("Don't set a value this way!");
+  //   var rawVal = val? (typeof val === 'string' || typeof val === 'number')? 
+  //       val: 
+  //       this.itemValue(val): 
+  //     null;
 
-    if((typeof val === 'string' && val !== "") || (typeof val === 'number' && val != 0)) { 
-      this.resolveSelectedItem(rawVal);
-    } else {
-      this.selected = val;
-      this.autocompleteForm.get("input").setValue(val);
-    }
+  //   if((typeof val === 'string' && val !== "") || (typeof val === 'number' && val != 0)) { 
+  //     this.resolveSelectedItem(rawVal);
+  //   } else {
+  //     this.selected = val;
+  //     this.autocompleteForm.get("input").setValue(val);
+  //   }
 
-    this._value = rawVal;
-    this.onChange(rawVal);
-    this.onTouched();
+  //   this._value = rawVal;
+  //   this.onChange(rawVal);
+  //   this.onTouched();
   }
 
   itemValue(item: any) {
@@ -74,14 +76,25 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.enableAutocomplete();
+  }
+
+  enableAutocomplete() {
     this.filteredItems = this.autocompleteForm.get('input').valueChanges
       .pipe(
         debounceTime(300),
         map(value => value? typeof value === 'string' ? value : value.identify(): ""),
-        switchMap(value => this.autocompleteService.getPage(0, 10, value, this.pathParams)
-            .pipe(map(resp => (this.filter? this.filter(resp.results): resp.results)))
-          )
+        switchMap(value => this.loadOptions(value))
       );
+  }
+
+  disableAutocomplete() {
+    this.filteredItems = null;
+  }
+
+  private loadOptions(value: string): Observable<T[]> {
+    return this.autocompleteService.getPage(0, 10, value, this.pathParams)
+        .pipe(map(resp => (this.filter? this.filter(resp.results): resp.results)));
   }
 
   identifyItem(item?: any): string | undefined {
@@ -89,7 +102,19 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   selectItem(item: T): void {
-    this.value = item;
+    // this.value = item;
+
+    this.selected = item;
+    this.setInputValue(item);
+
+    this.onChange(this.itemValue(item));
+    this.onTouched();
+  }
+
+  private setInputValue(displayValue: any) {
+    this.disableAutocomplete();
+    this.autocompleteForm.get("input").setValue(displayValue);
+    this.enableAutocomplete();    
   }
 
   resolveSelectedItem(rawValue) {
@@ -102,7 +127,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
     } else {
       //Otherwise, go get it from the server.
       this.autocompleteService.get(rawValue, this.pathParams).subscribe(item => {
-            this.autocompleteForm.get("input").setValue(item);
+            this.setInputValue(item);
             this.selected = item;
           });
     }
@@ -118,7 +143,14 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   writeValue(value) {
-    this.value = value;
+    // this.value = value;
+
+    // -----
+    this.selected = value;
+    if((typeof value === 'string' && value !== "") || (typeof value === 'number' && value != 0))
+      this.resolveSelectedItem(value);
+    else 
+      this.setInputValue(value);
   }
 
   setDisabledState( isDisabled : boolean ) : void {

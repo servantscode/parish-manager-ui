@@ -21,6 +21,7 @@ export class Event extends Identifiable {
     return this.description;
   }
 
+
   asTemplate(): Event {
     this.id=0;
     this.startTime = null;

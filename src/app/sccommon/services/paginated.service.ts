@@ -81,7 +81,7 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
     return resp;
   }
 
-  private modifyUrl(url:string, vars:any) {
+  protected modifyUrl(url:string, vars:any) {
     if(!vars)
       return url;
   

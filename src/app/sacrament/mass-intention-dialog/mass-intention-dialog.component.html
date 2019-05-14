@@ -4,10 +4,7 @@
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="id"/>
     
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>EventId</mat-label>
-      <input type="number" matInput formControlName="eventId" autocomplete="off" cdkFocusInitial required/>
-    </mat-form-field>
+    <app-sc-auto-complete formControlName="eventId" label='Mass' [autocompleteService]="availabilityService" cdkFocusInitial required></app-sc-auto-complete>
 
     <app-identity-picker formControlName="person" label="Intention for" [required]="true"></app-identity-picker>
 
