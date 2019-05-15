@@ -48,8 +48,7 @@ export class EventService extends PaginatedService<Event> {
       );
   }
 
-
-  getUpcomingEvents(ministryId:number, count:number = 10): Observable<Event[]> {
+  public getUpcomingEvents(ministryId:number, count:number = 10): Observable<Event[]> {
     return this.http.get<Event[]>(this.url+`/ministry/${ministryId}?count=${count}`).pipe(
         catchError(this.handleError('getUpcomingEvents', null))
       );

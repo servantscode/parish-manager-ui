@@ -36,7 +36,8 @@ import { EquipmentService } from '../services/equipment.service';
 export class EventDetailsComponent implements OnInit {
   eventForm = this.fb.group({
       id: [0],
-      description: ['', Validators.required],
+      title: ["", Validators.required],
+      description: [''],
       startTime: [startOfHour(addHours(new Date(), 1)), Validators.required],
       endTime: [startOfHour(addHours(new Date(), 2)), Validators.required],
       schedulerId:[this.loginService.getUserId(), [Validators.required, Validators.pattern(SCValidation.NUMBER)]],
@@ -210,7 +211,6 @@ export class EventDetailsComponent implements OnInit {
     if(conflicts == 0) {
       this.storeEvent();
     } else if(this.loginService.userCan("admin.event.override")) {
-      var description = this.getValue("description");
       this.dialog.open(AdminOverrideDialogComponent, {
         width: '400px',
         data: {"title": "Reservation Conflicts",

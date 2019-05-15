@@ -84,7 +84,8 @@ export class CalendarComponent implements OnInit {
             return {
               start: serverEvent.startTime,
               end: serverEvent.endTime,
-              title: serverEvent.description,
+              title: serverEvent.title,
+              description: serverEvent.description,
               color: this.hasConflict(serverEvent, eventResponse.results)?
                         ColorService.CALENDAR_COLORS.red:
                         ColorService.CALENDAR_COLORS.blue,

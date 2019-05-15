@@ -9,6 +9,7 @@ export class Event extends Identifiable {
 
   startTime: Date;
   endTime: Date;
+  title: string;
   description: string;
   schedulerId: number;
   ministryName: string;
@@ -26,6 +27,7 @@ export class Event extends Identifiable {
     this.id=0;
     this.startTime = null;
     this.endTime = null;
+    this.title = '';
     this.description = '';
     this.schedulerId = 0;
     this.ministryName = '';
