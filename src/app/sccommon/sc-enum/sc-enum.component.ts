@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, debounceTime, switchMap } from 'rxjs/operators'
 
 import { EnumValue } from '../enum-value';
@@ -22,9 +22,11 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   @Input('value') _value;
   @Input() required = false;
   @Input() fieldSize = 'standard';
+  @Input() nullValue: string;
 
   @Input() valueSource: () => Observable<string[]>;
 
+  items: EnumValue[];
   filteredItems: Observable<EnumValue[]>;
   private selected: EnumValue;
   
@@ -41,7 +43,7 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
 
   set value(val) {
     var rawVal = val? (typeof val === 'string')? val: val.value: null;
-    var enumVal = val? (typeof val === 'string')? new EnumValue(val): val: null;
+    var enumVal = val? (typeof val === 'string' && this.items)? this.items.find(item => item.value === val): val: null;
 
     this.selected = enumVal;
     this.autocompleteForm.get("input").setValue(enumVal);
@@ -58,11 +60,22 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
       .pipe(
         debounceTime(300),
         map(value => value? typeof value === 'string' ? value : value.display: ""),
-        switchMap(value => this.valueSource().pipe(
-          map(resp => resp? resp.filter(val => val.startsWith(value.toUpperCase().replace(/\s/, "_")))
-                          .map(item => new EnumValue(item)): null)
+        switchMap(value => of(this.items).pipe(
+          map(resp => resp? resp.filter(val => val.display.startsWith(value.toUpperCase().replace(/\s/, "_"))): null)
         ))
       );
+
+    this.valueSource().subscribe(values => {
+        this.items = values? values.map(item => new EnumValue(item)): null;
+        this.value = this.value;
+      });
+  }
+
+  calculateLabel() {
+    if(!this.value && this.nullValue)
+      return this.nullValue
+    else
+      return this.label;
   }
 
   selectItem(item: EnumValue): void {

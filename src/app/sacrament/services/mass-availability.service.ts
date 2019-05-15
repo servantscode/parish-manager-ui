@@ -29,8 +29,11 @@ export class MassAvailabilityService extends PaginatedService<MassAvailability> 
   }
 
   get(id: number, pathVars?: any): Observable<MassAvailability> {
-    alert("Not implemented!!");
-    return null;
+    const url = this.apiService.prefaceUrl("/rest/sacrament/mass");
+    return this.http.get<MassAvailability>(this.modifyUrl(url, pathVars) + `/${id}/time`).pipe(
+        map(resp => this.mapObject(resp)),
+        catchError(this.handleError('get', null))
+      );
   }
 
   create(item: MassAvailability, pathVars?: any): Observable<MassAvailability> {

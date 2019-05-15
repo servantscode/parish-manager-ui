@@ -48,29 +48,6 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
 
   set value(val) {
     alert("Don't set a value this way!");
-  //   var rawVal = val? (typeof val === 'string' || typeof val === 'number')? 
-  //       val: 
-  //       this.itemValue(val): 
-  //     null;
-
-  //   if((typeof val === 'string' && val !== "") || (typeof val === 'number' && val != 0)) { 
-  //     this.resolveSelectedItem(rawVal);
-  //   } else {
-  //     this.selected = val;
-  //     this.autocompleteForm.get("input").setValue(val);
-  //   }
-
-  //   this._value = rawVal;
-  //   this.onChange(rawVal);
-  //   this.onTouched();
-  }
-
-  itemValue(item: any) {
-    return this.selectObject? 
-        item: 
-        this.selectIdentity? 
-            item.identify(): 
-            item.id;
   }
 
   constructor(private fb: FormBuilder) { }
@@ -79,7 +56,19 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
     this.enableAutocomplete();
   }
 
-  enableAutocomplete() {
+  identifyItem(item?: any): string | undefined {
+    return item ? typeof item === 'string' ? item : item.identify() : undefined;
+  }
+
+  selectItem(item: T): void {
+    this.selected = item;
+    this.setInputValue(item);
+
+    this.onChange(this.itemValue(item));
+    this.onTouched();
+  }
+
+  private enableAutocomplete() {
     this.filteredItems = this.autocompleteForm.get('input').valueChanges
       .pipe(
         debounceTime(300),
@@ -88,7 +77,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
       );
   }
 
-  disableAutocomplete() {
+  private disableAutocomplete() {
     this.filteredItems = null;
   }
 
@@ -97,18 +86,12 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
         .pipe(map(resp => (this.filter? this.filter(resp.results): resp.results)));
   }
 
-  identifyItem(item?: any): string | undefined {
-    return item ? typeof item === 'string' ? item : item.identify() : undefined;
-  }
-
-  selectItem(item: T): void {
-    // this.value = item;
-
-    this.selected = item;
-    this.setInputValue(item);
-
-    this.onChange(this.itemValue(item));
-    this.onTouched();
+  private itemValue(item: any) {
+    return this.selectObject? 
+        item: 
+        this.selectIdentity? 
+            item.identify(): 
+            item.id;
   }
 
   private setInputValue(displayValue: any) {
@@ -117,7 +100,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
     this.enableAutocomplete();    
   }
 
-  resolveSelectedItem(rawValue) {
+  private resolveSelectedItem(rawValue) {
     if(this.selectIdentity) {
       //If all we need is the identity, just mock it to save the round trip...
       const mockItem =this.autocompleteService.getTemplate();
@@ -143,9 +126,6 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   writeValue(value) {
-    // this.value = value;
-
-    // -----
     this.selected = value;
     if((typeof value === 'string' && value !== "") || (typeof value === 'number' && value != 0))
       this.resolveSelectedItem(value);
