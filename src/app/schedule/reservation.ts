@@ -3,7 +3,7 @@ export class Reservation {
   resourceType: string;
   resourceId: number;
   eventId: number;
-  eventDescription: string;
+  eventTitle: string;
   reservingPersonId: number;
   reserverName: string;
   startTime: Date;
@@ -15,7 +15,7 @@ export class Reservation {
     template.resourceType = 'ROOM';
     template.resourceId = 0;
     template.eventId = 0;
-    template.eventDescription = '';
+    template.eventTitle = '';
     template.reservingPersonId = 0;
     template.reserverName = '';
     template.startTime = new Date();

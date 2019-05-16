@@ -141,10 +141,10 @@ export class EventDetailsComponent implements OnInit {
     this.eventForm.get('cleanupTime').valueChanges
       .subscribe( () => this.updateReservationTimes());
 
-    this.eventForm.get('description').valueChanges
+    this.eventForm.get('title').valueChanges
       .subscribe( desc => {
-         this.rooms.forEach(room => room.eventDescription = desc);
-         this.equipment.forEach(equip => equip.eventDescription = desc);
+         this.rooms.forEach(room => room.eventTitle = desc);
+         this.equipment.forEach(equip => equip.eventTitle = desc);
       });
 
     this.updateRecurrenceOptions();
@@ -283,7 +283,7 @@ export class EventDetailsComponent implements OnInit {
       resourceType: 'ROOM',
       resourceId: room.id,
       eventId: this.getValue('id'),
-      eventDescription: this.getValue('description'),
+      eventTitle: this.getValue('title'),
       reservingPersonId: this.eventForm.get('schedulerId').value
     });
     this.roomAvailability.push(false);
@@ -316,7 +316,7 @@ export class EventDetailsComponent implements OnInit {
       resourceType: 'EQUIPMENT',
       resourceId: equip.id,
       eventId: this.getValue('id'),
-      eventDescription: this.getValue('description'),
+      eventTitle: this.getValue('title'),
       reservingPersonId: this.getValue('schedulerId')
     });
     this.equipmentAvailability.push(false);
