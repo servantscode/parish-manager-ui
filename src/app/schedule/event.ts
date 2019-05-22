@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { Reservation } from './reservation';
 import { Identifiable } from '../sccommon/identifiable';
 
@@ -45,4 +46,12 @@ export class Recurrence {
   frequency: number;
   endDate: Date;
   weeklyDays: string[];
+}
+
+@Injectable()
+export class SelectedEvent {
+
+    public event: any;
+
+    public constructor() { }
 }

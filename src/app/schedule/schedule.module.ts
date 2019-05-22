@@ -27,6 +27,8 @@ import { EquipmentDialogComponent } from './equipment-dialog/equipment-dialog.co
 import { AvailabilityComponent } from './availability/availability.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 
+import { SelectedEvent } from './event';
+
 @NgModule({
   declarations: [
     CalendarComponent,
@@ -68,6 +70,9 @@ import { EventDetailsComponent } from './event-details/event-details.component';
   entryComponents: [
     RoomDialogComponent,
     EquipmentDialogComponent
+  ],
+  providers: [
+    SelectedEvent
   ]
 })
 export class ScheduleModule { }

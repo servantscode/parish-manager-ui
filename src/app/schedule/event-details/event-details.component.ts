@@ -20,7 +20,7 @@ import { Ministry } from '../../ministry/ministry';
 
 import { PersonService } from '../../sccommon/services/person.service';
 
-import { Event, Recurrence } from '../event';
+import { Event, Recurrence, SelectedEvent } from '../event';
 import { Room } from '../room';
 import { Equipment } from '../equipment';
 import { Reservation } from '../reservation';
@@ -40,7 +40,7 @@ export class EventDetailsComponent implements OnInit {
       description: [''],
       startTime: [startOfHour(addHours(new Date(), 1)), Validators.required],
       endTime: [startOfHour(addHours(new Date(), 2)), Validators.required],
-      schedulerId:[this.loginService.getUserId(), [Validators.required, Validators.pattern(SCValidation.NUMBER)]],
+      schedulerId:['', [Validators.required, Validators.pattern(SCValidation.NUMBER)]],
       ministryId:[''],
       room:[''],
       equipment:[''],
@@ -88,15 +88,14 @@ export class EventDetailsComponent implements OnInit {
               public equipmentService: EquipmentService,
               public loginService: LoginService,
               private cleaningService: DataCleanupService,
-              private changeDetectorRef: ChangeDetectorRef) { 
+              private changeDetectorRef: ChangeDetectorRef,
+              private selectedEvent: SelectedEvent) { 
     
     if(!this.loginService.userCan("event.update"))
       this.disableAll();
   }
 
   ngOnInit() {
-    this.getEvent();
-
     this.route.params.subscribe(
         params => {
             this.getEvent();
@@ -154,7 +153,10 @@ export class EventDetailsComponent implements OnInit {
     this.event = new Event();
     const id = +this.route.snapshot.paramMap.get('id');
 
-    if(id > 0) {
+    if(this.selectedEvent.event) {
+      this.event=this.selectedEvent.event;
+      this.populateEvent(this.selectedEvent.event);
+    } else if(id > 0) {
       if(!this.loginService.userCan('event.read'))
         this.router.navigate(['not-found']);
 
@@ -167,6 +169,7 @@ export class EventDetailsComponent implements OnInit {
     } else {
       if(!this.loginService.userCan('event.create'))
         this.router.navigate(['not-found']);
+      this.eventForm.get('schedulerId').setValue(this.loginService.getUserId());
     }
   }
 

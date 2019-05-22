@@ -8,7 +8,7 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, Cal
 import { LoginService } from '../../sccommon/services/login.service';
 import { ColorService } from '../../sccommon/services/color.service';
 
-import { Event } from '../event';
+import { Event, SelectedEvent } from '../event';
 import { EventService } from '../services/event.service';
 
 export enum KEY_CODE {
@@ -52,7 +52,8 @@ export class CalendarComponent implements OnInit {
   constructor(private router: Router,
               private dialog: MatDialog,
               private eventService: EventService,
-              public loginService: LoginService) {}
+              public loginService: LoginService,
+              private selectedEvent: SelectedEvent) {}
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
@@ -134,10 +135,14 @@ export class CalendarComponent implements OnInit {
   }
 
   editEvent(event: any) {
+    this.selectedEvent.event = event;
     this.router.navigate(['calendar', 'event', event.id]);
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
+  handleEvent(action: string, event: any): void {
+    //Translate back to serverEvent before editing.
+    event.startTime = event.start;
+    event.endTime = event.end;
     this.editEvent(event);
   }
 
@@ -165,8 +170,8 @@ export class CalendarComponent implements OnInit {
   hourClicked(date: Date) {
     this.editEvent({
         id: 0,
-        start: date,
-        end: addHours(date, 1),
+        startTime: date,
+        endTime: addHours(date, 1),
         title: '',
         schedulerId: this.loginService.getUserId()
       });
@@ -181,8 +186,8 @@ export class CalendarComponent implements OnInit {
         res.endTime = addMilliseconds(res.endTime, endDiff);
       });
 
-    event.start = newStart;
-    event.end = newEnd;
+    event.startTime = newStart;
+    event.endTime = newEnd;
     this.editEvent(event); 
   }
 

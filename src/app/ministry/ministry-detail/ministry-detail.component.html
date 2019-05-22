@@ -55,7 +55,7 @@
       </thead>
       <tbody (mouseleave)="highlightEvent(null)">
         <tr *ngFor="let event of upcomingEvents" (mouseover)="highlightEvent(enrollment)"  [ngClass] = "{'highlight' : event === highlightedEvent}">
-          <td>{{event.description}}</td>
+          <td>{{event.title}}</td>
           <td>{{event.startTime | date:"MMM dd, yyyy 'at' H:mm"}}</td>
         </tr>
       </tbody>
