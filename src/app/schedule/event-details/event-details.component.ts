@@ -255,13 +255,13 @@ export class EventDetailsComponent implements OnInit {
   }
 
   delete(): void {
-    var description = this.getValue("description");
+    var title = this.getValue("title");
     this.dialog.open(DeleteDialogComponent, {
       width: '400px',
       data: {"title": "Confirm Delete",
-             "text" : "Are you sure you want to delete " + description + "?",
+             "text" : "Are you sure you want to delete " + title + "?",
              "delete": (): Observable<void> => { 
-               return this.eventService.delete(this.event, description); 
+               return this.eventService.delete(this.event); 
              },
              "nav": () => { 
                this.cancel();
@@ -341,6 +341,7 @@ export class EventDetailsComponent implements OnInit {
   }
 
   goBack() {
+    this.selectedEvent.event = null;
     this.location.back();
   }
 

@@ -73,7 +73,7 @@ export class DonationService extends PaginatedService<Donation> {
     options += `&fundId=${fundId}`;
 
     return this.http.get(this.url + `/predict?${options}`).pipe(
-        catchError(this.handleError('getDonationPrediction', null))
+        catchError(this.handleError('getDonationPrediction', null, [404]))
       );
   }
 }

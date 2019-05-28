@@ -6,16 +6,16 @@ export class MassAvailability extends Identifiable {
     super();
   }
 
-  description:string;
+  title:string;
   massTime: Date;
 
   public identify(): string {
-    return this.description + " " + formatDate(this.massTime, "MM/dd/yy hh:mma", "en_US");
+    return this.title + " " + formatDate(this.massTime, "MM/dd/yy hh:mma", "en_US");
   }
 
   public asTemplate(): MassAvailability {
     this.id=0;
-    this.description=null;
+    this.title=null;
     this.massTime=null;
     return this;
   }

@@ -145,6 +145,9 @@ export class BulkDonationDialogComponent implements OnInit {
     var group = (<FormArray>this.donationForm.controls['donations']).controls[i];
     var familyId = (type === 'familyId')? group.get("familyId").value: 0;
     var envelopeNumber = (type === 'envelopeNumber')? group.get("envelopeNumber").value: 0;
+    if(familyId == 0 && envelopeNumber == 0)
+      return;
+
     const fundId = this.donationForm.get('fundId').value;
     this.donationService.getDonationPrediction(fundId, familyId, envelopeNumber)
       .subscribe( prediction => {

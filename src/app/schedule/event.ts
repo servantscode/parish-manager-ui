@@ -20,7 +20,7 @@ export class Event extends Identifiable {
   recurrence: Recurrence;
 
   identify(): string {
-    return this.description;
+    return this.title;
   }
 
 
