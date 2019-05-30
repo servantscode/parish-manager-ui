@@ -74,7 +74,7 @@
 
   <div class="container rounded-rect">
     <div class="float-right half-width">
-      <span>Additional Time:&nbsp;&nbsp;</span>
+      <span>Additional Time (min):&nbsp;&nbsp;</span>
       <mat-form-field appearance="standard" class="input-5">
         <mat-label>Setup</mat-label>
         <input type="number" matInput formControlName="setupTime" autocomplete="off"/>
@@ -133,7 +133,7 @@
 
   <div class="container">
     <button mat-button *ngIf="(eventForm.get('id').value > 0 && loginService.userCan('event.update')) || loginService.userCan('event.create')" type="submit" class="btn btn-primary" [disabled]="!eventForm.valid || !canSave()">Save</button>
-    <button mat-button *ngIf="(eventForm.get('id').value > 0 && loginService.userCan('event.update')) || loginService.userCan('event.create')" type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+    <button mat-button *ngIf="(eventForm.get('id').value > 0 && loginService.userCan('event.update')) || loginService.userCan('event.create')" type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
  
     <button mat-button *ngIf="(eventForm.get('id').value > 0 && !loginService.userCan('event.update'))" type="button" class="btn btn-primary" (click)="cancel()">Ok</button>
   </div>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { ApiLocatorService } from './api-locator.service';
 import { BaseService } from './base.service';
@@ -16,8 +17,9 @@ export class PhotoService extends BaseService {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
+              protected router: Router,
               protected apiService: ApiLocatorService) { 
-    super(http, messageService);
+    super(http, messageService, router);
     this.url = apiService.prefaceUrl('/rest/photo');
   }
 

@@ -19,6 +19,14 @@ export class Person extends Autocompletable {
   memberSince: Date;
   photoGuid: string;
   inactive: boolean;
+  parishioner: boolean;
+  baptized: boolean;
+  confession: boolean;
+  communion: boolean;
+  confirmed: boolean;
+  maritalStatus: string;
+  ethnicity: string;
+  primaryLanguage: string;
 
   public identify(): string { 
     return this.name;
@@ -40,6 +48,14 @@ export class Person extends Autocompletable {
     this.memberSince=new Date();
     this.photoGuid="";
     this.inactive=false;
+    this.parishioner=false;
+    this.baptized=false;
+    this.confession=false;
+    this.communion=false;
+    this.confirmed=false;
+    this.maritalStatus=null;
+    this.ethnicity=null;
+    this.primaryLanguage=null;
     return this;
   }
 }

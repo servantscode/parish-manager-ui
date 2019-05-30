@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
@@ -16,8 +17,9 @@ export class MassAvailabilityService extends PaginatedService<MassAvailability> 
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
-              protected apiService: ApiLocatorService) { 
-    super(apiService.prefaceUrl("/rest/sacrament/mass/availability"), http, messageService);
+              protected apiService: ApiLocatorService,
+              protected router: Router) { 
+    super(apiService.prefaceUrl("/rest/sacrament/mass/availability"), http, messageService, router);
   }
 
   public getPermissionType(): string {

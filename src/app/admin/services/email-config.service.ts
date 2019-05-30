@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { BaseService } from '../../sccommon/services/base.service';
@@ -23,8 +24,9 @@ export class EmailConfigService extends BaseService {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
+              protected router: Router,
               protected apiService: ApiLocatorService) {
-    super(http, messageService);
+    super(http, messageService, router);
     this.url = apiService.prefaceUrl('/rest/email/config');
   }
 

@@ -43,7 +43,7 @@
 
   <div mat-dialog-actions class="align-right">
     <button mat-button type="submit" class="btn btn-primary" [disabled]="!pledgeForm.valid">Save</button>
-    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
     <button *ngIf="data.pledge && data.pledge.id > 0 && loginService.userCan('pledge.delete')" mat-button type="button" class="btn btn-outline-primary" (click)="delete()">Delete</button>
   </div>
 </form>

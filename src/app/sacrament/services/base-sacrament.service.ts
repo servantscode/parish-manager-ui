@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { MessageService } from '../../sccommon/services/message.service';
 import { PaginatedService } from '../../sccommon/services/paginated.service';
@@ -12,8 +13,9 @@ export abstract class BaseSacramentService<T extends Sacrament> extends Paginate
 
   constructor(protected url: string,
               protected http: HttpClient,
-              protected messageService: MessageService) { 
-    super(url, http, messageService);
+              protected messageService: MessageService,
+              protected router: Router) { 
+    super(url, http, messageService, router);
   }
 
   getByPerson(personId: number): Observable<T> {

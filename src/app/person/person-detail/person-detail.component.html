@@ -20,7 +20,24 @@
           </div>
           <div class="col">
             Birthdate: {{person.birthdate | date: 'MM/dd/yyyy'}}<br/>
-            Member Since: {{person.memberSince | date: 'MM/dd/yyyy'}}
+            Parishioner: {{person.parishioner}}<br/>
+            <span *ngIf="person.parishioner">Member Since: {{person.memberSince | date: 'MM/dd/yyyy'}}</span>
+          </div>
+        </div>
+        <div>
+          <div class="pad-top">
+            <strong>Sacramental History</strong><br/>
+            <mat-checkbox [checked]="person.baptized" [disabled]="true"> Baptized</mat-checkbox>&nbsp;&nbsp;
+            <mat-checkbox [checked]="person.confession" [disabled]="true"> Confession</mat-checkbox>&nbsp;&nbsp;
+            <mat-checkbox [checked]="person.communion" [disabled]="true"> First Communion</mat-checkbox>&nbsp;&nbsp;
+            <mat-checkbox [checked]="person.confirmed" [disabled]="true"> Confirmed</mat-checkbox><br/>
+            Marital Status: {{person.maritalStatus}}<br/>
+          </div>
+
+          <div class="pad-top">
+            <strong>Demographic Information</strong><br/>
+            Primary Language: {{person.primaryLanguage}}<br/>
+            Ethnicity: {{person.ethnicity}}<br/>
           </div>
         </div>
       </div>
@@ -102,17 +119,37 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field><br/>
 
-        <mat-form-field>
+        <mat-checkbox formControlName="parishioner"> Parishioner</mat-checkbox><br/>
+
+        <mat-form-field *ngIf="personForm.get('parishioner').value">
           <input matInput formControlName="memberSince" [matDatepicker]="picker2" placeholder="Joined">
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
-
       </div>
       <div class="col-auto">
         <app-photo class="portrait" [guid]="person.photoGuid" [altText]="person.name"></app-photo>
       </div>
     </div>
+
+    <div>
+      <div>
+        <strong>Sacramental History</strong><br/>
+        <mat-checkbox formControlName="baptized"> Baptized</mat-checkbox>&nbsp;&nbsp;
+        <mat-checkbox formControlName="confession"> Confession</mat-checkbox>&nbsp;&nbsp;
+        <mat-checkbox formControlName="communion"> First Communion</mat-checkbox>&nbsp;&nbsp;
+        <mat-checkbox formControlName="confirmed"> Confirmed</mat-checkbox><br/>
+        
+        <app-sc-enum formControlName="maritalStatus" label="Marital Status" [required]="true" [valueSource]="maritalStatuses"></app-sc-enum>
+      </div>
+
+      <div>
+        <strong>Demographic Information</strong><br/>
+        <app-sc-enum formControlName="primaryLanguage" label="Primary Language" [required]="true" [valueSource]="languages"></app-sc-enum>
+        <app-sc-enum formControlName="ethnicity" label="Ethnicity" [required]="true" [valueSource]="ethnicities"></app-sc-enum>
+      </div>
+    </div>
+
   </div>
 
   <div class="container rounded-rect" formGroupName="family">
@@ -173,6 +210,6 @@
 
   <div class="container">
     <button class="btn btn-primary" type="submit" [disabled]="!personForm.valid">Save</button>
-    <button class="btn btn-outline-primary" (click)="goBack()">Cancel</button> 
+    <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 
   </div>
 </form>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
@@ -24,8 +25,9 @@ export class PersonService extends PaginatedService<Person> {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
-              protected apiService: ApiLocatorService) { 
-    super(apiService.prefaceUrl('/rest/person'), http, messageService);
+              protected apiService: ApiLocatorService,
+              protected router: Router) { 
+    super(apiService.prefaceUrl('/rest/person'), http, messageService, router);
   }
 
   public getPermissionType(): string {
@@ -54,4 +56,23 @@ export class PersonService extends PaginatedService<Person> {
         catchError(this.handleError('personReport', null))
       );
   }
+
+  getMaritalStatuses(): Observable<string[]> {
+    return this.http.get(this.url + '/maritalStatuses').pipe(
+        catchError(this.handleError('getMaritalStatuses', null))
+      );
+  }
+
+  getEthnicities(): Observable<string[]> {
+    return this.http.get(this.url + '/ethnicities').pipe(
+        catchError(this.handleError('getEthnicities', null))
+      );
+  }
+
+  getLanguages(): Observable<string[]> {
+    return this.http.get(this.url + '/languages').pipe(
+        catchError(this.handleError('getLanguages', null))
+      );
+  }
+
 }

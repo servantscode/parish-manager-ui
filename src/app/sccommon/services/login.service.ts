@@ -2,6 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -17,9 +18,10 @@ export class LoginService extends BaseService {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
+              protected router: Router,
               private jwtHelper: JwtHelperService,
               protected apiService: ApiLocatorService) { 
-    super(http, messageService);
+    super(http, messageService, router);
     this.url = apiService.prefaceUrl("/rest/login");
   }
 
@@ -50,36 +52,33 @@ export class LoginService extends BaseService {
   }
 
   public isAuthenticated(): boolean {
-    const token = localStorage.getItem('jwt-token');
+    const token = this.getToken();
     return token && !this.jwtHelper.isTokenExpired(token);
   }
 
   public getUserName(): string {
-    return this.decodeUserName(localStorage.getItem('jwt-token'));
+    const decoded = this.getDecodedToken();
+    return decoded? decoded.sub: "";
   }
 
   public getUserId(): string {
-    const decoded = this.jwtHelper.decodeToken(localStorage.getItem('jwt-token'));
-    return decoded == null? "": decoded.userId;
+    const decoded = this.getDecodedToken();
+    return decoded? decoded.userId: "";
   }
 
   public hasAny(permPrefix: string): boolean {
-    const token = localStorage.getItem('jwt-token');
-    if(!token)
-      return false;
-
-    const decoded = this.jwtHelper.decodeToken(token);
-    return decoded.permissions.some(perm => perm.startsWith(permPrefix) || perm.startsWith("*"));
+    const decoded = this.getDecodedToken();
+    return decoded && decoded.permissions.some(perm => perm.startsWith(permPrefix) || perm.startsWith("*"));
   }
 
   public userCan(reqPerm: string): boolean {
-    const decoded = this.jwtHelper.decodeToken(localStorage.getItem('jwt-token'));
-    return decoded.permissions.some(userPerm => this.matches(userPerm, reqPerm));
+    const decoded = this.getDecodedToken();
+    return decoded? decoded.permissions.some(userPerm => this.matches(userPerm, reqPerm)): false;
   }
 
   public userMust(reqPerm: string): boolean {
-    const decoded = this.jwtHelper.decodeToken(localStorage.getItem('jwt-token'));
-    return decoded.permissions.length == 1 && decoded.permissions.some(userPerm => userPerm == reqPerm);
+    const decoded = this.getDecodedToken();
+    return decoded && decoded.permissions.length == 1 && decoded.permissions.some(userPerm => userPerm == reqPerm);
   }
 
 
@@ -88,6 +87,17 @@ export class LoginService extends BaseService {
   }
 
   // ----- Private -----
+  private getToken() {
+    return localStorage.getItem('jwt-token');
+  }
+
+  private getDecodedToken() {
+    const token = this.getToken();
+    if(token == null || this.jwtHelper.isTokenExpired(token))
+      this.router.navigate(['login']);
+    return token? this.jwtHelper.decodeToken(token): null;
+  }
+
   private matchesInternal(userPerm: string[], permRequest: string[], index: number): boolean {
       if(userPerm[index] === "*")
           return true;
@@ -104,11 +114,8 @@ export class LoginService extends BaseService {
 
   private doLogin(token: string) {
     localStorage.setItem('jwt-token', token);
-    this.loginEmitter.emit(this.decodeUserName(token));
-  }
 
-  private decodeUserName(token: string): string {
     const decoded = this.jwtHelper.decodeToken(token);
-    return decoded == null? "": decoded.sub;
+    this.loginEmitter.emit(decoded? decoded.sub: "");
   }
 }

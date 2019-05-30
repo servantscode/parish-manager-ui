@@ -2,6 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { MessageService } from '../../sccommon/services/message.service';
@@ -18,8 +19,9 @@ export class CredentialService extends PaginatedService<Credentials> {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
-              protected apiService: ApiLocatorService) {
-    super(apiService.prefaceUrl("/rest/credentials"), http, messageService);
+              protected apiService: ApiLocatorService,
+              protected router: Router) {
+    super(apiService.prefaceUrl("/rest/credentials"), http, messageService, router);
   }
 
   public getPermissionType(): string {
