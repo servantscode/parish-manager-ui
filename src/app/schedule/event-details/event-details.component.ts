@@ -156,6 +156,8 @@ export class EventDetailsComponent implements OnInit {
     if(this.selectedEvent.event) {
       this.event=this.selectedEvent.event;
       this.populateEvent(this.selectedEvent.event);
+
+      this.selectedEvent.event = null;
     } else if(id > 0) {
       if(!this.loginService.userCan('event.read'))
         this.router.navigate(['not-found']);
@@ -175,6 +177,15 @@ export class EventDetailsComponent implements OnInit {
 
   recurringWeekly(): boolean {
     return this.getValue('recurrenceType') === 'WEEKLY';
+  }
+
+  copyEvent(): void {
+    this.eventForm.get('title').setValue('Copy of ' + this.getValue('title'));
+    this.eventForm.get('id').setValue(null);
+    this.eventForm.get('recurrenceId').setValue(null);
+    this.event.reservations.forEach(res => res.id = 0);
+    this.location.replaceState("/calendar/event");
+    this.updateReservationTimes()
   }
 
   updateRecurrenceOptions() {
@@ -341,7 +352,6 @@ export class EventDetailsComponent implements OnInit {
   }
 
   goBack() {
-    this.selectedEvent.event = null;
     this.location.back();
   }
 

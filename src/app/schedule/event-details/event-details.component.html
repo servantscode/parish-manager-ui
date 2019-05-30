@@ -1,6 +1,8 @@
 <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
   <button *ngIf="(event && event.id > 0) && loginService.userCan('event.delete')" 
  mat-button type="button" class="btn btn-outline-primary float-right edit-button" (click)="delete()">Delete</button>
+  <button *ngIf="(event && event.id > 0) && loginService.userCan('event.create')" 
+ mat-button type="button" class="btn btn-primary float-right edit-button" (click)="copyEvent()">Copy</button>
 
   <h2 *ngIf="(event && event.id > 0) && loginService.userCan('event.update')">Update Event</h2>
   <h2 *ngIf="(event && event.id > 0) && !loginService.userCan('event.update')">Event Details</h2>
