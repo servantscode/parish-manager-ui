@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
-import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameDay, isSameMonth, startOfHour, addHours, differenceInMilliseconds, addMilliseconds } from 'date-fns';
+import { Router, ActivatedRoute } from '@angular/router';
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameMonth, addHours, differenceInMilliseconds, addMilliseconds, parse, format } from 'date-fns';
+import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
@@ -50,6 +51,8 @@ export class CalendarComponent implements OnInit {
   ];
 
   constructor(private router: Router,
+              private route: ActivatedRoute,
+              private location: Location,
               private dialog: MatDialog,
               private eventService: EventService,
               public loginService: LoginService,
@@ -64,11 +67,26 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit() {
+    const view = this.route.snapshot.paramMap.get('view');
+    if(view) {
+      const viewName = view.charAt(0).toUpperCase() + view.slice(1).toLowerCase();
+      this.view = CalendarView[viewName];
+    }
+
+    const date = this.route.snapshot.paramMap.get('date');
+    if(date)
+      this.viewDate = parse(date);
+
     this.loadEvents();
   }
 
   setView(view: CalendarView): void {
-    this.view = view;
+    this.gotoView(view, this.viewDate);
+    this.loadEvents();
+  }
+
+  navigateAndLoad(): void {
+    this.gotoView(this.view, this.viewDate);
     this.loadEvents();
   }
 
@@ -161,10 +179,14 @@ export class CalendarComponent implements OnInit {
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      this.viewDate = date;
-      this.view = CalendarView.Day;
-    }
+    if (isSameMonth(date, this.viewDate))
+      this.gotoView(CalendarView.Day, date);
+  }
+
+  gotoView(view: CalendarView, date: Date) {
+    this.viewDate = date;
+    this.view = view;
+    this.location.replaceState(`/calendar/${view.toLowerCase()}/${format(date, "YYYY-MM-DD")}`);
   }
 
   hourClicked(date: Date) {

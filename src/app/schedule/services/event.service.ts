@@ -50,9 +50,30 @@ export class EventService extends PaginatedService<Event> {
       );
   }
 
+  public getFutureTimes(id:number): Observable<Date[]> {
+    return this.http.get<Date[]>(this.url+`/${id}/futureTimes`).pipe(
+        catchError(this.handleError('getFutureTimes', []))
+      );
+  }
+
+  public calculateFutureTimes(e: Event): Observable<Date[]> {
+    return this.http.post<Date[]>(this.url+`/futureTimes`, e, this.httpOptions).pipe(
+        catchError(this.handleError('calculateFutureTimes', null))
+      );
+  }
+
   public getUpcomingEvents(ministryId:number, count:number = 10): Observable<Event[]> {
     return this.http.get<Event[]>(this.url+`/ministry/${ministryId}?count=${count}`).pipe(
         catchError(this.handleError('getUpcomingEvents', null))
+      );
+  }
+  
+  delete(item: Event, deleteFutureEvents: boolean = false, deletePermenantly: boolean = false, pathVars?: any): Observable<void> {
+    var finalUrl = this.modifyUrl(this.url, pathVars) + `/${item.id}?deleteFutureEvents=${deleteFutureEvents}`;
+    if(deletePermenantly) finalUrl += "&delete_permenantly=true";
+    return this.http.delete<void>(finalUrl).pipe(
+        tap(item => this.log('Deleted!')),
+        catchError(this.handleError('delete', null))
       );
   }
 }

@@ -45,7 +45,7 @@ export class Recurrence {
   cycle: string;
   frequency: number;
   endDate: Date;
-  weeklyDays: string[];
+  weeklyDays: string[] = [];
 }
 
 @Injectable()

@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
 import { startOfHour, endOfYear, addHours, addMinutes, addSeconds, setHours, setMinutes, setSeconds, format, differenceInMinutes } from 'date-fns';
 
@@ -27,6 +27,7 @@ import { Reservation } from '../reservation';
 import { EventService } from '../services/event.service';
 import { RoomService } from '../services/room.service';
 import { EquipmentService } from '../services/equipment.service';
+import { RecurringEditDialogComponent } from '../recurring-edit-dialog/recurring-edit-dialog.component';
 
 @Component({
   selector: 'app-event-details',
@@ -47,24 +48,29 @@ export class EventDetailsComponent implements OnInit {
       setupTime:['', [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
       cleanupTime:['', [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
       recurringMeeting: [false],
-      recurrenceId: [''],
-      recurrenceType: ['DAILY'],
-      recurrenceFreq: [1, [Validators.pattern(SCValidation.NUMBER), Validators.min(1)]],
-      recurUntil: [endOfYear(new Date())],
-      monday: [false],
-      tuesday: [false],
-      wednesday: [false],
-      thursday: [false],
-      friday: [false],
-      saturday: [false],
-      sunday: [false]
+      recurrence: this.fb.group({
+        recurrenceId: [''],
+        recurrenceType: ['DAILY'],
+        recurrenceFreq: [1, [Validators.pattern(SCValidation.NUMBER), Validators.min(1)]],
+        recurUntil: [endOfYear(new Date())],
+        monday: [false],
+        tuesday: [false],
+        wednesday: [false],
+        thursday: [false],
+        friday: [false],
+        saturday: [false],
+        sunday: [false]
+      })
     });
 
   event: Event;
   recurringMeeting = false;
+  futureTimes: Date[]  = [];
   cycleOptions: any[] = [];
 
   disabled: boolean = false;
+  editMode: boolean = false;
+  recurrenceSubscription: Subscription;
 
   rooms = [];
   roomAvailability = [];
@@ -91,14 +97,17 @@ export class EventDetailsComponent implements OnInit {
               private changeDetectorRef: ChangeDetectorRef,
               private selectedEvent: SelectedEvent) { 
     
-    if(!this.loginService.userCan("event.update"))
-      this.disableAll();
   }
 
   ngOnInit() {
     this.route.params.subscribe(
         params => {
             this.getEvent();
+
+            //Is this a new event?
+            this.editMode = !this.event.id;
+            if(!this.editMode)
+              this.disableAll();
         }
     );
 
@@ -129,10 +138,13 @@ export class EventDetailsComponent implements OnInit {
       .subscribe( value => this.addEquipment(value));
 
     this.eventForm.get('recurringMeeting').valueChanges
-      .subscribe( value => { this.recurringMeeting = value; });
+      .subscribe( value => {
+        this.recurringMeeting = value;
+        this.calculateFutureTimes();
+      });
 
-    this.eventForm.get('recurrenceFreq').valueChanges
-      .subscribe( () => { this.updateRecurrenceOptions() });
+    this.eventForm.get('recurrence').get('recurrenceFreq').valueChanges
+      .subscribe( () => this.updateRecurrenceOptions());
 
     this.eventForm.get('setupTime').valueChanges
       .subscribe( () => this.updateReservationTimes());
@@ -152,6 +164,8 @@ export class EventDetailsComponent implements OnInit {
   getEvent(): void {
     this.event = new Event();
     const id = +this.route.snapshot.paramMap.get('id');
+    if(id)
+      this.event.id = id;
 
     if(this.selectedEvent.event) {
       this.event=this.selectedEvent.event;
@@ -172,11 +186,56 @@ export class EventDetailsComponent implements OnInit {
       if(!this.loginService.userCan('event.create'))
         this.router.navigate(['not-found']);
       this.eventForm.get('schedulerId').setValue(this.loginService.getUserId());
+      this.recurrenceSubscription = this.eventForm.get('recurrence').valueChanges.pipe(debounceTime(0))
+        .subscribe(() => this.calculateFutureTimes());
+    }
+
+    if(this.event.id && this.event.recurrence && this.event.recurrence.id)
+      this.eventService.getFutureTimes(this.event.id).subscribe(resp => this.futureTimes = resp);
+  }
+
+  enableEdit(): void {
+    if(!this.loginService.userCan("event.update"))
+      return;
+
+
+    if(this.getValue('recurringMeeting')) {
+      const count = this.futureTimes.length;
+      const dialogRef = this.dialog.open(RecurringEditDialogComponent, {
+        width: '400px',
+        data: {"title": "Edit Recurring Event",
+               "text": `This is a recurring meeting with ${count} future events. Do you wish to edit the future events?`
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if(!result) {
+          this.eventForm.get('recurrence').reset();
+          this.eventForm.get('recurringMeeting').setValue(false);
+          this.recurringMeeting = false;
+        }
+        this.editMode = true;
+        this.enableAll();      
+      });
+    } else {
+      this.editMode = true;
+      this.enableAll();
+    }
+  }
+
+  calculateFutureTimes() {
+    if(this.recurringMeeting) {
+      const e = this.translateForm(this.eventForm.value);
+      if(e.recurrence.cycle ==='WEEKLY' && e.recurrence.weeklyDays.length == 0) {
+        this.futureTimes = [];
+      } else {
+        this.eventService.calculateFutureTimes(e).subscribe(times => this.futureTimes=times);
+      }
     }
   }
 
   recurringWeekly(): boolean {
-    return this.getValue('recurrenceType') === 'WEEKLY';
+    return this.getRecurValue('recurrenceType') === 'WEEKLY';
   }
 
   copyEvent(): void {
@@ -189,7 +248,7 @@ export class EventDetailsComponent implements OnInit {
   }
 
   updateRecurrenceOptions() {
-    const freq = this.getValue('recurrenceFreq');
+    const freq = this.getRecurValue('recurrenceFreq');
     const start = this.getValue('startTime');
 
     this.cycleOptions.length = 0;
@@ -205,12 +264,12 @@ export class EventDetailsComponent implements OnInit {
 
     var isPristine = true;
     for(let weekday of this.daysOfTheWeek)
-      isPristine = isPristine && this.eventForm.get(weekday.toLowerCase()).pristine;
+      isPristine = isPristine && this.eventForm.get('recurrence').get(weekday.toLowerCase()).pristine;
 
     if(isPristine) {
       for(let weekday of this.daysOfTheWeek)
-        this.eventForm.get(weekday.toLowerCase()).setValue(false);
-      this.eventForm.get(day.toLowerCase()).setValue(true);
+        this.eventForm.get('recurrence').get(weekday.toLowerCase()).setValue(false);
+      this.eventForm.get('recurrence').get(day.toLowerCase()).setValue(true);
     }
   }
 
@@ -260,19 +319,38 @@ export class EventDetailsComponent implements OnInit {
 
       this.eventService.create(this.translateForm(this.eventForm.value)).
         subscribe(() => {
-          this.goBack();
+          this.cancel();
         });
     }
   }
 
   delete(): void {
+    if(this.getValue('recurringMeeting')) {
+      const count = this.futureTimes.length;
+      const dialogRef = this.dialog.open(RecurringEditDialogComponent, {
+        width: '400px',
+        data: {"title": "Delete Recurring Event",
+               "text": `This is a recurring meeting with ${count} future events. Do you wish to delete the future events?`
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        this.confirmDelete(result);
+      });
+    } else {
+      this.confirmDelete(false);
+    }
+  }
+
+  confirmDelete(deleteFutureEvents: boolean) {
     var title = this.getValue("title");
+
     this.dialog.open(DeleteDialogComponent, {
       width: '400px',
       data: {"title": "Confirm Delete",
              "text" : "Are you sure you want to delete " + title + "?",
              "delete": (): Observable<void> => { 
-               return this.eventService.delete(this.event); 
+               return this.eventService.delete(this.event, deleteFutureEvents); 
              },
              "nav": () => { 
                this.cancel();
@@ -348,13 +426,18 @@ export class EventDetailsComponent implements OnInit {
   }
 
   cancel() {
-    this.goBack();
+    if(this.editMode && this.getValue("id")) {
+      this.editMode = false;
+      this.disableAll();
+      this.getEvent();
+    } else {
+      this.goBack();
+    }
   }
 
   goBack() {
     this.location.back();
   }
-
 
   private updateReservationTimes() {
     var start = this.getValue('startTime');
@@ -377,7 +460,14 @@ export class EventDetailsComponent implements OnInit {
     return this.eventForm.get(fieldName).value;
   }
 
+  private getRecurValue(fieldName: string): any {
+    return this.eventForm.get('recurrence').get(fieldName).value;
+  }
+
   private populateEvent(eventData: Event): void {
+    if(!eventData.recurrence)
+      delete eventData.recurrence;
+
     this.meetingLength = (eventData.endTime.getTime() - eventData.startTime.getTime())/1000;
     this.eventForm.patchValue(eventData);
 
@@ -396,17 +486,18 @@ export class EventDetailsComponent implements OnInit {
     }
 
     if(eventData.recurrence != undefined && eventData.recurrence != null) {
-      const recur = eventData.recurrence;
-      this.eventForm.get('recurrenceId').setValue(recur.id);
+      const recurrence = this.eventForm.get('recurrence');
       this.eventForm.get('recurringMeeting').setValue(true);
       this.recurringMeeting=true;
-      var recurType = recur.cycle;
-      this.eventForm.get('recurrenceType').setValue(recurType);
-      this.eventForm.get('recurrenceFreq').setValue(recur.frequency);
-      this.eventForm.get('recurUntil').setValue(recur.endDate);
+
+      const recur = eventData.recurrence;
+      recurrence.get('recurrenceId').setValue(recur.id);
+      recurrence.get('recurrenceType').setValue(recur.cycle);
+      recurrence.get('recurrenceFreq').setValue(recur.frequency);
+      recurrence.get('recurUntil').setValue(recur.endDate);
       if(recur.weeklyDays.length > 0) {
         for(let day of recur.weeklyDays) {
-          var control = this.eventForm.get(day.toLowerCase());
+          var control = recurrence.get(day.toLowerCase());
           control.setValue(true);
           control.markAsDirty();
         }
@@ -418,7 +509,22 @@ export class EventDetailsComponent implements OnInit {
     this.disabled = true;
     for(let control in this.eventForm.controls)
       this.eventForm.get(control).disable();
+
+    if(this.recurrenceSubscription) {
+      this.recurrenceSubscription.unsubscribe();
+      this.recurrenceSubscription = null;
+    }
   }
+
+  private enableAll() {
+    this.disabled = false;
+    for(let control in this.eventForm.controls)
+      this.eventForm.get(control).enable();
+
+    this.recurrenceSubscription = this.eventForm.get('recurrence').valueChanges.pipe(debounceTime(0))
+      .subscribe(() => this.calculateFutureTimes());
+  }
+
 
   private translateForm(formData: any): Event {
     const event: Event = this.cleaningService.prune<Event>(formData, new Event().asTemplate());
@@ -432,21 +538,25 @@ export class EventDetailsComponent implements OnInit {
     for(let equip of this.equipment)
       event.reservations.push(this.cleaningService.prune(equip, Reservation.template()));
 
-    if(this.recurringMeeting) {
+    if(this.getValue("recurringMeeting")) {
+      const recurrence = formData.recurrence;
       const r = new Recurrence();
-      r.id = formData.recurrenceId;
-      r.cycle = formData.recurrenceType;
-      r.frequency = formData.recurrenceFreq;
-      r.endDate = formData.recurUntil;
+      r.id = recurrence.recurrenceId;
+      r.cycle = recurrence.recurrenceType;
+      r.frequency = recurrence.recurrenceFreq;
+      r.endDate = recurrence.recurUntil;
       r.weeklyDays = [];
-      if(formData.monday) r.weeklyDays.push('MONDAY');
-      if(formData.tuesday) r.weeklyDays.push('TUESDAY');
-      if(formData.wednesday) r.weeklyDays.push('WEDNESDAY');
-      if(formData.thursday) r.weeklyDays.push('THURSDAY');
-      if(formData.friday) r.weeklyDays.push('FRIDAY');
-      if(formData.saturday) r.weeklyDays.push('SATURDAY');
-      if(formData.sunday) r.weeklyDays.push('SUNDAY');
+      if(recurrence.monday) r.weeklyDays.push('MONDAY');
+      if(recurrence.tuesday) r.weeklyDays.push('TUESDAY');
+      if(recurrence.wednesday) r.weeklyDays.push('WEDNESDAY');
+      if(recurrence.thursday) r.weeklyDays.push('THURSDAY');
+      if(recurrence.friday) r.weeklyDays.push('FRIDAY');
+      if(recurrence.saturday) r.weeklyDays.push('SATURDAY');
+      if(recurrence.sunday) r.weeklyDays.push('SUNDAY');
       event.recurrence = r;
+    } else {
+      //Clear recurrence if it doesn't belong
+      event.recurrence = null;
     }
 
     return event;

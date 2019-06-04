@@ -233,7 +233,7 @@ export class PersonDetailComponent implements OnInit {
     if(!this.loginService.userCan('email.send'))
       return;
 
-    const donationRef = this.dialog.open(EmailDialogComponent, {
+    const emailRef = this.dialog.open(EmailDialogComponent, {
       width: '800px', 
       data: {"to": this.person.email}
     });

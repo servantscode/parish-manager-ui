@@ -26,6 +26,7 @@ import { RoomDialogComponent } from './room-dialog/room-dialog.component';
 import { EquipmentDialogComponent } from './equipment-dialog/equipment-dialog.component';
 import { AvailabilityComponent } from './availability/availability.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
+import { RecurringEditDialogComponent } from './recurring-edit-dialog/recurring-edit-dialog.component';
 
 import { SelectedEvent } from './event';
 
@@ -36,7 +37,8 @@ import { SelectedEvent } from './event';
     RoomDialogComponent,
     EquipmentDialogComponent,
     AvailabilityComponent,
-    EventDetailsComponent
+    EventDetailsComponent,
+    RecurringEditDialogComponent
   ],
   imports: [
     ScheduleRoutingModule,
@@ -69,7 +71,8 @@ import { SelectedEvent } from './event';
   ],
   entryComponents: [
     RoomDialogComponent,
-    EquipmentDialogComponent
+    EquipmentDialogComponent,
+    RecurringEditDialogComponent
   ],
   providers: [
     SelectedEvent

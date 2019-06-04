@@ -15,11 +15,11 @@
     </div>
     <div class="col-auto text-center">
       <h3>
-        <span class="calendar-control clickable" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">&lt;&lt;</span>
+        <span class="calendar-control clickable" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="navigateAndLoad()">&lt;&lt;</span>
         <span>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</span>
-        <span class="calendar-control clickable" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">&gt;&gt;</span>
+        <span class="calendar-control clickable" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="navigateAndLoad()">&gt;&gt;</span>
       </h3>
-      <span class="clickable" mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="loadEvents()">Today</span>
+      <span class="clickable" mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="navigateAndLoad()">Today</span>
     </div>
     <div class="col controls align-right">
       <button *ngIf="loginService.userCan('event.create')" class="btn btn-primary" type="button" (click)="newEvent()">Schedule Event</button>

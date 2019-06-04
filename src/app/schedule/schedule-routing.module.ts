@@ -11,6 +11,8 @@ const routes: Routes = [
   { path: 'calendar', component: CalendarComponent, canActivate: [AuthGuard] },
   { path: 'calendar/event', component: EventDetailsComponent, canActivate: [AuthGuard] },
   { path: 'calendar/event/:id', component: EventDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'calendar/:view', component: CalendarComponent, canActivate: [AuthGuard] },
+  { path: 'calendar/:view/:date', component: CalendarComponent, canActivate: [AuthGuard] },
   { path: 'facilities', component: SettingsComponent, canActivate: [AuthGuard] }
 ];
 

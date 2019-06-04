@@ -1,0 +1,9 @@
+<h3 mat-dialog-title>{{ data.title }}</h3>
+<div mat-dialog-content>
+  <span [innerHTML]="data.text"></span>
+  <br/><br/>
+</div>
+<div mat-dialog-actions>
+  <button mat-button type="button" class="btn btn-primary" (click)="future()">Future events</button>
+  <button mat-button type="button" class="btn btn-outline-primary" (click)="single()">Just this event</button>
+</div>
