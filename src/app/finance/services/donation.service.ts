@@ -13,11 +13,6 @@ import { Family } from '../../sccommon/family';
 import { Donation } from '../donation';
 import { DonationPrediction } from '../donation-prediction';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Accept': 'application/json'
-  })
-};
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +47,7 @@ export class DonationService extends PaginatedService<Donation> {
   }
 
   createDonations(donations: Donation[]): Observable<Donation[]> {
-    return this.http.post<Donation[]>(this.url + '/batch', donations, httpOptions).pipe(
+    return this.http.post<Donation[]>(this.url + '/batch', donations, this.httpOptions).pipe(
         tap(donations => this.log(`Created ${donations.length} donations`)),
         catchError(this.handleError('createDonations', null))
       );

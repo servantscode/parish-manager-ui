@@ -15,12 +15,6 @@ import { EmailConfig } from '../email-config';
 })
 export class EmailConfigService extends BaseService {
   private url:string;
-  protected httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    })
-  };
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,

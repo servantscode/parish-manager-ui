@@ -6,6 +6,13 @@ import { MessageService } from './message.service';
 
 export class BaseService {
 
+  protected httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    })
+  };
+
   protected static csvOptions = {
       headers: new HttpHeaders({'Accept': 'text/plain'}),
       responseType: 'text' as 'text'

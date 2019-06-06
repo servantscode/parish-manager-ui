@@ -17,12 +17,6 @@ export class PasswordService extends BaseService {
 
   private url: string;
 
-  protected httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-  };
-
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected router: Router,

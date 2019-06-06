@@ -71,6 +71,7 @@ export class DateTimeComponent implements ControlValueAccessor, OnInit {
   }
 
   public formatTime(): void {
+    alert("formatting time!");
     var field = this.form.get('time');
     const timeOnly: Date = this.calculateTime(field.value);
     if(!timeOnly)

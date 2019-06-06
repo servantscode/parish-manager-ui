@@ -11,12 +11,6 @@ import { PaginatedResponse } from '../../sccommon/paginated.response';
 
 import { Fund } from '../fund';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Accept': 'application/json'
-  })
-};
-
 @Injectable({
   providedIn: 'root'
 })

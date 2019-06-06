@@ -1,8 +1,8 @@
 <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
   <button *ngIf="disabled && loginService.userCan('event.update')" class="btn btn-primary float-right edit-button" type="button" (click)="enableEdit()">Edit</button>
-  <button *ngIf="(event && event.id > 0) && loginService.userCan('event.delete')" 
+  <button *ngIf="!editMode && (event && event.id > 0) && loginService.userCan('event.delete')" 
  mat-button type="button" class="btn btn-outline-primary float-right edit-button" (click)="delete()">Delete</button>
-  <button *ngIf="(event && event.id > 0) && loginService.userCan('event.create')" 
+  <button *ngIf="!editMode && (event && event.id > 0) && loginService.userCan('event.create')" 
  mat-button type="button" class="btn btn-outline-primary float-right edit-button" (click)="copyEvent()">Copy</button>
 
   <h2 *ngIf="!editMode">Event Details</h2>
@@ -132,8 +132,18 @@
       <div class="col-4">
         <app-sc-auto-complete formControlName="equipment" label='+ Equipment' [selectObject]="true" [autocompleteService]="equipmentService" [filter]="equipmentFilter()"></app-sc-auto-complete>
       </div>
-    </div>
+    </div><br/>
 
+    <div *ngIf="recurringMeeting">
+      <strong *ngIf="!conflicts || !conflicts.length">No Conflicts.</strong>
+      <strong *ngIf="conflicts.length" class="clickable" (click)="toggleConflicts()">Conflicts: {{conflicts.length}}</strong>
+      <div class="conflict-list" [ngClass]="{'hidden': !showConflicts}">
+        <div *ngFor="let conflict of conflicts">
+          <strong>{{conflict.event.startTime | date: 'MM/dd/yyyy'}}</strong><br/>
+          <div *ngFor="let res of conflict.conflicts">&nbsp;&nbsp;{{res.resourceName}} - {{res.eventTitle}} - {{res.reserverName}}</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="container">

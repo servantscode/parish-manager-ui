@@ -10,12 +10,6 @@ import { PaginatedResponse } from '../paginated.response';
 import { Identifiable } from '../identifiable';
 
 export abstract class PaginatedService<T extends Identifiable> extends BaseService {
-  protected httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    })
-  };
 
   constructor(protected url: string,
               protected http: HttpClient,

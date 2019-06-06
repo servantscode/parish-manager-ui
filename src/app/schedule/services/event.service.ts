@@ -12,13 +12,6 @@ import { PaginatedResponse } from '../../sccommon/paginated.response'
 
 import { Event } from '../event';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  })
-};
-
 @Injectable({
   providedIn: 'root'
 })

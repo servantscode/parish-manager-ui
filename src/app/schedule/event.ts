@@ -55,3 +55,8 @@ export class SelectedEvent {
 
     public constructor() { }
 }
+
+export class EventConflict {
+  event: Event;
+  conflicts: Reservation[];
+}

@@ -10,12 +10,6 @@ import { Router } from '@angular/router';
 
 import { Enrollment } from '../enrollment';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  })
-};
 
 @Injectable({
   providedIn: 'root'
@@ -44,14 +38,14 @@ export class EnrollmentService extends BaseService {
   }
 
   createEnrollment(enrollment: Enrollment): Observable<Enrollment> {
-    return this.http.post<Enrollment>(this.url, enrollment, httpOptions).pipe(
+    return this.http.post<Enrollment>(this.url, enrollment, this.httpOptions).pipe(
         tap(enrollment => this.log('Created enrollment for ' + enrollment.personName)),
         catchError(this.handleError('createEnrollment', null))
       );
   }
 
   updateEnrollment(enrollment: Enrollment): Observable<Enrollment> {
-    return this.http.put<Enrollment>(this.url, enrollment, httpOptions).pipe(
+    return this.http.put<Enrollment>(this.url, enrollment, this.httpOptions).pipe(
         tap(enrollment => this.log('Updated enrollment ' + enrollment.personName)),
         catchError(this.handleError('updateEnrollment', null))
       );

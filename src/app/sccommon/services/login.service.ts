@@ -27,12 +27,6 @@ export class LoginService extends BaseService {
 
   public loginEmitter = new EventEmitter<string>();
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-    })
-  };
-
   public login(credentials: any): Observable<string> {
     return this.http.post(this.url, credentials, {
                         headers: new HttpHeaders({

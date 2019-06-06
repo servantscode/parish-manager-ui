@@ -24,12 +24,6 @@ export class EmailService extends BaseService {
     this.url = apiService.prefaceUrl("/rest/email");
   }
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-    })
-  };
-
   public sendEmail(email: Email): Observable<string> {
     return this.http.post(this.url, email, this.httpOptions).pipe(
         catchError(this.handleError('sendEmail', null))

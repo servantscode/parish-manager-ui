@@ -10,6 +10,7 @@ import { BaseService } from '../../sccommon/services/base.service';
 import { MessageService } from '../../sccommon/services/message.service';
 
 import { Reservation } from '../reservation';
+import { Event, EventConflict } from '../event';
 import { AvailabilityResponse } from '../availability-response';
 
 @Injectable({
@@ -26,15 +27,6 @@ export class AvailabilityService extends BaseService {
     this.url = apiService.prefaceUrl("/rest/reservation");
   }
 
-  getAvailability(res: Reservation): Observable<AvailabilityResponse> {
-    var params = `?resourceType=${res.resourceType}&resourceId=${res.resourceId}`+
-                 `&startTime=${res.startTime.toISOString()}&endTime=${res.endTime.toISOString()}`+
-                 `&eventId=${res.eventId? res.eventId: 0}`
-    return this.http.get<AvailabilityResponse>(this.url+"/availability"+params).pipe(
-        catchError(this.handleError('getAvailability', null))
-      );
-  }
-
   getReservations(res: Reservation): Observable<Reservation[]> {
     var params = `?resourceType=${res.resourceType}&resourceId=${res.resourceId}`+
                  `&startTime=${startOfDay(res.startTime).toISOString()}&`+
@@ -42,5 +34,11 @@ export class AvailabilityService extends BaseService {
     return this.http.get<Reservation[]>(this.url+params).pipe(
         catchError(this.handleError('getReservations', []))
       );
+  }
+
+  getConflicts(event: Event): Observable<EventConflict[]> {
+    return this.http.post<EventConflict[]>(this.url+"/recurring", event, this.httpOptions).pipe(
+      catchError(this.handleError('getConflicts', []))
+    );
   }
 }
