@@ -81,7 +81,7 @@
       [viewDate]="viewDate"
       [events]="events"
       (dayClicked)="dayClicked($event.day)"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventClicked)="viewEvent($event.event)"
       (eventTimesChanged)="eventTimesChanged($event)"
       [cellTemplate]="cellTemplate">
     </mwl-calendar-month-view>
@@ -92,7 +92,7 @@
       [dayStartHour]="6"
       [dayEndHour]="22"
       (hourSegmentClicked)="hourClicked($event.date)"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventClicked)="viewEvent($event.event)"
       (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-week-view>
     <mwl-calendar-day-view
@@ -102,7 +102,7 @@
       [dayStartHour]="6"
       [dayEndHour]="22"
       (hourSegmentClicked)="hourClicked($event.date)"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventClicked)="viewEvent($event.event)"
       (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-day-view>
   </div>

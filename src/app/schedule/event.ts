@@ -46,12 +46,14 @@ export class Recurrence {
   frequency: number;
   endDate: Date;
   weeklyDays: string[] = [];
+  exceptionDates: Date[] = [];
 }
 
 @Injectable()
 export class SelectedEvent {
 
     public event: any;
+    public edit: boolean;
 
     public constructor() { }
 }

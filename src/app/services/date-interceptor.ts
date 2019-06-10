@@ -8,7 +8,7 @@ import { tap } from "rxjs/operators";
 export class DateInterceptor implements HttpInterceptor {
   // Migrated from AngularJS https://raw.githubusercontent.com/Ins87/angular-date-interceptor/master/src/angular-date-interceptor.js
   private iso8601 = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d\:?\d\d)|Z)?$/;
-  private shortDate = /^\d{4}-\d{2}-\d{2}/;
+  private shortDate = /^\d{4}-\d{2}-\d{2}$/;
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(

@@ -11,7 +11,8 @@ export class RecurringEditDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<RecurringEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
-                count: number
+                title: string,
+                text: string
               }) { }
 
   ngOnInit() {

@@ -34,22 +34,6 @@ export class CalendarComponent implements OnInit {
   _displayCount = 5;
   displayAll = true;
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      }
-    }
-  ];
-
   constructor(private router: Router,
               private route: ActivatedRoute,
               private location: Location,
@@ -108,7 +92,6 @@ export class CalendarComponent implements OnInit {
               color: this.hasConflict(serverEvent, eventResponse.results)?
                         ColorService.CALENDAR_COLORS.red:
                         ColorService.CALENDAR_COLORS.blue,
-              actions: this.actions,
               allDay: false,
               resizable: {
                 beforeStart: true,
@@ -152,16 +135,18 @@ export class CalendarComponent implements OnInit {
     this.router.navigate(['calendar', 'event']);
   }
 
-  editEvent(event: any) {
+  viewEvent(event: any) {
+    event.startTime = event.start;
+    event.endTime = event.end;
     this.selectedEvent.event = event;
+    this.selectedEvent.edit = false;
     this.router.navigate(['calendar', 'event', event.id]);
   }
 
-  handleEvent(action: string, event: any): void {
-    //Translate back to serverEvent before editing.
-    event.startTime = event.start;
-    event.endTime = event.end;
-    this.editEvent(event);
+  editEvent(event: any) {
+    this.selectedEvent.event = event;
+    this.selectedEvent.edit = true;
+    this.router.navigate(['calendar', 'event', event.id]);
   }
 
   displayCount(): number {

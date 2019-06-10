@@ -63,6 +63,17 @@ th {
   padding: 5px;
 }
 
+.date-list {
+  border: #cccccc solid 1px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 5px;
+}
+
+.excluded {
+  color: red;
+}
+
 .hidden {
   display: none;
 }

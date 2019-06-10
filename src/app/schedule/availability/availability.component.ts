@@ -42,7 +42,6 @@ export class AvailabilityComponent implements OnInit, OnChanges {
        this._reservation.resourceType == this.reservation.resourceType &&
        this._reservation.resourceId == this.reservation.resourceId &&
        startOfDay(this._reservation.startTime) == startOfDay(this.reservation.startTime)) {
-
       this.processReservations();
     } else {
       this.getReservations();
