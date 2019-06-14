@@ -59,10 +59,10 @@ export class PersonDetailComponent implements OnInit {
         homePhone: ['', Validators.pattern(SCValidation.PHONE)],
         envelopeNumber: ['', Validators.pattern(SCValidation.NUMBER)],
         address: this.fb.group({
-          street1: ['', Validators.required],
-          city: ['', Validators.required],
-          state: ['', [Validators.required, SCValidation.actualState()]],
-          zip: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]]
+          street1: [''],
+          city: [''],
+          state: ['', [SCValidation.actualState()]],
+          zip: ['', [Validators.pattern(/^\d{5}$/)]]
         })
       })
     });

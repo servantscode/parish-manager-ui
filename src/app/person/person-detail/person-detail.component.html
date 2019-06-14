@@ -171,16 +171,16 @@
     <div formGroupName="address">
       <mat-form-field appearance="standard" class="input-standard">
         <mat-label>Street</mat-label>
-        <input matInput formControlName="street1" required/>
+        <input matInput formControlName="street1"/>
       </mat-form-field><br/>
 
       <mat-form-field appearance="standard" class="input-small">
         <mat-label>City</mat-label>
-        <input matInput formControlName="city" required>
+        <input matInput formControlName="city">
       </mat-form-field>&nbsp;
 
       <mat-form-field class="input-2">
-        <input type="text" placeholder="State" aria-label="State" matInput formControlName="state" [matAutocomplete]="auto" class="input-2" (blur)="capitalizeState()" required>
+        <input type="text" placeholder="State" aria-label="State" matInput formControlName="state" [matAutocomplete]="auto" class="input-2" (blur)="capitalizeState()">
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
             {{option}}
@@ -190,7 +190,7 @@
 
       <mat-form-field appearance="standard" class="input-5">
         <mat-label>Zip</mat-label>
-        <input matInput formControlName="zip" required minlength="5" maxlength="5"/>
+        <input matInput formControlName="zip" minlength="5" maxlength="5"/>
       </mat-form-field>
     </div>
     
