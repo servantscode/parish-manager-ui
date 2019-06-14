@@ -74,6 +74,14 @@
     </div>
   </ng-template>
 
+  <ng-template 
+    #eventTemplate
+    let-event="event">
+      <strong>{{event.title}}</strong> <br/>
+      <div *ngFor="let room of event.reservations">
+        {{room.resourceName}}
+      </div>
+    </ng-template>
 
   <div [ngSwitch]="view">
     <mwl-calendar-month-view
@@ -91,6 +99,7 @@
       [events]="events"
       [dayStartHour]="6"
       [dayEndHour]="22"
+      [eventTitleTemplate]="eventTemplate"
       (hourSegmentClicked)="hourClicked($event.date)"
       (eventClicked)="viewEvent($event.event)"
       (eventTimesChanged)="eventTimesChanged($event)">
@@ -101,6 +110,7 @@
       [events]="events"
       [dayStartHour]="6"
       [dayEndHour]="22"
+      [eventTitleTemplate]="eventTemplate"
       (hourSegmentClicked)="hourClicked($event.date)"
       (eventClicked)="viewEvent($event.event)"
       (eventTimesChanged)="eventTimesChanged($event)">

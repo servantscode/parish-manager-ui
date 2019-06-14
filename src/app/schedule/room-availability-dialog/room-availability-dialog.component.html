@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Available Rooms</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+      <input type="text" class="form-control" formControlName="search" placeholder="Search..." aria-label="Search">
+  </form>
+  <div class="room-list scrollable" (mouseleave)="highlight(null)">
+    <div *ngFor="let room of filteredRooms" (mouseover)="highlight(room)" [ngClass]="{'highlight clickable' : room === highlighted}" (click)="select(room)">
+      {{room.name}}
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions class="align-right">
+  <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+</div>

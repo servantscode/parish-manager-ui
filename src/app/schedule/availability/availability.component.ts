@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AvailabilityService } from '../services/availability.service';
+import { ReservationService } from '../services/reservation.service';
 import { Reservation } from '../reservation';
 import { AvailabilityResponse, AvailabilityWindow } from '../availability-response';
 import { startOfDay, endOfDay, differenceInMinutes, addMinutes, addHours } from 'date-fns';
@@ -27,7 +27,7 @@ export class AvailabilityComponent implements OnInit, OnChanges {
   dayEndHour = 22;
   openMinutes = (this.dayEndHour-this.dayStartHour)*60;
 
-  constructor(private availabilityService: AvailabilityService,
+  constructor(private reservationService: ReservationService,
               private router: Router) { }
 
   ngOnInit() {
@@ -54,7 +54,7 @@ export class AvailabilityComponent implements OnInit, OnChanges {
   }
 
   getReservations() {
-    this.availabilityService.getReservations(this.reservation).subscribe(
+    this.reservationService.getReservations(this.reservation).subscribe(
       resp => {
         this.reservations = resp.filter(res => res.id !== this.reservation.id);
         this.processReservations();

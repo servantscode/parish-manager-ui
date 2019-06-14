@@ -26,9 +26,10 @@ import { Equipment } from '../equipment';
 import { Reservation } from '../reservation';
 import { EventService } from '../services/event.service';
 import { RoomService } from '../services/room.service';
-import { AvailabilityService } from '../services/availability.service';
+import { ReservationService } from '../services/reservation.service';
 import { EquipmentService } from '../services/equipment.service';
 import { RecurringEditDialogComponent } from '../recurring-edit-dialog/recurring-edit-dialog.component';
+import { RoomAvailabilityDialogComponent } from '../room-availability-dialog/room-availability-dialog.component';
 
 @Component({
   selector: 'app-event-details',
@@ -98,7 +99,7 @@ export class EventDetailsComponent implements OnInit {
               public equipmentService: EquipmentService,
               public loginService: LoginService,
               private cleaningService: DataCleanupService,
-              private availabilityService: AvailabilityService,
+              private reservationService: ReservationService,
               private changeDetectorRef: ChangeDetectorRef,
               private selectedEvent: SelectedEvent) { 
     
@@ -151,6 +152,18 @@ export class EventDetailsComponent implements OnInit {
         this.router.navigate(['not-found']);
       this.eventForm.get('schedulerId').setValue(this.loginService.getUserId());
     }
+  }
+
+  findAvailableRooms(): void {
+    const dialogRef = this.dialog.open(RoomAvailabilityDialogComponent, {
+      width: '400px',
+      data: {"event": this.getEventFromForm()}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result)
+        this.addRoom(result);
+    });
   }
 
   enableEdit(): void {
@@ -419,7 +432,7 @@ export class EventDetailsComponent implements OnInit {
     if(!this.recurringMeeting)
       return;
 
-    this.availabilityService.getConflicts(this.getEventFromForm()).subscribe(conflicts =>  {
+    this.reservationService.getConflicts(this.getEventFromForm()).subscribe(conflicts =>  {
         this.conflicts = conflicts
         if(this.conflicts && this.conflicts.length > 0 && isEqual(this.conflicts[0].event.startTime, this.getValue('startTime')))
           this.conflicts.shift();

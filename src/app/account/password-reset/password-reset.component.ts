@@ -15,7 +15,6 @@ import { PasswordRequest } from '../password-request';
 })
 export class PasswordResetComponent implements OnInit {
 
-  private userId: string;
   public resetToken: string;
 
   passwordResetForm = this.fb.group({
@@ -30,7 +29,6 @@ export class PasswordResetComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute) { 
 
-    this.userId = loginService.getUserId();
     this.resetToken = this.route.snapshot.paramMap.get('token');
 
     if(!this.resetToken && !this.loginService.isAuthenticated())

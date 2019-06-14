@@ -29,6 +29,7 @@ import { EventDetailsComponent } from './event-details/event-details.component';
 import { RecurringEditDialogComponent } from './recurring-edit-dialog/recurring-edit-dialog.component';
 
 import { SelectedEvent } from './event';
+import { RoomAvailabilityDialogComponent } from './room-availability-dialog/room-availability-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { SelectedEvent } from './event';
     EquipmentDialogComponent,
     AvailabilityComponent,
     EventDetailsComponent,
-    RecurringEditDialogComponent
+    RecurringEditDialogComponent,
+    RoomAvailabilityDialogComponent
   ],
   imports: [
     ScheduleRoutingModule,
@@ -72,7 +74,8 @@ import { SelectedEvent } from './event';
   entryComponents: [
     RoomDialogComponent,
     EquipmentDialogComponent,
-    RecurringEditDialogComponent
+    RecurringEditDialogComponent,
+    RoomAvailabilityDialogComponent
   ],
   providers: [
     SelectedEvent

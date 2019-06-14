@@ -4,13 +4,15 @@ import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth,
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarEventTitleFormatter } from 'angular-calendar';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { ColorService } from '../../sccommon/services/color.service';
 
 import { Event, SelectedEvent } from '../event';
 import { EventService } from '../services/event.service';
+
+import { TooltipFormatter } from './tooltip-formatter.provider';
 
 export enum KEY_CODE {
   PLUS = 107,
@@ -20,7 +22,13 @@ export enum KEY_CODE {
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
+  providers: [
+    {
+      provide: CalendarEventTitleFormatter,
+      useClass: TooltipFormatter
+    }
+  ]
 })
 export class CalendarComponent implements OnInit {
   view: CalendarView = CalendarView.Month;

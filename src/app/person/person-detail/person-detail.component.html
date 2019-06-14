@@ -140,13 +140,13 @@
         <mat-checkbox formControlName="communion"> First Communion</mat-checkbox>&nbsp;&nbsp;
         <mat-checkbox formControlName="confirmed"> Confirmed</mat-checkbox><br/>
         
-        <app-sc-enum formControlName="maritalStatus" label="Marital Status" [required]="true" [valueSource]="maritalStatuses"></app-sc-enum>
+        <app-sc-enum formControlName="maritalStatus" label="Marital Status" [valueSource]="maritalStatuses"></app-sc-enum>
       </div>
 
       <div>
         <strong>Demographic Information</strong><br/>
-        <app-sc-enum formControlName="primaryLanguage" label="Primary Language" [required]="true" [valueSource]="languages"></app-sc-enum>
-        <app-sc-enum formControlName="ethnicity" label="Ethnicity" [required]="true" [valueSource]="ethnicities"></app-sc-enum>
+        <app-sc-enum formControlName="primaryLanguage" label="Primary Language" [valueSource]="languages"></app-sc-enum>
+        <app-sc-enum formControlName="ethnicity" label="Ethnicity" [valueSource]="ethnicities"></app-sc-enum>
       </div>
     </div>
 

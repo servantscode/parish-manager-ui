@@ -128,6 +128,8 @@
     <div class="row" *ngIf="!disabled">
       <div class="col-4">
         <app-sc-auto-complete formControlName="room" label='+ Room' [selectObject]="true" [autocompleteService]="roomService" [filter]="roomFilter()"></app-sc-auto-complete>
+          <button mat-button type="button" class="btn btn-outline-primary" (click)="findAvailableRooms()">Available Rooms</button>
+ 
       </div>
     </div>
 
@@ -163,6 +165,12 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="event.id > 0 && loginService.userCan('note.list')" class="container rounded-rect">
+    <h3>Notes</h3>
+    <app-notes [resourceType]="'event'" [resourceId]="event.id"></app-notes>
+  </div>
+
 
   <div class="container">
     <button mat-button *ngIf="editMode" type="submit" class="btn btn-primary" [disabled]="!eventForm.valid || !canSave()">Save</button>

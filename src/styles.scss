@@ -319,6 +319,21 @@ div.rounded-rect {
   color: rgb(23, 108, 191);
 }
 
+.mat-calendar-table-header {
+  th {
+    padding: 4px 0 2px 0 !important;
+    background: #666666;
+  }
+
+  th.mat-calendar-table-header-divider {
+    background: #ffffff;
+  }
+}
+
+.cal-week-view .cal-time-events .cal-event{
+  line-height: 1.5;
+}
+
 /* ----- Component Specific, but.... ----- */
 app-notes .mat-form-field-appearance-standard .mat-form-field-flex {
   padding: 0;
