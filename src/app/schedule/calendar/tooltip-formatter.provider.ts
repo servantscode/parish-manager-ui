@@ -6,19 +6,22 @@ export class TooltipFormatter extends CalendarEventTitleFormatter {
 
   monthTooltip(event: any): string {
     var tooltip = "<strong>" + event.title + "</strong><br/>" + format(event.start, 'h:mm a');
-    event.reservations.forEach(res => tooltip += "<br/>" + res.resourceName);
+    if(event.reservations)
+      event.reservations.forEach(res => tooltip += "<br/>" + res.resourceName);
     return tooltip;
   }
 
   weekTooltip(event: any): string {
     var tooltip = "<strong>" + event.title + "</strong>";
-    event.reservations.forEach(res => tooltip += "<br/>" + res.resourceName);
+    if(event.reservations)
+      event.reservations.forEach(res => tooltip += "<br/>" + res.resourceName);
     return tooltip;
   }
 
   dayTooltip(event: any): string {
     var tooltip = "<strong>" + event.title + "</strong>";
-    event.reservations.forEach(res => tooltip += "<br/>" + res.resourceName);
+    if(event.reservations)
+      event.reservations.forEach(res => tooltip += "<br/>" + res.resourceName);
     return tooltip;
   }
 }

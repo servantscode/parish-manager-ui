@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { PasswordDialogComponent } from '../password-dialog/password-dialog.component';
 import { CredentialDialogComponent } from '../credential-dialog/credential-dialog.component';

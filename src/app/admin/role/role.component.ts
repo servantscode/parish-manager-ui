@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject, Observable } from 'rxjs';
 
 import { PaginatedResponse } from '../../sccommon/paginated.response';

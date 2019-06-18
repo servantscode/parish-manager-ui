@@ -1,15 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameMonth, addHours, differenceInMilliseconds, addMilliseconds, parse, format } from 'date-fns';
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameMonth, startOfYear, endOfYear, addHours, differenceInMilliseconds, addMilliseconds, parse, format, isEqual } from 'date-fns';
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarEventTitleFormatter } from 'angular-calendar';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { ColorService } from '../../sccommon/services/color.service';
 
 import { Event, SelectedEvent } from '../event';
+import { Reservation } from '../reservation';
 import { EventService } from '../services/event.service';
 
 import { TooltipFormatter } from './tooltip-formatter.provider';
@@ -36,6 +37,8 @@ export class CalendarComponent implements OnInit {
   CalendarView = CalendarView; //Export CalendarView for html
   events: CalendarEvent[] = [];
   openDialogRef = null;
+
+  listView: boolean = false;
 
   search: string = "";
 
@@ -77,6 +80,10 @@ export class CalendarComponent implements OnInit {
     this.loadEvents();
   }
 
+  toggleListView():void {
+    this.listView = !this.listView;
+  }
+
   navigateAndLoad(): void {
     this.gotoView(this.view, this.viewDate);
     this.loadEvents();
@@ -106,15 +113,23 @@ export class CalendarComponent implements OnInit {
                 afterEnd: true
               },
               draggable: isDraggable,
+              privateEvent: serverEvent.privateEvent,
               schedulerId: serverEvent.schedulerId,
+              contactId: serverEvent.contactId,
               ministryName: serverEvent.ministryName,
               ministryId: serverEvent.ministryId,
+              departments: serverEvent.departments,
+              categories: serverEvent.categories,
               id: serverEvent.id,
               reservations: serverEvent.reservations,
               recurrence: serverEvent.recurrence
             };
           });
       });
+  }
+
+  getResourceName(res: Reservation): string {
+    return res.resourceName;
   }
 
   hasConflict(event: Event, allEvents: Event[]) {
@@ -141,6 +156,25 @@ export class CalendarComponent implements OnInit {
 
   newEvent() {
     this.router.navigate(['calendar', 'event']);
+  }
+
+  groupByDate(events: any[]): any {
+    var eventGroups: any[] = [];
+    var day = null;
+    var dayEvents: any[];
+
+    var alerted = 0;
+
+    for(let event of events) {
+      if(!day || !isEqual(startOfDay(event.start), day)) {
+        day = startOfDay(event.start);
+        dayEvents = [];
+        eventGroups.push({day: day, events: dayEvents});
+      }
+      dayEvents.push(event);
+    }
+
+    return eventGroups;
   }
 
   viewEvent(event: any) {

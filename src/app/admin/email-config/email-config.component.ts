@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';

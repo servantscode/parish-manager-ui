@@ -55,9 +55,9 @@ export class LoginService extends BaseService {
     return decoded? decoded.sub: "";
   }
 
-  public getUserId(): string {
+  public getUserId(): number {
     const decoded = this.getDecodedToken();
-    return decoded? decoded.userId: "";
+    return decoded? +decoded.userId: 0;
   }
 
   public hasAny(permPrefix: string): boolean {

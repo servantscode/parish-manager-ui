@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -41,10 +41,14 @@ export class EventDetailsComponent implements OnInit {
       id: [0],
       title: ["", Validators.required],
       description: [''],
+      privateEvent: false,
       startTime: [startOfHour(addHours(new Date(), 1)), Validators.required],
       endTime: [startOfHour(addHours(new Date(), 2)), Validators.required],
       schedulerId:['', [Validators.required, Validators.pattern(SCValidation.NUMBER)]],
+      contactId:['', [Validators.pattern(SCValidation.NUMBER)]],
       ministryId:[''],
+      departments: [],
+      categories: [],
       room:[''],
       equipment:[''],
       setupTime:['', [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
@@ -124,6 +128,10 @@ export class EventDetailsComponent implements OnInit {
     );
 
     this.updateRecurrenceOptions();  
+  }
+
+  userCan(action: string): boolean {
+    return this.loginService.getUserId() === this.event.schedulerId || this.loginService.userCan("admin.event." + action);
   }
 
   getEvent(): void {
@@ -569,6 +577,7 @@ export class EventDetailsComponent implements OnInit {
 
           this.eventForm.get('endTime').setValue(end);
           this.updateReservationTimes();
+          this.updateRecurrenceOptions()
         }));
 
     this.formSubs.push(

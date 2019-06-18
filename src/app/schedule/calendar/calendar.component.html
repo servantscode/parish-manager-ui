@@ -11,6 +11,9 @@
         <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
           Day
         </div>
+        <div class="btn btn-primary" (click)="toggleListView()" [class.active]="listView">
+          List
+        </div>
       </div>
     </div>
     <div class="col-auto text-center">
@@ -83,7 +86,7 @@
       </div>
     </ng-template>
 
-  <div [ngSwitch]="view">
+  <div *ngIf="!listView" [ngSwitch]="view">
     <mwl-calendar-month-view
       *ngSwitchCase="CalendarView.Month"
       [viewDate]="viewDate"
@@ -115,5 +118,15 @@
       (eventClicked)="viewEvent($event.event)"
       (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-day-view>
+  </div>
+  <div *ngIf="listView">
+    <div *ngFor="let date of groupByDate(events)">
+      <div class="day-header">{{date.day | date: 'EEEE MMM dd, yyyy'}}</div>
+      <div *ngFor="let event of date.events" class="event-details" (click)="viewEvent(event)">
+        &nbsp;&nbsp;{{event.start | date: 'h:mma'}} - {{event.end | date: 'h:mma'}}  <strong>{{event.title}}</strong><br/>
+        <span *ngIf="event.description">&nbsp;&nbsp;&nbsp;&nbsp;{{event.description}} <br/></span>
+        <span *ngIf="event.reservations">&nbsp;&nbsp;&nbsp;&nbsp;{{event.reservations.map(getResourceName).join(', ')}} <br/></span>
+      </div>
+    </div>
   </div>
 </div>

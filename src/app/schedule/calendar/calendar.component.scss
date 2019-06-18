@@ -52,3 +52,16 @@ h3 {
   border-top: #dddddd solid 1px;
   width: calc(100% - 170px);
 }
+
+.event-details {
+  &:hover {
+    background-color: #eeeeee;
+    cursor: pointer;
+  }
+}
+
+.day-header {
+  background-color: #dddddd;
+  font-weight: 500;
+  font-style: italic;
+}

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { formatDate } from '@angular/common';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';
 

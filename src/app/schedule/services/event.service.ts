@@ -36,7 +36,7 @@ export class EventService extends PaginatedService<Event> {
     return `${search} startTime:[* TO ${endTime.toISOString()}] endTime:[${startTime.toISOString()} TO *]`;
   }
 
-  public getPage(start = 0, count = 10, search = '', pathVars?: any): Observable<PaginatedResponse<Event>> {
+  public getPage(start = 0, count = 0, search = '', pathVars?: any): Observable<PaginatedResponse<Event>> {
     return this.http.get<PaginatedResponse<Event>>(this.modifyUrl(this.url, pathVars)+`?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))

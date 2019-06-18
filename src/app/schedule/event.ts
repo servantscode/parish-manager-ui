@@ -11,10 +11,14 @@ export class Event extends Identifiable {
   startTime: Date;
   endTime: Date;
   title: string;
+  privateEvent: boolean;
   description: string;
   schedulerId: number;
+  contactId: number;
   ministryName: string;
   ministryId: number;
+  departments: string[];
+  categories: string[];
 
   reservations: Reservation[] = [];
   recurrence: Recurrence;
@@ -30,9 +34,13 @@ export class Event extends Identifiable {
     this.endTime = null;
     this.title = '';
     this.description = '';
+    this.privateEvent = false;
     this.schedulerId = 0;
+    this.contactId = 0;
     this.ministryName = '';
     this.ministryId = 0;
+    this.departments = [];
+    this.categories = [];
 
     this.reservations = [];
     this.recurrence = null;

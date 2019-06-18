@@ -1,6 +1,6 @@
 <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
-  <button *ngIf="disabled && loginService.userCan('event.update')" class="btn btn-primary float-right edit-button" type="button" (click)="enableEdit()">Edit</button>
-  <button *ngIf="!editMode && (event && event.id > 0) && loginService.userCan('event.delete')" 
+  <button *ngIf="disabled && loginService.userCan('event.update') && userCan('edit')" class="btn btn-primary float-right edit-button" type="button" (click)="enableEdit()">Edit</button>
+  <button *ngIf="!editMode && (event && event.id > 0) && loginService.userCan('event.delete') && userCan('delete')" 
  mat-button type="button" class="btn btn-outline-primary float-right edit-button" (click)="delete()">Delete</button>
   <button *ngIf="!editMode && (event && event.id > 0) && loginService.userCan('event.create')" 
  mat-button type="button" class="btn btn-outline-primary float-right edit-button" (click)="copyEvent()">Copy</button>
@@ -22,13 +22,17 @@
           <input type="text" matInput formControlName="description" autocomplete="off"/>
         </mat-form-field><br/>
 
+        <mat-checkbox formControlName="privateEvent">Private Event</mat-checkbox>
+
         <app-date-time formControlName="startTime" [label]="'Start'" [required]="true"></app-date-time>
 
         <app-date-time formControlName="endTime" [label]="'End'" [required]="true"></app-date-time>
 
         <app-sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService"></app-sc-auto-complete>
 
-        <app-sc-auto-complete formControlName="schedulerId" label='Event Owner' [autocompleteService]="personService"></app-sc-auto-complete>
+        <app-sc-auto-complete formControlName="contactId" label='Contact' [autocompleteService]="personService"></app-sc-auto-complete>
+
+        <app-sc-auto-complete formControlName="schedulerId" label='Scheduled by' [autocompleteService]="personService"></app-sc-auto-complete>
 
         <input type="hidden" autocomplete="off" formControlName="id"/>
       </div>

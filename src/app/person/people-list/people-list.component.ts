@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { DownloadService } from '../../sccommon/services/download.service';
 import { LoginService } from '../../sccommon/services/login.service';

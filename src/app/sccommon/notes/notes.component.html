@@ -23,7 +23,7 @@
         <span class="name">{{note.creator}}</span>&nbsp;&nbsp;
         <span class="timestamp">{{note.createdTime  | date:"MMM dd, yyyy 'at' H:mm a"}}</span>
       </div>
-      <div *ngIf="note.creatorId == loginService.getUserId() && loginService.userCan('note.update')">
+      <div *ngIf="note.creatorId === loginService.getUserId() && loginService.userCan('note.update')">
         <div class="icon" (click)='edit(note)' [ngClass]="{'edit' : note === highlighted}">&nbsp;</div>
       </div>
     </div>
