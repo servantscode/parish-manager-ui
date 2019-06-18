@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
-import { UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 
 import { LoginService } from '../services/login.service';
 import { PhotoService } from '../services/photo.service';
@@ -30,8 +30,8 @@ export class PhotoUploadDialogComponent implements OnInit {
     this.storeFile(file);
   }
 
-  dropped(event: UploadEvent) {
-    let droppedFile = event.files[0];
+  dropped(files: NgxFileDropEntry[]) {
+    let droppedFile = files[0];
     if (droppedFile.fileEntry.isFile) {
       const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
       fileEntry.file((file: File) => {

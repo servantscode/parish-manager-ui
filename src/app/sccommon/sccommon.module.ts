@@ -14,7 +14,7 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
-import { FileDropModule } from 'ngx-file-drop';
+import { NgxFileDropModule } from 'ngx-file-drop';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { SCCommonRoutingModule } from './sccommon-routing.module';
@@ -98,7 +98,7 @@ export function tokenGetter() {
       }
     }),
 
-    FileDropModule,
+    NgxFileDropModule,
     CKEditorModule
   ],
   exports: [
