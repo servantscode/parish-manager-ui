@@ -14,7 +14,7 @@
 </form>
 <div class="notes" (mouseleave)="highlight(null)">
   <div *ngFor="let note of notes" class="note underlined" (mouseover)="highlight(note)" [ngClass]="{'highlight' : note === highlighted, 'selected' : note === selected}">
-    <span class="noteText"><pre>{{note.note}}</pre></span>
+    <span class="noteText">{{note.note}}</span>
     <div class="d-flex">
       <div>
         <div class="icon" [ngClass]="{'locked' : note.private}">&nbsp;</div>
