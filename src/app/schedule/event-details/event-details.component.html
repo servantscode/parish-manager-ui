@@ -37,6 +37,34 @@
         <input type="hidden" autocomplete="off" formControlName="id"/>
       </div>
       <div class="col">
+        <div> 
+          <mat-form-field appearance="standard" class="input-standard">
+            <mat-label>Departments</mat-label>
+            <mat-select placeholder="Departments" formControlName="departments" multiple>
+              <mat-select-trigger>
+                {{eventForm.get('departments').value ? eventForm.get('departments').value.slice(0,3) : ''}}
+                <span *ngIf="eventForm.get('departments').value?.length > 3" class="example-additional-selection">
+                  (+{{eventForm.get('departments').value.length - 3}} {{eventForm.get('departments').value?.length === 4 ? 'other' : 'others'}})
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let department of availableDepartments" [value]="department">{{department}}</mat-option>
+            </mat-select>
+          </mat-form-field><br/>
+
+          <mat-form-field appearance="standard" class="input-standard">
+            <mat-label>Categories</mat-label>
+            <mat-select placeholder="Categories" formControlName="categories" multiple>
+              <mat-select-trigger>
+                {{eventForm.get('categories').value ? eventForm.get('categories').value.slice(0,3) : ''}}
+                <span *ngIf="eventForm.get('categories').value?.length > 3" class="example-additional-selection">
+                  (+{{eventForm.get('categories').value.length - 3}} {{eventForm.get('categories').value?.length === 4 ? 'other' : 'others'}})
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let category of availableCategories" [value]="category">{{category}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
         <mat-checkbox formControlName="recurringMeeting">Recurring Meeting</mat-checkbox>
         <div *ngIf="recurringMeeting" formGroupName="recurrence">
           <input type="hidden" autocomplete="off" formControlName="recurrenceId"/>
@@ -94,31 +122,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div> 
-          <mat-form-field class="input-standard">
-            <mat-select placeholder="Departments" formControlName="departments" multiple>
-              <mat-select-trigger>
-                {{eventForm.get('departments').value ? eventForm.get('departments').value.slice(0,3) : ''}}
-                <span *ngIf="eventForm.get('departments').value?.length > 3" class="example-additional-selection">
-                  (+{{eventForm.get('departments').value.length - 3}} {{eventForm.get('departments').value?.length === 4 ? 'other' : 'others'}})
-                </span>
-              </mat-select-trigger>
-              <mat-option *ngFor="let department of availableDepartments" [value]="department">{{department}}</mat-option>
-            </mat-select>
-          </mat-form-field><br/>
-
-          <mat-form-field class="input-standard">
-            <mat-select placeholder="Categories" formControlName="categories" multiple>
-              <mat-select-trigger>
-                {{eventForm.get('categories').value ? eventForm.get('categories').value.slice(0,3) : ''}}
-                <span *ngIf="eventForm.get('categories').value?.length > 3" class="example-additional-selection">
-                  (+{{eventForm.get('categories').value.length - 3}} {{eventForm.get('categories').value?.length === 4 ? 'other' : 'others'}})
-                </span>
-              </mat-select-trigger>
-              <mat-option *ngFor="let category of availableCategories" [value]="category">{{category}}</mat-option>
-            </mat-select>
-          </mat-form-field>
         </div>
       </div>
     </div>

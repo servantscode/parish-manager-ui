@@ -56,7 +56,7 @@ export class EventDetailsComponent implements OnInit {
       recurringMeeting: [false],
       recurrence: this.fb.group({
         recurrenceId: [''],
-        recurrenceType: ['DAILY'],
+        recurrenceType: ['WEEKLY'],
         recurrenceFreq: [1, [Validators.pattern(SCValidation.NUMBER), Validators.min(1)]],
         recurUntil: [endOfYear(new Date())],
         monday: [false],
@@ -107,7 +107,7 @@ export class EventDetailsComponent implements OnInit {
                           "Operations", 
                           "Safe Environment", 
                           "Parish Services"];
-                          
+
   availableCategories = ["Women", 
                          "Social", 
                          "Baptism", 
@@ -157,18 +157,19 @@ export class EventDetailsComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
         params => {
-            this.getEvent();
+          this.getEvent();
 
-            //Is this a new event or has an edit been requested at the handoff?
-            if(!this.event.id) {
-              this.editMode = true;
-              this.enableSubscriptions();
-            } else if (this.selectedEvent.edit) {
-              this.selectedEvent.edit = false;
-              this.enableEdit();
-            } else {
-              this.disableAll();
-            }
+          //Is this a new event or has an edit been requested at the handoff?
+          if(!this.event.id) {
+            this.editMode = true;
+            this.enableSubscriptions();
+          } else if (this.selectedEvent.edit) {
+            alert("editing as told");
+            this.selectedEvent.edit = false;
+            this.enableEdit();
+          } else {
+            this.disableAll();
+          }
         }
     );
 
@@ -594,6 +595,12 @@ export class EventDetailsComponent implements OnInit {
     this.conflicts = [];
   }
 
+  private recurringMeetingDefaults() {
+    this.eventForm.get('recurrence').get('recurrenceType').setValue('WEEKLY');
+    this.eventForm.get('recurrence').get('recurrenceFreq').setValue(1);
+    this.eventForm.get('recurrence').get('recurUntil').setValue(endOfYear(new Date()));
+  }
+
   private enableAll() {
     this.disabled = false;
     for(let control in this.eventForm.controls)
@@ -650,10 +657,12 @@ export class EventDetailsComponent implements OnInit {
         .pipe(distinctUntilChanged())
         .subscribe( value => {
           this.recurringMeeting = value;
-          if(this.recurringMeeting)
+          if(this.recurringMeeting) {
+            this.recurringMeetingDefaults();
             this.calculateFutureTimes();
-          else
+          } else {
             this.clearRecurringMeeting();
+          }
         }));
 
     this.formSubs.push(

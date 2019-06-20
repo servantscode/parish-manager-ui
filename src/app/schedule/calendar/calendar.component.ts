@@ -226,11 +226,15 @@ export class CalendarComponent implements OnInit {
       });
   }
 
+  //NOTE: This gets called when clicking an event even if the times have not changed. Check and suppress.
   eventTimesChanged({event, newStart, newEnd }: any): void {
-    if(event.reservations) {
-      var startDiff = differenceInMilliseconds(newStart, event.start);
-      var endDiff = differenceInMilliseconds(newEnd, event.end);
+    var startDiff = differenceInMilliseconds(newStart, event.start);
+    var endDiff = differenceInMilliseconds(newEnd, event.end);
 
+    if(startDiff == 0 && endDiff == 0)
+      return;
+
+    if(event.reservations) {
       event.reservations.forEach(res => {
           res.startTime = addMilliseconds(res.startTime, startDiff);
           res.endTime = addMilliseconds(res.endTime, endDiff);
