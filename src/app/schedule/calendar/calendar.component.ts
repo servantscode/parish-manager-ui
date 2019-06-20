@@ -227,13 +227,15 @@ export class CalendarComponent implements OnInit {
   }
 
   eventTimesChanged({event, newStart, newEnd }: any): void {
-    var startDiff = differenceInMilliseconds(newStart, event.start);
-    var endDiff = differenceInMilliseconds(newEnd, event.end);
+    if(event.reservations) {
+      var startDiff = differenceInMilliseconds(newStart, event.start);
+      var endDiff = differenceInMilliseconds(newEnd, event.end);
 
-    event.reservations.forEach(res => {
-        res.startTime = addMilliseconds(res.startTime, startDiff);
-        res.endTime = addMilliseconds(res.endTime, endDiff);
-      });
+      event.reservations.forEach(res => {
+          res.startTime = addMilliseconds(res.startTime, startDiff);
+          res.endTime = addMilliseconds(res.endTime, endDiff);
+        });
+    }
 
     event.startTime = newStart;
     event.endTime = newEnd;

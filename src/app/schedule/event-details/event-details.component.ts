@@ -89,6 +89,51 @@ export class EventDetailsComponent implements OnInit {
   showConflicts = false;
   showDateList = false;
 
+  availableDepartments = ["Women", 
+                          "Administration", 
+                          "Fellowship", 
+                          "Family Life", 
+                          "Parish Wide", 
+                          "Preschool", 
+                          "Stewardship", 
+                          "Youth", 
+                          "Worship", 
+                          "Facility Rental", 
+                          "Men", 
+                          "Outreach", 
+                          "Adults", 
+                          "Faith Formation", 
+                          "Scouts", 
+                          "Operations", 
+                          "Safe Environment", 
+                          "Parish Services"];
+                          
+  availableCategories = ["Women", 
+                         "Social", 
+                         "Baptism", 
+                         "All Youth", 
+                         "Bible Study", 
+                         "Worship Services", 
+                         "Convalidation", 
+                         "Home Centered", 
+                         "Wedding Reception", 
+                         "Committee", 
+                         "Sacramental Preparation",
+                         "Athletic Event", 
+                         "Funeral",
+                         "Middle School", 
+                         "Training", 
+                         "High School", 
+                         "3rd-5th Grade", 
+                         "All Parishioners",
+                         "Wedding", 
+                         "Vacation Bible School", 
+                         "Music", 
+                         "Retreat", 
+                         "Clusters", 
+                         "Adult Faith Formation"];
+
+
   private daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   constructor(private route: ActivatedRoute,
@@ -188,11 +233,9 @@ export class EventDetailsComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if(!result) {
-          this.eventForm.get('recurrence').reset();
-          this.eventForm.get('recurringMeeting').setValue(false);
+        if(!result)
           this.clearRecurringMeeting();
-        }
+        
         this.editMode = true;
         this.enableAll();      
       });
@@ -268,6 +311,7 @@ export class EventDetailsComponent implements OnInit {
       ` on the ${this.positionize(Math.floor((start.getDate()-1)/7) + 1)} ${day}`);
     this.cycleOptions.push({value: "WEEKDAY_OF_MONTH", text: monthlyDayOfWeek});
     this.cycleOptions.push({value: "YEARLY", text: (freq === 1? "year": "years")});
+    this.cycleOptions.push({value: "CUSTOM", text: "custom"});
 
     var isPristine = true;
     for(let weekday of this.daysOfTheWeek)
@@ -544,6 +588,7 @@ export class EventDetailsComponent implements OnInit {
   private clearRecurringMeeting() {
     this.recurringMeeting=false;
     this.eventForm.get('recurringMeeting').setValue(false);
+    this.eventForm.get('recurrence').reset();
     this.futureTimes = [];
     this.exceptionDates = [];
     this.conflicts = [];
@@ -604,7 +649,6 @@ export class EventDetailsComponent implements OnInit {
       this.eventForm.get('recurringMeeting').valueChanges.pipe(debounceTime(0))
         .pipe(distinctUntilChanged())
         .subscribe( value => {
-
           this.recurringMeeting = value;
           if(this.recurringMeeting)
             this.calculateFutureTimes();
