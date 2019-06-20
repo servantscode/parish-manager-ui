@@ -87,7 +87,6 @@ export class EventDetailsComponent implements OnInit {
 
   meetingLength: number = 3600;
   showConflicts = false;
-  showDateList = false;
 
   availableDepartments = ["Women", 
                           "Administration", 
@@ -250,9 +249,6 @@ export class EventDetailsComponent implements OnInit {
     this.showConflicts = !this.showConflicts;
   }
 
-  toggleDateList() {
-    this.showDateList = !this.showDateList;
-  }
 
   addException(conflict: EventConflict) {
     this.exceptionDates.push(conflict.event.startTime);
@@ -312,7 +308,7 @@ export class EventDetailsComponent implements OnInit {
       ` on the ${this.positionize(Math.floor((start.getDate()-1)/7) + 1)} ${day}`);
     this.cycleOptions.push({value: "WEEKDAY_OF_MONTH", text: monthlyDayOfWeek});
     this.cycleOptions.push({value: "YEARLY", text: (freq === 1? "year": "years")});
-    this.cycleOptions.push({value: "CUSTOM", text: "custom"});
+    this.cycleOptions.push({value: "CUSTOM", text: "Custom Schedule"});
 
     var isPristine = true;
     for(let weekday of this.daysOfTheWeek)

@@ -22,49 +22,60 @@
           <input type="text" matInput formControlName="description" autocomplete="off"/>
         </mat-form-field><br/>
 
-        <mat-checkbox formControlName="privateEvent">Private Event</mat-checkbox>
-
-        <app-date-time formControlName="startTime" [label]="'Start'" [required]="true"></app-date-time>
-
-        <app-date-time formControlName="endTime" [label]="'End'" [required]="true"></app-date-time>
-
         <app-sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService"></app-sc-auto-complete>
-
-        <app-sc-auto-complete formControlName="contactId" label='Contact' [autocompleteService]="personService"></app-sc-auto-complete>
 
         <app-sc-auto-complete formControlName="schedulerId" label='Scheduled by' [autocompleteService]="personService"></app-sc-auto-complete>
 
         <input type="hidden" autocomplete="off" formControlName="id"/>
       </div>
       <div class="col">
-        <div> 
-          <mat-form-field appearance="standard" class="input-standard">
-            <mat-label>Departments</mat-label>
-            <mat-select placeholder="Departments" formControlName="departments" multiple>
-              <mat-select-trigger>
-                {{eventForm.get('departments').value ? eventForm.get('departments').value.slice(0,3) : ''}}
-                <span *ngIf="eventForm.get('departments').value?.length > 3" class="example-additional-selection">
-                  (+{{eventForm.get('departments').value.length - 3}} {{eventForm.get('departments').value?.length === 4 ? 'other' : 'others'}})
-                </span>
-              </mat-select-trigger>
-              <mat-option *ngFor="let department of availableDepartments" [value]="department">{{department}}</mat-option>
-            </mat-select>
-          </mat-form-field><br/>
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Departments</mat-label>
+          <mat-select placeholder="Departments" formControlName="departments" multiple>
+            <mat-select-trigger>
+              {{eventForm.get('departments').value ? eventForm.get('departments').value.slice(0,3) : ''}}
+              <span *ngIf="eventForm.get('departments').value?.length > 3" class="example-additional-selection">
+                (+{{eventForm.get('departments').value.length - 3}} {{eventForm.get('departments').value?.length === 4 ? 'other' : 'others'}})
+              </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let department of availableDepartments" [value]="department">{{department}}</mat-option>
+          </mat-select>
+        </mat-form-field><br/>
 
-          <mat-form-field appearance="standard" class="input-standard">
-            <mat-label>Categories</mat-label>
-            <mat-select placeholder="Categories" formControlName="categories" multiple>
-              <mat-select-trigger>
-                {{eventForm.get('categories').value ? eventForm.get('categories').value.slice(0,3) : ''}}
-                <span *ngIf="eventForm.get('categories').value?.length > 3" class="example-additional-selection">
-                  (+{{eventForm.get('categories').value.length - 3}} {{eventForm.get('categories').value?.length === 4 ? 'other' : 'others'}})
-                </span>
-              </mat-select-trigger>
-              <mat-option *ngFor="let category of availableCategories" [value]="category">{{category}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Categories</mat-label>
+          <mat-select placeholder="Categories" formControlName="categories" multiple>
+            <mat-select-trigger>
+              {{eventForm.get('categories').value ? eventForm.get('categories').value.slice(0,3) : ''}}
+              <span *ngIf="eventForm.get('categories').value?.length > 3" class="example-additional-selection">
+                (+{{eventForm.get('categories').value.length - 3}} {{eventForm.get('categories').value?.length === 4 ? 'other' : 'others'}})
+              </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let category of availableCategories" [value]="category">{{category}}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
+
+        <app-sc-auto-complete formControlName="contactId" label='Contact' [autocompleteService]="personService"></app-sc-auto-complete>
+
+        <mat-checkbox formControlName="privateEvent">Private Event</mat-checkbox>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container rounded-rect">
+    <div class="row">
+      <div class="col">
+        <app-date-time formControlName="startTime" [label]="'Start'" [required]="true"></app-date-time>
+      </div>
+      <div class="col">
+        <app-date-time formControlName="endTime" [label]="'End'" [required]="true"></app-date-time>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
         <mat-checkbox formControlName="recurringMeeting">Recurring Meeting</mat-checkbox>
         <div *ngIf="recurringMeeting" formGroupName="recurrence">
           <input type="hidden" autocomplete="off" formControlName="recurrenceId"/>
@@ -102,23 +113,25 @@
             <mat-datepicker-toggle matSuffix [for]="recurpicker"></mat-datepicker-toggle>
             <mat-datepicker #recurpicker></mat-datepicker>
           </mat-form-field><br/>
+        </div>
+      </div>
 
-          <span class="clickable" *ngIf="futureTimes && futureTimes.length > 0" (click)="toggleDateList()">
-            ({{futureTimes.length}} future {{futureTimes.length > 1? 'events':'event'}}<span *ngIf="exceptionDates && exceptionDates.length > 0"> -
-              <span class="excluded">{{exceptionDates.length}} excluded {{exceptionDates.length > 1? 'dates' : 'date'}}</span>
-            </span>)
+      <div class="col">
+        <span *ngIf="futureTimes && futureTimes.length > 0">
+          {{futureTimes.length}} future {{futureTimes.length > 1? 'events':'event'}}<span *ngIf="exceptionDates && exceptionDates.length > 0"> -
+            <span class="excluded">{{exceptionDates.length}} excluded {{exceptionDates.length > 1? 'dates' : 'date'}}</span>
           </span>
-          <div class="date-list" *ngIf="recurringMeeting" [ngClass]="{'hidden': !showDateList}">
-            <div class="row">
-              <div class="col">
-                <div *ngFor="let date of futureTimes">
-                  {{date | date: 'MM/dd/yyyy'}}
-                </div>
+        </span>
+        <div class="date-list" *ngIf="recurringMeeting">
+          <div class="row">
+            <div class="col">
+              <div *ngFor="let date of futureTimes">
+                {{date | date: 'MM/dd/yyyy'}}
               </div>
-              <div class="col excluded">
-                <div *ngFor="let date of exceptionDates">
-                  {{date | date: 'MM/dd/yyyy'}}
-                </div>
+            </div>
+            <div class="col excluded">
+              <div *ngFor="let date of exceptionDates">
+                {{date | date: 'MM/dd/yyyy'}}
               </div>
             </div>
           </div>
