@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { Location, WeekDay } from '@angular/common';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
@@ -54,26 +54,13 @@ export class EventDetailsComponent implements OnInit {
       setupTime:['', [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
       cleanupTime:['', [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
       recurringMeeting: [false],
-      recurrence: this.fb.group({
-        recurrenceId: [''],
-        recurrenceType: ['WEEKLY'],
-        recurrenceFreq: [1, [Validators.pattern(SCValidation.NUMBER), Validators.min(1)]],
-        recurUntil: [endOfYear(new Date())],
-        monday: [false],
-        tuesday: [false],
-        wednesday: [false],
-        thursday: [false],
-        friday: [false],
-        saturday: [false],
-        sunday: [false]
-      })
+      recurrence: null
     });
 
   event: Event;
   recurringMeeting = false;
   futureTimes: Date[]  = [];
   exceptionDates: Date[] = [];
-  cycleOptions: any[] = [];
 
   disabled: boolean = false;
   editMode: boolean = false;
@@ -132,9 +119,6 @@ export class EventDetailsComponent implements OnInit {
                          "Clusters", 
                          "Adult Faith Formation"];
 
-
-  private daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
   constructor(private route: ActivatedRoute,
               private router: Router,
               private location: Location,
@@ -163,7 +147,6 @@ export class EventDetailsComponent implements OnInit {
             this.editMode = true;
             this.enableSubscriptions();
           } else if (this.selectedEvent.edit) {
-            alert("editing as told");
             this.selectedEvent.edit = false;
             this.enableEdit();
           } else {
@@ -171,8 +154,6 @@ export class EventDetailsComponent implements OnInit {
           }
         }
     );
-
-    this.updateRecurrenceOptions();  
   }
 
   userCan(action: string): boolean {
@@ -268,10 +249,6 @@ export class EventDetailsComponent implements OnInit {
     }
   }
 
-  recurringWeekly(): boolean {
-    return this.getRecurValue('recurrenceType') === 'WEEKLY';
-  }
-
   copyEvent(): void {
     if(!this.loginService.userCan("event.create"))
       return;
@@ -292,33 +269,6 @@ export class EventDetailsComponent implements OnInit {
 
     this.eventForm.get('title').setValue('Copy of ' + this.getValue('title'));
     this.updateReservationTimes();
-  }
-
-  updateRecurrenceOptions() {
-    const freq = this.getRecurValue('recurrenceFreq');
-    const start = this.getValue('startTime');
-
-    this.cycleOptions.length = 0;
-    this.cycleOptions.push({value: "DAILY", text: (freq === 1? "day": "days")});
-    this.cycleOptions.push({value: "WEEKLY", text: (freq === 1? "week": "weeks")});
-    const monthly = ((freq === 1? "month": "months") + ` on the ${this.positionize(start.getDate())}`);
-    this.cycleOptions.push({value: "DAY_OF_MONTH", text: monthly});
-    const day = this.toDayName(start.getDay());
-    const monthlyDayOfWeek = ((freq === 1? "month": "months") + 
-      ` on the ${this.positionize(Math.floor((start.getDate()-1)/7) + 1)} ${day}`);
-    this.cycleOptions.push({value: "WEEKDAY_OF_MONTH", text: monthlyDayOfWeek});
-    this.cycleOptions.push({value: "YEARLY", text: (freq === 1? "year": "years")});
-    this.cycleOptions.push({value: "CUSTOM", text: "Custom Schedule"});
-
-    var isPristine = true;
-    for(let weekday of this.daysOfTheWeek)
-      isPristine = isPristine && this.eventForm.get('recurrence').get(weekday.toLowerCase()).pristine;
-
-    if(isPristine) {
-      for(let weekday of this.daysOfTheWeek)
-        this.eventForm.get('recurrence').get(weekday.toLowerCase()).setValue(false);
-      this.eventForm.get('recurrence').get(day.toLowerCase()).setValue(true);
-    }
   }
 
   createEvent() {
@@ -550,22 +500,11 @@ export class EventDetailsComponent implements OnInit {
     }
 
     if(eventData.recurrence != undefined && eventData.recurrence != null) {
-      const recurrence = this.eventForm.get('recurrence');
       this.eventForm.get('recurringMeeting').setValue(true);
       this.recurringMeeting=true;
 
       const recur = eventData.recurrence;
-      recurrence.get('recurrenceId').setValue(recur.id);
-      recurrence.get('recurrenceType').setValue(recur.cycle);
-      recurrence.get('recurrenceFreq').setValue(recur.frequency);
-      recurrence.get('recurUntil').setValue(recur.endDate);
-      if(recur.weeklyDays.length > 0) {
-        for(let day of recur.weeklyDays) {
-          var control = recurrence.get(day.toLowerCase());
-          control.setValue(true);
-          control.markAsDirty();
-        }
-      }
+      this.eventForm.get('recurrence').setValue(recur);
 
       //HACK. Interceptor can't seem to figure out the difference between an array of 1 string and a raw string
       if(!Array.isArray(recur.exceptionDates)) {
@@ -586,15 +525,19 @@ export class EventDetailsComponent implements OnInit {
     this.recurringMeeting=false;
     this.eventForm.get('recurringMeeting').setValue(false);
     this.eventForm.get('recurrence').reset();
+
     this.futureTimes = [];
     this.exceptionDates = [];
     this.conflicts = [];
   }
 
   private recurringMeetingDefaults() {
-    this.eventForm.get('recurrence').get('recurrenceType').setValue('WEEKLY');
-    this.eventForm.get('recurrence').get('recurrenceFreq').setValue(1);
-    this.eventForm.get('recurrence').get('recurUntil').setValue(endOfYear(new Date()));
+    this.eventForm.get('recurrence').setValue({
+      "cycle":'WEEKLY', 
+      "frequency":1, 
+      "endDate":endOfYear(new Date()), 
+      "weeklyDays":[WeekDay[this.eventForm.get('startTime').value.getDay()].toUpperCase()]
+    });
   }
 
   private enableAll() {
@@ -625,7 +568,7 @@ export class EventDetailsComponent implements OnInit {
 
           this.eventForm.get('endTime').setValue(end);
           this.updateReservationTimes();
-          this.updateRecurrenceOptions()
+          // this.updateRecurrenceOptions()
         }));
 
     this.formSubs.push(
@@ -660,10 +603,6 @@ export class EventDetailsComponent implements OnInit {
             this.clearRecurringMeeting();
           }
         }));
-
-    this.formSubs.push(
-      this.eventForm.get('recurrence').get('recurrenceFreq').valueChanges
-        .subscribe( () => this.updateRecurrenceOptions()));
 
     this.formSubs.push(
       this.eventForm.get('setupTime').valueChanges
@@ -709,44 +648,13 @@ export class EventDetailsComponent implements OnInit {
 
     if(formData.recurringMeeting) {
       const recurrence = formData.recurrence;
-      const r = new Recurrence();
-      r.id = recurrence.recurrenceId;
-      r.cycle = recurrence.recurrenceType;
-      r.frequency = recurrence.recurrenceFreq;
-      r.endDate = recurrence.recurUntil;
-      r.weeklyDays = [];
-      if(recurrence.monday) r.weeklyDays.push('MONDAY');
-      if(recurrence.tuesday) r.weeklyDays.push('TUESDAY');
-      if(recurrence.wednesday) r.weeklyDays.push('WEDNESDAY');
-      if(recurrence.thursday) r.weeklyDays.push('THURSDAY');
-      if(recurrence.friday) r.weeklyDays.push('FRIDAY');
-      if(recurrence.saturday) r.weeklyDays.push('SATURDAY');
-      if(recurrence.sunday) r.weeklyDays.push('SUNDAY');
-      r.exceptionDates = this.exceptionDates;
-      event.recurrence = r;
+      recurrence.exceptionDates = this.exceptionDates;
+      event.recurrence = recurrence;
     } else {
       //Clear recurrence if it doesn't belong
       event.recurrence = null;
     }
 
     return event;
-  }
-
-  private positionize(input: number): string {
-    var lastPosition = input % 10;
-    switch (lastPosition) {
-      case 1:
-        return input == 11? "llth": input + "st";
-      case 2:
-        return input + "nd";
-      case 3:
-        return input + "rd";
-      default:
-        return input + 'th';
-    }
-  }
-
-  private toDayName(input: number): string {
-    return this.daysOfTheWeek[input];
   }
 }

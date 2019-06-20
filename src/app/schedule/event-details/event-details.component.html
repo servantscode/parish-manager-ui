@@ -77,43 +77,7 @@
     <div class="row">
       <div class="col">
         <mat-checkbox formControlName="recurringMeeting">Recurring Meeting</mat-checkbox>
-        <div *ngIf="recurringMeeting" formGroupName="recurrence">
-          <input type="hidden" autocomplete="off" formControlName="recurrenceId"/>
-          Repeats every<br/>
-          <mat-form-field *ngIf="eventForm.get('recurrence').get('recurrenceType').value != 'CUSTOM'" appearance="standard" class="input-2">
-            <mat-label></mat-label>
-            <input type="number" matInput formControlName="recurrenceFreq" autocomplete="off"/>
-          </mat-form-field>&nbsp;
-
-           <mat-form-field appearance="standard" class="input-medium">
-            <mat-select formControlName="recurrenceType">
-              <mat-option *ngFor="let option of cycleOptions" [value]="option.value">
-                {{option.text}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field><br/>
-
-          <div *ngIf="recurringWeekly()">
-            On...<br/>
-            <table>
-              <tr>
-                <th *ngFor="let day of daysOfTheWeek">{{day.substring(0, 3)}}</th>
-              </tr>
-              <tr>
-                <td *ngFor="let day of daysOfTheWeek">
-                  <mat-checkbox formControlName="{{day.toLowerCase()}}"></mat-checkbox>
-                </td>
-              </tr>
-            </table>
-          </div>
-
-          <mat-form-field  *ngIf="eventForm.get('recurrence').get('recurrenceType').value != 'CUSTOM'" appearance="standard">
-            <mat-label>Until...</mat-label>
-            <input matInput formControlName="recurUntil" [matDatepicker]="recurpicker" placeholder="Until..." class="input-5">
-            <mat-datepicker-toggle matSuffix [for]="recurpicker"></mat-datepicker-toggle>
-            <mat-datepicker #recurpicker></mat-datepicker>
-          </mat-form-field><br/>
-        </div>
+        <app-recurrence *ngIf="recurringMeeting" formControlName="recurrence" [startDate]="eventForm.get('startTime').value"></app-recurrence>
       </div>
 
       <div class="col">

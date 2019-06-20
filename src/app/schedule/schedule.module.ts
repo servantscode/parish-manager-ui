@@ -30,6 +30,8 @@ import { RecurringEditDialogComponent } from './recurring-edit-dialog/recurring-
 
 import { SelectedEvent } from './event';
 import { RoomAvailabilityDialogComponent } from './room-availability-dialog/room-availability-dialog.component';
+import { RecurrenceComponent } from './recurrence/recurrence.component';
+import { DaysOfWeekComponent } from './days-of-week/days-of-week.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { RoomAvailabilityDialogComponent } from './room-availability-dialog/room
     AvailabilityComponent,
     EventDetailsComponent,
     RecurringEditDialogComponent,
-    RoomAvailabilityDialogComponent
+    RoomAvailabilityDialogComponent,
+    RecurrenceComponent,
+    DaysOfWeekComponent
   ],
   imports: [
     ScheduleRoutingModule,
