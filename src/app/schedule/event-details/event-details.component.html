@@ -69,7 +69,7 @@
         <div *ngIf="recurringMeeting" formGroupName="recurrence">
           <input type="hidden" autocomplete="off" formControlName="recurrenceId"/>
           Repeats every<br/>
-          <mat-form-field appearance="standard" class="input-2">
+          <mat-form-field *ngIf="eventForm.get('recurrence').get('recurrenceType').value != 'CUSTOM'" appearance="standard" class="input-2">
             <mat-label></mat-label>
             <input type="number" matInput formControlName="recurrenceFreq" autocomplete="off"/>
           </mat-form-field>&nbsp;
@@ -96,7 +96,7 @@
             </table>
           </div>
 
-          <mat-form-field appearance="standard">
+          <mat-form-field  *ngIf="eventForm.get('recurrence').get('recurrenceType').value != 'CUSTOM'" appearance="standard">
             <mat-label>Until...</mat-label>
             <input matInput formControlName="recurUntil" [matDatepicker]="recurpicker" placeholder="Until..." class="input-5">
             <mat-datepicker-toggle matSuffix [for]="recurpicker"></mat-datepicker-toggle>
