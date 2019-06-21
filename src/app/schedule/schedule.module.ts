@@ -32,6 +32,7 @@ import { SelectedEvent } from './event';
 import { RoomAvailabilityDialogComponent } from './room-availability-dialog/room-availability-dialog.component';
 import { RecurrenceComponent } from './recurrence/recurrence.component';
 import { DaysOfWeekComponent } from './days-of-week/days-of-week.component';
+import { ReservationComponent } from './reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DaysOfWeekComponent } from './days-of-week/days-of-week.component';
     RecurringEditDialogComponent,
     RoomAvailabilityDialogComponent,
     RecurrenceComponent,
-    DaysOfWeekComponent
+    DaysOfWeekComponent,
+    ReservationComponent
   ],
   imports: [
     ScheduleRoutingModule,

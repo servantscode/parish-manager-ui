@@ -9,7 +9,6 @@ import { BaseService } from '../../sccommon/services/base.service';
 import { MessageService } from '../../sccommon/services/message.service';
 
 import { Room } from '../room';
-import { Event } from '../event';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +24,10 @@ export class AvailabilityService extends BaseService {
     this.url = apiService.prefaceUrl("/rest/availability");
   }
 
-  getAvailableRooms(event: Event, search: string = ""): Observable<Room[]> {
+  getAvailableRooms(startTime: Date, endTime: Date, search: string = ""): Observable<Room[]> {
     var params = `?search=${search}`+
-                 `&startTime=${event.startTime.toISOString()}&`+
-                 `endTime=${event.endTime.toISOString()}`;
+                 `&startTime=${startTime.toISOString()}&`+
+                 `endTime=${endTime.toISOString()}`;
     return this.http.get<Room[]>(this.url+"/rooms"+params).pipe(
         catchError(this.handleError('getAvailableRooms', []))
       );

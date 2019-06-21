@@ -53,13 +53,25 @@ export class RecurrenceComponent implements ControlValueAccessor, OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.updateRecurrenceOptions();
-    var dayOfWeek = WeekDay[this.startDate.getDay()].toUpperCase();
-    this.form.get('weeklyDays').setValue([dayOfWeek]);
     this.detectChanges(this.form.value);
+    this.doLater(function() {this.verifyDayIsSelected()});
+  }
+
+  private doLater(fn): void {
+    setTimeout(fn.bind(this), 0);
+  }
+
+
+  verifyDayIsSelected() {
+    const dayOfWeek = WeekDay[this.startDate.getDay()].toUpperCase();
+    const weeklyDaysField = this.form.get('weeklyDays');
+    if(!weeklyDaysField.value.includes(dayOfWeek) && weeklyDaysField.value.length == 1)
+      weeklyDaysField.setValue([dayOfWeek]);
   }
 
   detectChanges(val: Recurrence) {
-    if(val.id == this.value.id &&
+    if(val && this.value &&
+       val.id == this.value.id &&
        val.cycle == this.value.cycle &&
        val.frequency == this.value.frequency &&
        val.endDate == this.value.endDate &&
@@ -120,7 +132,6 @@ export class RecurrenceComponent implements ControlValueAccessor, OnInit {
       return;
     
     this.value = value;
-
     this.form.patchValue(value);
   }
 

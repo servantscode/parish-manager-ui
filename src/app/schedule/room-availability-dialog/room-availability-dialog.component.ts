@@ -27,13 +27,14 @@ export class RoomAvailabilityDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<RoomAvailabilityDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
-                event:Event
+                startTime: Date,
+                endTime: Date
               },
               private fb: FormBuilder,
               private availabilityService: AvailabilityService) { }
   
   ngOnInit() {
-    this.availabilityService.getAvailableRooms(this.data.event).subscribe(resp => {
+    this.availabilityService.getAvailableRooms(this.data.startTime, this.data.endTime).subscribe(resp => {
       this.availableRooms = resp;
       this.filteredRooms = this.availableRooms;
     });

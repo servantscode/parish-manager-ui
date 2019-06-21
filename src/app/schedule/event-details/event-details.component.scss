@@ -1,40 +1,6 @@
-.reservation {
-  position: relative;
 
-  .content {
-    position: absolute;
-    top: calc(50% - 0.59em);
-    vertical-align: middle;
-
-    .actions {
-      visibility: hidden;
-    }
-  }
-
-  &:hover {
-    background-color: #cccccc;
-
-    .content .actions {
-       visibility: visible;
-    }
-  };
-}
-
-.reservation-row {
-  border-bottom: 1px solid #cccccc;
-}
-
-.col, .col-4, .col-8 {
+.col {
   padding: 0 2px 0 2px;
-}
-
-
-.float-clear {
-  clear: right;
-}
-
-.half-width {
-  width: 50%;
 }
 
 .removable:hover {
