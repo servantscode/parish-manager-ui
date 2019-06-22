@@ -2,6 +2,9 @@ import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { FormBuilder, Validators, FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { endOfYear } from 'date-fns';
 
+import { deepEqual } from '../../sccommon/utils';
+
+
 @Component({
   selector: 'app-days-of-week',
   templateUrl: './days-of-week.component.html',
@@ -43,21 +46,12 @@ export class DaysOfWeekComponent implements OnInit {
   }
 
   notifyObservers(val: string[]) {
-    if(this.deepEqual(val, this.value))
+    if(deepEqual(val, this.value))
       return;
 
     this.value = val;
     this.onChange(val);
     this.onTouched();
-  }
-
-  //Taken from https://stackoverflow.com/questions/201183/how-to-determine-equality-for-two-javascript-objects/16788517#16788517
-  private deepEqual(x, y) {
-    const ok = Object.keys, tx = typeof x, ty = typeof y;
-    return x && y && tx === 'object' && tx === ty ? (
-      ok(x).length === ok(y).length &&
-        ok(x).every(key => this.deepEqual(x[key], y[key]))
-    ) : (x === y);
   }
 
   collectValues(): string[] {

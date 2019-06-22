@@ -6,6 +6,7 @@ import { debounceTime } from 'rxjs/operators';
 // import { startOfHour, endOfYear, addHours, addMinutes, addSeconds, setHours, setMinutes, setSeconds, format, differenceInMinutes, isEqual } from 'date-fns';
 
 import { SCValidation } from '../../sccommon/validation';
+import { deepEqual, doLater } from '../../sccommon/utils';
 
 import { Recurrence } from '../event';
 
@@ -54,13 +55,8 @@ export class RecurrenceComponent implements ControlValueAccessor, OnInit {
   ngOnChanges(changes: SimpleChanges) {
     this.updateRecurrenceOptions();
     this.detectChanges(this.form.value);
-    this.doLater(function() {this.verifyDayIsSelected()});
+    doLater(function() {this.verifyDayIsSelected()}.bind(this));
   }
-
-  private doLater(fn): void {
-    setTimeout(fn.bind(this), 0);
-  }
-
 
   verifyDayIsSelected() {
     const dayOfWeek = WeekDay[this.startDate.getDay()].toUpperCase();
@@ -70,12 +66,7 @@ export class RecurrenceComponent implements ControlValueAccessor, OnInit {
   }
 
   detectChanges(val: Recurrence) {
-    if(val && this.value &&
-       val.id == this.value.id &&
-       val.cycle == this.value.cycle &&
-       val.frequency == this.value.frequency &&
-       val.endDate == this.value.endDate &&
-       val.weeklyDays.length == this.value.weeklyDays.length && val.weeklyDays.every(v => this.value.weeklyDays.includes(v)))
+    if(deepEqual(val, this.value))
       return;
 
     this.value = val;

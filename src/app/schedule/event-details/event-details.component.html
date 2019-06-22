@@ -109,7 +109,8 @@
       [endTime]="eventForm.get('endTime').value" 
       [eventId]="eventForm.get('id').value"
       [schedulerId]="eventForm.get('schedulerId').value"
-      [eventTitle]="eventForm.get('title').value">
+      [eventTitle]="eventForm.get('title').value"
+      (availabilityConflictsChange)="updateConflictCount($event)">
     </app-reservation>
 
     <div *ngIf="eventForm.get('recurringMeeting').value">

@@ -65,6 +65,8 @@ export class EventDetailsComponent implements OnInit {
   meetingLength: number = 3600;
   showConflicts = false;
 
+  conflictCount: number = 0;
+
   availableDepartments = ["Women", 
                           "Administration", 
                           "Fellowship", 
@@ -248,15 +250,13 @@ export class EventDetailsComponent implements OnInit {
       return;
     }
 
-    var conflicts = this.countConflicts();
-
-    if(conflicts == 0) {
+    if(this.conflictCount == 0) {
       this.storeEvent();
     } else if(this.loginService.userCan("admin.event.override")) {
       this.dialog.open(AdminOverrideDialogComponent, {
         width: '400px',
         data: {"title": "Reservation Conflicts",
-               "text" : (conflicts > 0? `This meeting request has ${conflicts} resource conflict${conflicts == 1? "": "s"}.<br/>`: "")+
+               "text" : (this.conflictCount > 0? `This meeting request has ${this.conflictCount} resource conflict${this.conflictCount == 1? "": "s"}.<br/>`: "")+
                (this.conflicts.length > 0? `This meeting request has ${this.conflicts.length} future conflict${this.conflicts.length == 1? "": "s"}.<br/>`: "") +
                "Are you sure you wish to proceed?",
                "confirm": () => { 
@@ -268,12 +268,12 @@ export class EventDetailsComponent implements OnInit {
   }
 
   canSave() {
-    return (this.countConflicts() == 0 && this.conflicts.length == 0) || this.loginService.userCan("admin.event.override");
+    return (this.conflictCount == 0 && this.conflicts.length == 0) || this.loginService.userCan("admin.event.override");
   }
 
-  private countConflicts() {
-    return 0;
-    // return this.roomAvailability.filter(avail => !avail).length + this.equipmentAvailability.filter(avail => !avail).length;
+  updateConflictCount(count: number) {
+    alert("Conflict count now: " + count);
+    this.conflictCount = count;
   }
 
   private storeEvent() {
@@ -365,9 +365,6 @@ export class EventDetailsComponent implements OnInit {
   }
 
   private populateEvent(eventData: Event): void {
-    // if(!eventData.recurrence)
-    //   delete eventData.recurrence;
-
     this.meetingLength = (eventData.endTime.getTime() - eventData.startTime.getTime())/1000;
     this.eventForm.patchValue(eventData);
 
@@ -394,7 +391,6 @@ export class EventDetailsComponent implements OnInit {
   private clearRecurringMeeting() {
     this.eventForm.get('recurringMeeting').setValue(false);
     this.eventForm.get('recurrence').disable();
-    // this.eventForm.get('recurrence').reset();
 
     this.futureTimes = [];
     this.exceptionDates = [];

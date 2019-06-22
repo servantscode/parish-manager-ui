@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, forwardRef, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
@@ -6,6 +6,7 @@ import { addMinutes, differenceInMinutes } from 'date-fns';
 // import { startOfHour, endOfYear, addHours, addMinutes, addSeconds, setHours, setMinutes, setSeconds, format, differenceInMinutes, isEqual } from 'date-fns';
 
 import { SCValidation } from '../../sccommon/validation';
+import { deepEqual, doLater } from '../../sccommon/utils';
 
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
@@ -36,6 +37,7 @@ export class ReservationComponent implements OnInit {
   @Input() eventId: number;
   @Input() eventTitle: string;
   @Input() schedulerId: number;
+  @Output() availabilityConflictsChange = new EventEmitter<number>();
 
   disabled: boolean = false;
 
@@ -101,13 +103,13 @@ export class ReservationComponent implements OnInit {
   setValues(value: Reservation[]): void {
     if(value.length > 0) {
       //Need this to be a cycle behind to allow start and end times to be set properly
-      this.doLater(function() {
+      doLater(function() {
         const setupTime = differenceInMinutes(this.startTime, value[0].startTime);
         const cleanupTime = differenceInMinutes(value[0].endTime, this.endTime);
 
         this.form.get('setupTime').setValue(setupTime);
         this.form.get('cleanupTime').setValue(cleanupTime);
-      });
+      }.bind(this));
     }
 
     this.rooms = value.filter((r) => r.resourceType == 'ROOM');
@@ -126,26 +128,17 @@ export class ReservationComponent implements OnInit {
   notifyObservers() {
     var val: Reservation[] = this.collectReservations();
 
-    if(this.deepEqual(val, this.value))
+    if(deepEqual(val, this.value))
       return;
         
-    if(val.length == 0)
-      console.trace();
-
     this.value = val;
     this.onChange(this.value);
     this.onTouched();
   }
 
-  //Taken from https://stackoverflow.com/questions/201183/how-to-determine-equality-for-two-javascript-objects/16788517#16788517
-  private deepEqual(x, y) {
-    const ok = Object.keys, tx = typeof x, ty = typeof y;
-    return x && y && tx === 'object' && tx === ty ? (
-      ok(x).length === ok(y).length &&
-        ok(x).every(key => this.deepEqual(x[key], y[key]))
-    ) : (x === y);
+  private countConflicts(): number {
+    return this.roomAvailability.filter(avail => !avail).length + this.equipmentAvailability.filter(avail => !avail).length;
   }
-
 
   findAvailableRooms(): void {
     const dialogRef = this.dialog.open(RoomAvailabilityDialogComponent, {
@@ -191,11 +184,13 @@ export class ReservationComponent implements OnInit {
 
   setRoomAvailability(index: number, available: boolean) {
     this.roomAvailability[index]=available;
+    this.availabilityConflictsChange.emit(this.countConflicts());
   }
 
   removeRoom(index: number): void {
     this.rooms.splice(index, 1);
     this.roomAvailability.splice(index, 1);
+    this.availabilityConflictsChange.emit(this.countConflicts());
     this.notifyObservers();
   }
 
@@ -226,11 +221,13 @@ export class ReservationComponent implements OnInit {
 
   setEquipmentAvailability(index: number, available: boolean) {
     this.equipmentAvailability[index]=available;
+    this.availabilityConflictsChange.emit(this.countConflicts());
   }
 
   removeEquipment(index: number): void {
     this.equipment.splice(index, 1);
     this.equipmentAvailability.splice(index, 1);
+    this.availabilityConflictsChange.emit(this.countConflicts());
     this.notifyObservers();
   }
 
@@ -266,10 +263,6 @@ export class ReservationComponent implements OnInit {
     
     this.value = value;
     this.setValues(this.value);
-  }
-
-  private doLater(fn): void {
-    setTimeout(fn.bind(this), 0);
   }
 
   setDisabledState( isDisabled : boolean ) : void {
