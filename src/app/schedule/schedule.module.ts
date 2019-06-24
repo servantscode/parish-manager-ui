@@ -33,6 +33,7 @@ import { RoomAvailabilityDialogComponent } from './room-availability-dialog/room
 import { RecurrenceComponent } from './recurrence/recurrence.component';
 import { DaysOfWeekComponent } from './days-of-week/days-of-week.component';
 import { ReservationComponent } from './reservation/reservation.component';
+import { DateSeriesComponent } from './date-series/date-series.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ReservationComponent } from './reservation/reservation.component';
     RoomAvailabilityDialogComponent,
     RecurrenceComponent,
     DaysOfWeekComponent,
-    ReservationComponent
+    ReservationComponent,
+    DateSeriesComponent
   ],
   imports: [
     ScheduleRoutingModule,

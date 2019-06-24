@@ -56,7 +56,7 @@ export class AvailabilityComponent implements OnInit, OnChanges {
   getReservations() {
     this.reservationService.getReservations(this.reservation).subscribe(
       resp => {
-        this.reservations = resp.filter(res => res.id !== this.reservation.id);
+        this.reservations = resp.filter(res => res.eventId !== this.reservation.eventId);
         this.processReservations();
       });
   }

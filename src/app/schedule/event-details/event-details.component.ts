@@ -10,6 +10,8 @@ import { startOfHour, endOfYear, addHours, addMinutes, addSeconds, setHours, set
 import { LoginService } from '../../sccommon/services/login.service';
 import { SCValidation } from '../../sccommon/validation';
 
+import { doLater } from '../../sccommon/utils';
+
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
@@ -50,22 +52,21 @@ export class EventDetailsComponent implements OnInit {
       categories: [],
       recurringMeeting: [false],
       recurrence: null,
-      reservations: []
+      reservations: [],
+      exceptionDates: []
     });
 
   event: Event;
-  futureTimes: Date[]  = [];
-  exceptionDates: Date[] = [];
 
   disabled: boolean = false;
   editMode: boolean = false;
   formSubs: Subscription[] = [];
-  conflicts: EventConflict[] = [];
 
   meetingLength: number = 3600;
-  showConflicts = false;
 
+  futureDates: number = 0;
   conflictCount: number = 0;
+  futureConflicts: number = 0;
 
   availableDepartments = ["Women", 
                           "Administration", 
@@ -134,13 +135,12 @@ export class EventDetailsComponent implements OnInit {
 
           //Is this a new event or has an edit been requested at the handoff?
           if(!this.event.id) {
-            this.editMode = true;
-            this.enableSubscriptions();
+            this.edit(true);
           } else if (this.selectedEvent.edit) {
             this.selectedEvent.edit = false;
-            this.enableEdit();
+            this.edit(true);
           } else {
-            this.disableAll();
+            this.edit(false);
           }
         }
     );
@@ -157,8 +157,8 @@ export class EventDetailsComponent implements OnInit {
       this.event.id = id;
 
     if(this.selectedEvent.event) {
-      this.event=this.selectedEvent.event;
-      this.populateEvent(this.selectedEvent.event);
+      this.event = this.cleaningService.prune<Event>(this.selectedEvent.event, new Event().asTemplate());
+      this.populateEvent(this.event);
 
       this.selectedEvent.event = null;
     } else if(id > 0) {
@@ -182,11 +182,10 @@ export class EventDetailsComponent implements OnInit {
       return;
 
     if(this.getValue('recurringMeeting')) {
-      const count = this.futureTimes.length;
       const dialogRef = this.dialog.open(RecurringEditDialogComponent, {
         width: '400px',
         data: {"title": "Edit Recurring Event",
-               "text": `This is a recurring meeting with ${count? count: ""} future events. Do you wish to edit the future events?`
+               "text": `This is a recurring meeting with ${this.futureDates? this.futureDates: ""} future events. Do you wish to edit the future events?`
         }
       });
 
@@ -194,34 +193,10 @@ export class EventDetailsComponent implements OnInit {
         if(!result)
           this.clearRecurringMeeting();
         
-        this.editMode = true;
-        this.enableAll();      
+        this.edit(true);
       });
     } else {
-      this.editMode = true;
-      this.enableAll();
-    }
-  }
-
-  toggleConflicts() {
-    this.showConflicts = !this.showConflicts;
-  }
-
-  addException(conflict: EventConflict) {
-    this.exceptionDates.push(conflict.event.startTime);
-    this.conflicts = this.conflicts.filter(con => con !== conflict);
-    this.futureTimes = this.futureTimes.filter(time => !isEqual(time, conflict.event.startTime));
-  }
-
-  calculateFutureTimes() {
-    if(this.getValue('recurringMeeting')) {
-      const e = this.getEventFromForm();
-      if(!e.recurrence || (e.recurrence.cycle ==='WEEKLY' && e.recurrence.weeklyDays.length == 0)) {
-        this.futureTimes = [];
-      } else {
-        this.eventService.calculateFutureTimes(e).subscribe(times => this.futureTimes=times);
-        this.checkFutureConflicts();
-      }
+      this.edit(true);
     }
   }
 
@@ -229,19 +204,21 @@ export class EventDetailsComponent implements OnInit {
     if(!this.loginService.userCan("event.create"))
       return;
 
-    this.eventForm.get('id').setValue(null);
-    this.event.id = 0;
-    const recurrenceField = this.eventForm.get('recurrence');
-    const recurrence = recurrenceField.value;
-    recurrence.id = 0;
-    recurrenceField.setValue(recurrence);
+    const event = this.getEventFromForm();
+    event.id = 0;
+    event.title = 'Copy of ' + event.title;
+    if(event.recurrence)
+      event.recurrence.id = 0;
+    event.reservations = event.reservations.map(res => {
+        res.id = 0; 
+        res.eventId = 0;
+        return this.cleaningService.prune(res, Reservation.template());
+      });
+
+    this.populateEvent(event);
 
     this.location.replaceState("/calendar/event");
-    this.editMode = true;
-    this.enableAll();
-
-    this.eventForm.get('title').setValue('Copy of ' + this.getValue('title'));
-    this.checkFutureConflicts();
+    this.edit(true);
   }
 
   createEvent() {
@@ -250,17 +227,17 @@ export class EventDetailsComponent implements OnInit {
       return;
     }
 
-    if(this.conflictCount == 0) {
+    if(this.conflictCount == 0 && this.futureConflicts == 0) {
       this.storeEvent();
-    } else if(this.loginService.userCan("admin.event.override")) {
+    } else if(this.canSave()) {
       this.dialog.open(AdminOverrideDialogComponent, {
         width: '400px',
         data: {"title": "Reservation Conflicts",
                "text" : (this.conflictCount > 0? `This meeting request has ${this.conflictCount} resource conflict${this.conflictCount == 1? "": "s"}.<br/>`: "")+
-               (this.conflicts.length > 0? `This meeting request has ${this.conflicts.length} future conflict${this.conflicts.length == 1? "": "s"}.<br/>`: "") +
+               (this.futureConflicts > 0? `This meeting request has ${this.futureConflicts} future conflict${this.futureConflicts == 1? "": "s"}.<br/>`: "") +
                "Are you sure you wish to proceed?",
                "confirm": () => { 
-                 return this.storeEvent(); 
+                 this.storeEvent(); 
                }
           }
       });
@@ -268,17 +245,22 @@ export class EventDetailsComponent implements OnInit {
   }
 
   canSave() {
-    return (this.conflictCount == 0 && this.conflicts.length == 0) || this.loginService.userCan("admin.event.override");
+    return (this.conflictCount == 0 && this.futureConflicts == 0) || 
+          (this.getValue("id") == 0 && this.loginService.userCan("admin.event.create")) ||
+          (this.getValue("id") > 0 && this.loginService.userCan("admin.event.edit"));
   }
 
   updateConflictCount(count: number) {
-    alert("Conflict count now: " + count);
     this.conflictCount = count;
+  }
+
+  updateFutureConflictCount(count: number) {
+    this.futureConflicts = count;
   }
 
   private storeEvent() {
     if(this.getValue("id") > 0) {
-      if(!this.loginService.userCan("event.create"))
+      if(!this.loginService.userCan("event.update"))
         this.goBack();
 
       this.eventService.update(this.getEventFromForm()).
@@ -286,7 +268,7 @@ export class EventDetailsComponent implements OnInit {
           this.goBack();
         });
     } else {
-      if(!this.loginService.userCan("event.update"))
+      if(!this.loginService.userCan("event.create"))
         this.goBack();
 
       this.eventService.create(this.getEventFromForm()).
@@ -298,11 +280,10 @@ export class EventDetailsComponent implements OnInit {
 
   delete(): void {
     if(this.getValue('recurringMeeting')) {
-      const count = this.futureTimes.length;
       const dialogRef = this.dialog.open(RecurringEditDialogComponent, {
         width: '400px',
         data: {"title": "Delete Recurring Event",
-               "text": `This is a recurring meeting with ${count} future events. Do you wish to delete the future events?`
+               "text": `This is a recurring meeting with ${this.futureDates} future events. Do you wish to delete the future events?`
         }
       });
 
@@ -323,33 +304,17 @@ export class EventDetailsComponent implements OnInit {
              "text" : "Are you sure you want to delete " + title + "?",
              "delete": (): Observable<void> => { 
                return this.eventService.delete(this.event, deleteFutureEvents); 
-             },
-             "nav": () => { 
-               this.cancel();
-             }
+            },
+            "nav": () => { 
+              this.cancel();
+            }
         }
     });
   }
 
-  private checkFutureConflicts() {
-    if(!this.getValue('recurringMeeting'))
-      return;
-
-    const event = this.getEventFromForm();
-
-    if(event.reservations && event.reservations.length > 0) {
-      this.reservationService.getConflicts(event).subscribe(conflicts =>  {
-          this.conflicts = conflicts
-          if(this.conflicts && this.conflicts.length > 0 && isEqual(this.conflicts[0].event.startTime, this.getValue('startTime')))
-            this.conflicts.shift();
-        });
-    }
-  }
-
   cancel() {
     if(this.editMode && this.getValue("id")) {
-      this.editMode = false;
-      this.disableAll();
+      this.edit(false);
       this.getEvent();
     } else {
       this.goBack();
@@ -370,31 +335,12 @@ export class EventDetailsComponent implements OnInit {
 
     if(eventData.recurrence != undefined && eventData.recurrence != null) {
       this.eventForm.get('recurringMeeting').setValue(true);
-
-      const recur = eventData.recurrence;
-
-      //HACK. Interceptor can't seem to figure out the difference between an array of 1 string and a raw string
-      if(!Array.isArray(recur.exceptionDates)) {
-        this.exceptionDates = [];
-        this.exceptionDates.push(recur.exceptionDates);
-      } else {
-        this.exceptionDates = recur.exceptionDates;
-      }
-
-      this.eventService.getFutureTimes(eventData.id).subscribe(resp => this.futureTimes = resp);
-      this.checkFutureConflicts();
-    } else {
-      this.clearRecurringMeeting();
     }
   }
 
   private clearRecurringMeeting() {
     this.eventForm.get('recurringMeeting').setValue(false);
     this.eventForm.get('recurrence').disable();
-
-    this.futureTimes = [];
-    this.exceptionDates = [];
-    this.conflicts = [];
   }
 
   private recurringMeetingDefaults() {
@@ -409,20 +355,20 @@ export class EventDetailsComponent implements OnInit {
     }
   }
 
-  private enableAll() {
-    this.disabled = false;
-    for(let control in this.eventForm.controls)
-      this.eventForm.get(control).enable();
+  private edit(enableEdit: boolean) {
+    this.editMode = enableEdit;
+    this.disabled = !enableEdit;
+    if(enableEdit) {
+      for(let control in this.eventForm.controls)
+        this.eventForm.get(control).enable();
 
-    this.enableSubscriptions();
-  }
+      this.enableSubscriptions();
+    } else {
+      this.disableSubscriptions();
 
-  private disableAll() {
-    this.disabled = true;
-    this.disableSubscriptions();
-
-    for(let control in this.eventForm.controls)
-      this.eventForm.get(control).disable();
+      for(let control in this.eventForm.controls)
+        this.eventForm.get(control).disable();
+    }
   }
 
   private enableSubscriptions() {
@@ -456,20 +402,20 @@ export class EventDetailsComponent implements OnInit {
         .subscribe( value => {
           if(value) {
             this.recurringMeetingDefaults();
-            this.calculateFutureTimes();
-          } else {
-            this.clearRecurringMeeting();
           }
         }));
 
     this.formSubs.push(
-      this.eventForm.get('recurrence').valueChanges.pipe(debounceTime(0))
-        .subscribe(() => this.calculateFutureTimes()));
+      this.eventForm.get('recurrence').valueChanges.pipe(debounceTime(0), distinctUntilChanged())
+        .subscribe(recur => { 
+            doLater(function () {
+              this.event = this.getEventFromForm();
+            }.bind(this))
+          }));
 
     this.formSubs.push(
-      this.eventForm.get('reservations').valueChanges.pipe(debounceTime(10))
-        .subscribe(value => this.checkFutureConflicts()));
-
+      this.eventForm.get('reservations').valueChanges.pipe(debounceTime(0), distinctUntilChanged())
+        .subscribe(() => this.event = this.getEventFromForm()));
   }
 
   private disableSubscriptions() {
@@ -482,7 +428,7 @@ export class EventDetailsComponent implements OnInit {
     const formData = this.eventForm.value;
 
     if(formData.recurrence)
-      formData.recurrence.exceptionDates = this.exceptionDates;
+      formData.recurrence.exceptionDates = formData.exceptionDates;
 
     return this.cleaningService.prune<Event>(formData, new Event().asTemplate());
   }

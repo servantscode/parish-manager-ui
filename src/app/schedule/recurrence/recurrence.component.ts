@@ -3,7 +3,6 @@ import { WeekDay } from '@angular/common';
 import { FormBuilder, Validators, FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { endOfYear } from 'date-fns';
 import { debounceTime } from 'rxjs/operators';
-// import { startOfHour, endOfYear, addHours, addMinutes, addSeconds, setHours, setMinutes, setSeconds, format, differenceInMinutes, isEqual } from 'date-fns';
 
 import { SCValidation } from '../../sccommon/validation';
 import { deepEqual, doLater } from '../../sccommon/utils';
@@ -49,7 +48,7 @@ export class RecurrenceComponent implements ControlValueAccessor, OnInit {
     this.form.get('frequency').valueChanges
         .subscribe( () => this.updateRecurrenceOptions());
 
-    this.form.valueChanges.pipe(debounceTime(100)).subscribe(value => this.detectChanges(this.form.value));
+    this.form.valueChanges.pipe(debounceTime(0)).subscribe(value => this.detectChanges(this.form.value));
   }
 
   ngOnChanges(changes: SimpleChanges) {
