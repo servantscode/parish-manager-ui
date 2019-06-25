@@ -1,7 +1,7 @@
 <div>
-  <span *ngIf="futureTimes && futureTimes.length > 0">
-    {{futureTimes.length}} {{futureTimes.length > 1? 'events':'event'}}<span *ngIf="exceptionDates && exceptionDates.length > 0"> -
-      <span class="excluded">{{exceptionDates.length}} excluded {{exceptionDates.length > 1? 'dates' : 'date'}}</span>
+  <span *ngIf="futureEvents && futureEvents.length > 0">
+    {{futureEvents.length - exceptionDates.length}} {{(futureEvents.length - exceptionDates.length) > 1? 'events':'event'}}<span *ngIf="exceptionDates && exceptionDates.length > 0"> -
+      <span>{{exceptionDates.length}} excluded {{exceptionDates.length > 1? 'dates' : 'date'}}</span>
     </span>
   </span>
   <div class="date-list" *ngIf="futureEvents.length > 0">

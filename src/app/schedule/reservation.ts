@@ -10,18 +10,17 @@ export class Reservation {
   startTime: Date;
   endTime: Date;
 
-  static template(): Reservation {
-    var template = new Reservation();
-    template.id = 0;
-    template.resourceType = 'ROOM';
-    template.resourceId = 0;
-    template.resourceName = null;
-    template.eventId = 0;
-    template.eventTitle = '';
-    template.reservingPersonId = 0;
-    template.reserverName = '';
-    template.startTime = new Date();
-    template.endTime = new Date();
-    return template;
+  public asTemplate(): Reservation {
+    this.id = 0;
+    this.resourceType = 'ROOM';
+    this.resourceId = 0;
+    this.resourceName = null;
+    this.eventId = 0;
+    this.eventTitle = '';
+    this.reservingPersonId = 0;
+    this.reserverName = '';
+    this.startTime = new Date();
+    this.endTime = new Date();
+    return this;
   }
 }

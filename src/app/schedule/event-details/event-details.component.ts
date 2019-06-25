@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location, WeekDay } from '@angular/common';
@@ -46,11 +46,11 @@ export class EventDetailsComponent implements OnInit {
       categories: [],
       recurringMeeting: [false],
       recurrence: null,
-      reservations: [],
-      exceptionDates: []
+      reservations: []
     });
 
   event: Event;
+  customEvents : Event[];
 
   disabled: boolean = false;
   editMode: boolean = false;
@@ -116,10 +116,7 @@ export class EventDetailsComponent implements OnInit {
               public personService: PersonService,
               public loginService: LoginService,
               private cleaningService: DataCleanupService,
-              private changeDetectorRef: ChangeDetectorRef,
-              private selectedEvent: SelectedEvent) { 
-    
-  }
+              private selectedEvent: SelectedEvent) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -207,7 +204,7 @@ export class EventDetailsComponent implements OnInit {
     event.reservations = event.reservations.map(res => {
         res.id = 0; 
         res.eventId = 0;
-        return this.cleaningService.prune(res, Reservation.template());
+        return this.cleaningService.prune(res, new Reservation().asTemplate());
       });
 
     this.populateEvent(event);
@@ -247,8 +244,8 @@ export class EventDetailsComponent implements OnInit {
 
   canSave() {
     return (this.conflictCount == 0 && this.futureConflicts == 0) || 
-          (this.getValue("id") == 0 && this.loginService.userCan("admin.event.create")) ||
-          (this.getValue("id") > 0 && this.loginService.userCan("admin.event.edit"));
+           (this.getValue("id") == 0 && this.loginService.userCan("admin.event.create")) ||
+           (this.getValue("id") > 0 && this.loginService.userCan("admin.event.edit"));
   }
 
   updateConflictCount(count: number) {
@@ -259,25 +256,6 @@ export class EventDetailsComponent implements OnInit {
     this.futureConflicts = count;
   }
 
-  private storeEvent() {
-    if(this.getValue("id") > 0) {
-      if(!this.loginService.userCan("event.update"))
-        this.goBack();
-
-      this.eventService.update(this.getEventFromForm()).
-        subscribe(() => {
-          this.goBack();
-        });
-    } else {
-      if(!this.loginService.userCan("event.create"))
-        this.goBack();
-
-      this.eventService.create(this.getEventFromForm()).
-        subscribe(() => {
-          this.cancel();
-        });
-    }
-  }
 
   delete(): void {
     if(this.getValue('recurringMeeting')) {
@@ -326,14 +304,49 @@ export class EventDetailsComponent implements OnInit {
     this.location.back();
   }
 
+  private storeEvent() {
+    const recurrence = this.getValue('recurrence');
+
+    if(this.getValue("id") > 0) {
+      if(!this.loginService.userCan("event.update"))
+        this.goBack();
+
+      if(recurrence && recurrence.cycle == 'CUSTOM') {
+        const cleanEvents = this.customEvents.map(e => {
+          const ev = this.cleaningService.prune(e, new Event().asTemplate());
+          ev.reservations = ev.reservations.map(res => this.cleaningService.prune(res, new Reservation().asTemplate()));
+          return ev;
+        });
+        this.eventService.updateSeries(cleanEvents).
+          subscribe(() => this.goBack());
+      } else {
+        this.eventService.update(this.getEventFromForm()).
+          subscribe(() => this.goBack());
+      }
+    } else {
+      if(!this.loginService.userCan("event.create"))
+        this.goBack();
+
+      if(recurrence && recurrence.cycle == 'CUSTOM') {
+        const cleanEvents = this.customEvents.map(e => {
+          const ev = this.cleaningService.prune(e, new Event().asTemplate());
+          ev.reservations = ev.reservations.map(res => this.cleaningService.prune(res, new Reservation().asTemplate()));
+          return ev;
+        });
+        this.eventService.createSeries(cleanEvents).
+          subscribe(() => this.cancel());
+      } else {
+        this.eventService.create(this.getEventFromForm()).
+          subscribe(() => this.cancel());
+      }
+    }
+  }
+
   private getValue(fieldName: string): any {
     return this.eventForm.get(fieldName).value;
   }
 
   private populateEvent(eventData: Event): void {
-    this.meetingLength = (eventData.endTime.getTime() - eventData.startTime.getTime())/1000;
-    this.eventForm.patchValue(eventData);
-
     const recur = eventData.recurrence;
     if(recur != undefined && recur != null) {
       this.eventForm.get('recurringMeeting').setValue(true);
@@ -345,8 +358,14 @@ export class EventDetailsComponent implements OnInit {
         recur.exceptionDates = exceptionDates;
       } 
 
-      this.eventForm.get('exceptionDates').setValue(recur.exceptionDates);
+      if(recur.cycle == 'CUSTOM') {
+        this.eventService.getFutureEvents(eventData.id).subscribe(events => this.customEvents=events);
+      }
     }
+
+    this.meetingLength = (eventData.endTime.getTime() - eventData.startTime.getTime())/1000;
+    this.eventForm.patchValue(eventData);
+    this.event = this.getEventFromForm();
   }
 
   private clearRecurringMeeting() {
@@ -411,9 +430,8 @@ export class EventDetailsComponent implements OnInit {
       this.eventForm.get('recurringMeeting').valueChanges
         .pipe(debounceTime(0), distinctUntilChanged())
         .subscribe( value => {
-          if(value) {
+          if(value)
             this.recurringMeetingDefaults();
-          }
         }));
 
     this.formSubs.push(
@@ -434,13 +452,7 @@ export class EventDetailsComponent implements OnInit {
     this.formSubs = [];
   }
 
-
   private getEventFromForm(): Event {
-    const formData = this.eventForm.value;
-
-    if(formData.recurrence)
-      formData.recurrence.exceptionDates = formData.exceptionDates;
-
-    return this.cleaningService.prune<Event>(formData, new Event().asTemplate());
+    return this.cleaningService.prune<Event>(this.eventForm.value, new Event().asTemplate());
   }
 }

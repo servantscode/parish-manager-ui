@@ -1,0 +1,49 @@
+.conflict-list {
+  border: #cccccc solid 1px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 5px;
+}
+
+.date-list {
+  border: #cccccc solid 1px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 5px;
+}
+
+.excluded {
+  text-decoration: line-through;
+}
+
+.conflicted {
+  color: red;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none;
+}
+
+.pad-right-5 {
+  padding-right: 5px;
+}
+
+table {
+  vertical-align: middle;
+}
+
+.event {
+  .content .actions {
+    visibility: hidden;
+  }
+
+  &:hover {
+    background-color: #dddddd;
+
+    .content .actions {
+       visibility: visible;
+    }
+  };
+
+}

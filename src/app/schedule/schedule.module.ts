@@ -34,6 +34,8 @@ import { RecurrenceComponent } from './recurrence/recurrence.component';
 import { DaysOfWeekComponent } from './days-of-week/days-of-week.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { DateSeriesComponent } from './date-series/date-series.component';
+import { CustomDateSeriesComponent } from './custom-date-series/custom-date-series.component';
+import { CustomEventDialogComponent } from './custom-event-dialog/custom-event-dialog.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { DateSeriesComponent } from './date-series/date-series.component';
     RecurrenceComponent,
     DaysOfWeekComponent,
     ReservationComponent,
-    DateSeriesComponent
+    DateSeriesComponent,
+    CustomDateSeriesComponent,
+    CustomEventDialogComponent
   ],
   imports: [
     ScheduleRoutingModule,
@@ -83,7 +87,8 @@ import { DateSeriesComponent } from './date-series/date-series.component';
     RoomDialogComponent,
     EquipmentDialogComponent,
     RecurringEditDialogComponent,
-    RoomAvailabilityDialogComponent
+    RoomAvailabilityDialogComponent,
+    CustomEventDialogComponent
   ],
   providers: [
     SelectedEvent

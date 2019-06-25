@@ -70,14 +70,12 @@ export class ReservationComponent implements OnInit {
       .pipe(debounceTime(0), distinctUntilChanged())
       .subscribe( newTime => {
           this.updateReservationTimes();
-          this.notifyObservers();
         });
 
     this.form.get('cleanupTime').valueChanges
       .pipe(debounceTime(0), distinctUntilChanged())
       .subscribe( newTime => {
           this.updateReservationTimes();
-          this.notifyObservers();
         });
 
     this.form.get('room').valueChanges
@@ -119,8 +117,8 @@ export class ReservationComponent implements OnInit {
 
   collectReservations(): Reservation[] {
     var reservations = [];
-    this.rooms.forEach(r => reservations.push(this.cleaningService.prune(r, Reservation.template())));
-    this.equipment.forEach(r => reservations.push(this.cleaningService.prune(r, Reservation.template())));
+    this.rooms.forEach(r => reservations.push(this.cleaningService.prune(r, new Reservation().asTemplate())));
+    this.equipment.forEach(r => reservations.push(this.cleaningService.prune(r, new Reservation().asTemplate())));
     return reservations;
   }
 
@@ -178,7 +176,6 @@ export class ReservationComponent implements OnInit {
     this.roomAvailability.push(false);
     this.form.get('room').reset();
     this.updateReservationTimes();
-    this.notifyObservers();
   }
 
   setRoomAvailability(index: number, available: boolean) {
@@ -215,7 +212,6 @@ export class ReservationComponent implements OnInit {
     this.equipmentAvailability.push(false);
     this.form.get('equipment').reset();
     this.updateReservationTimes();
-    this.notifyObservers();
   }
 
   setEquipmentAvailability(index: number, available: boolean) {
@@ -238,6 +234,7 @@ export class ReservationComponent implements OnInit {
 
     this.rooms = this.rooms.map(room => this.cloneToNewTime(room, start, end));
     this.equipment = this.equipment.map(equip => this.cloneToNewTime(equip, start, end));
+    this.notifyObservers();
   }
 
   private cloneToNewTime(res: any, start:Date, end:Date) {

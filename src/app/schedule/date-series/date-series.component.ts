@@ -2,6 +2,8 @@ import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, forwardRef,
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { startOfDay, isEqual, compareAsc, isAfter } from 'date-fns';
 
+import { deepEqual } from '../../sccommon/utils';
+
 import { EventService } from '../services/event.service';
 import { ReservationService } from '../services/reservation.service';
 
@@ -25,8 +27,11 @@ export class DateSeriesComponent implements OnInit, OnChanges {
   @Output() futureConflictsChange = new EventEmitter<number>();
 
   exceptionDates: Date[] = [];
+  lastSent: Date[] = [];
 
   futureEvents: any[] = [];
+  @Output() futureEventsChange = new EventEmitter<any[]>();
+
   open: boolean[] = [];
 
   disabled = false;
@@ -41,11 +46,7 @@ export class DateSeriesComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(change: SimpleChanges) {
-
-    const recur = this.event.recurrence;
-
-    if(recur)
-      this.calculateFutureTimes();
+    this.calculateFutureTimes();
   }
 
   toggleConflict(i: number) {
@@ -68,9 +69,14 @@ export class DateSeriesComponent implements OnInit, OnChanges {
   }
 
   private notifyObservers() {
+    if(deepEqual(this.exceptionDates, this.lastSent))
+      return;
+
+    this.lastSent = this.exceptionDates;
     this.onChange(this.exceptionDates);
     this.onTouched();
     this.updateFutureConflicts();
+    this.futureEventsChange.emit(this.futureEvents.filter(e => !e.excluded).map(e => e.startTime));
   }
 
   private calculateFutureTimes() {
@@ -88,6 +94,7 @@ export class DateSeriesComponent implements OnInit, OnChanges {
               .map(t => { return {"startTime": t, "excluded": true} }));
           this.futureEvents.sort((a, b) => compareAsc(a.startTime, b.startTime));
           this.open = [].fill(false, 0, this.futureEvents.length);
+          this.futureEventsChange.emit(times);
         });
       this.checkFutureConflicts();
     }

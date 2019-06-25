@@ -1,0 +1,29 @@
+<div>
+  <table *ngIf="events">
+    <td>
+      <span >{{events.length}} {{events.length > 1? 'events':'event'}}</span>
+    </td>
+    <td *ngIf="!disabled">
+      <div class="actions icon add" (click)="addEvent()">&nbsp;</div>
+    </td>
+  </table>
+
+  <div class="date-list" *ngIf="events && events.length > 0">
+    <div *ngFor="let event of events; let i=index" class="event">
+      <table class="content">
+        <td>
+          <span [ngClass]="{'conflicted': event.conflicts}" class="clickable pad-right-5" (click)="toggleConflict(i)">{{event.startTime | date: 'MM/dd/yyyy'}} ({{event.startTime | date: 'h:mma'}} - {{event.endTime | date: 'h:mma'}})</span>
+        </td>
+        <td *ngIf="!disabled">
+          <div class="actions icon edit" (click)="editEvent(i)">&nbsp;</div>
+        </td>
+        <td *ngIf="!disabled">
+          <div class="actions icon delete" (click)="deleteEvent(i)">&nbsp;</div>
+        </td>
+      </table>
+       <div *ngIf="open[i] && event.conflicts">
+        <div *ngFor="let res of event.conflicts.conflicts">&nbsp;&nbsp;{{res.resourceName}} - {{res.eventTitle}} - {{res.reserverName}}</div>
+      </div>
+    </div>
+  </div>
+</div>

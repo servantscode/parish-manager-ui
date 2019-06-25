@@ -62,7 +62,7 @@ export class AvailabilityComponent implements OnInit, OnChanges {
   }
 
   formatTime(hour: number) {
-    return (hour > 12? hour - 12: hour) + " " + (hour > 11? "PM": "AM");
+    return (hour > 12? hour - 12: hour) + " " + (hour > 11? "P": "A");
   }
 
   private processReservations() {

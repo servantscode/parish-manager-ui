@@ -43,9 +43,9 @@ export class EventService extends PaginatedService<Event> {
       );
   }
 
-  public getFutureTimes(id:number): Observable<Date[]> {
-    return this.http.get<Date[]>(this.url+`/${id}/futureTimes`).pipe(
-        catchError(this.handleError('getFutureTimes', []))
+  public getFutureEvents(id:number): Observable<Event[]> {
+    return this.http.get<Event[]>(this.url+`/${id}/futureEvents`).pipe(
+        catchError(this.handleError('getFutureEvents', []))
       );
   }
 
@@ -69,4 +69,21 @@ export class EventService extends PaginatedService<Event> {
         catchError(this.handleError('delete', null))
       );
   }
+
+  createSeries(events: Event[]): Observable<Event> {
+    return this.http.post<Event>(this.url + '/series', events, this.httpOptions).pipe(
+        map(resp => this.mapObject(resp)),
+        tap(item => this.log('Created!')),
+        catchError(this.handleError('createEventSeries', null))
+      );
+  }
+
+  updateSeries(events: Event[]): Observable<Event> {
+    return this.http.put<Event>(this.url + '/series', events, this.httpOptions).pipe(
+        map(resp => this.mapObject(resp)),
+        tap(item => this.log('Updated!')),
+        catchError(this.handleError('updateEventSeries', null))
+      );
+  }
+
 }

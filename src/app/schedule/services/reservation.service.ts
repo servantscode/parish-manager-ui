@@ -41,4 +41,10 @@ export class ReservationService extends BaseService {
       catchError(this.handleError('getConflicts', []))
     );
   }
+
+  getCustomEventConflicts(events: Event[]): Observable<EventConflict[]> {
+    return this.http.post<EventConflict[]>(this.url+"/custom", events, this.httpOptions).pipe(
+      catchError(this.handleError('getCustomEventConflicts', []))
+    );
+  }
 }
