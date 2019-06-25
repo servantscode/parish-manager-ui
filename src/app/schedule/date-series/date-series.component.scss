@@ -13,9 +13,37 @@
 }
 
 .excluded {
+  text-decoration: line-through;
+}
+
+.conflicted {
   color: red;
+  font-weight: 500;
 }
 
 .hidden {
   display: none;
+}
+
+.pad-right-5 {
+  padding-right: 5px;
+}
+
+.event {
+  .content {
+    vertical-align: middle;
+
+    .actions {
+      visibility: hidden;
+    }
+  }
+
+  &:hover {
+    background-color: #dddddd;
+
+    .content .actions {
+       visibility: visible;
+    }
+  };
+
 }

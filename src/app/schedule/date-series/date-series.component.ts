@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, forwardRef, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { isEqual } from 'date-fns';
+import { startOfDay, isEqual, compareAsc, isAfter } from 'date-fns';
 
 import { EventService } from '../services/event.service';
 import { ReservationService } from '../services/reservation.service';
@@ -24,11 +24,10 @@ export class DateSeriesComponent implements OnInit, OnChanges {
   @Input() event: Event;
   @Output() futureConflictsChange = new EventEmitter<number>();
 
-  futureTimes: Date[]  = [];
   exceptionDates: Date[] = [];
 
-  conflicts: EventConflict[] = [];
-  showConflicts = false;
+  futureEvents: any[] = [];
+  open: boolean[] = [];
 
   disabled = false;
 
@@ -39,55 +38,57 @@ export class DateSeriesComponent implements OnInit, OnChanges {
               private reservationService: ReservationService) { }
 
   ngOnInit() {
-    if(this.event.id)
-      this.eventService.getFutureTimes(this.event.id).subscribe(resp => this.futureTimes = resp);
   }
 
   ngOnChanges(change: SimpleChanges) {
 
     const recur = this.event.recurrence;
 
-    if(recur) {
+    if(recur)
       this.calculateFutureTimes();
-  
-      //HACK. Interceptor can't seem to figure out the difference between an array of 1 string and a raw string
-      if(!recur.exceptionDates) {
-        this.exceptionDates = [];
-      }else if (!Array.isArray(recur.exceptionDates)) {
-        this.exceptionDates = [];
-        this.exceptionDates.push(recur.exceptionDates);
-      } else {
-        this.exceptionDates = recur.exceptionDates;
-      }
-    } else {
-      this.futureTimes = [];
-      this.exceptionDates = [];
-      this.conflicts = [];
-    }
-
-    alert("this.exceptionDates now: " + JSON.stringify(this.exceptionDates));
   }
 
-  toggleConflicts() {
-    this.showConflicts = !this.showConflicts;
+  toggleConflict(i: number) {
+    this.open[i] = !this.open[i];
   }
 
+  addException(i: number) {
+    const event = this.futureEvents[i];
+    event.excluded=true;
+    this.exceptionDates.push(startOfDay(event.startTime));
+    this.notifyObservers();
+  }
 
-  addException(conflict: EventConflict) {
-    this.exceptionDates.push(conflict.event.startTime);
-    this.conflicts = this.conflicts.filter(con => con !== conflict);
-    this.futureTimes = this.futureTimes.filter(time => !isEqual(time, conflict.event.startTime));
+  undoException(i: number) {
+    const event = this.futureEvents[i];
+    event.excluded=false;
+    const exceptId = this.exceptionDates.findIndex(ed => isEqual(ed, startOfDay(event.startTime)));
+    this.exceptionDates.splice(exceptId, 1);
+    this.notifyObservers();
+  }
 
+  private notifyObservers() {
     this.onChange(this.exceptionDates);
     this.onTouched();
+    this.updateFutureConflicts();
   }
 
   private calculateFutureTimes() {
     const recur = this.event.recurrence;
     if(!recur || (recur.cycle ==='WEEKLY' && recur.weeklyDays.length == 0)) {
-      this.futureTimes = [];
+      this.futureEvents = [];
     } else {
-      this.eventService.calculateFutureTimes(this.event).subscribe(times => this.futureTimes=times);
+      this.eventService.calculateFutureTimes(this.event).subscribe(times => {
+          this.futureEvents = times.map(t => {
+            return {"startTime": t, "excluded": false};
+          });
+          this.futureEvents = this.futureEvents.concat(
+            this.exceptionDates
+              .filter(d => isAfter(d, this.event.startTime))
+              .map(t => { return {"startTime": t, "excluded": true} }));
+          this.futureEvents.sort((a, b) => compareAsc(a.startTime, b.startTime));
+          this.open = [].fill(false, 0, this.futureEvents.length);
+        });
       this.checkFutureConflicts();
     }
   }
@@ -95,12 +96,20 @@ export class DateSeriesComponent implements OnInit, OnChanges {
   private checkFutureConflicts() {
     if(this.event.recurrence && this.event.reservations && this.event.reservations.length > 0) {
       this.reservationService.getConflicts(this.event).subscribe(conflicts =>  {
-          this.conflicts = conflicts;
-          if(this.conflicts && this.conflicts.length > 0 && isEqual(this.conflicts[0].event.startTime, this.event.startTime))
-            this.conflicts.shift();
-          this.futureConflictsChange.emit(this.conflicts.length);
+          this.futureEvents.forEach(fe => delete fe.conflicts);
+          conflicts.forEach(c => {
+              const fe = this.futureEvents.find(e => isEqual(e.startTime, c.event.startTime));
+              if(fe)
+                fe.conflicts = c;
+            });
+          this.updateFutureConflicts();
         });
     }
+  }
+
+  private updateFutureConflicts() {
+    var conflictCount = this.futureEvents.filter(e => e.conflicts && !e.excluded).length;
+    this.futureConflictsChange.emit(conflictCount);
   }
 
   //ControlValueAccesssor
@@ -112,7 +121,7 @@ export class DateSeriesComponent implements OnInit, OnChanges {
     this.onTouched = fn;
   }
 
-  writeValue(value: Date[]) {
+  writeValue(value: any) {
     if(!value)
       return;
     
@@ -121,9 +130,5 @@ export class DateSeriesComponent implements OnInit, OnChanges {
 
   setDisabledState( isDisabled : boolean ) : void {
     this.disabled = isDisabled;
-    // for(let control in this.form.controls) {
-    //   var field = this.form.get(control);
-    //   isDisabled ? field.disable() : field.enable();
-    // }
   }
 }

@@ -5,7 +5,7 @@ import { Location, WeekDay } from '@angular/common';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
-import { startOfHour, endOfYear, addHours, addMinutes, addSeconds, setHours, setMinutes, setSeconds, format, differenceInMinutes, isEqual } from 'date-fns';
+import { startOfHour, endOfYear, addHours, addSeconds } from 'date-fns';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { SCValidation } from '../../sccommon/validation';
@@ -18,18 +18,12 @@ import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialo
 import { AdminOverrideDialogComponent } from '../../sccommon/admin-override-dialog/admin-override-dialog.component';
 
 import { MinistryService } from '../../ministry/services/ministry.service';
-import { Ministry } from '../../ministry/ministry';
 
 import { PersonService } from '../../sccommon/services/person.service';
 
 import { Event, Recurrence, SelectedEvent, EventConflict } from '../event';
-import { Room } from '../room';
-import { Equipment } from '../equipment';
 import { Reservation } from '../reservation';
 import { EventService } from '../services/event.service';
-import { RoomService } from '../services/room.service';
-import { ReservationService } from '../services/reservation.service';
-import { EquipmentService } from '../services/equipment.service';
 import { RecurringEditDialogComponent } from '../recurring-edit-dialog/recurring-edit-dialog.component';
 
 @Component({
@@ -122,7 +116,6 @@ export class EventDetailsComponent implements OnInit {
               public personService: PersonService,
               public loginService: LoginService,
               private cleaningService: DataCleanupService,
-              private reservationService: ReservationService,
               private changeDetectorRef: ChangeDetectorRef,
               private selectedEvent: SelectedEvent) { 
     
@@ -144,6 +137,8 @@ export class EventDetailsComponent implements OnInit {
           }
         }
     );
+
+    // this.enableSubscriptions(); //Try to figure out if it's possible to do this
   }
 
   userCan(action: string): boolean {
@@ -230,12 +225,18 @@ export class EventDetailsComponent implements OnInit {
     if(this.conflictCount == 0 && this.futureConflicts == 0) {
       this.storeEvent();
     } else if(this.canSave()) {
+      var dialogText = "";
+      if(!this.event.recurrence && this.conflictCount > 0)
+        dialogText += `This meeting request has ${this.conflictCount} resource conflict${this.conflictCount == 1? "": "s"}.<br/>`;
+      if(this.event.recurrence && this.futureConflicts > 0)
+        dialogText += `This meeting request has ${this.futureConflicts} conflict${this.futureConflicts == 1? "": "s"}.<br/>`;
+
+      dialogText += "Are you sure you wish to proceed?";
+
       this.dialog.open(AdminOverrideDialogComponent, {
         width: '400px',
         data: {"title": "Reservation Conflicts",
-               "text" : (this.conflictCount > 0? `This meeting request has ${this.conflictCount} resource conflict${this.conflictCount == 1? "": "s"}.<br/>`: "")+
-               (this.futureConflicts > 0? `This meeting request has ${this.futureConflicts} future conflict${this.futureConflicts == 1? "": "s"}.<br/>`: "") +
-               "Are you sure you wish to proceed?",
+               "text" : dialogText,
                "confirm": () => { 
                  this.storeEvent(); 
                }
@@ -333,8 +334,18 @@ export class EventDetailsComponent implements OnInit {
     this.meetingLength = (eventData.endTime.getTime() - eventData.startTime.getTime())/1000;
     this.eventForm.patchValue(eventData);
 
-    if(eventData.recurrence != undefined && eventData.recurrence != null) {
+    const recur = eventData.recurrence;
+    if(recur != undefined && recur != null) {
       this.eventForm.get('recurringMeeting').setValue(true);
+
+      //HACK. Interceptor can't seem to figure out the difference between an array of 1 string and a raw string
+      if (recur.exceptionDates && !Array.isArray(recur.exceptionDates)) {
+        var exceptionDates = [];
+        exceptionDates.push(recur.exceptionDates);
+        recur.exceptionDates = exceptionDates;
+      } 
+
+      this.eventForm.get('exceptionDates').setValue(recur.exceptionDates);
     }
   }
 

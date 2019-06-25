@@ -231,6 +231,13 @@ div.rounded-rect {
   }
 }
 
+.add {
+  background-image: url('./assets/images/plus-icon.png');
+ /* &:hover {
+    background-image: url('./assets/images/trash-active.png');
+  }*/
+}
+
 .password {
   background-image: url('./assets/images/key.png');
   &:hover {

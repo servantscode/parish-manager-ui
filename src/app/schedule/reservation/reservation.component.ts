@@ -3,7 +3,6 @@ import { FormBuilder, Validators, FormControl, ControlValueAccessor, NG_VALUE_AC
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
 import { addMinutes, differenceInMinutes } from 'date-fns';
-// import { startOfHour, endOfYear, addHours, addMinutes, addSeconds, setHours, setMinutes, setSeconds, format, differenceInMinutes, isEqual } from 'date-fns';
 
 import { SCValidation } from '../../sccommon/validation';
 import { deepEqual, doLater } from '../../sccommon/utils';
@@ -68,14 +67,14 @@ export class ReservationComponent implements OnInit {
 
   ngOnInit() {
     this.form.get('setupTime').valueChanges
-      .pipe(debounceTime(10), distinctUntilChanged())
+      .pipe(debounceTime(0), distinctUntilChanged())
       .subscribe( newTime => {
           this.updateReservationTimes();
           this.notifyObservers();
         });
 
     this.form.get('cleanupTime').valueChanges
-      .pipe(debounceTime(10), distinctUntilChanged())
+      .pipe(debounceTime(0), distinctUntilChanged())
       .subscribe( newTime => {
           this.updateReservationTimes();
           this.notifyObservers();
