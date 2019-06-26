@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ReservationService } from '../services/reservation.service';
 import { Reservation } from '../reservation';
 import { AvailabilityResponse, AvailabilityWindow } from '../availability-response';
-import { startOfDay, endOfDay, differenceInMinutes, addMinutes, addHours } from 'date-fns';
+import { startOfDay, endOfDay, differenceInMinutes, addDays, addMinutes, addHours, isBefore, min, max } from 'date-fns';
 
 @Component({
   selector: 'app-availability',
@@ -14,6 +14,7 @@ import { startOfDay, endOfDay, differenceInMinutes, addMinutes, addHours } from 
 export class AvailabilityComponent implements OnInit, OnChanges {
   @Input() displayHeader = false;
   @Input() reservation: Reservation;
+  @Input() displayTime: Date;
   _reservation: Reservation;
   
   reservations: Reservation[];
@@ -22,20 +23,25 @@ export class AvailabilityComponent implements OnInit, OnChanges {
   @Output() isAvailableChange = new EventEmitter<boolean>();
 
   availability: any[];
+  visibleEvents: any[];
 
   dayStartHour = 6;
   dayEndHour = 22;
+  visibleDay: Date;
   openMinutes = (this.dayEndHour-this.dayStartHour)*60;
 
   constructor(private reservationService: ReservationService,
               private router: Router) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnChanges() {
     if(!this.reservation)
       return;
+
+    //Set it the first time
+    if(!this.visibleDay)
+      this.visibleDay = this.displayTime? this.displayTime: this.reservation.startTime;
 
     if(this.reservations &&
        this._reservation.id == this.reservation.id &&
@@ -54,7 +60,9 @@ export class AvailabilityComponent implements OnInit, OnChanges {
   }
 
   getReservations() {
-    this.reservationService.getReservations(this.reservation).subscribe(
+    const start = min(this.reservation.startTime, startOfDay(this.visibleDay));
+    const end = max(this.reservation.endTime, endOfDay(this.visibleDay));
+    this.reservationService.getReservations(this.reservation, start, end).subscribe(
       resp => {
         this.reservations = resp.filter(res => res.eventId !== this.reservation.eventId);
         this.processReservations();
@@ -63,6 +71,16 @@ export class AvailabilityComponent implements OnInit, OnChanges {
 
   formatTime(hour: number) {
     return (hour > 12? hour - 12: hour) + " " + (hour > 11? "P": "A");
+  }
+
+  navDays(days: number) {
+    this.visibleDay = addDays(this.visibleDay, days);
+    this.getReservations();
+  }
+
+  resetVisibleDay() {
+    this.visibleDay = this.displayTime? this.displayTime: this.reservation.startTime;
+    this.getReservations();
   }
 
   private processReservations() {
@@ -76,11 +94,23 @@ export class AvailabilityComponent implements OnInit, OnChanges {
   }
 
   private calculateWidth(window: any) {
+    if(isBefore(window.endTime, this.visibleStart()) || 
+       isBefore(this.visibleEnd(), window.startTime)) {
+      return 0;
+    }
     return this.diffMin(window.startTime, window.endTime)*100/this.openMinutes;
   }
 
   private calculateStart(window: any) {
-    return differenceInMinutes(window.startTime, addHours(startOfDay(window.startTime), this.dayStartHour))*100/this.openMinutes;    
+    return differenceInMinutes(window.startTime, this.visibleStart())*100/this.openMinutes;    
+  }
+
+  private visibleStart(): Date {
+    return addHours(startOfDay(this.visibleDay), this.dayStartHour);
+  }
+
+  private visibleEnd(): Date {
+    return addHours(startOfDay(this.visibleDay), this.dayEndHour);
   }
 
   private markOverlaps() {
@@ -109,6 +139,7 @@ export class AvailabilityComponent implements OnInit, OnChanges {
         win.top = 0;
       }
     }
+    this.visibleEvents = this.availability.filter(w => w.width > 0);
   }
 
   private overlaps(win1: any, win2: any): boolean {

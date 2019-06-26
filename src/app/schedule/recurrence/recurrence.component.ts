@@ -98,13 +98,15 @@ export class RecurrenceComponent implements ControlValueAccessor, OnInit {
         e.id = 0
         e.startTime = addMinutes(e.startTime, diff);
         e.endTime = addMinutes(e.endTime, diff);
-        e.reservations = primeEvent.reservations.map(r => {
-          const res = Object.assign({}, r);
-          res.id=0;
-          res.startTime = addMinutes(res.startTime, diff);
-          res.endTime = addMinutes(res.endTime, diff);
-          return res;
-        });
+        if(primeEvent.reservations) {
+          e.reservations = primeEvent.reservations.map(r => {
+            const res = Object.assign({}, r);
+            res.id=0;
+            res.startTime = addMinutes(res.startTime, diff);
+            res.endTime = addMinutes(res.endTime, diff);
+            return res;
+          });
+        }
         e.recurrence = customRecur;
         return e;
       });

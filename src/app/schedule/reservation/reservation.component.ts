@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, forwardRef, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable, of } from 'rxjs';
 import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
 import { addMinutes, differenceInMinutes } from 'date-fns';
 
@@ -17,6 +18,12 @@ import { Equipment } from '../equipment';
 import { Reservation } from '../reservation';
 import { Room } from '../room';
 
+export enum TimeScale { 
+  MINUTES = 1, 
+  HOURS = 60, 
+  DAYS = 1440 
+};
+
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html',
@@ -30,6 +37,9 @@ import { Room } from '../room';
   ]
 })
 export class ReservationComponent implements OnInit {
+
+  public timeScales = TimeScale;
+  keys = Object.keys(TimeScale).filter(Number).map(Number);
 
   @Input() startTime: Date;
   @Input() endTime: Date;
@@ -48,6 +58,7 @@ export class ReservationComponent implements OnInit {
       equipment:[''],
       setupTime:['', [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
       cleanupTime:['', [Validators.pattern(SCValidation.NUMBER), Validators.min(0)]],
+      timeScale: [TimeScale.HOURS]
     });
 
   value: Reservation[];
@@ -63,9 +74,15 @@ export class ReservationComponent implements OnInit {
               private dialog: MatDialog,
               public roomService: RoomService,
               public equipmentService: EquipmentService,
-              public cleaningService: DataCleanupService) { }
+              public cleaningService: DataCleanupService) {}
 
   ngOnInit() {
+    this.form.get('timeScale').valueChanges 
+      .pipe(distinctUntilChanged())
+      .subscribe( () => {
+          this.updateReservationTimes();
+        });
+
     this.form.get('setupTime').valueChanges
       .pipe(debounceTime(0), distinctUntilChanged())
       .subscribe( newTime => {
@@ -101,8 +118,20 @@ export class ReservationComponent implements OnInit {
     if(value.length > 0) {
       //Need this to be a cycle behind to allow start and end times to be set properly
       doLater(function() {
-        const setupTime = differenceInMinutes(this.startTime, value[0].startTime);
-        const cleanupTime = differenceInMinutes(value[0].endTime, this.endTime);
+        var setupTime = differenceInMinutes(this.startTime, value[0].startTime);
+        var cleanupTime = differenceInMinutes(value[0].endTime, this.endTime);
+
+        if(setupTime%TimeScale.DAYS == 0 && cleanupTime%TimeScale.DAYS == 0) {
+          this.form.get('timeScale').setValue(TimeScale.DAYS);
+          setupTime /= TimeScale.DAYS;
+          cleanupTime /= TimeScale.DAYS;
+        } else if(setupTime%TimeScale.HOURS == 0 && cleanupTime%TimeScale.HOURS == 0) {
+          this.form.get('timeScale').setValue(TimeScale.HOURS);
+          setupTime /= TimeScale.HOURS;
+          cleanupTime /= TimeScale.HOURS;
+        } else {
+          this.form.get('timeScale').setValue(TimeScale.MINUTES);
+        }
 
         this.form.get('setupTime').setValue(setupTime);
         this.form.get('cleanupTime').setValue(cleanupTime);
@@ -227,10 +256,11 @@ export class ReservationComponent implements OnInit {
   }
 
   private updateReservationTimes() {
+    const timeScale = this.form.get('timeScale').value;
     var start = this.startTime;
     var end = this.endTime;
-    start = addMinutes(start, -this.form.get('setupTime').value);
-    end = addMinutes(end, this.form.get('cleanupTime').value);
+    start = addMinutes(start, -this.form.get('setupTime').value * timeScale);
+    end = addMinutes(end, this.form.get('cleanupTime').value * timeScale);
 
     this.rooms = this.rooms.map(room => this.cloneToNewTime(room, start, end));
     this.equipment = this.equipment.map(equip => this.cloneToNewTime(equip, start, end));

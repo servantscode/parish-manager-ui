@@ -63,7 +63,7 @@
     </div>
   </div>
 
-  <div class="container rounded-rect">
+  <div *ngIf="!isCustomRecurrence()" class="container rounded-rect">
     <div class="row">
       <div class="col">
         <app-date-time formControlName="startTime" [label]="'Start'" [required]="true"></app-date-time>
@@ -73,16 +73,6 @@
       </div>
     </div>
 
-    <mat-checkbox formControlName="recurringMeeting">Recurring Meeting</mat-checkbox>
-    <app-recurrence *ngIf="eventForm.get('recurringMeeting').value" 
-      formControlName="recurrence" 
-      [event]="event"
-      [(customEvents)]="customEvents"
-      (futureConflictsChange)="updateFutureConflictCount($event)">
-    </app-recurrence>
-  </div>
-
-  <div class="container rounded-rect">
     <app-reservation formControlName="reservations" 
       [startTime]="eventForm.get('startTime').value" 
       [endTime]="eventForm.get('endTime').value" 
@@ -91,6 +81,16 @@
       [eventTitle]="eventForm.get('title').value"
       (availabilityConflictsChange)="updateConflictCount($event)">
     </app-reservation>
+  </div>
+
+  <div class="container rounded-rect">
+    <mat-checkbox formControlName="recurringMeeting">Recurring Meeting</mat-checkbox>
+    <app-recurrence *ngIf="eventForm.get('recurringMeeting').value" 
+      formControlName="recurrence" 
+      [event]="event"
+      [(customEvents)]="customEvents"
+      (futureConflictsChange)="updateFutureConflictCount($event)">
+    </app-recurrence>
   </div>
 
   <div *ngIf="event.id > 0 && loginService.userCan('note.list')" class="container rounded-rect">

@@ -1,10 +1,21 @@
-<div *ngIf="displayHeader" class="hours">
-  <div class="hour" *ngFor="let hour of [].constructor(dayEndHour-dayStartHour); let i = index" [style.width.%]="100/(dayEndHour-dayStartHour)">
-    {{(i+dayStartHour)%2==0? formatTime(i+dayStartHour): "&nbsp;"}}
+<div *ngIf="displayHeader">
+  <div class="day" [style.width.%]="100">
+    <div class="float-left day-nav clickable" (click)="navDays(-1)">
+      <<
+    </div>
+    <div class="float-right day-nav clickable" (click)="navDays(1)">
+      >>
+    </div>
+    <span class="clickable" (click)="resetVisibleDay()">{{visibleDay | date: "MMMM d, yyyy"}}</span>
+  </div>
+  <div class="hours">
+    <div class="hour" *ngFor="let hour of [].constructor(dayEndHour-dayStartHour); let i = index" [style.width.%]="100/(dayEndHour-dayStartHour)">
+      {{(i+dayStartHour)%2==0? formatTime(i+dayStartHour): "&nbsp;"}}
+    </div>
   </div>
 </div>
 <div class="timeline">
-  <div class="timespan" *ngFor="let window of availability" matTooltip="{{window.eventTitle}}&#13;{{window.reserverName}}" [ngClass]="{'busy': window.resourceType, 'requested': window === reservation, 'conflict': window.overlaps}" [style.width.%]="window.width" [style.left.%]="window.left" [style.top.%]="window.top" [style.height.%]="window.height">
+  <div class="timespan" *ngFor="let window of visibleEvents" matTooltip="{{window.eventTitle}}&#13;{{window.reserverName}}" [ngClass]="{'busy': window.resourceType, 'requested': window === reservation, 'conflict': window.overlaps}" [style.width.%]="window.width" [style.left.%]="window.left" [style.top.%]="window.top" [style.height.%]="window.height">
     <span class="clickable" (click)="gotoEvent(window.eventId)">{{window.eventTitle}}</span>
   </div>
 </div>

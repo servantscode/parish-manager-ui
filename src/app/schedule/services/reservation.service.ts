@@ -27,10 +27,10 @@ export class ReservationService extends BaseService {
     this.url = apiService.prefaceUrl("/rest/reservation");
   }
 
-  getReservations(res: Reservation): Observable<Reservation[]> {
+  getReservations(res: Reservation, startDate?: Date, endDate?: Date): Observable<Reservation[]> {
     var params = `?resourceType=${res.resourceType}&resourceId=${res.resourceId}`+
-                 `&startTime=${startOfDay(res.startTime).toISOString()}&`+
-                 `endTime=${endOfDay(res.endTime).toISOString()}`;
+                 `&startTime=${startOfDay(startDate? startDate: res.startTime).toISOString()}&`+
+                 `endTime=${endOfDay(endDate? endDate: res.endTime).toISOString()}`;
     return this.http.get<Reservation[]>(this.url+params).pipe(
         catchError(this.handleError('getReservations', []))
       );

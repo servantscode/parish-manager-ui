@@ -60,13 +60,15 @@ export class CustomDateSeriesComponent implements OnInit, OnChanges {
     newEvent.id = 0
     newEvent.startTime = addDays(newEvent.startTime, 1);
     newEvent.endTime = addDays(newEvent.endTime, 1);
-    newEvent.reservations = newEvent.reservations.map(r => {
-      const res = Object.assign({}, r);
-      res.id=0;
-      res.startTime = addDays(res.startTime, 1);
-      res.endTime = addDays(res.endTime, 1);
-      return res;
-    });
+    if(newEvent.reservations) {
+      newEvent.reservations = newEvent.reservations.map(r => {
+        const res = Object.assign({}, r);
+        res.id=0;
+        res.startTime = addDays(res.startTime, 1);
+        res.endTime = addDays(res.endTime, 1);
+        return res;
+      });
+    }
 
     const dialogRef = this.dialog.open(CustomEventDialogComponent, {
       width: '800px',
@@ -113,7 +115,8 @@ export class CustomDateSeriesComponent implements OnInit, OnChanges {
     if(this.events && this.events.length > 0) {
       this.reservationService.getCustomEventConflicts(this.events.map(e => {
           const ev = this.cleaningService.prune(e, new Event().asTemplate());
-          ev.reservations = ev.reservations.map(res => this.cleaningService.prune(res, new Reservation().asTemplate()));
+          if(ev.reservations)
+            ev.reservations = ev.reservations.map(res => this.cleaningService.prune(res, new Reservation().asTemplate()));
           return ev;
         })).subscribe(conflicts =>  {
           this.events.forEach(fe => delete fe.conflicts);

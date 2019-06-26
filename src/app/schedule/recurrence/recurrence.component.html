@@ -35,12 +35,15 @@
       </div>
 
       <div class="col">
-        <app-date-series *ngIf="!custom"
-          formControlName="exceptionDates"
-          [event]="event"
-          (futureConflictsChange)="updateFutureConflictCount($event)"
-          (futureEventsChange)="updateSelectedDates($event)">
-        </app-date-series>
+        <div *ngIf="!custom">
+          <app-date-series
+            formControlName="exceptionDates"
+            [event]="event"
+            (futureConflictsChange)="updateFutureConflictCount($event)"
+            (futureEventsChange)="updateSelectedDates($event)">
+          </app-date-series>
+          <span class="clickable" (click)="enableCustomSchedule()">Customize Schedule</span>
+        </div>
         <app-custom-date-series *ngIf="custom"
           [(events)]="customEvents"
           [disabled]="disabled"

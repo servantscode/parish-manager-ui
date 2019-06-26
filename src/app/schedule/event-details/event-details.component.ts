@@ -49,6 +49,11 @@ export class EventDetailsComponent implements OnInit {
       reservations: []
     });
 
+  static SHARED_FIELDS = ['title', 'description', 'privateEvent', 
+                         'schedulerId', 'contactId', 'ministryId', 
+                         'departments', 'categories'];
+
+
   event: Event;
   customEvents : Event[];
 
@@ -182,8 +187,10 @@ export class EventDetailsComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if(!result)
-          this.clearRecurringMeeting();
+        if(!result) {
+          this.eventForm.get('recurringMeeting').setValue(false);
+          this.eventForm.get('recurrence').setValue(null);
+        }
         
         this.edit(true);
       });
@@ -246,6 +253,13 @@ export class EventDetailsComponent implements OnInit {
     return (this.conflictCount == 0 && this.futureConflicts == 0) || 
            (this.getValue("id") == 0 && this.loginService.userCan("admin.event.create")) ||
            (this.getValue("id") > 0 && this.loginService.userCan("admin.event.edit"));
+  }
+
+  isCustomRecurrence() {
+    if(!this.getValue('recurringMeeting'))
+      return false;
+    const recur = this.eventForm.get('recurrence').value;
+    return recur && recur.cycle === 'CUSTOM';
   }
 
   updateConflictCount(count: number) {
@@ -311,15 +325,17 @@ export class EventDetailsComponent implements OnInit {
       if(!this.loginService.userCan("event.update"))
         this.goBack();
 
-      if(recurrence && recurrence.cycle == 'CUSTOM') {
+      if(this.isCustomRecurrence()) {
         const cleanEvents = this.customEvents.map(e => {
           const ev = this.cleaningService.prune(e, new Event().asTemplate());
-          ev.reservations = ev.reservations.map(res => this.cleaningService.prune(res, new Reservation().asTemplate()));
+          if(ev.reservations)
+            ev.reservations = ev.reservations.map(res => this.cleaningService.prune(res, new Reservation().asTemplate()));
           return ev;
         });
         this.eventService.updateSeries(cleanEvents).
           subscribe(() => this.goBack());
       } else {
+        alert("Updating: " +JSON.stringify(this.getEventFromForm()));
         this.eventService.update(this.getEventFromForm()).
           subscribe(() => this.goBack());
       }
@@ -327,10 +343,11 @@ export class EventDetailsComponent implements OnInit {
       if(!this.loginService.userCan("event.create"))
         this.goBack();
 
-      if(recurrence && recurrence.cycle == 'CUSTOM') {
+      if(this.isCustomRecurrence()) {
         const cleanEvents = this.customEvents.map(e => {
           const ev = this.cleaningService.prune(e, new Event().asTemplate());
-          ev.reservations = ev.reservations.map(res => this.cleaningService.prune(res, new Reservation().asTemplate()));
+          if(ev.reservations)
+            ev.reservations = ev.reservations.map(res => this.cleaningService.prune(res, new Reservation().asTemplate()));
           return ev;
         });
         this.eventService.createSeries(cleanEvents).
@@ -368,11 +385,7 @@ export class EventDetailsComponent implements OnInit {
     this.event = this.getEventFromForm();
   }
 
-  private clearRecurringMeeting() {
-    this.eventForm.get('recurringMeeting').setValue(false);
-    this.eventForm.get('recurrence').disable();
-  }
-
+ 
   private recurringMeetingDefaults() {
     this.eventForm.get('recurrence').enable();
     if(!this.getValue('recurrence')) {
@@ -445,6 +458,17 @@ export class EventDetailsComponent implements OnInit {
     this.formSubs.push(
       this.eventForm.get('reservations').valueChanges.pipe(debounceTime(0), distinctUntilChanged())
         .subscribe(() => this.event = this.getEventFromForm()));
+
+    EventDetailsComponent.SHARED_FIELDS.forEach(f => {
+      this.formSubs.push(
+        this.eventForm.get(f).valueChanges.pipe(debounceTime(300))
+          .subscribe(value => this.updateCustomEvents(f, value)));
+    });
+  }
+
+  private updateCustomEvents(field: string, value:any) {
+    if(this.isCustomRecurrence() && this.customEvents)
+      this.customEvents.forEach(e => e[field] = value);
   }
 
   private disableSubscriptions() {

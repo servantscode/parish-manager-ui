@@ -1,6 +1,6 @@
 <form [formGroup]="form">
   <div class="float-right half-width">
-    <span>Additional Time (min):&nbsp;&nbsp;</span>
+    <span>Additional Time:&nbsp;&nbsp;</span>
     <mat-form-field appearance="standard" class="input-5">
       <mat-label>Setup</mat-label>
       <input type="number" matInput formControlName="setupTime" autocomplete="off"/>
@@ -8,7 +8,15 @@
     <mat-form-field appearance="standard" class="input-5">
       <mat-label>Cleanup</mat-label>
       <input type="number" matInput formControlName="cleanupTime" autocomplete="off"/>
+    </mat-form-field>&nbsp;
+    <mat-form-field  class="input-small">
+      <mat-select formControlName="timeScale">
+          <mat-option *ngFor="let scale of keys" [value]="scale">
+          {{timeScales[scale]}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
+
   </div>
   <h3>Reservations</h3>
   <div class="float-clear"></div>
@@ -25,7 +33,7 @@
       </table>
     </div>
     <div class="col-8">
-      <app-availability [reservation]="item" [isAvailable]="roomAvailability[i]" (isAvailableChange)="setRoomAvailability(i, $event)" [displayHeader]="i == 0"></app-availability>
+      <app-availability [reservation]="item" [isAvailable]="roomAvailability[i]" (isAvailableChange)="setRoomAvailability(i, $event)" [displayHeader]="i == 0" [displayTime]="startTime"></app-availability>
     </div>
   </div>
   <div class="row" *ngIf="!disabled">
