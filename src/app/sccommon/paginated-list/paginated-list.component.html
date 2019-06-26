@@ -26,6 +26,7 @@
             <div *ngSwitchCase="'dateTime'">{{item[fieldName(field)] | date: 'MM/dd/yyyy hh:mma'}}</div>
             <div *ngSwitchCase="'currency'">{{item[fieldName(field)] | currency:"$"}}</div>
             <div *ngSwitchCase="'identity'">{{item[fieldName(field)].name}}</div>
+            <div *ngSwitchCase="'enum'">{{item[fieldName(field)] | scEnum}}</div>
             <div *ngSwitchDefault>{{item[fieldName(field)]}}</div>
           </div>
         </td>

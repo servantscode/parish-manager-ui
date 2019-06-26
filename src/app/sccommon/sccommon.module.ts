@@ -45,6 +45,8 @@ import { SearchDialogComponent } from './search-dialog/search-dialog.component';
 import { ScPhoneNumberComponent } from './sc-phone-number/sc-phone-number.component';
 import { ScSearchBarComponent } from './sc-search-bar/sc-search-bar.component';
 
+import { ScEnumPipe } from './sc-enum.pipe';
+
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
 }
@@ -66,7 +68,8 @@ export function tokenGetter() {
     ScSelectComponent,
     SearchDialogComponent,
     ScPhoneNumberComponent,
-    ScSearchBarComponent
+    ScSearchBarComponent,
+    ScEnumPipe
   ],
   imports: [
     SCCommonRoutingModule,
@@ -112,7 +115,8 @@ export function tokenGetter() {
     DateTimeComponent,
     ScSelectComponent,
     ScPhoneNumberComponent,
-    ScSearchBarComponent
+    ScSearchBarComponent,
+    ScEnumPipe
   ],
   providers: [ 
     ApiLocatorService,

@@ -4,6 +4,7 @@ import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { differenceInYears } from 'date-fns';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { PhotoService } from '../../sccommon/services/photo.service';
@@ -237,5 +238,9 @@ export class PersonDetailComponent implements OnInit {
       width: '800px', 
       data: {"to": this.person.email}
     });
+  }
+
+  getAge(): number {    
+    return (this.person.birthdate == null)? null: differenceInYears(new Date(),  this.person.birthdate);
   }
 }

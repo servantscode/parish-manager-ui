@@ -20,6 +20,7 @@
           </div>
           <div class="col">
             Birthdate: {{person.birthdate | date: 'MM/dd/yyyy'}}<br/>
+            Age: {{getAge()}}<br/>
             Parishioner: {{person.parishioner}}<br/>
             <span *ngIf="person.parishioner">Member Since: {{person.memberSince | date: 'MM/dd/yyyy'}}</span>
           </div>
@@ -31,13 +32,13 @@
             <mat-checkbox [checked]="person.confession" [disabled]="true"> Confession</mat-checkbox>&nbsp;&nbsp;
             <mat-checkbox [checked]="person.communion" [disabled]="true"> First Communion</mat-checkbox>&nbsp;&nbsp;
             <mat-checkbox [checked]="person.confirmed" [disabled]="true"> Confirmed</mat-checkbox><br/>
-            Marital Status: {{person.maritalStatus}}<br/>
+            Marital Status: {{person.maritalStatus | scEnum}}<br/>
           </div>
 
           <div class="pad-top">
             <strong>Demographic Information</strong><br/>
-            Primary Language: {{person.primaryLanguage}}<br/>
-            Ethnicity: {{person.ethnicity}}<br/>
+            Primary Language: {{person.primaryLanguage | scEnum}}<br/>
+            Ethnicity: {{person.ethnicity | scEnum}}<br/>
           </div>
         </div>
       </div>
