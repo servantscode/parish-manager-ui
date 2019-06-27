@@ -46,6 +46,7 @@ import { ScPhoneNumberComponent } from './sc-phone-number/sc-phone-number.compon
 import { ScSearchBarComponent } from './sc-search-bar/sc-search-bar.component';
 
 import { ScEnumPipe } from './sc-enum.pipe';
+import { PreferencesComponent } from './preferences/preferences.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -69,7 +70,8 @@ export function tokenGetter() {
     SearchDialogComponent,
     ScPhoneNumberComponent,
     ScSearchBarComponent,
-    ScEnumPipe
+    ScEnumPipe,
+    PreferencesComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -116,6 +118,7 @@ export function tokenGetter() {
     ScSelectComponent,
     ScPhoneNumberComponent,
     ScSearchBarComponent,
+    PreferencesComponent,
     ScEnumPipe
   ],
   providers: [ 

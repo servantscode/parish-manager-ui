@@ -49,4 +49,16 @@ export class FamilyService extends PaginatedService<Family> {
         catchError(this.handleError('familyReport', null))
       );
   }
+
+  public getPreferences(id: number) {
+    return this.http.get<any>(this.url+`/${id}/preferences`).pipe(
+        catchError(this.handleError('getPreferences', null))
+      );
+  }
+
+  public updatePreferences(id: number, preferences: any) {
+    return this.http.put<void>(this.url+`/${id}/preferences`, preferences, this.httpOptions).pipe(
+        catchError(this.handleError('updatePreferences', null))
+      );
+  }
 }

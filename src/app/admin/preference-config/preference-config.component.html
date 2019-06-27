@@ -1,0 +1,3 @@
+<div class="container rounded-rect">
+  <app-paginated-list [dataService]="preferencesService" [fields]="['name', {'name':'type', 'type':'enum'}, {'name':'objectType', 'type':'enum'}, 'defaultValue']" [pageSize]='20' [dialogComponent]="PreferenceDialogComponent"></app-paginated-list>
+</div>

@@ -24,6 +24,8 @@ import { AdminTabsComponent } from './admin-tabs/admin-tabs.component';
 import { UserAccessComponent } from './user-access/user-access.component';
 import { PasswordDialogComponent } from './password-dialog/password-dialog.component';
 import { EmailConfigComponent } from './email-config/email-config.component';
+import { PreferenceConfigComponent } from './preference-config/preference-config.component';
+import { PreferenceDialogComponent } from './preference-dialog/preference-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { EmailConfigComponent } from './email-config/email-config.component';
     AdminTabsComponent,
     UserAccessComponent,
     PasswordDialogComponent,
-    EmailConfigComponent
+    EmailConfigComponent,
+    PreferenceConfigComponent,
+    PreferenceDialogComponent
   ],
   imports: [
     AdminRoutingModule,
@@ -62,7 +66,8 @@ import { EmailConfigComponent } from './email-config/email-config.component';
   entryComponents: [
     CredentialDialogComponent,
     RoleDialogComponent,
-    PasswordDialogComponent
+    PasswordDialogComponent,
+    PreferenceDialogComponent
   ]
 })
 export class AdminModule { }

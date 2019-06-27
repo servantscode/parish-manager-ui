@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { LoginService } from '../../sccommon/services/login.service';
+import { PersonService } from '../../sccommon/services/person.service';
 
 @Component({
   selector: 'app-person-tabs',
@@ -13,7 +14,8 @@ export class PersonTabsComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              public loginService: LoginService) { }
+              public loginService: LoginService,
+              public personService: PersonService) { }
 
   ngOnInit() {
     var tab = this.route.snapshot.paramMap.get('tab');
@@ -22,7 +24,10 @@ export class PersonTabsComponent implements OnInit {
 
   public selectTab(tab: any): void {
     this.selectedTab = tab;
-    var id = this.route.snapshot.paramMap.get('id');    
-    this.router.navigate(['person', id, tab]);
+    this.router.navigate(['person', this.getId(), tab]);
+  }
+
+  public getId(): number {
+    return +this.route.snapshot.paramMap.get('id');    
   }
 }

@@ -77,7 +77,11 @@
       </div>
     </div>
   </div>
-  
+
+  <div class="container rounded-rect" *ngIf="family.id > 0">
+    <app-preferences [id]="family.id" [type]="'family'" [preferenceSource]="familyService"></app-preferences>
+  </div>
+
   <div *ngIf="family.id > 0" class="container rounded-rect">
     <app-family-member-list [members]="family.members" [familyId]="family.id"></app-family-member-list>
   </div>

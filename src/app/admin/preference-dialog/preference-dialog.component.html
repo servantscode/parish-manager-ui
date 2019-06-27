@@ -1,0 +1,25 @@
+<form [formGroup]="form" (ngSubmit)="createPreference()">
+  <h1 *ngIf="createNew" mat-dialog-title>Create Preference</h1>
+  <h1 *ngIf="!createNew" mat-dialog-title>Modify Preference</h1>
+  <div mat-dialog-content>
+    <input type="hidden" autocomplete="off" formControlName="id"/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Name</mat-label>
+      <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
+    </mat-form-field><br/>
+
+    <app-sc-enum formControlName="type" label="Data Type" [required]="true" [valueSource]="preferenceTypes" ></app-sc-enum>
+    <app-sc-enum formControlName="objectType" label="Preference Type" [required]="true" [valueSource]="objectTypes" ></app-sc-enum>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Default Value</mat-label>
+      <input type="text" matInput formControlName="defaultValue" autocomplete="off" cdkFocusInitial/>
+    </mat-form-field><br/>
+
+  </div>
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid" cdkFocusInitial>Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+  </div>
+</form>

@@ -11,10 +11,12 @@ import { PaginatedResponse } from '../../sccommon/paginated.response';
 
 import { Person } from '../person';
 
+import { PreferenceSource } from '../preference';
+
 @Injectable({
   providedIn: 'root'
 })
-export class PersonService extends PaginatedService<Person> {
+export class PersonService extends PaginatedService<Person> implements PreferenceSource {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
@@ -68,4 +70,15 @@ export class PersonService extends PaginatedService<Person> {
       );
   }
 
+  public getPreferences(id: number) {
+    return this.http.get<any>(this.url+`/${id}/preferences`).pipe(
+        catchError(this.handleError('getPreferences', null))
+      );
+  }
+
+  public updatePreferences(id: number, preferences: any) {
+    return this.http.put<void>(this.url+`/${id}/preferences`, preferences, this.httpOptions).pipe(
+        catchError(this.handleError('updatePreferences', null))
+      );
+  }
 }
