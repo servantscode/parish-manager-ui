@@ -30,10 +30,11 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   filteredItems: Observable<EnumValue[]>;
   private selected: EnumValue;
   
+
   onChange: any = () => { };
   onTouched: any = () => { };
 
-  autocompleteForm = this.fb.group({
+  form = this.fb.group({
       input: ['']
     });
   
@@ -46,7 +47,7 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
     var enumVal = val? (typeof val === 'string' && this.items)? this.items.find(item => item.value === val): val: null;
 
     this.selected = enumVal;
-    this.autocompleteForm.get("input").setValue(enumVal);
+    this.form.get("input").setValue(enumVal);
 
     this._value = rawVal;
     this.onChange(rawVal);
@@ -56,7 +57,7 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.filteredItems = this.autocompleteForm.get('input').valueChanges
+    this.filteredItems = this.form.get('input').valueChanges
       .pipe(
         debounceTime(300),
         map(value => value? typeof value === 'string' ? value : value.display: ""),
@@ -104,8 +105,8 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   }
 
   setDisabledState( isDisabled : boolean ) : void {
-    for(let control in this.autocompleteForm.controls) {
-      var field = this.autocompleteForm.get(control);
+    for(let control in this.form.controls) {
+      var field = this.form.get(control);
       isDisabled ? field.disable() : field.enable();
     }
   }

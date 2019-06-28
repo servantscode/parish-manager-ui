@@ -37,8 +37,16 @@
 
           <div class="pad-top">
             <strong>Demographic Information</strong><br/>
-            Primary Language: {{person.primaryLanguage | scEnum}}<br/>
-            Ethnicity: {{person.ethnicity | scEnum}}<br/>
+            <div class="row">
+              <div class="col">
+                Primary Language: {{person.primaryLanguage | scEnum}}<br/>
+                Ethnicity: {{person.ethnicity | scEnum}}<br/>
+              </div>
+              <div class="col">
+                Religion: {{person.religion | scEnum}}<br/>
+                Special Needs: <span *ngFor="let need of person.specialNeeds; let i=index">{{need | scEnum}}<span *ngIf="i < person.specialNeeds.length -1">,&nbsp;</span></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -146,8 +154,16 @@
 
       <div>
         <strong>Demographic Information</strong><br/>
-        <app-sc-enum formControlName="primaryLanguage" label="Primary Language" [valueSource]="languages"></app-sc-enum>
-        <app-sc-enum formControlName="ethnicity" label="Ethnicity" [valueSource]="ethnicities"></app-sc-enum>
+        <div class="row">
+          <div class="col">
+            <app-sc-enum formControlName="primaryLanguage" label="Primary Language" [valueSource]="languages"></app-sc-enum>
+            <app-sc-enum formControlName="ethnicity" label="Ethnicity" [valueSource]="ethnicities"></app-sc-enum>
+          </div>
+          <div class="col">
+            <app-sc-enum formControlName="religion" label="Religion" [valueSource]="religions"></app-sc-enum>
+            <app-sc-multi-enum formControlName="specialNeeds" label="SpecialNeeds" [valueSource]="specialNeeds"></app-sc-multi-enum>
+          </div>
+        </div>
       </div>
     </div>
 

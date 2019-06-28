@@ -27,6 +27,8 @@ export class Person extends Autocompletable {
   maritalStatus: string;
   ethnicity: string;
   primaryLanguage: string;
+  religion: string;
+  specialNeeds: string[];
 
   public identify(): string { 
     return this.name;
@@ -56,6 +58,8 @@ export class Person extends Autocompletable {
     this.maritalStatus=null;
     this.ethnicity=null;
     this.primaryLanguage=null;
+    this.religion=null;
+    this.specialNeeds=null;
     return this;
   }
 }

@@ -31,6 +31,7 @@ import { NotesComponent } from './notes/notes.component';
 import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { ScEnumComponent } from './sc-enum/sc-enum.component';
+import { ScMultiEnumComponent } from './sc-multi-enum/sc-multi-enum.component';
 import { DateTimeComponent } from './date-time/date-time.component';
 
 import { ApiLocatorService } from './services/api-locator.service';
@@ -64,6 +65,7 @@ export function tokenGetter() {
     EmailDialogComponent,
     DeleteDialogComponent,
     ScEnumComponent,
+    ScMultiEnumComponent,
     DateTimeComponent,
     AdminOverrideDialogComponent,
     ScSelectComponent,
@@ -114,6 +116,7 @@ export function tokenGetter() {
     PhotoComponent,
     NotesComponent,
     ScEnumComponent,
+    ScMultiEnumComponent,
     DateTimeComponent,
     ScSelectComponent,
     ScPhoneNumberComponent,

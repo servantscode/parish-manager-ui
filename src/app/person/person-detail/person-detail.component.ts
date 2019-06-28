@@ -54,6 +54,8 @@ export class PersonDetailComponent implements OnInit {
       maritalStatus: [''],
       ethnicity: [''],
       primaryLanguage: [''],
+      religion: [''],
+      specialNeeds: [[]],
       family: this.fb.group({
         id: [''],
         surname: ['', Validators.required],
@@ -73,6 +75,8 @@ export class PersonDetailComponent implements OnInit {
   public maritalStatuses = this.personService.getMaritalStatuses.bind(this.personService);
   public ethnicities = this.personService.getEthnicities.bind(this.personService);
   public languages = this.personService.getLanguages.bind(this.personService);
+  public religions = this.personService.getReligions.bind(this.personService);
+  public specialNeeds = this.personService.getSpecialNeeds.bind(this.personService);
 
   constructor(private router: Router,
               private route: ActivatedRoute,

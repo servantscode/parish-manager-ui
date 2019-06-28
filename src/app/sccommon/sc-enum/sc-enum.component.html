@@ -1,4 +1,4 @@
-<form [formGroup]="autocompleteForm">
+<form [formGroup]="form">
   <mat-form-field *ngIf="!items || items.length > 10" class="input-{{fieldSize}}">
     <mat-label>{{label}}</mat-label>
     <input type="text" formControlName="input" aria-label="label" matInput [matAutocomplete]="auto" [required]="required">
@@ -10,7 +10,7 @@
   </mat-form-field>
 
   <mat-form-field *ngIf="items && items.length <= 10">
-    <mat-select formControlName="input" [placeholder]="calculateLabel()" [aria-label]="label" [required]="required" (selectionChange)="selectItem($event.value)">
+    <mat-select formControlName="input" [placeholder]="calculateLabel()" [aria-label]="label" [required]="required">
         <mat-option *ngIf="nullValue">{{nullValue}}</mat-option>
         <mat-option *ngFor="let item of items" [value]="item">
         {{item.display}}

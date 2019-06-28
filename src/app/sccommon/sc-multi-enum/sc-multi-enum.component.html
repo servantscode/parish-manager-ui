@@ -1,0 +1,14 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-select formControlName="input" [placeholder]="label" [aria-label]="label" [required]="required" multiple>
+      <mat-select-trigger>
+        {{selected.slice(0, 3).join(", ")}}
+        <span *ngIf="selected && selected.length > 3" class="example-additional-selection">
+          (+{{selected.length - 3}} {{selected.length === 4 ? 'other' : 'others'}})
+        </span>
+      </mat-select-trigger>
+      <mat-option *ngIf="nullValue">{{nullValue}}</mat-option>
+      <mat-option *ngFor="let item of items" [value]="item">{{item.display}}</mat-option>
+    </mat-select>
+  </mat-form-field><br/>
+</form>

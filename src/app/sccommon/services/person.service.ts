@@ -70,6 +70,18 @@ export class PersonService extends PaginatedService<Person> implements Preferenc
       );
   }
 
+  getReligions(): Observable<string[]> {
+    return this.http.get(this.url + '/religions').pipe(
+        catchError(this.handleError('getReliginos', null))
+      );
+  }
+
+  getSpecialNeeds(): Observable<string[]> {
+    return this.http.get(this.url + '/specialNeeds').pipe(
+        catchError(this.handleError('getSpecialNeeds', null))
+      );
+  }
+
   public getPreferences(id: number) {
     return this.http.get<any>(this.url+`/${id}/preferences`).pipe(
         catchError(this.handleError('getPreferences', null))

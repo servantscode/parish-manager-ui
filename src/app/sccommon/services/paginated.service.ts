@@ -71,6 +71,9 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
   }
 
   protected mapObject(obj: T): T {
+    if(!obj)
+      return null;
+    
     var resp: T = this.getTemplate();
     for(let key of Object.keys(resp))
       resp[key] = obj[key];
