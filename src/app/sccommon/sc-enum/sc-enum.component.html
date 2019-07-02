@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <mat-form-field *ngIf="!items || items.length > 10" class="input-{{fieldSize}}">
+  <mat-form-field appearance="standard" *ngIf="!items || items.length > 10" class="input-standard">
     <mat-label>{{label}}</mat-label>
     <input type="text" formControlName="input" aria-label="label" matInput [matAutocomplete]="auto" [required]="required">
     <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="displayName"  (optionSelected)="selectItem($event.option.value)">
@@ -9,8 +9,8 @@
     </mat-autocomplete>
   </mat-form-field>
 
-  <mat-form-field *ngIf="items && items.length <= 10">
-    <mat-select formControlName="input" [placeholder]="calculateLabel()" [aria-label]="label" [required]="required">
+  <mat-form-field appearance="standard" *ngIf="items && items.length <= 10" class="input-standard">
+    <mat-select formControlName="input" [placeholder]="calculateLabel()" [aria-label]="label" [required]="required" (selectionChange)="selectItem($event.value)">
         <mat-option *ngIf="nullValue">{{nullValue}}</mat-option>
         <mat-option *ngFor="let item of items" [value]="item">
         {{item.display}}

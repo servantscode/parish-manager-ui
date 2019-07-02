@@ -26,7 +26,7 @@ export class ScMultiEnumComponent implements ControlValueAccessor, OnInit {
   @Input() valueSource: () => Observable<string[]>;
 
   items: EnumValue[];
-  private selected: string[];
+  selected: string[];
   
   onChange: any = () => { };
   onTouched: any = () => { };

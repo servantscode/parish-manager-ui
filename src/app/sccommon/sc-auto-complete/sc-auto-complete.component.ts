@@ -61,11 +61,29 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   selectItem(item: T): void {
+    if(this.selected = item)
+      return;
+    
     this.selected = item;
     this.setInputValue(item);
 
     this.onChange(this.itemValue(item));
     this.onTouched();
+  }
+
+  verifyInput() {
+    const rawValue = this.autocompleteForm.get('input').value;
+    if(!rawValue) {
+      this.selectItem(null);
+    } else if(this.selected != rawValue) {
+      this.autocompleteService.getPage(0, 1, rawValue, this.pathParams).subscribe(resp => {
+          if(resp.totalResults == 1) {
+            this.selectItem(resp.results[0]);
+          } else {
+            this.setInputValue(this.selected);
+          }
+        });
+    }
   }
 
   private enableAutocomplete() {
@@ -87,11 +105,13 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   private itemValue(item: any) {
-    return this.selectObject? 
-        item: 
-        this.selectIdentity? 
-            item.identify(): 
-            item.id;
+    return !item?
+        null:
+        this.selectObject? 
+          item: 
+          this.selectIdentity? 
+              item.identify(): 
+              item.id;
   }
 
   private setInputValue(displayValue: any) {

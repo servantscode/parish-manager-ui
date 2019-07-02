@@ -21,7 +21,7 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   @Input() label = 'Enum';
   @Input('value') _value;
   @Input() required = false;
-  @Input() fieldSize = 'standard';
+  @Input() fieldSize = 'input-standard';
   @Input() nullValue: string;
 
   @Input() valueSource: () => Observable<string[]>;
