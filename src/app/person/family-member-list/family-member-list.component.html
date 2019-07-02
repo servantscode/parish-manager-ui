@@ -2,13 +2,15 @@
   <table class="sc-table">
     <thead>
       <tr>
-        <th>Family Members:</th>
+        <th>Family Member</th>
+        <th>Relationship</th>
         <th>Age</th>
       </tr>
     </thead>
     <tbody (mouseleave)="highlightPerson(null)">
       <tr *ngFor="let member of members" (mouseover)="highlightPerson(member)" [ngClass] = "{'highlight' : member === highlightedPerson}">
         <td  [ngClass]="{inactive: member.inactive}" (click)="updatePerson(member.id)">{{member.name}}&nbsp;&nbsp;<img class="icon" *ngIf="member.headOfHousehold" src="assets/images/crown.png"/></td>
+        <td> {{member.relationship | scEnum }}</td>
         <td> {{getAge(member)}}</td>
       </tr>
     </tbody>

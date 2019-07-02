@@ -41,6 +41,7 @@
               <div class="col">
                 Primary Language: {{person.primaryLanguage | scEnum}}<br/>
                 Ethnicity: {{person.ethnicity | scEnum}}<br/>
+                Occupation: {{person.occupation}}<br/>
               </div>
               <div class="col">
                 Religion: {{person.religion | scEnum}}<br/>
@@ -77,7 +78,7 @@
     </div>
     <br/>
   
-    <app-family-member-list [members]="person.family.members" [familyId]="person.family.id"></app-family-member-list>
+    <app-family-member-list [personId]="person.id" [members]="person.family.members" [familyId]="person.family.id"></app-family-member-list>
   </div>
 
   <div *ngIf="loginService.userCan('ministry.enrollment.list')" class="container rounded-rect">
@@ -158,6 +159,11 @@
           <div class="col">
             <app-sc-enum formControlName="primaryLanguage" label="Primary Language" [valueSource]="languages"></app-sc-enum>
             <app-sc-enum formControlName="ethnicity" label="Ethnicity" [valueSource]="ethnicities"></app-sc-enum>
+            <mat-form-field appearance="standard" class="input-standard">
+              <mat-label>Occupation</mat-label>
+              <input matInput formControlName="occupation">
+            </mat-form-field><br/>
+
           </div>
           <div class="col">
             <app-sc-enum formControlName="religion" label="Religion" [valueSource]="religions"></app-sc-enum>
@@ -212,7 +218,7 @@
     </div>
     
     <br/>
-    <app-family-member-list [members]="person.family.members" [familyId]="person.family.id"></app-family-member-list>
+    <app-family-member-list [personId]="person.id" [members]="person.family.members" [familyId]="person.family.id"></app-family-member-list>
   </div>
 
   <div *ngIf="person.id > 0 && loginService.userCan('ministry.enrollment.list')" class="container rounded-rect">
