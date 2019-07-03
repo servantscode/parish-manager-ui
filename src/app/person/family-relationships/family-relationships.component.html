@@ -1,0 +1,32 @@
+<form [formGroup]="form">
+  <table class="sc-table middle">
+    <thead>
+      <tr>
+        <th>Family Member</th>
+        <th>Relationship</th>
+        <th class="center">Guardian</th>
+        <th class="center">Contact Order</th>
+        <th class="center">Do Not Contact</th>
+      </tr>
+    </thead>
+    <tbody formArrayName="relationships">
+      <tr *ngFor="let relationship of relationshipControls().controls; let i=index" formGroupName="{{i}}">
+        <td>{{familyMembers[i].name}}</td>
+        <td>
+          <app-sc-enum formControlName="relationship" [required]="true" [valueSource]="relationshipTypes"></app-sc-enum>
+        </td>
+        <td class="center">
+          <mat-checkbox appearance="standard" formControlName="guardian"></mat-checkbox><br/>
+        </td>
+        <td class="center">
+          <mat-form-field appearance="standard" class="input-2">
+            <input matInput type="number" formControlName="contactPreference" minlength="0" maxlength="1"/>
+          </mat-form-field><br/>
+        </td>
+        <td class="center">
+          <mat-checkbox formControlName="doNotContact"></mat-checkbox>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>

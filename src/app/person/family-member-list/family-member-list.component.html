@@ -9,8 +9,18 @@
     </thead>
     <tbody (mouseleave)="highlightPerson(null)">
       <tr *ngFor="let member of members" (mouseover)="highlightPerson(member)" [ngClass] = "{'highlight' : member === highlightedPerson}">
-        <td  [ngClass]="{inactive: member.inactive}" (click)="updatePerson(member.id)">{{member.name}}&nbsp;&nbsp;<img class="icon" *ngIf="member.headOfHousehold" src="assets/images/crown.png"/></td>
-        <td> {{member.relationship | scEnum }}</td>
+        <td  [ngClass]="{inactive: member.inactive}" (click)="updatePerson(member.id)">{{member.name}}&nbsp;&nbsp;<img class="icon" *ngIf="member.headOfHousehold" src="assets/images/crown.png"/>&nbsp;<img class="icon" *ngIf="member.relationship && member.relationship.contactPreference == 1" src="assets/images/phone.png/"><img class="icon" *ngIf="member.relationship && member.relationship.doNotContact" src="assets/images/no-phone.png/"></td>
+        <td>
+          <table class="middle">
+            <td>
+              <span *ngIf="member.relationship">{{member.relationship.relationship | scEnum }}</span>
+              <em *ngIf="!member.relationship" class="light">Unknown</em>
+            </td>
+            <td *ngIf="loginService.userCan('relationship.update')" class="icon">
+              <div class="icon" [ngClass]="{'edit' : member === highlightedPerson}" (click)="editRelationship(member)">&nbsp;</div>
+            </td>
+          </table>
+        </td>
         <td> {{getAge(member)}}</td>
       </tr>
     </tbody>

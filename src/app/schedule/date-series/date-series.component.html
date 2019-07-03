@@ -6,7 +6,7 @@
   </span>
   <div class="date-list" *ngIf="futureEvents.length > 0">
     <div *ngFor="let event of futureEvents; let i=index" class="event">
-      <table class="content">
+      <table class="content middle">
         <td>
           <span [ngClass]="{'conflicted': event.conflicts && !event.excluded, 'excluded': event.excluded}" class="clickable pad-right-5" (click)="toggleConflict(i)">{{event.startTime | date: 'MM/dd/yyyy'}}</span>
         </td>

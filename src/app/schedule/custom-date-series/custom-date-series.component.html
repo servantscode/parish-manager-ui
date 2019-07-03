@@ -1,5 +1,5 @@
 <div>
-  <table *ngIf="events">
+  <table *ngIf="events middle">
     <td>
       <span >{{events.length}} {{events.length > 1? 'events':'event'}}</span>
     </td>
@@ -10,7 +10,7 @@
 
   <div class="date-list" *ngIf="events && events.length > 0">
     <div *ngFor="let event of events; let i=index" class="event">
-      <table class="content">
+      <table class="content middle">
         <td>
           <span [ngClass]="{'conflicted': event.conflicts}" class="clickable pad-right-5" (click)="toggleConflict(i)">{{event.startTime | date: 'MM/dd/yyyy'}} ({{event.startTime | date: 'h:mma'}} - {{event.endTime | date: 'h:mma'}})</span>
         </td>

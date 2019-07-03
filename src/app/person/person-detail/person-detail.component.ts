@@ -15,11 +15,14 @@ import { Person } from '../../sccommon/person';
 import { Family } from '../../sccommon/family';
 
 import { FamilyService } from '../services/family.service';
+import { RelationshipService } from '../services/relationship.service';
 
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
 import { EmailDialogComponent } from '../../sccommon/email-dialog/email-dialog.component';
 
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
+
+import { Relationship } from '../relationship';
 
 export enum KEY_CODE {
   ENTER = 13,
@@ -62,13 +65,9 @@ export class PersonDetailComponent implements OnInit {
         surname: ['', Validators.required],
         homePhone: ['', Validators.pattern(SCValidation.PHONE)],
         envelopeNumber: ['', Validators.pattern(SCValidation.NUMBER)],
-        address: this.fb.group({
-          street1: [''],
-          city: [''],
-          state: ['', [SCValidation.actualState()]],
-          zip: ['', [Validators.pattern(/^\d{5}$/)]]
-        })
-      })
+        address: null,
+        relationships: null
+      }),
     });
   
   filteredOptions: Observable<string[]>;
@@ -85,6 +84,7 @@ export class PersonDetailComponent implements OnInit {
               private familyService: FamilyService,
               public loginService: LoginService,  
               private photoService: PhotoService,
+              private relationshipService: RelationshipService,
               private fb: FormBuilder,
               private dialog: MatDialog) { }
 
@@ -97,11 +97,7 @@ export class PersonDetailComponent implements OnInit {
         }
     );
 
-    this.filteredOptions = this.personForm.get('family.address.state').valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+    // this.personForm.get("family.relationships").valueChanges.subscribe(value => alert("relationships now: " + JSON.stringify(value)));
   }
 
 //Disabled until I can capture events from autocomplete without taking form action as well...
@@ -118,6 +114,8 @@ export class PersonDetailComponent implements OnInit {
 
   getPerson(): void {
     this.person = new Person();
+    //Default values
+    this.person.religion = 'CATHOLIC';
     this.person.memberSince = new Date();
 
     this.personId = +this.route.snapshot.paramMap.get('id');
@@ -175,19 +173,31 @@ export class PersonDetailComponent implements OnInit {
   }
 
   save(): void {
+    const p = this.personForm.value;
+    const relationships = p.family.relationships;
+    delete p.family.relationships;
+
     if(this.person.id > 0) {
-      this.personService.update(this.personForm.value).
+      this.personService.update(p).
         subscribe(person => {
           this.person = person;
-          this.router.navigate(['person', person.id, 'detail']);
-          this.editMode=false;
+          alert("adjusting relationships: " + JSON.stringify(relationships));
+          relationships.forEach(r => r.personId = person.id);
+          alert("saving relationships: " + JSON.stringify(relationships));
+          this.relationshipService.updateRelationships(relationships, true).subscribe(() => {
+            this.router.navigate(['person', person.id, 'detail']);
+            this.editMode=false;
+          })
         });
     } else {
-      this.personService.create(this.personForm.value).
+      this.personService.create(p).
         subscribe(person => {
           this.person = person;
-          this.router.navigate(['person', person.id, 'detail']);
-          this.editMode=false;
+          relationships.forEach(r => r.personId = person.id);
+          this.relationshipService.updateRelationships(relationships, true).subscribe(() => {
+            this.router.navigate(['person', person.id, 'detail']);
+            this.editMode=false;
+          })
         });      
     }
   }
@@ -212,16 +222,6 @@ export class PersonDetailComponent implements OnInit {
              }
         }
     });
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return SCValidation.STATES.filter(option => option.toLowerCase().startsWith(filterValue));
-  }
-
-  capitalizeState(): void {
-    const stateField = this.personForm.get("family.address.state");
-    stateField.setValue(stateField.value.toUpperCase());
   }
 
   enableEdit(): void {

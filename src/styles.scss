@@ -38,6 +38,14 @@ table.sc-table {
   }
 }
 
+.middle {
+  vertical-align: middle;
+}
+
+.center {
+  text-align: center;
+}
+
 h2 {
   padding: 5px 0 0 10px;
 }
@@ -232,10 +240,10 @@ div.rounded-rect {
 }
 
 .add {
-  background-image: url('./assets/images/plus-icon.png');
- /* &:hover {
-    background-image: url('./assets/images/trash-active.png');
-  }*/
+  background-image: url('./assets/images/plus.png');
+  &:hover {
+    background-image: url('./assets/images/plus-active.png');
+  }
 }
 
 .password {

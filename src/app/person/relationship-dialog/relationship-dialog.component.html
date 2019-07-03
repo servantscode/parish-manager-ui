@@ -1,0 +1,23 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <h1  mat-dialog-title>Update Relationship</h1>
+  <div mat-dialog-content>
+    <input type="hidden" autocomplete="off" formControlName="personId"/>
+    <input type="hidden" autocomplete="off" formControlName="otherId"/>
+
+    <strong>{{ data.item.otherName }}</strong> is the 
+    <app-sc-enum formControlName="relationship" label="Relationship" [required]="true" [valueSource]="relationshipTypes"></app-sc-enum> of <strong>{{ data.item.personName }}</strong><br/><br/>
+
+    <mat-checkbox formControlName="guardian"> Guardian</mat-checkbox><br/>
+
+    <mat-form-field appearance="standard" class="input-5">
+      <mat-label>Contact Order</mat-label>
+      <input matInput type="number" formControlName="contactPreference" minlength="0" maxlength="1"/>
+    </mat-form-field><br/>
+
+    <mat-checkbox formControlName="doNotContact"> Do Not Contact</mat-checkbox>
+ </div>
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+  </div>
+</form>

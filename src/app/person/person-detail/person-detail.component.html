@@ -21,7 +21,7 @@
           <div class="col">
             Birthdate: {{person.birthdate | date: 'MM/dd/yyyy'}}<br/>
             Age: {{getAge()}}<br/>
-            Parishioner: {{person.parishioner}}<br/>
+            <mat-checkbox [checked]="person.parishioner" [disabled]="true" > Parishioner</mat-checkbox><br/>
             <span *ngIf="person.parishioner">Member Since: {{person.memberSince | date: 'MM/dd/yyyy'}}</span>
           </div>
         </div>
@@ -78,7 +78,7 @@
     </div>
     <br/>
   
-    <app-family-member-list [personId]="person.id" [members]="person.family.members" [familyId]="person.family.id"></app-family-member-list>
+    <app-family-member-list [person]="person" [members]="person.family.members" [familyId]="person.family.id"></app-family-member-list>
   </div>
 
   <div *ngIf="loginService.userCan('ministry.enrollment.list')" class="container rounded-rect">
@@ -123,7 +123,7 @@
         <mat-checkbox formControlName="headOfHousehold"> Head of Household</mat-checkbox>
       </div>
       <div class="col">
-        <mat-form-field>
+        <mat-form-field appearance="standard" >
           <input matInput formControlName="birthdate" [matDatepicker]="picker" placeholder="Birthdate">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -131,7 +131,7 @@
 
         <mat-checkbox formControlName="parishioner"> Parishioner</mat-checkbox><br/>
 
-        <mat-form-field *ngIf="personForm.get('parishioner').value">
+        <mat-form-field appearance="standard" *ngIf="personForm.get('parishioner').value">
           <input matInput formControlName="memberSince" [matDatepicker]="picker2" placeholder="Joined">
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
@@ -191,34 +191,9 @@
       <input matInput type="number" formControlName="envelopeNumber"/>
     </mat-form-field><br/>
 
-    <div formGroupName="address">
-      <mat-form-field appearance="standard" class="input-standard">
-        <mat-label>Street</mat-label>
-        <input matInput formControlName="street1"/>
-      </mat-form-field><br/>
-
-      <mat-form-field appearance="standard" class="input-small">
-        <mat-label>City</mat-label>
-        <input matInput formControlName="city">
-      </mat-form-field>&nbsp;
-
-      <mat-form-field class="input-2">
-        <input type="text" placeholder="State" aria-label="State" matInput formControlName="state" [matAutocomplete]="auto" class="input-2" (blur)="capitalizeState()">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{option}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>&nbsp;
-
-      <mat-form-field appearance="standard" class="input-5">
-        <mat-label>Zip</mat-label>
-        <input matInput formControlName="zip" minlength="5" maxlength="5"/>
-      </mat-form-field>
-    </div>
+    <app-address formControlName="address"></app-address>
     
-    <br/>
-    <app-family-member-list [personId]="person.id" [members]="person.family.members" [familyId]="person.family.id"></app-family-member-list>
+    <app-family-relationships [person]="person" [familyMembers]="person.family.members" formControlName="relationships"></app-family-relationships>
   </div>
 
   <div *ngIf="person.id > 0 && loginService.userCan('ministry.enrollment.list')" class="container rounded-rect">

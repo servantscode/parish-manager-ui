@@ -1,11 +1,14 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { differenceInYears } from 'date-fns';
 
 import { LoginService } from '../../sccommon/services/login.service';
 
 import { Person } from '../../sccommon/person';
 import { doLater } from '../../sccommon/utils';
+
+import { RelationshipDialogComponent } from '../relationship-dialog/relationship-dialog.component';
 
 import { RelationshipService } from '../services/relationship.service';
 
@@ -18,7 +21,7 @@ import { Relationship } from '../relationship';
 })
 export class FamilyMemberListComponent implements OnInit, OnChanges {
 
-  @Input() personId: number;
+  @Input() person: Person;
   @Input() members: Person[];
   @Input() familyId: number;
 
@@ -26,6 +29,7 @@ export class FamilyMemberListComponent implements OnInit, OnChanges {
   private highlightedPerson: Person;
 
   constructor(private router: Router,
+              private dialog: MatDialog,
               public loginService: LoginService,
               public relationshipService: RelationshipService) { }
 
@@ -38,21 +42,45 @@ export class FamilyMemberListComponent implements OnInit, OnChanges {
 
     this.relationships = this.members;
     this.relationships.forEach(r => r.relationship = "");
-    if(!this.personId) {
+
+    //For family view take perspective of head of household for family roles
+    if(this.person.id) {
+      this.relationshipService.getRelationships(this.person.id).subscribe( results => {
+          results.forEach(relation => {
+            const person = this.relationships.find(r => relation.otherId == r.id);
+            if(person)
+              person.relationship = relation;
+          })
+        });
+    } else {
       const head = this.relationships.find(m => m.headOfHousehold);
       if(head) {
         head.relationship = 'HEAD';
-        this.personId = head.id;
+        this.person.id = head.id;
       }
     }
+  }
 
-    this.relationshipService.getRelationships(this.personId).subscribe( results => {
-        results.forEach(relation => {
-          const person = this.relationships.find(r => relation.otherId == r.id);
-          if(person)
-            person.relationship = relation.relationship;
-        })
+  editRelationship(familyMember: any) {
+    var relationship;
+    if(familyMember.relationship) {
+      relationship = familyMember.relationship;
+    } else {
+      relationship = new Relationship();
+      relationship.personId = this.person.id;
+      relationship.personName = this.person.name;
+      relationship.otherId = familyMember.id;
+      relationship.otherName = familyMember.name;
+    }
+
+    const openDialogRef = this.dialog.open(RelationshipDialogComponent, {
+        width: '400px',
+        data: { "item": relationship,
+                "createReciprocal": true
+              }
       });
+
+    openDialogRef.afterClosed().subscribe(result => familyMember.relationship = result? result: familyMember.relationship);
   }
 
   highlightPerson(person: Person) {

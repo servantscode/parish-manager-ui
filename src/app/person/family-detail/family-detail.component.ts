@@ -41,12 +41,7 @@ export class FamilyDetailComponent implements OnInit {
       surname: ['', Validators.required],
       homePhone: ['', Validators.pattern(SCValidation.PHONE)],
       envelopeNumber: ['', Validators.pattern(SCValidation.NUMBER)],
-      address: this.fb.group({
-        street1: [''],
-        city: [''],
-        state: ['', SCValidation.actualState()],
-        zip: ['', Validators.pattern(/^\d{5}$/)]
-      })
+      address: null
     });
 
   filteredOptions: Observable<string[]>;
@@ -62,12 +57,6 @@ export class FamilyDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getFamily();
-   
-    this.filteredOptions = this.familyForm.get('address.state').valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
   }
 
   getFamily(): void {
@@ -133,11 +122,6 @@ export class FamilyDetailComponent implements OnInit {
           this.router.navigate(['family', 'detail', family.id]);
         });
     }
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return SCValidation.STATES.filter(option => option.toLowerCase().startsWith(filterValue));
   }
 
   enableEdit(): void {

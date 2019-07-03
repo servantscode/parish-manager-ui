@@ -29,9 +29,16 @@ export class RelationshipService extends BaseService {
       );
   }
 
-  public updateRelationships(relationships: Relationship[]) {
-    return this.http.put(this.url, relationships, this.httpOptions).pipe(
+  public updateRelationships(relationships: Relationship[], addReciprocals: boolean = false) {
+    return this.http.put(this.url + `?addReciprocals=${addReciprocals}`, relationships, this.httpOptions).pipe(
         catchError(this.handleError('updateRelationships', null))
       );
   }
+
+  getRelationshipTypes(): Observable<string[]> {
+    return this.http.get(this.url + '/types').pipe(
+        catchError(this.handleError('getRelationshipTypes', null))
+      );
+  }
+
 }
