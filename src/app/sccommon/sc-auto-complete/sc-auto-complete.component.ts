@@ -7,6 +7,8 @@ import { PaginatedService } from '../services/paginated.service';
 import { Autocompletable } from '../identifiable';
 import { PaginatedResponse } from '../paginated.response';
 
+import { doLater } from '../utils';
+
 @Component({
   selector: 'app-sc-auto-complete',
   templateUrl: './sc-auto-complete.component.html',
@@ -61,9 +63,9 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   selectItem(item: T): void {
-    if(this.selected = item)
+    if(this.selected == item)
       return;
-    
+
     this.selected = item;
     this.setInputValue(item);
 
@@ -72,6 +74,12 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   verifyInput() {
+    // Hate this! But putting the blur on the input to verify it eats the click selection on the drop down.
+    // There is ongoing discussion about a force selection feature here: https://github.com/angular/components/issues/3334
+    setTimeout(this.doVerifyInput.bind(this), 50);
+  }
+
+  doVerifyInput() {
     const rawValue = this.autocompleteForm.get('input').value;
     if(!rawValue) {
       this.selectItem(null);

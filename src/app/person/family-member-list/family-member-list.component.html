@@ -9,7 +9,7 @@
     </thead>
     <tbody (mouseleave)="highlightPerson(null)">
       <tr *ngFor="let member of members" (mouseover)="highlightPerson(member)" [ngClass] = "{'highlight' : member === highlightedPerson}">
-        <td  [ngClass]="{inactive: member.inactive}" (click)="updatePerson(member.id)">{{member.name}}&nbsp;&nbsp;<img class="icon" *ngIf="member.headOfHousehold" src="assets/images/crown.png"/>&nbsp;<img class="icon" *ngIf="member.relationship && member.relationship.contactPreference == 1" src="assets/images/phone.png/"><img class="icon" *ngIf="member.relationship && member.relationship.doNotContact" src="assets/images/no-phone.png/"></td>
+        <td  [ngClass]="{inactive: member.inactive}" (click)="updatePerson(member.id)">{{member.name}}&nbsp;&nbsp;<img class="icon" *ngIf="member.headOfHousehold" src="assets/images/crown.png"/>&nbsp;<img class="icon" *ngIf="member.relationship && member.relationship.contactPreference == 1" src="assets/images/phone.png"><img class="icon" *ngIf="member.relationship && member.relationship.doNotContact" src="assets/images/no-phone.png"></td>
         <td>
           <table class="middle">
             <td>
