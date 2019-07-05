@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, forwardRef } from '@angular/core';
 import { FormBuilder, Validators, FormArray, FormGroup, AbstractControl, FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 
 import { SCValidation } from '../../sccommon/validation';
@@ -39,6 +39,8 @@ export class FamilyRelationshipsComponent implements OnInit, OnChanges {
   value: Relationship[];
 
   disabled = false;
+  changeListener: Subscription;
+  relationshipListeners: Subscription[] = [];
   onChange: any = () => { };
   onTouched: any = () => { };
 
@@ -46,7 +48,21 @@ export class FamilyRelationshipsComponent implements OnInit, OnChanges {
                public relationshipService: RelationshipService) { }
 
   ngOnInit() {
-    this.form.valueChanges.subscribe(relationships => this.detectChanges(relationships.relationships));
+    this.enableUpdates();
+  }
+
+  enableUpdates() {
+    if(this.changeListener)
+      return;
+
+    this.changeListener = this.form.valueChanges.subscribe(relationships => this.detectChanges(relationships.relationships));
+  }
+
+  diableUpdates() {
+    if(this.changeListener) {
+      this.changeListener.unsubscribe();
+      this.changeListener = null;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -58,6 +74,9 @@ export class FamilyRelationshipsComponent implements OnInit, OnChanges {
   }
 
   private updateForm() {
+    this.diableUpdates();
+    this.relationshipListeners.forEach(listener => listener.unsubscribe());
+    this.relationshipListeners = [];
     const relationships = this.relationshipControls();
     relationships.clear();
 
@@ -75,6 +94,27 @@ export class FamilyRelationshipsComponent implements OnInit, OnChanges {
         relationships.push(group);
       }
     }
+
+    if(this.value)
+      this.form.patchValue({"relationships": this.value});
+
+    var i;
+    for( i=0; i< relationships.controls.length; i++)  {
+      const index = i; //Need a const to compare against later
+      const r = relationships.controls[index];
+      this.relationshipListeners.push(r.get('relationship').valueChanges.subscribe(relationship => {
+        if((!this.value || relationship != this.value[index].relationship)) { 
+          if(relationship == "MOTHER" || relationship == "FATHER") {
+            r.get('guardian').setValue(true);
+            r.get('contactPreference').setValue(1);
+          } else if(relationship == "SPOUSE") {
+            r.get('contactPreference').setValue(1);            
+          }
+        }
+      }));
+    }
+
+    this.enableUpdates();
   }
 
   private detectChanges(val: Relationship[]) {
@@ -100,7 +140,7 @@ export class FamilyRelationshipsComponent implements OnInit, OnChanges {
       return;
     
     this.value = value;
-    this.form.patchValue(value);
+    this.updateForm();
   }
 
   setDisabledState( isDisabled : boolean ) : void {

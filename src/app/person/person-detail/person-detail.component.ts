@@ -96,8 +96,6 @@ export class PersonDetailComponent implements OnInit {
             this.getPerson();
         }
     );
-
-    // this.personForm.get("family.relationships").valueChanges.subscribe(value => alert("relationships now: " + JSON.stringify(value)));
   }
 
 //Disabled until I can capture events from autocomplete without taking form action as well...
@@ -132,6 +130,7 @@ export class PersonDetailComponent implements OnInit {
           }
           this.person = person;
           this.personForm.patchValue(person);
+          this.loadRelationships();
         });
     } else if (familyId > 0) {
       if(!this.loginService.userCan('person.create'))
@@ -150,6 +149,12 @@ export class PersonDetailComponent implements OnInit {
       this.editMode = true;
       this.personForm.patchValue(this.person);        
     }
+  }
+
+  loadRelationships() {
+    this.relationshipService.getRelationships(this.person.id).subscribe(relationships => {
+        this.personForm.get("family.relationships").setValue(relationships);
+      });
   }
 
   guessSurname() {
@@ -181,9 +186,7 @@ export class PersonDetailComponent implements OnInit {
       this.personService.update(p).
         subscribe(person => {
           this.person = person;
-          alert("adjusting relationships: " + JSON.stringify(relationships));
           relationships.forEach(r => r.personId = person.id);
-          alert("saving relationships: " + JSON.stringify(relationships));
           this.relationshipService.updateRelationships(relationships, true).subscribe(() => {
             this.router.navigate(['person', person.id, 'detail']);
             this.editMode=false;
@@ -193,11 +196,16 @@ export class PersonDetailComponent implements OnInit {
       this.personService.create(p).
         subscribe(person => {
           this.person = person;
-          relationships.forEach(r => r.personId = person.id);
-          this.relationshipService.updateRelationships(relationships, true).subscribe(() => {
+          if(relationships) {
+            relationships.forEach(r => r.personId = person.id);
+            this.relationshipService.updateRelationships(relationships, true).subscribe(() => {
+              this.router.navigate(['person', person.id, 'detail']);
+              this.editMode=false;
+            });
+          } else {
             this.router.navigate(['person', person.id, 'detail']);
             this.editMode=false;
-          })
+          }
         });      
     }
   }
@@ -226,6 +234,7 @@ export class PersonDetailComponent implements OnInit {
 
   enableEdit(): void {
     this.editMode=true;
+    this.loadRelationships();
   }
 
   attachPhoto(guid: any): void {
