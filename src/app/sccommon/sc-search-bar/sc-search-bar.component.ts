@@ -39,7 +39,9 @@ export class ScSearchBarComponent implements OnInit {
              "fields" : {
                "name": "text",
                "male": "boolean",
-               "birthdate": "date"
+               "birthdate": "date",
+               "memberSince": "date",
+               "parishioner": "boolean"
            }}
     });
 

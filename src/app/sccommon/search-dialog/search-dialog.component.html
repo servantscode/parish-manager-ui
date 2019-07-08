@@ -11,21 +11,43 @@
       <mat-radio-button value="false">Female</mat-radio-button>
     </mat-radio-group><br/>
 
-    <mat-form-field>
-      <input matInput formControlName="birthdateStart" [matDatepicker]="picker" placeholder="Birthdate">
+    <strong>Birthdate</strong><br/>
+    <mat-form-field appearance="standard" class="input-small">
+      <input matInput formControlName="birthdateStart" [matDatepicker]="picker">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field><br/>
+    </mat-form-field>&nbsp;to&nbsp;
 
-    <mat-form-field>
-      <input matInput formControlName="birthdateEnd" [matDatepicker]="endpicker" placeholder="Birthdate">
+    <mat-form-field appearance="standard" class="input-small">
+      <input matInput formControlName="birthdateEnd" [matDatepicker]="endpicker">
       <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
       <mat-datepicker #endpicker></mat-datepicker>
     </mat-form-field><br/>
 
+
+    <strong>Parishioner?</strong><br/>
+    <mat-radio-group aria-label="Parishioner" formControlName="parishioner">
+      <mat-radio-button value="true">Yes</mat-radio-button>&nbsp;&nbsp;
+      <mat-radio-button value="false">No</mat-radio-button>
+    </mat-radio-group><br/>
+
+    <strong>Member Since</strong><br/>
+    <mat-form-field appearance="standard" class="input-small">
+      <input matInput formControlName="memberSinceStart" [matDatepicker]="sincePicker">
+      <mat-datepicker-toggle matSuffix [for]="sincePicker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>&nbsp;to&nbsp;
+
+    <mat-form-field appearance="standard" class="input-small">
+      <input matInput formControlName="memberSinceEnd" [matDatepicker]="senseEndpicker">
+      <mat-datepicker-toggle matSuffix [for]="senseEndpicker"></mat-datepicker-toggle>
+      <mat-datepicker #endpicker></mat-datepicker>
+    </mat-form-field><br/>
+
+
   </div>
   <div mat-dialog-actions>
-    <button mat-button type="submit" class="btn btn-primary" >Search</button>
+    <button mat-button type="submit" class="btn btn-primary">Search</button>
     <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
   </div>
 </form>

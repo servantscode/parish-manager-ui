@@ -18,7 +18,7 @@ import { EnumValue } from '../enum-value';
   ]
 })
 export class ScEnumComponent implements ControlValueAccessor, OnInit {
-  @Input() label = 'Enum';
+  @Input() label = '';
   @Input('value') _value;
   @Input() required = false;
   @Input() fieldSize = 'input-standard';
