@@ -1,0 +1,9 @@
+<mat-toolbar>
+  <span class="tab clickable" (click)="selectTab('organizations')" [ngClass]="{'highlighted': 'organizations' === selectedTab}">Orgs</span>
+</mat-toolbar>
+
+<div class="tab-content scrollable">
+  <div [ngSwitch]="selectedTab">
+    <app-organization *ngSwitchCase="'organizations'"></app-organization>
+  </div>
+</div>

@@ -30,4 +30,8 @@ export class UserMenuComponent implements OnInit {
   userCanAdmin(): boolean {
     return this.loginService.hasAny('admin');
   }
+
+  userCanSystem(): boolean {
+    return this.loginService.isSystem();
+  }
 }

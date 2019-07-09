@@ -33,7 +33,7 @@ export class ScSearchBarComponent implements OnInit {
   }
 
   openSearch() {
-    const donationRef = this.dialog.open(SearchDialogComponent, {
+    const searchRef = this.dialog.open(SearchDialogComponent, {
       width: '400px',
       data: {"title": "Search People",
              "fields" : {
@@ -45,7 +45,7 @@ export class ScSearchBarComponent implements OnInit {
            }}
     });
 
-    donationRef.afterClosed().subscribe(result => {
+    searchRef.afterClosed().subscribe(result => {
         if(result)
           this.form.get('input').setValue(result);
       });

@@ -65,6 +65,11 @@ export class LoginService extends BaseService {
     return decoded && decoded.permissions.some(perm => perm.startsWith(permPrefix) || perm.startsWith("*"));
   }
 
+  public isSystem(): boolean {
+    const decoded = this.getDecodedToken();
+    return decoded.permissions.length == 1 && decoded.permissions[0] == "*";
+  }
+
   public userCan(reqPerm: string): boolean {
     const decoded = this.getDecodedToken();
     return decoded? decoded.permissions.some(userPerm => this.matches(userPerm, reqPerm)): false;
