@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { BaseService } from '../../sccommon/services/base.service';
+import { LoginService } from '../../sccommon/services/login.service';
 import { MessageService } from '../../sccommon/services/message.service';
 
 import { EmailConfig } from '../email-config';
@@ -18,9 +18,9 @@ export class EmailConfigService extends BaseService {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
-              protected router: Router,
+              protected loginService: LoginService,
               protected apiService: ApiLocatorService) {
-    super(http, messageService, router);
+    super(http, messageService, loginService);
     this.url = apiService.prefaceUrl('/rest/email/config');
   }
 

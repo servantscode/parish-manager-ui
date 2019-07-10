@@ -19,7 +19,7 @@ export class DonationDialogComponent implements OnInit {
   form = this.fb.group({
       id: [''],
       familyId: ['', Validators.required],
-      fundId: [1, Validators.required],
+      fundId: ['', Validators.required],
       amount: ['', [Validators.required, Validators.pattern(SCValidation.USD)]],
       donationDate: [new Date(), Validators.required],
       donationType: ['', Validators.required],

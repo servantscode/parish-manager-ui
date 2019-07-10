@@ -2,9 +2,9 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
+import { LoginService } from '../../sccommon/services/login.service';
 import { MessageService } from '../../sccommon/services/message.service';
 import { PaginatedService } from '../../sccommon/services/paginated.service';
 import { Role } from '../role';
@@ -17,8 +17,8 @@ export class RoleService extends PaginatedService<Role> {
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService,
-              protected router: Router) {
-    super(apiService.prefaceUrl("/rest/role"), http, messageService, router);
+              protected loginService: LoginService) {
+    super(apiService.prefaceUrl("/rest/role"), http, messageService, loginService);
   }
 
   public getPermissionType(): string {

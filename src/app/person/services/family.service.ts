@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
+import { LoginService } from '../../sccommon/services/login.service';
 import { MessageService } from '../../sccommon/services/message.service';
 import { PaginatedService } from '../../sccommon/services/paginated.service';
 import { PaginatedResponse } from '../../sccommon/paginated.response';
@@ -19,8 +19,8 @@ export class FamilyService extends PaginatedService<Family> {
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService,
-              protected router: Router) { 
-    super(apiService.prefaceUrl('/rest/family'), http, messageService, router);
+              protected loginService: LoginService) {
+    super(apiService.prefaceUrl('/rest/family'), http, messageService, loginService);
   }
 
   public getPermissionType(): string {

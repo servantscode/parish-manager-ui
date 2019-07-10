@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
+import { LoginService } from './login.service';
 import { MessageService } from './message.service';
 import { BaseService } from './base.service';
 
@@ -14,8 +14,8 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
   constructor(protected url: string,
               protected http: HttpClient,
               protected messageService: MessageService,
-              protected router: Router) { 
-    super(http, messageService, router);
+              protected loginService: LoginService) { 
+    super(http, messageService, loginService);
   }
 
   public abstract getPermissionType(): string;

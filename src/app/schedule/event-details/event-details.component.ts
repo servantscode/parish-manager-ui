@@ -335,7 +335,6 @@ export class EventDetailsComponent implements OnInit {
         this.eventService.updateSeries(cleanEvents).
           subscribe(() => this.goBack());
       } else {
-        alert("Updating: " +JSON.stringify(this.getEventFromForm()));
         this.eventService.update(this.getEventFromForm()).
           subscribe(() => this.goBack());
       }

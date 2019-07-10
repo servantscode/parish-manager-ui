@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 import { ApiLocatorService } from './api-locator.service';
 import { BaseService } from './base.service';
-import { MessageService } from './message.service';
+import { LoginService } from '../../sccommon/services/login.service';
+import { MessageService } from '../../sccommon/services/message.service';
 
 
 @Injectable({
@@ -17,9 +17,9 @@ export class PhotoService extends BaseService {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
-              protected router: Router,
+              protected loginService: LoginService,
               protected apiService: ApiLocatorService) { 
-    super(http, messageService, router);
+    super(http, messageService, loginService);
     this.url = apiService.prefaceUrl('/rest/photo');
   }
 

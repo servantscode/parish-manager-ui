@@ -4,9 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
+import { LoginService } from '../../sccommon/services/login.service';
 import { MessageService } from '../../sccommon/services/message.service';
 import { BaseService } from '../../sccommon/services/base.service';
-import { Router } from '@angular/router';
 
 import { Enrollment } from '../enrollment';
 
@@ -19,9 +19,9 @@ export class EnrollmentService extends BaseService {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
-              protected router: Router,
+              protected loginService: LoginService,
               protected apiService: ApiLocatorService) { 
-    super(http, messageService, router);
+    super(http, messageService, loginService);
     this.url = apiService.prefaceUrl("/rest/enrollment");
   }
 

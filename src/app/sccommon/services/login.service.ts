@@ -8,12 +8,11 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { ApiLocatorService } from './api-locator.service';
 import { MessageService } from './message.service';
-import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService extends BaseService {
+export class LoginService {
   private url: string;
 
   constructor(protected http: HttpClient,
@@ -21,7 +20,6 @@ export class LoginService extends BaseService {
               protected router: Router,
               private jwtHelper: JwtHelperService,
               protected apiService: ApiLocatorService) { 
-    super(http, messageService, router);
     this.url = apiService.prefaceUrl("/rest/login");
   }
 
@@ -37,12 +35,13 @@ export class LoginService extends BaseService {
                       })
       .pipe(
         tap(resp => this.doLogin(resp)),
-        tap(() => this.log('Logged in as: ' + credentials.email))
+        tap(() => this.messageService.add('Logged in as: ' + credentials.email))
       );
   }
 
   public logout() {
     localStorage.removeItem("jwt-token");
+    this.router.navigate(['login']);
   }
 
   public isAuthenticated(): boolean {
