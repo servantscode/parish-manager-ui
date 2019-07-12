@@ -34,10 +34,8 @@ export class PreferenceDialogComponent implements OnInit {
   ngOnInit() {
     if(this.data.item) {
       this.form.patchValue(this.data.item);
-      if(this.data.item.id) {
+      if(this.data.item.id)
         this.createNew = false;
-        this.form.get('id').disable();
-      }
     }
   }
 

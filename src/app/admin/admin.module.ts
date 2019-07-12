@@ -26,6 +26,7 @@ import { PasswordDialogComponent } from './password-dialog/password-dialog.compo
 import { EmailConfigComponent } from './email-config/email-config.component';
 import { PreferenceConfigComponent } from './preference-config/preference-config.component';
 import { PreferenceDialogComponent } from './preference-dialog/preference-dialog.component';
+import { ParishDetailsComponent } from './parish-details/parish-details.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { PreferenceDialogComponent } from './preference-dialog/preference-dialog
     PasswordDialogComponent,
     EmailConfigComponent,
     PreferenceConfigComponent,
-    PreferenceDialogComponent
+    PreferenceDialogComponent,
+    ParishDetailsComponent
   ],
   imports: [
     AdminRoutingModule,

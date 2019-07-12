@@ -16,6 +16,7 @@ export class PhotoComponent implements OnChanges {
   @Input() guid: string;
   @Input() altText: string;
   @Input() editable: boolean = false;
+  @Input() publicPhoto: boolean = false;
 
   @Output() photoStored: EventEmitter<string> = new EventEmitter();
 
@@ -41,7 +42,7 @@ export class PhotoComponent implements OnChanges {
 
     this.openDialogRef = this.dialog.open(PhotoUploadDialogComponent, {
       width: '400px',
-      data: {}
+      data: {'publicPhoto': this.publicPhoto}
     });
 
    this.openDialogRef.afterClosed().subscribe(guid => {
@@ -58,15 +59,27 @@ export class PhotoComponent implements OnChanges {
       return;
 
     this.isImageLoading = true;
-    this.photoService.getImage(this.guid).subscribe(
-      data => {
-        this.createImageFromBlob(data);
-        this.isImageLoading = false;
-      },
-      error => {
-        this.isImageLoading = false;
-        console.log(error);
-      });
+    if(this.publicPhoto) {
+      this.photoService.getPublicImage(this.guid).subscribe(
+        data => {
+          this.createImageFromBlob(data);
+          this.isImageLoading = false;
+        },
+        error => {
+          this.isImageLoading = false;
+          console.log(error);
+        });
+    } else {
+      this.photoService.getImage(this.guid).subscribe(
+        data => {
+          this.createImageFromBlob(data);
+          this.isImageLoading = false;
+        },
+        error => {
+          this.isImageLoading = false;
+          console.log(error);
+        });
+    }
   }
 
   private createImageFromBlob(image: Blob) {

@@ -29,10 +29,23 @@ export class PhotoService extends BaseService {
       );;
   }
 
+  getPublicImage(guid: string): Observable<Blob> {
+    return this.http.get(this.url + `/public/${guid}`, { responseType: 'blob' }).pipe(
+        catchError(this.handleError('get image', null))
+      );;
+  }
+
   uploadImage(fileToUpload: File): Observable<string> {
     return this.http.post<any>(this.url, fileToUpload, {headers: {"Content-Type": fileToUpload.type}}).pipe(
         map(resp => resp.guid),
         tap(guid => this.log('Image Stored')),
         catchError(this.handleError('uploadImage', null)));
+  }
+
+  uploadPublicImage(fileToUpload: File): Observable<string> {
+    return this.http.post<any>(this.url+"/public", fileToUpload, {headers: {"Content-Type": fileToUpload.type}}).pipe(
+        map(resp => resp.guid),
+        tap(guid => this.log('Image Stored')),
+        catchError(this.handleError('uploadPublicImage', null)));
   }
 }

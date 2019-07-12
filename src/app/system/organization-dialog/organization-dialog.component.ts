@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { SCValidation } from '../../sccommon/validation';
 
-import { OrganizationService } from '../services/organization.service';
+import { OrganizationService } from '../../sccommon/services/organization.service';
 
 @Component({
   selector: 'app-organization-dialog',

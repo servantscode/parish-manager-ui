@@ -7,6 +7,7 @@ export class Organization extends Autocompletable {
 
   name: string;
   hostName: string;
+  photoGuid: string;
 
   public identify(): string {
     return this.name;
@@ -21,6 +22,7 @@ export class Organization extends Autocompletable {
     this.id=0;
     this.name="";
     this.hostName="";
+    this.photoGuid="";
     return this;
   }
 }

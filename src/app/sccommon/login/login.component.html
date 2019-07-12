@@ -1,6 +1,6 @@
-<div class="login-background">
+<div class="login-background" [style.background-image]="'url(' + getBackgroundImage() + ')'">
   <div class="login-modal rounded-rect">
-    <h1> Welcome to St. Gabriel the Archangel Catholic Community</h1>
+    <h1> Welcome to {{organizationService.activeOrgName()}}</h1>
     <form [formGroup]="loginForm" (ngSubmit)="login()">
       <mat-form-field appearance="standard" class="input-standard">
         <mat-label>Email</mat-label>

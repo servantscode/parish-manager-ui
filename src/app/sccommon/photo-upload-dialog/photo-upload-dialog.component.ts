@@ -41,9 +41,15 @@ export class PhotoUploadDialogComponent implements OnInit {
   }
 
   private storeFile(file: File) {
-    this.photoService.uploadImage(file).subscribe(guid => {
-        this.dialogRef.close(guid);
-      });
+    if(this.data.publicPhoto) {
+      this.photoService.uploadPublicImage(file).subscribe(guid => {
+          this.dialogRef.close(guid);
+        });
+    } else {
+      this.photoService.uploadImage(file).subscribe(guid => {
+          this.dialogRef.close(guid);
+        });
+    }
   }
 
   cancel() {

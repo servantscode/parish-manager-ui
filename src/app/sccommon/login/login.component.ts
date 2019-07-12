@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 
+import { ApiLocatorService } from '../services/api-locator.service';
 import { LoginService } from '../services/login.service';
+import { OrganizationService } from '../services/organization.service';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +20,20 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router,
               private fb: FormBuilder,
-              private loginService: LoginService) { }
+              private loginService: LoginService,
+              public organizationService: OrganizationService,
+              private apiService: ApiLocatorService ) { }
 
   ngOnInit() {
+  }
+
+  getBackgroundImage(): string {
+    const activeOrg = this.organizationService.activeOrg();
+
+    if(!activeOrg || !activeOrg.photoGuid)
+      return '../../../assets/images/church.png';
+
+    return this.apiService.prefaceUrl('/rest/photo/public/' + activeOrg.photoGuid);
   }
 
   login() {
