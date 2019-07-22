@@ -11,15 +11,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class SearchDialogComponent implements OnInit {
 
-  form = this.fb.group({
-      name: [],
-      male: [],
-      birthdateStart: [],
-      birthdateEnd: [],
-      parishioner: [],
-      memberSinceStart: [],
-      memberSinceEnd: []
-    });
+  form = this.fb.group({});
 
   constructor(public dialogRef: MatDialogRef<SearchDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
@@ -28,27 +20,45 @@ export class SearchDialogComponent implements OnInit {
               private fb: FormBuilder) { }
 
   ngOnInit() {
+    const formGroup = this.form;
+    this.data.fields.forEach(field => {
+        const fieldName = this.fieldName(field);
+        if(field.type == "date") {
+          formGroup.addControl(fieldName + "Start", this.fb.control(''));
+          formGroup.addControl(fieldName + "End", this.fb.control(''));
+        } else {  
+          formGroup.addControl(fieldName, this.fb.control(''));
+        }
+      });
   }
 
   search() {
-    const name = this.form.get('name').value;
-    const male = this.form.get('male').value;
-    const birthdateStart = this.form.get('birthdateStart').value;
-    const birthdateEnd = this.form.get('birthdateEnd').value;
-    const parishioner = this.form.get('parishioner').value;
-    const memberSinceStart = this.form.get('memberSinceStart').value;
-    const memberSinceEnd = this.form.get('memberSinceEnd').value;
-
     var searchString = "";
-    if(name) searchString += "name:" + name + " ";
-    if(male) searchString += "male:" + male + " ";
-    if(birthdateStart && birthdateEnd) searchString += "birthdate:[" + formatDate(birthdateStart, "yyyy-MM-dd", "en_US") + 
-                                                             " TO " + formatDate(birthdateEnd, "yyyy-MM-dd", "en_US") + "]";
-    if(parishioner) searchString += "parishioner:" + parishioner + " ";
-    if(memberSinceStart && memberSinceEnd) searchString += "memberSince:[" + formatDate(memberSinceStart, "yyyy-MM-dd", "en_US") + 
-                                                             " TO " + formatDate(memberSinceEnd, "yyyy-MM-dd", "en_US") + "]";
+
+    this.data.fields.forEach(field => {
+        const fieldName = this.fieldName(field);
+        if(field.type == "date") {
+          var start = this.form.get(fieldName + "Start").value;
+          var end = this.form.get(fieldName + "End").value;
+          if(start || end)
+            searchString += field.name + ":[" + this.formatDate(start) + " TO " + this.formatDate(end) + "] ";
+        } else {
+          var value = this.form.get(fieldName).value;
+          if(value) {
+            searchString += field.name + ":" + (field.type == 'text' && value.includes(" ")? `"${value}"`: value)+ " ";
+          }
+        }
+    });    
 
     this.close(searchString);
+  }
+
+  private fieldName(field: any): string {
+    return field.name.replace(".", "_");
+  }
+
+  private formatDate(date: Date): string {
+    return date? formatDate(date, "yyyy-MM-dd", "en_US"): "*";
   }
 
   cancel() {

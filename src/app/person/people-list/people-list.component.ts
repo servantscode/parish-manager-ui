@@ -62,6 +62,22 @@ export class PeopleListComponent implements OnInit {
     }
   }
 
+  getSearchForm(): any[] {
+    if(this.mode == "person") {
+      return [{"name":"name", "type":"text"},
+              {"name":"male", "type":"boolean", "displayName":"Gender", "yesValue":"male", "noValue":"female"},
+              {"name":"birthdate", "type":"date"},
+              {"name":"parishioner", "displayName":"Parishioner?", "type":"boolean"},
+              {"name":"memberSince", "type":"date"}];
+    } else if(this.mode == "family") {
+      return [{"name":"surname", "type":"text"},
+              {"name":"address.city", "type":"text", "displayName":"City"},
+              {"name":"address.state", "type":"text", "displayName":"State"},
+              {"name":"address.zip", "type":"number", "displayName":"Zip Code"},
+              {"name":"envelopeNumber", "type":"number"}];
+    }
+  }
+
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {    
     if (event.keyCode === KEY_CODE.PLUS || 
@@ -108,7 +124,7 @@ export class PeopleListComponent implements OnInit {
     this.totalCount = 0;
     this.search = '';
 
-    this.populateList();
+    // this.populateList();
   }
 
   getPeople(): void {

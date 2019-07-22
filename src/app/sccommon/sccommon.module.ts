@@ -48,6 +48,7 @@ import { ScPhoneNumberComponent } from './sc-phone-number/sc-phone-number.compon
 import { ScSearchBarComponent } from './sc-search-bar/sc-search-bar.component';
 
 import { ScEnumPipe } from './sc-enum.pipe';
+import { DisplayCamelCasePipe } from './display-camel-case.pipe';
 import { PreferencesComponent } from './preferences/preferences.component';
 
 export function tokenGetter() {
@@ -74,6 +75,7 @@ export function tokenGetter() {
     ScPhoneNumberComponent,
     ScSearchBarComponent,
     ScEnumPipe,
+    DisplayCamelCasePipe,
     PreferencesComponent
   ],
   imports: [
@@ -123,7 +125,8 @@ export function tokenGetter() {
     ScPhoneNumberComponent,
     ScSearchBarComponent,
     PreferencesComponent,
-    ScEnumPipe
+    ScEnumPipe,
+    DisplayCamelCasePipe
   ],
   providers: [ 
     ApiLocatorService,

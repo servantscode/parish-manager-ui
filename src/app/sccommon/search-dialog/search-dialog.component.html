@@ -1,50 +1,44 @@
 <form [formGroup]="form" (ngSubmit)="search()">
   <h3 mat-dialog-title>{{ data.title }}</h3>
   <div mat-dialog-content>
-    <mat-form-field appearance="standard" class="input-standard">
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name" required>
-    </mat-form-field><br/>
 
-    <mat-radio-group aria-label="Gender" formControlName="male">
-      <mat-radio-button value="true">Male</mat-radio-button>&nbsp;&nbsp;
-      <mat-radio-button value="false">Female</mat-radio-button>
-    </mat-radio-group><br/>
+    <div *ngFor="let field of data.fields">
+      <div [ngSwitch]="field.type">
+        <div *ngSwitchCase="'text'">
+          <mat-form-field appearance="standard" class="input-standard">
+            <mat-label>{{field.displayName? field.displayName: field.name | displaycamelcase}}</mat-label>
+            <input matInput formControlName="{{fieldName(field)}}">
+          </mat-form-field>
+        </div>
+        <div *ngSwitchCase="'number'">
+          <mat-form-field appearance="standard" class="input-standard">
+            <mat-label>{{field.displayName? field.displayName: field.name | displaycamelcase}}</mat-label>
+            <input type="number" matInput formControlName="{{fieldName(field)}}">
+          </mat-form-field>
+        </div>
+        <div *ngSwitchCase="'boolean'">
+          <strong>{{field.displayName? field.displayName: field.name | displaycamelcase}}</strong>&nbsp;&nbsp;     
+          <mat-radio-group aria-label="field.name" formControlName="{{fieldName(field)}}">
+            <mat-radio-button value="true">{{field.yesValue? field.yesValue: 'Yes'}}</mat-radio-button>&nbsp;&nbsp;
+            <mat-radio-button value="false">{{field.noValue? field.noValue: 'No'}}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div *ngSwitchCase="'date'">
+          <strong>{{field.displayName? field.displayName: field.name | displaycamelcase}}</strong><br/>     
+          <mat-form-field appearance="standard" class="input-small">
+            <input matInput formControlName="{{fieldName(field)}}Start" [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>&nbsp;to&nbsp;
 
-    <strong>Birthdate</strong><br/>
-    <mat-form-field appearance="standard" class="input-small">
-      <input matInput formControlName="birthdateStart" [matDatepicker]="picker">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>&nbsp;to&nbsp;
-
-    <mat-form-field appearance="standard" class="input-small">
-      <input matInput formControlName="birthdateEnd" [matDatepicker]="endpicker">
-      <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
-      <mat-datepicker #endpicker></mat-datepicker>
-    </mat-form-field><br/>
-
-
-    <strong>Parishioner?</strong><br/>
-    <mat-radio-group aria-label="Parishioner" formControlName="parishioner">
-      <mat-radio-button value="true">Yes</mat-radio-button>&nbsp;&nbsp;
-      <mat-radio-button value="false">No</mat-radio-button>
-    </mat-radio-group><br/>
-
-    <strong>Member Since</strong><br/>
-    <mat-form-field appearance="standard" class="input-small">
-      <input matInput formControlName="memberSinceStart" [matDatepicker]="sincePicker">
-      <mat-datepicker-toggle matSuffix [for]="sincePicker"></mat-datepicker-toggle>
-      <mat-datepicker #sincePicker></mat-datepicker>
-    </mat-form-field>&nbsp;to&nbsp;
-
-    <mat-form-field appearance="standard" class="input-small">
-      <input matInput formControlName="memberSinceEnd" [matDatepicker]="senseEndpicker">
-      <mat-datepicker-toggle matSuffix [for]="senseEndpicker"></mat-datepicker-toggle>
-      <mat-datepicker #senseEndpicker></mat-datepicker>
-    </mat-form-field><br/>
-
-
+          <mat-form-field appearance="standard" class="input-small">
+            <input matInput formControlName="{{fieldName(field)}}End" [matDatepicker]="endpicker">
+            <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+            <mat-datepicker #endpicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
   </div>
   <div mat-dialog-actions>
     <button mat-button type="submit" class="btn btn-primary">Search</button>

@@ -24,7 +24,7 @@ And
 
 Were married on {{marriage.marriageDate | date: 'MM/dd/yyyy'}} at {{marriage.marriageLocation}} by {{marriage.minister.name}}.<br/>
 <div *ngIf="marriage.witness1">
-  Their marrige was witnessed by {{marriage.witness1.name}}<span *ngIf="marriage.witness2"> and {{marriage.witness2.name}}</span>.
+  Their marriage was witnessed by {{marriage.witness1.name}}<span *ngIf="marriage.witness2"> and {{marriage.witness2.name}}</span>.
 </div><br/>
 
 <app-notations [value]='marriage.notations' [sacramentId]='marriage.id' [dataService]='marriageService'></app-notations>
