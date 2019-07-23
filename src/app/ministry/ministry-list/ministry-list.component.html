@@ -4,7 +4,10 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <app-sc-search-bar (search)="updateSearch($event)"></app-sc-search-bar>
+      <app-sc-search-bar (search)="updateSearch($event)" 
+                         type="Ministries"
+                         [searchForm]="[{'name':'name', 'type':'text'}, {'name':'description', 'type':'text'}]">
+      </app-sc-search-bar>
     </div>
     <div class="col controls">
       <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="populateList()"></ngb-pagination>

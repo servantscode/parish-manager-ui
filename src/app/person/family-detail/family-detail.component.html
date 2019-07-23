@@ -77,7 +77,18 @@
       </div>  
     </div>
     <div *ngIf="loginService.userCan('donation.read')">
-      <app-paginated-list [dataService]="donationService" [fields]="[{'name':'donationDate', 'type':'date'}, 'fundName', {'name':'donationType', 'type':'enum'}, {'name':'amount', 'type':'currency'}]" [pageSize]='5' [dialogComponent]="DonationDialogComponent" [newItemTemplate]="{'familyId':family.id}" [searchable]='false'></app-paginated-list>
+      <app-paginated-list [dataService]="donationService" 
+                          [fields]="[{'name':'donationDate', 'type':'date'}, 'fundName', 
+                                     {'name':'donationType', 'type':'enum'}, {'name':'amount', 'type':'currency'}]" 
+                          [pageSize]='5' 
+                          [dialogComponent]="DonationDialogComponent" 
+                          [newItemTemplate]="{'familyId':family.id}"
+                          type="Donations"
+                          [searchForm]="[{'name':'fundName', 'type':'text'},
+                                         {'name':'donationDate', 'type':'date'}, 
+                                         {'name':'donationType', 'type':'text'}, 
+                                         {'name':'amount', 'type':'numberRange'}]">  
+      </app-paginated-list>
     </div>
   </div>
 

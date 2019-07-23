@@ -1,9 +1,25 @@
 <h2>Facilities</h2>
 <div class="container rounded-rect">
   <h3>Rooms</h3>
-  <app-paginated-list [dataService]="roomService" [fields]="['name',{'name':'type', 'type':'enum'},'capacity']" [pageSize]='5' [dialogComponent]="RoomDialogComponent"></app-paginated-list>
+  <app-paginated-list [dataService]="roomService" 
+                      [fields]="['name',{'name':'type', 'type':'enum'},'capacity']" 
+                      [pageSize]='5' 
+                      [dialogComponent]="RoomDialogComponent"
+                      [type]="'room'"
+                      [searchForm]="[{'name':'name', 'type':'text'},
+                                     {'name':'type', 'type':'text'}, 
+                                     {'name':'capacity', 'type':'numberRange'}]">>
+  </app-paginated-list>
 </div>
 <div class="container rounded-rect">
   <h3>Equipment</h3>
-  <app-paginated-list [dataService]="equipmentService" [fields]="['name','manufacturer','description']" [pageSize]='5' [dialogComponent]="EquipmentDialogComponent"></app-paginated-list>
+  <app-paginated-list [dataService]="equipmentService" 
+                      [fields]="['name','manufacturer','description']" 
+                      [pageSize]='5' 
+                      [dialogComponent]="EquipmentDialogComponent"
+                      [type]="'equipment'"
+                      [searchForm]="[{'name':'name', 'type':'text'},
+                                     {'name':'manufacturer', 'type':'text'}, 
+                                     {'name':'description', 'type':'text'}]">>
+  </app-paginated-list>
 </div>

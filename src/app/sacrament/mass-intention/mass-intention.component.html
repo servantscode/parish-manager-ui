@@ -1,4 +1,13 @@
 <h2>Mass Intentions</h2>
 <div class="container rounded-rect">
-  <app-paginated-list [dataService]="massIntentionService" [fields]="[{name: 'massTime', type:'dateTime'}, {name: 'person', type:'identity'}, {'name':'intentionType', 'type':'enum'}, {name:'requester', type:'identity'}, 'requesterPhone']" [pageSize]='20' [dialogComponent]="MassIntentionDialogComponent"></app-paginated-list>
+  <app-paginated-list [dataService]="massIntentionService" 
+                      [fields]="[{name: 'massTime', type:'dateTime'}, {name: 'person', type:'identity'}, {'name':'intentionType', 'type':'enum'}, {name:'requester', type:'identity'}, 'requesterPhone']" 
+                      [pageSize]='20' 
+                      [dialogComponent]="MassIntentionDialogComponent"
+                      type="Mass Intentions"
+                      [searchForm]="[{'name':'massTime', 'type':'date'},
+                                     {'name':'person.name', 'type':'text'}, 
+                                     {'name':'intentionType', 'type':'text'},
+                                     {'name':'requester.name', 'type':'text'}]">>
+  </app-paginated-list>
 </div>

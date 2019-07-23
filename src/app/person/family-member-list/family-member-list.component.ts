@@ -43,6 +43,9 @@ export class FamilyMemberListComponent implements OnInit, OnChanges {
     this.relationships = this.members;
     this.relationships.forEach(r => r.relationship = "");
 
+    if(!this.person)
+      return;
+    
     //For family view take perspective of head of household for family roles
     if(this.person.id) {
       this.relationshipService.getRelationships(this.person.id).subscribe( results => {

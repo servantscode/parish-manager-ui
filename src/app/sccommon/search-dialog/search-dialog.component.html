@@ -16,6 +16,15 @@
             <input type="number" matInput formControlName="{{fieldName(field)}}">
           </mat-form-field>
         </div>
+        <div *ngSwitchCase="'numberRange'">
+          <strong>{{field.displayName? field.displayName: field.name | displaycamelcase}}</strong><br/>     
+          <mat-form-field appearance="standard" class="input-5">
+            <input type="number" matInput formControlName="{{fieldName(field)}}Start">
+          </mat-form-field>&nbsp;to&nbsp;
+          <mat-form-field appearance="standard" class="input-5">
+            <input type="number" matInput formControlName="{{fieldName(field)}}End">
+          </mat-form-field>
+        </div>
         <div *ngSwitchCase="'boolean'">
           <strong>{{field.displayName? field.displayName: field.name | displaycamelcase}}</strong>&nbsp;&nbsp;     
           <mat-radio-group aria-label="field.name" formControlName="{{fieldName(field)}}">

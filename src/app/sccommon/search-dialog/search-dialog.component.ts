@@ -26,6 +26,9 @@ export class SearchDialogComponent implements OnInit {
         if(field.type == "date") {
           formGroup.addControl(fieldName + "Start", this.fb.control(''));
           formGroup.addControl(fieldName + "End", this.fb.control(''));
+        } else if(field.type == "numberRange") {
+          formGroup.addControl(fieldName + "Start", this.fb.control(''));
+          formGroup.addControl(fieldName + "End", this.fb.control(''));
         } else {  
           formGroup.addControl(fieldName, this.fb.control(''));
         }
@@ -42,6 +45,11 @@ export class SearchDialogComponent implements OnInit {
           var end = this.form.get(fieldName + "End").value;
           if(start || end)
             searchString += field.name + ":[" + this.formatDate(start) + " TO " + this.formatDate(end) + "] ";
+        } else if(field.type == "numberRange") {
+          var start = this.form.get(fieldName + "Start").value;
+          var end = this.form.get(fieldName + "End").value;
+          if(start || end)
+            searchString += field.name + ":[" + this.formatNumber(start) + " TO " + this.formatNumber(end) + "] ";
         } else {
           var value = this.form.get(fieldName).value;
           if(value) {
@@ -55,6 +63,10 @@ export class SearchDialogComponent implements OnInit {
 
   private fieldName(field: any): string {
     return field.name.replace(".", "_");
+  }
+
+  private formatNumber(number: number) {
+    return number? number: "*";
   }
 
   private formatDate(date: Date): string {

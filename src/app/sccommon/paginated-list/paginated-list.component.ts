@@ -28,12 +28,14 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   @Input() newItemTemplate:any = null;
 
-  @Input() searchable: boolean = true;
   @Input() selectable: boolean = false;
   @Output() onSelect: EventEmitter<T> = new EventEmitter<T>(); 
   @Input() refreshOn: Subject<any>;
 
   @Input() pathParams: any = null;
+
+  @Input() searchForm: any[];
+  @Input() type: string;
 
   items: T[] = [];
 

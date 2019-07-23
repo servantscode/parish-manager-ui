@@ -123,8 +123,6 @@ export class PeopleListComponent implements OnInit {
     this.pageSize = 20;
     this.totalCount = 0;
     this.search = '';
-
-    // this.populateList();
   }
 
   getPeople(): void {
