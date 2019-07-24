@@ -19,7 +19,7 @@
                       [newItemTemplate]="{'role':selectedRole.identify()}" 
                       [refreshOn]="refreshNeeded" 
                       [customControls]="controls"
-                      type=">{{selectedRole.name | titlecase }} Users"
+                      type="{{selectedRole.name | titlecase }} Users"
                       [searchForm]="[{'name':'name', 'type':'text'},
                                      {'name':'email', 'type':'text'}]">
   </app-paginated-list>

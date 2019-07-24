@@ -36,11 +36,13 @@ export class CalendarComponent implements OnInit {
   viewDate: Date = new Date();
   CalendarView = CalendarView; //Export CalendarView for html
   events: CalendarEvent[] = [];
+  filteredEvents: CalendarEvent[] = [];
   openDialogRef = null;
 
   listView: boolean = false;
 
   search: string = "";
+  roomFilter: string = null;
 
   _displayCount = 5;
   displayAll = true;
@@ -125,6 +127,40 @@ export class CalendarComponent implements OnInit {
               recurrence: serverEvent.recurrence
             };
           });
+        this.filterEvents();
+      });
+  }
+
+  collectRoomNames(): string[] {
+    var roomNames = [];
+    this.events.forEach(e => {
+          const event: any = e;
+          event.reservations.forEach(r => {
+              if(r.resourceType == "ROOM" && !roomNames.includes(r.resourceName))
+                roomNames.push(r.resourceName);
+            })
+        });
+    roomNames.sort();  
+    return roomNames;
+  }
+
+  selectRoomFilter(roomName: string) {
+    if(roomName == this.roomFilter)
+      return;
+
+    this.roomFilter = roomName;
+    this.filterEvents();
+  }
+
+  private filterEvents() {
+    if(!this.roomFilter || !this.events) {
+      this.filteredEvents = this.events
+      return;
+    }
+
+    this.filteredEvents = this.events.filter(e => {
+        const event: any = e;
+        return event.reservations.some(r => r.resourceType == "ROOM" && r.resourceName == this.roomFilter);
       });
   }
 

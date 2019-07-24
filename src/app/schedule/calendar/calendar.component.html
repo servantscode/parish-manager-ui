@@ -30,18 +30,28 @@
   </div>
 </div>
 <div class="container">
-  <div class="row ">
-      <div class="col-8 no-pad">
-        <app-sc-search-bar (search)="updateSearch($event)"
-                           type="Events"
-                           [searchForm]="[{'name':'title', 'type':'text'},
-                                         {'name':'description', 'type':'text'}, 
-                                         {'name':'ministryName', 'type':'text'}, 
-                                         {'name':'startTime', 'type':'date'},                                          {'name':'departments', 'type':'text'}, 
-                                         {'name':'categories', 'type':'text'}, 
-                                         {'name':'privateEvent', 'type':'boolean'}]">
-        </app-sc-search-bar>
-      </div>
+  <div class="row">
+    <div class="col-8 no-pad pad-top">
+      <app-sc-search-bar (search)="updateSearch($event)"
+                         type="Events"
+                         [searchForm]="[{'name':'title', 'type':'text'},
+                                       {'name':'description', 'type':'text'}, 
+                                       {'name':'ministryName', 'type':'text'}, 
+                                       {'name':'startTime', 'type':'date'},                                          {'name':'departments', 'type':'text'}, 
+                                       {'name':'categories', 'type':'text'}, 
+                                       {'name':'privateEvent', 'type':'boolean'}]">
+      </app-sc-search-bar>
+    </div>
+    <div class="col-4">
+      <mat-form-field  class="input-standard">
+        <mat-select aria-label="Filter by room" placeholder="Select Room..." (selectionChange)="selectRoomFilter($event.value)">
+            <mat-option>Select Room...</mat-option>
+            <mat-option *ngFor="let roomName of collectRoomNames()" [value]="roomName">
+            {{roomName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
 </div>
 
@@ -98,7 +108,7 @@
     <mwl-calendar-month-view
       *ngSwitchCase="CalendarView.Month"
       [viewDate]="viewDate"
-      [events]="events"
+      [events]="filteredEvents"
       (dayClicked)="dayClicked($event.day)"
       (eventClicked)="viewEvent($event.event)"
       (eventTimesChanged)="eventTimesChanged($event)"
@@ -107,7 +117,7 @@
     <mwl-calendar-week-view
       *ngSwitchCase="CalendarView.Week"
       [viewDate]="viewDate"
-      [events]="events"
+      [events]="filteredEvents"
       [dayStartHour]="6"
       [dayEndHour]="22"
       [eventTitleTemplate]="eventTemplate"
@@ -118,7 +128,7 @@
     <mwl-calendar-day-view
       *ngSwitchCase="CalendarView.Day"
       [viewDate]="viewDate"
-      [events]="events"
+      [events]="filteredEvents"
       [dayStartHour]="6"
       [dayEndHour]="22"
       [eventTitleTemplate]="eventTemplate"
@@ -128,7 +138,7 @@
     </mwl-calendar-day-view>
   </div>
   <div *ngIf="listView">
-    <div *ngFor="let date of groupByDate(events)">
+    <div *ngFor="let date of groupByDate(filteredEvents)">
       <div class="day-header">{{date.day | date: 'EEEE MMM dd, yyyy'}}</div>
       <div *ngFor="let event of date.events" class="event-details" (click)="viewEvent(event)">
         <div class="row">

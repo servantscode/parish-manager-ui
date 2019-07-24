@@ -61,7 +61,7 @@ export class LoginService {
 
   public hasAny(permPrefix: string): boolean {
     const decoded = this.getDecodedToken();
-    return decoded && decoded.permissions.some(perm => perm.startsWith(permPrefix) || perm.startsWith("*"));
+    return decoded && decoded.permissions.some(userPerm => this.matches(userPerm, permPrefix, true));
   }
 
   public isSystem(): boolean {
@@ -71,7 +71,7 @@ export class LoginService {
 
   public userCan(reqPerm: string): boolean {
     const decoded = this.getDecodedToken();
-    return decoded? decoded.permissions.some(userPerm => this.matches(userPerm, reqPerm)): false;
+    return decoded && decoded.permissions.some(userPerm => this.matches(userPerm, reqPerm));
   }
 
   public userMust(reqPerm: string): boolean {
@@ -80,8 +80,8 @@ export class LoginService {
   }
 
 
-  public matches(userPerm: string, permRequest: string): boolean {
-      return this.matchesInternal(userPerm.split(/\./), permRequest.split(/\./), 0);
+  public matches(userPerm: string, permRequest: string, matchAny = false): boolean {
+      return this.matchesInternal(userPerm.split(/\./), permRequest.split(/\./), 0, matchAny);
   }
 
   // ----- Private -----
@@ -96,7 +96,7 @@ export class LoginService {
     return token? this.jwtHelper.decodeToken(token): null;
   }
 
-  private matchesInternal(userPerm: string[], permRequest: string[], index: number): boolean {
+  private matchesInternal(userPerm: string[], permRequest: string[], index: number, matchAny: boolean): boolean {
       if(userPerm[index] === "*")
           return true;
       else if(!(userPerm[index] === permRequest[index]))
@@ -105,9 +105,9 @@ export class LoginService {
       if(index + 1 === userPerm.length)
           return true;
       else if(index + 1 === permRequest.length)
-          return false;
+          return matchAny;
 
-      return this.matchesInternal(userPerm, permRequest, index + 1);
+      return this.matchesInternal(userPerm, permRequest, index + 1, matchAny);
   }
 
   private doLogin(token: string) {
