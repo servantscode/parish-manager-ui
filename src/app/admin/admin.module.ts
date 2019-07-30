@@ -27,6 +27,8 @@ import { EmailConfigComponent } from './email-config/email-config.component';
 import { PreferenceConfigComponent } from './preference-config/preference-config.component';
 import { PreferenceDialogComponent } from './preference-dialog/preference-dialog.component';
 import { ParishDetailsComponent } from './parish-details/parish-details.component';
+import { DepartmentDialogComponent } from './department-dialog/department-dialog.component';
+import { CategoryDialogComponent } from './category-dialog/category-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { ParishDetailsComponent } from './parish-details/parish-details.componen
     EmailConfigComponent,
     PreferenceConfigComponent,
     PreferenceDialogComponent,
-    ParishDetailsComponent
+    ParishDetailsComponent,
+    DepartmentDialogComponent,
+    CategoryDialogComponent
   ],
   imports: [
     AdminRoutingModule,
@@ -69,7 +73,9 @@ import { ParishDetailsComponent } from './parish-details/parish-details.componen
     CredentialDialogComponent,
     RoleDialogComponent,
     PasswordDialogComponent,
-    PreferenceDialogComponent
+    PreferenceDialogComponent,
+    DepartmentDialogComponent,
+    CategoryDialogComponent
   ]
 })
 export class AdminModule { }

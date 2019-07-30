@@ -16,7 +16,8 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router,
               public loginService: LoginService,
-              public organizationService: OrganizationService) { }
+              public organizationService: OrganizationService) { 
+}
 
   ngOnInit() {
     const href = window.location.href;

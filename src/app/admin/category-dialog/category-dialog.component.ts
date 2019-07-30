@@ -4,32 +4,26 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
-import { PreferencesService } from '../../sccommon/services/preferences.service';
+import { CategoryService } from '../../sccommon/services/category.service';
 
 @Component({
-  selector: 'app-preference-dialog',
-  templateUrl: './preference-dialog.component.html',
-  styleUrls: ['./preference-dialog.component.scss']
+  selector: 'app-category-dialog',
+  templateUrl: './category-dialog.component.html',
+  styleUrls: ['./category-dialog.component.scss']
 })
-export class PreferenceDialogComponent implements OnInit {
+export class CategoryDialogComponent implements OnInit {
 
   form = this.fb.group({
       id: [''],
-      name: ['', Validators.required],
-      type: ['BOOLEAN', Validators.required],
-      objectType: ['PERSON', Validators.required],
-      defaultValue: ['']
+      name: ['', Validators.required]
     });
 
   createNew: boolean = true;
 
-  public preferenceTypes = this.preferencesService.getPreferenceTypes.bind(this.preferencesService);
-  public objectTypes = this.preferencesService.getObjectTypes.bind(this.preferencesService);
-
-  constructor(public dialogRef: MatDialogRef<PreferenceDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<CategoryDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
-              private preferencesService: PreferencesService) { }
+              private categoryService: CategoryService) { }
 
   ngOnInit() { 
     if(this.data.item) {
@@ -39,15 +33,15 @@ export class PreferenceDialogComponent implements OnInit {
     }
   }
 
-  createPreference() {
+  createCategory() {
     if(this.form.valid) {
       if(this.createNew) {
-        this.preferencesService.create(this.form.value).
+        this.categoryService.create(this.form.value).
           subscribe(() => {
             this.dialogRef.close();
           });
       } else {
-        this.preferencesService.update(this.form.value).
+        this.categoryService.update(this.form.value).
           subscribe(() => {
             this.dialogRef.close();
           });

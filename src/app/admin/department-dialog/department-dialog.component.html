@@ -1,0 +1,19 @@
+<form [formGroup]="form" (ngSubmit)="createDepartment()">
+  <h1 *ngIf="createNew" mat-dialog-title>Create Department</h1>
+  <h1 *ngIf="!createNew" mat-dialog-title>Modify Department</h1>
+  <div mat-dialog-content>
+    <input type="hidden" autocomplete="off" formControlName="id"/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Name</mat-label>
+      <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
+    </mat-form-field><br/>
+
+    <app-sc-auto-complete formControlName="departmentHeadId" label='Department Head' [autocompleteService]="personService"></app-sc-auto-complete>
+
+  </div>
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid" cdkFocusInitial>Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+  </div>
+</form>

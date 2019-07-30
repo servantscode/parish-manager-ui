@@ -2,8 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { OrganizationService } from '../../sccommon/services/organization.service';
+import { DepartmentService } from '../../sccommon/services/department.service';
+import { CategoryService } from '../../sccommon/services/category.service';
 
 import { Organization } from '../../sccommon/organization';
+
+import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
+import { DepartmentDialogComponent } from '../department-dialog/department-dialog.component';
 
 @Component({
   selector: 'app-parish-details',
@@ -13,12 +18,17 @@ import { Organization } from '../../sccommon/organization';
 export class ParishDetailsComponent implements OnInit {
 
   parish: Organization;
+  CategoryDialogComponent = CategoryDialogComponent;
+  DepartmentDialogComponent = DepartmentDialogComponent;
 
   constructor(public loginService: LoginService,
-              private organizationService: OrganizationService) { }
+              public categoryService: CategoryService,
+              public departmentService: DepartmentService,
+              private organizationService: OrganizationService) { 
+      this.parish = this.organizationService.activeOrg();
+  }
 
   ngOnInit() {
-    this.parish = this.organizationService.activeOrg();
   }
 
   attachPhoto(guid: any): void {

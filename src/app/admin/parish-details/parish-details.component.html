@@ -8,4 +8,24 @@
       <app-photo class="portrait" [guid]="parish.photoGuid" [altText]="parish.name" [editable]="loginService.userCan('admin.organization.update')" [publicPhoto]="true" (photoStored)="attachPhoto($event)"></app-photo>
     </div>
   </div>
+</div>  
+<div class="container rounded-rect">
+  <h3>Departments</h3>
+  <app-paginated-list [dataService]="departmentService" 
+                      [fields]="['name',{'name':'departmentHeadName', 'type':'text'}]" 
+                      [pageSize]='5' 
+                      [dialogComponent]="DepartmentDialogComponent"
+                      [type]="'department'"
+                      [searchForm]="[{'name':'name', 'type':'text'},
+                                     {'name':'departmentHeadName', 'type':'text'}]">
+  </app-paginated-list>
+</div>
+<div class="container rounded-rect">
+  <h3>Categories</h3>
+  <app-paginated-list [dataService]="categoryService" 
+                      [fields]="['name']" 
+                      [pageSize]='5' 
+                      [dialogComponent]="CategoryDialogComponent"
+                      [type]="'category'">
+  </app-paginated-list>
 </div>

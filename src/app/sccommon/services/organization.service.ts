@@ -15,8 +15,6 @@ import { Organization } from '../organization';
 })
 export class OrganizationService extends PaginatedService<Organization> {
 
-  private activeOrganization: Organization;
-
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService,
@@ -28,15 +26,23 @@ export class OrganizationService extends PaginatedService<Organization> {
     this.http.get<Organization>(this.url+"/active").pipe(
         map(resp => this.mapObject(resp)),
         catchError(this.handleError('get', null))
-      ).subscribe(org => this.activeOrganization = org);
+      ).subscribe(org => {
+          localStorage.setItem("activeOrg", JSON.stringify(org));
+        });
+  }
+
+  public clearActiveOrg() {
+    localStorage.removeItem("activeOrg");
   }
 
   public activeOrg(): Organization {
-    return this.activeOrganization;
+    const orgJson = localStorage.getItem("activeOrg");
+    return orgJson? this.mapObject(JSON.parse(orgJson)): null;
   }
 
   public activeOrgName(): string { 
-    return this.activeOrganization? this.activeOrganization.name: "Servant's Code";
+    const activeOrg = this.activeOrg();
+    return activeOrg? activeOrg.name: "Servant's Code";
   }
 
   public getPermissionType(): string {
@@ -52,5 +58,4 @@ export class OrganizationService extends PaginatedService<Organization> {
         catchError(this.handleError('attachPhoto', null))
       );
   }
-
 }

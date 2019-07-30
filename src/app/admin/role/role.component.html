@@ -5,8 +5,7 @@
                       [dialogComponent]="RoleDialogComponent" 
                       [selectable]='true' 
                       (onSelect)='roleSelected($event)'
-                      type="Roles"
-                      [searchForm]="[{'name':'name', 'type':'text'}]">
+                      type="Roles">
   </app-paginated-list>
 </div>
 <div *ngIf="selectedRole" class="container rounded-rect">

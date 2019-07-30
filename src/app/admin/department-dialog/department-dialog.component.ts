@@ -4,34 +4,32 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
-import { PreferencesService } from '../../sccommon/services/preferences.service';
+import { DepartmentService } from '../../sccommon/services/department.service';
+import { PersonService } from '../../sccommon/services/person.service';
 
 @Component({
-  selector: 'app-preference-dialog',
-  templateUrl: './preference-dialog.component.html',
-  styleUrls: ['./preference-dialog.component.scss']
+  selector: 'app-department-dialog',
+  templateUrl: './department-dialog.component.html',
+  styleUrls: ['./department-dialog.component.scss']
 })
-export class PreferenceDialogComponent implements OnInit {
+export class DepartmentDialogComponent implements OnInit {
+
 
   form = this.fb.group({
       id: [''],
       name: ['', Validators.required],
-      type: ['BOOLEAN', Validators.required],
-      objectType: ['PERSON', Validators.required],
-      defaultValue: ['']
+      departmentHeadId: ['', Validators.required],
     });
 
   createNew: boolean = true;
 
-  public preferenceTypes = this.preferencesService.getPreferenceTypes.bind(this.preferencesService);
-  public objectTypes = this.preferencesService.getObjectTypes.bind(this.preferencesService);
-
-  constructor(public dialogRef: MatDialogRef<PreferenceDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<DepartmentDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
-              private preferencesService: PreferencesService) { }
+              public personService: PersonService,
+              private departmentService:DepartmentService) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     if(this.data.item) {
       this.form.patchValue(this.data.item);
       if(this.data.item.id)
@@ -39,15 +37,15 @@ export class PreferenceDialogComponent implements OnInit {
     }
   }
 
-  createPreference() {
+  createDepartment() {
     if(this.form.valid) {
       if(this.createNew) {
-        this.preferencesService.create(this.form.value).
+        this.departmentService.create(this.form.value).
           subscribe(() => {
             this.dialogRef.close();
           });
       } else {
-        this.preferencesService.update(this.form.value).
+        this.departmentService.update(this.form.value).
           subscribe(() => {
             this.dialogRef.close();
           });
