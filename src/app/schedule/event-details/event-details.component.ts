@@ -12,7 +12,9 @@ import { SCValidation } from '../../sccommon/validation';
 
 import { doLater } from '../../sccommon/utils';
 
+import { CategoryService } from '../../sccommon/services/category.service';
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
+import { DepartmentService } from '../../sccommon/services/department.service';
 
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
 import { AdminOverrideDialogComponent } from '../../sccommon/admin-override-dialog/admin-override-dialog.component';
@@ -43,7 +45,9 @@ export class EventDetailsComponent implements OnInit {
       contactId:['', [Validators.pattern(SCValidation.NUMBER)]],
       ministryId:[''],
       departments: [],
+      departmentIds: [],
       categories: [],
+      categoryIds: [],
       recurringMeeting: [false],
       recurrence: null,
       reservations: []
@@ -121,6 +125,8 @@ export class EventDetailsComponent implements OnInit {
               public personService: PersonService,
               public loginService: LoginService,
               private cleaningService: DataCleanupService,
+              public departmentService: DepartmentService,
+              public categoryService: CategoryService,
               private selectedEvent: SelectedEvent) { }
 
   ngOnInit() {

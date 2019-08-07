@@ -33,6 +33,7 @@ import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { ScEnumComponent } from './sc-enum/sc-enum.component';
 import { ScMultiEnumComponent } from './sc-multi-enum/sc-multi-enum.component';
 import { DateTimeComponent } from './date-time/date-time.component';
+import { ScMultiSelectComponent } from './sc-multi-select/sc-multi-select.component';
 
 import { ApiLocatorService } from './services/api-locator.service';
 import { EmailService } from './services/email.service';
@@ -79,7 +80,8 @@ export function tokenGetter() {
     ScSearchBarComponent,
     ScEnumPipe,
     DisplayCamelCasePipe,
-    PreferencesComponent
+    PreferencesComponent,
+    ScMultiSelectComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -128,6 +130,7 @@ export function tokenGetter() {
     ScPhoneNumberComponent,
     ScSearchBarComponent,
     PreferencesComponent,
+    ScMultiSelectComponent,
     ScEnumPipe,
     DisplayCamelCasePipe
   ],

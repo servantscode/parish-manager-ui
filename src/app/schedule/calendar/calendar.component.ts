@@ -120,8 +120,8 @@ export class CalendarComponent implements OnInit {
               contactId: serverEvent.contactId,
               ministryName: serverEvent.ministryName,
               ministryId: serverEvent.ministryId,
-              departments: serverEvent.departments,
-              categories: serverEvent.categories,
+              departmentIds: serverEvent.departmentIds,
+              categoryIds: serverEvent.categoryIds,
               id: serverEvent.id,
               reservations: serverEvent.reservations,
               recurrence: serverEvent.recurrence
@@ -135,10 +135,11 @@ export class CalendarComponent implements OnInit {
     var roomNames = [];
     this.events.forEach(e => {
           const event: any = e;
-          event.reservations.forEach(r => {
-              if(r.resourceType == "ROOM" && !roomNames.includes(r.resourceName))
-                roomNames.push(r.resourceName);
-            })
+          if(event.reservations)
+            event.reservations.forEach(r => {
+                if(r.resourceType == "ROOM" && !roomNames.includes(r.resourceName))
+                  roomNames.push(r.resourceName);
+              });
         });
     roomNames.sort();  
     return roomNames;

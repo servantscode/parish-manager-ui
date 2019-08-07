@@ -18,7 +18,9 @@ export class Event extends Identifiable {
   ministryName: string;
   ministryId: number;
   departments: string[];
+  departmentIds: number[];
   categories: string[];
+  categoryIds: number[];
 
   reservations: Reservation[] = [];
   recurrence: Recurrence;
@@ -40,7 +42,9 @@ export class Event extends Identifiable {
     this.ministryName = '';
     this.ministryId = 0;
     this.departments = [];
+    this.departmentIds = [];
     this.categories = [];
+    this.categoryIds=[];
 
     this.reservations = [];
     this.recurrence = null;

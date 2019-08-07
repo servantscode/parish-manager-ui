@@ -1,0 +1,24 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>{{label}}</mat-label>
+    <mat-select [placeholder]="label" formControlName="input" multiple>
+      <mat-select-trigger>
+        {{displayValue()}}
+        <span *ngIf="form.get('input').value?.length > 3" class="example-additional-selection">
+          (+{{form.get('input').value.length - 3}} {{form.get('input').value?.length === 4 ? 'other' : 'others'}})
+        </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let item of items" [value]="item">{{item.identify()}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+<!--   <mat-form-field appearance="standard" class="mat-form-field mat-primary mat-form-field-type-mat-input input-{{fieldSize}}">
+    <mat-label>{{label}}</mat-label>
+    <input type="text" formControlName="input" aria-label="label" matInput [matAutocomplete]="auto" [required]="required" (blur)="verifyInput()">
+    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="identifyItem" (optionSelected)="selectItem($event.option.value)">
+      <mat-option *ngFor="let item of filteredItems | async" [value]="item" (click)="selectItem(item)">
+        {{item.identify()}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+ --></form>
