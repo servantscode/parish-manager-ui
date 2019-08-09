@@ -8,7 +8,7 @@
     <div *ngFor="let event of futureEvents; let i=index" class="event">
       <table class="content middle">
         <td>
-          <span [ngClass]="{'conflicted': event.conflicts && !event.excluded, 'excluded': event.excluded}" class="clickable pad-right-5" (click)="toggleConflict(i)">{{event.startTime | date: 'MM/dd/yyyy'}}</span>
+          <span [ngClass]="{'conflicted': event.conflicts && !event.excluded, 'excluded': event.excluded}" class="clickable pad-right-5" (click)="toggleConflict(i)">{{event.startTime | date: 'MM/dd/yyyy (EEE)'}}</span>
         </td>
         <td *ngIf="!disabled">
           <div *ngIf="!event.excluded" class="actions icon delete" (click)="addException(i)">&nbsp;</div>

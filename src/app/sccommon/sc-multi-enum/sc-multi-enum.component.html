@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <mat-form-field appearance="standard" class="input-standard">
+  <mat-form-field appearance="standard" class="mat-form-field mat-primary mat-form-field-type-mat-input input-{{fieldSize}}">
     <mat-select formControlName="input" [placeholder]="label" [aria-label]="label" [required]="required" multiple>
       <mat-select-trigger>
         {{selected.slice(0, 3).join(", ")}}

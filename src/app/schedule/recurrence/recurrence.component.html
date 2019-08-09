@@ -1,54 +1,56 @@
 <form [formGroup]="form">
+
+  <div *ngIf="!custom">
     <div class="row">
       <div class="col">
         <input type="hidden" autocomplete="off" formControlName="id"/>
-        <div *ngIf="!custom">
-          Repeats every<br/>
-          <mat-form-field *ngIf="getCycle() != 'CUSTOM'" appearance="standard" class="input-2">
-            <mat-label></mat-label>
-            <input type="number" matInput formControlName="frequency" autocomplete="off"/>
-          </mat-form-field>&nbsp;
+        Repeats every<br/>
+        <mat-form-field *ngIf="getCycle() != 'CUSTOM'" appearance="standard" class="input-2">
+          <mat-label></mat-label>
+          <input type="number" matInput formControlName="frequency" autocomplete="off"/>
+        </mat-form-field>&nbsp;
 
-           <mat-form-field appearance="standard" class="input-medium">
-            <mat-select formControlName="cycle">
-              <mat-option *ngFor="let option of cycleOptions" [value]="option.value">
-                {{option.text}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field><br/>
+         <mat-form-field appearance="standard" class="input-medium">
+          <mat-select formControlName="cycle">
+            <mat-option *ngFor="let option of cycleOptions" [value]="option.value">
+              {{option.text}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field><br/>
 
-          <div *ngIf="getCycle() === 'WEEKLY'">
-            On...<br/>
-            <app-days-of-week formControlName="weeklyDays"></app-days-of-week>
-          </div>
-
-          <mat-form-field  *ngIf="getCycle() != 'CUSTOM'" appearance="standard">
-            <mat-label>Until...</mat-label>
-            <input matInput formControlName="endDate" [matDatepicker]="recurpicker" placeholder="Until..." class="input-5">
-            <mat-datepicker-toggle matSuffix [for]="recurpicker"></mat-datepicker-toggle>
-            <mat-datepicker #recurpicker></mat-datepicker>
-          </mat-form-field><br/>
+        <div *ngIf="getCycle() === 'WEEKLY'">
+          On...<br/>
+          <app-days-of-week formControlName="weeklyDays"></app-days-of-week>
         </div>
-        <div *ngIf="custom">
-          <br/>Custom Schedule
-        </div>
+
+        <mat-form-field  *ngIf="getCycle() != 'CUSTOM'" appearance="standard">
+          <mat-label>Until...</mat-label>
+          <input matInput formControlName="endDate" [matDatepicker]="recurpicker" placeholder="Until..." class="input-5">
+          <mat-datepicker-toggle matSuffix [for]="recurpicker"></mat-datepicker-toggle>
+          <mat-datepicker #recurpicker></mat-datepicker>
+        </mat-form-field><br/>
       </div>
 
       <div class="col">
-        <div *ngIf="!custom">
-          <app-date-series
-            formControlName="exceptionDates"
-            [event]="event"
-            (futureConflictsChange)="updateFutureConflictCount($event)"
-            (futureEventsChange)="updateSelectedDates($event)">
-          </app-date-series>
-          <span class="clickable" (click)="enableCustomSchedule()">Customize Schedule</span>
-        </div>
-        <app-custom-date-series *ngIf="custom"
-          [(events)]="customEvents"
-          [disabled]="disabled"
-          (futureConflictsChange)="updateFutureConflictCount($event)">
-        </app-custom-date-series>
-      </div>
+        <app-date-series
+          formControlName="exceptionDates"
+          [event]="event"
+          (futureConflictsChange)="updateFutureConflictCount($event)"
+          (futureEventsChange)="updateSelectedDates($event)">
+        </app-date-series>
+        <span *ngIf="!disabled" class="clickable" (click)="enableCustomSchedule()">Customize Schedule</span>
     </div>
+    </div>
+  </div>
+
+  <div *ngIf="custom">
+    <div>
+      <br/>Custom Schedule
+    </div>
+    <app-custom-date-series
+      [(events)]="customEvents"
+      [disabled]="disabled"
+      (futureConflictsChange)="updateFutureConflictCount($event)">
+    </app-custom-date-series>
+  </div>
 </form>

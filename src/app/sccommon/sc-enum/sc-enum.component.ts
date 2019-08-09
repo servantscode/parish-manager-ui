@@ -19,9 +19,9 @@ import { EnumValue } from '../enum-value';
 })
 export class ScEnumComponent implements ControlValueAccessor, OnInit {
   @Input() label = '';
-  @Input('value') _value;
+  // @Input('value') _value;
   @Input() required = false;
-  @Input() fieldSize = 'input-standard';
+  @Input() fieldSize = 'standard';
   @Input() nullValue: string;
 
   @Input() valueSource: () => Observable<string[]>;
@@ -30,7 +30,6 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   filteredItems: Observable<EnumValue[]>;
   private selected: EnumValue;
   
-
   onChange: any = () => { };
   onTouched: any = () => { };
 
@@ -38,49 +37,62 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
       input: ['']
     });
   
-  get value() {
-    return this._value;
-  }
+  // get value() {
+  //   return this._value;
+  // }
 
-  set value(val) {
-    var rawVal = val? (typeof val === 'string')? val: val.value: null;
-    var enumVal = val? (typeof val === 'string' && this.items)? this.items.find(item => item.value === val): val: null;
+  // set value(val) {
+  //   var rawVal = val? (typeof val === 'string')? val: val.value: null;
+  //   var enumVal = val? (typeof val === 'string' && this.items)? this.items.find(item => item.value === val): val: null;
 
-    this.selected = enumVal;
-    this.form.get("input").setValue(enumVal);
+  //   this.selected = enumVal;
+  //   this.form.get("input").setValue(enumVal);
 
-    this._value = rawVal;
-    this.onChange(rawVal);
-    this.onTouched();
-  }
+  //   this._value = rawVal;
+  //   this.onChange(rawVal);
+  //   this.onTouched();
+  // }
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.filteredItems = this.form.get('input').valueChanges
-      .pipe(
-        debounceTime(300),
-        map(value => value? typeof value === 'string' ? value : value.display: ""),
-        switchMap(value => of(this.items).pipe(
-          map(resp => resp? resp.filter(val => val.display.startsWith(value.toUpperCase().replace(/\s/, "_"))): null)
-        ))
-      );
 
     this.valueSource().subscribe(values => {
         this.items = values? values.map(item => new EnumValue(item)): null;
-        this.value = this.value;
+        this.reconcileForm();
+
+        if(this.items.length<=10) //If select mode, set change listener
+          this.form.get('input').valueChanges.subscribe(val => this.notifyObservers(val));
+        else //Else, set auto-complete listener
+          this.filteredItems = this.form.get('input').valueChanges
+            .pipe(
+              debounceTime(300),
+              map(value => value? typeof value === 'string' ? value : value.display: ""),
+              switchMap(input => of(this.items).pipe(
+                map(resp => resp? resp.filter(val => val.value.startsWith(input.toUpperCase().replace(/\s/, "_"))): null)
+              ))
+            );
       });
   }
 
+  notifyObservers(val: EnumValue) {
+    if(val == this.selected)
+      return;
+
+    this.selected = val;
+    this.onChange(this.selected.value);
+    this.onTouched();
+  }
+
   calculateLabel() {
-    if(!this.value && this.nullValue)
+    if(!this.selected && this.nullValue)
       return this.nullValue
     else
       return this.label;
   }
 
   selectItem(item: EnumValue): void {
-    this.value = item;
+    this.notifyObservers(item);
   }
 
   displayName(item?: any): string | undefined {
@@ -89,6 +101,14 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
         item : 
         item.display : 
       undefined;
+  }
+
+  reconcileForm() {
+    if(this.selected && this.items) {
+      const item = this.items.find(i => i.value == this.selected.value);
+      this.selected = item;
+      this.form.get('input').setValue(this.selected, {emitEvent:false});
+    }
   }
 
   //ControlValueAccesssor
@@ -101,7 +121,13 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   }
 
   writeValue(value) {
-    this.value = value;
+    if(!value)
+      return;
+
+    alert("value set at: " + JSON.stringify(value));
+
+    this.selected = new EnumValue(value);
+    this.reconcileForm();
   }
 
   setDisabledState( isDisabled : boolean ) : void {

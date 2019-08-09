@@ -130,6 +130,10 @@ export class CustomDateSeriesComponent implements OnInit, OnChanges {
     }
   }
 
+  resourceList(event: Event) {
+    return event.reservations? event.reservations.map(r => r.resourceName).join(', '): '';
+  }
+
   private updateFutureConflicts() {
     var conflictCount = this.events.filter(e => e.conflicts).length;
     this.futureConflictsChange.emit(conflictCount);

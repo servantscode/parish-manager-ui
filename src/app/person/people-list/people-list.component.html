@@ -49,12 +49,14 @@
       <tr>
         <th>Family Name</th>
         <th>Address</th>
+        <th>Envelope Number</th>
       </tr>
     </thead>
     <tbody (mouseleave)="highlight(null)">
       <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}" (click)="viewDetails(item)">
         <td [ngClass]="{'inactive': item.inactive}">{{item.surname}}</td>
         <td [ngClass]="{'inactive': item.inactive}">{{getAddressString(item)}}</td>
+        <td [ngClass]="{'inactive': item.inactive}">{{item.envelopeNumber? item.envelopeNumber: ''}}</td>
       </tr>
     </tbody>
   </table>

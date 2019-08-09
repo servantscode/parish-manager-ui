@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators, FormArray, FormGroup, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
+import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
 
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
@@ -98,6 +98,13 @@ export class BulkDonationDialogComponent implements OnInit {
           checkNumber.updateValueAndValidity();
       });
 
+
+    group.get('envelopeNumber').valueChanges.pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe(() => this.predictGroup(group, 'envelopeNumber'));
+
+    group.get('familyId').valueChanges.pipe(distinctUntilChanged())
+      .subscribe(() => this.predictGroup(group, 'familyId'));
+
     return group;
   }
 
@@ -141,10 +148,10 @@ export class BulkDonationDialogComponent implements OnInit {
     this.dialogRef.close();    
   }
 
-  predict(i: number, type: string): void {
-    var group = (<FormArray>this.donationForm.controls['donations']).controls[i];
+  predictGroup(group, type:string) {
     var familyId = (type === 'familyId')? group.get("familyId").value: 0;
     var envelopeNumber = (type === 'envelopeNumber')? group.get("envelopeNumber").value: 0;
+
     if(familyId == 0 && envelopeNumber == 0)
       return;
 
@@ -157,7 +164,7 @@ export class BulkDonationDialogComponent implements OnInit {
             group.get("amount").reset();
             group.get("donationType").reset();
           } else {
-            group.patchValue(prediction);
+            group.patchValue(prediction, {emitEvent: false});
             this.clearZero(group.get("envelopeNumber"));
             this.clearZero(group.get("amount"));
           }
@@ -173,5 +180,4 @@ export class BulkDonationDialogComponent implements OnInit {
     const fundId = localStorage.getItem('donation-fund');
     return fundId? +fundId: 1;
   }
-
 }

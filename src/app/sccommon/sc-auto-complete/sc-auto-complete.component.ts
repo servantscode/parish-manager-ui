@@ -23,7 +23,6 @@ import { doLater } from '../utils';
 })
 export class ScAutoCompleteComponent<T extends Autocompletable> implements ControlValueAccessor, OnInit {
   @Input() label = 'AutoSelect';
-  @Input('value') _value;
   @Input() required = false;
   @Input() fieldSize = 'standard';
 
@@ -44,18 +43,15 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
       input: ['']
     });
   
-  get value() {
-    return this.itemValue(this.selected);
-  }
-
-  set value(val) {
-    alert("Don't set a value this way!");
-  }
-
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.enableAutocomplete();
+    this.filteredItems = this.autocompleteForm.get('input').valueChanges
+      .pipe(
+        debounceTime(300),
+        map(value => value? typeof value === 'string' ? value : value.identify(): ""),
+        switchMap(value => this.loadOptions(value))
+      );
   }
 
   identifyItem(item?: any): string | undefined {
@@ -85,26 +81,12 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
       this.selectItem(null);
     } else if(this.selected != rawValue) {
       this.autocompleteService.getPage(0, 1, rawValue, this.pathParams).subscribe(resp => {
-          if(resp.totalResults == 1) {
+          if(resp.totalResults == 1)
             this.selectItem(resp.results[0]);
-          } else {
+          else
             this.setInputValue(this.selected);
-          }
         });
     }
-  }
-
-  private enableAutocomplete() {
-    this.filteredItems = this.autocompleteForm.get('input').valueChanges
-      .pipe(
-        debounceTime(300),
-        map(value => value? typeof value === 'string' ? value : value.identify(): ""),
-        switchMap(value => this.loadOptions(value))
-      );
-  }
-
-  private disableAutocomplete() {
-    this.filteredItems = null;
   }
 
   private loadOptions(value: string): Observable<T[]> {
@@ -123,9 +105,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   private setInputValue(displayValue: any) {
-    this.disableAutocomplete();
-    this.autocompleteForm.get("input").setValue(displayValue);
-    this.enableAutocomplete();    
+    this.autocompleteForm.get("input").setValue(displayValue, {emitEvent:false});
   }
 
   private resolveSelectedItem(rawValue) {

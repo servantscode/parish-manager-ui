@@ -3,14 +3,14 @@
   <div mat-dialog-content>
     <div class="row">
       <div class="col">
-        <mat-form-field>
+        <mat-form-field appearance="standard" class="input-small">
           <input matInput formControlName="donationDate" [matDatepicker]="picker" placeholder="Donation Date">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
       <div class="col">
-      <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="standard"></app-sc-select>
+      <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="small"></app-sc-select>
       </div>
     </div>
     <table class="sc-table">
@@ -32,11 +32,11 @@
           <td>
             <mat-form-field appearance="standard" class="input-5">
               <mat-label>Envelope #</mat-label>
-              <input type="text" matInput formControlName="envelopeNumber" (change)="predict(i, 'envelopeNumber')" autocomplete="off"/>
+              <input type="text" matInput formControlName="envelopeNumber" autocomplete="off"/>
             </mat-form-field><br/>
           </td>
           <td>
-            <app-sc-auto-complete formControlName="familyId" label='Family Name' [autocompleteService]="familyService" [required]="true" [fieldSize]="medium" (change)="predict(i, 'familyId')"></app-sc-auto-complete>
+            <app-sc-auto-complete formControlName="familyId" label='Family Name' [autocompleteService]="familyService" [required]="true" fieldSize="small"></app-sc-auto-complete>
           </td>
           <td>
             <mat-form-field appearance="standard" class="input-5">
@@ -45,7 +45,7 @@
             </mat-form-field>
           </td>
           <td>
-            <app-sc-enum formControlName="donationType" label="Type" [required]="true" [valueSource]="donationTypes"></app-sc-enum>
+            <app-sc-enum formControlName="donationType" label="Type" fieldSize="small" [required]="true" [valueSource]="donationTypes"></app-sc-enum>
           </td>
           <td>
             <mat-form-field *ngIf="donationType(i) === 'CHECK'" appearance="standard" class="input-5">

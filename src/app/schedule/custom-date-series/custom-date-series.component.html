@@ -1,7 +1,7 @@
 <div>
-  <table *ngIf="events middle">
+  <table *ngIf="events" class="middle">
     <td>
-      <span >{{events.length}} {{events.length > 1? 'events':'event'}}</span>
+      <span class="pad-right-5">{{events.length}} {{events.length > 1? 'events':'event'}}</span>
     </td>
     <td *ngIf="!disabled">
       <div class="actions icon add" (click)="addEvent()">&nbsp;</div>
@@ -12,7 +12,8 @@
     <div *ngFor="let event of events; let i=index" class="event">
       <table class="content middle">
         <td>
-          <span [ngClass]="{'conflicted': event.conflicts}" class="clickable pad-right-5" (click)="toggleConflict(i)">{{event.startTime | date: 'MM/dd/yyyy'}} ({{event.startTime | date: 'h:mma'}} - {{event.endTime | date: 'h:mma'}})</span>
+          <span [ngClass]="{'conflicted': event.conflicts}" class="clickable pad-right-5" (click)="toggleConflict(i)">{{event.startTime | date: 'MM/dd/yyyy (EEE)'}} {{event.startTime | date: 'h:mma'}} - {{event.endTime | date: 'h:mma'}}</span>
+          <span class="reservations pad-right-5" *ngIf="event.reservations">{{resourceList(event)}}</span>
         </td>
         <td *ngIf="!disabled">
           <div class="actions icon edit" (click)="editEvent(i)">&nbsp;</div>

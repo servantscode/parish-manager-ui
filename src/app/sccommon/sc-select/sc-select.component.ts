@@ -20,61 +20,24 @@ import { Identifiable } from '../identifiable';
 })
 export class ScSelectComponent<T extends Identifiable> implements ControlValueAccessor, OnInit {
   @Input() label = 'Select';
-  @Input('value') _value;
   @Input() required = false;
   @Input() fieldSize = 'standard';
-
   @Input() nullValue: string;
-
-  @Input() selectObject = false;
-  @Input() autocompleteService: PaginatedService<T>
-
   @Input() filter;
 
+  @Input() autocompleteService: PaginatedService<T>
+
+  private selectedId: number;  
   private selected: T;
+  items: T[];
 
   onChange: any = () => { };
   onTouched: any = () => { };
 
-  autocompleteForm = this.fb.group({
+  form = this.fb.group({
       input: ['']
     });
   
-  get value() {
-    return this._value;
-  }
-
-  set value(val) {
-    var rawVal = val? (typeof val === 'string' || typeof val === 'number')? 
-        val: 
-        this.itemValue(val): 
-      null;
-
-    if((typeof val === 'string' && val !== "") || (typeof val === 'number' && val != 0)) { 
-      this.resolveSelectedItem(rawVal);
-    } else if(val) {
-      this.selected = val;
-      this.autocompleteForm.get("input").setValue(val);
-    }
-
-    this._value = rawVal;
-    this.onChange(rawVal);
-    this.onTouched();
-  }
-
-  calculateLabel() {
-    if(!this.value && this.nullValue)
-      return this.nullValue
-    else
-      return this.label;
-  }
-
-  itemValue(item: any) {
-    return this.selectObject? item: item.id;
-  }
-
-  items = [];
-
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -82,26 +45,35 @@ export class ScSelectComponent<T extends Identifiable> implements ControlValueAc
         if(resp.totalResults > 200)
           alert("Too many results to show in dropdown");
         this.items = this.filter? this.filter(resp.results): resp.results;
-        if(this.value) {
-          const item = this.items.find(item => this.itemValue(item) === this.value);
-          this.autocompleteForm.get("input").setValue(item);
-        }
+        this.reconcileForm();
       });
+
+    this.form.get('input').valueChanges.subscribe(val => this.notifyObservers(val));
   }
 
-  identifyItem(item?: any): string | undefined {
-    return item ? typeof item === 'string' ? item : item.identify() : undefined;
+  notifyObservers(val: T) {
+    if(val == this.selected)
+      return;
+
+    this.selected = val;
+    this.selectedId = val? val.id: 0;
+    this.onChange(this.selectedId);
+    this.onTouched();
   }
 
-  selectItem(item: T): void {
-    this.value = item;
+  calculateLabel() {
+    if(!this.selectedId && this.nullValue)
+      return this.nullValue
+    else
+      return this.label;
   }
 
-  resolveSelectedItem(rawValue) {
-    this.autocompleteService.get(rawValue).subscribe(item => {
-        this.autocompleteForm.get("input").setValue(item);
-        this.selected = item;
-      });
+  reconcileForm() {
+    if(this.items && this.selectedId) {
+      const item = this.items.find(item => item.id === this.selectedId);
+      this.selected=item;
+      this.form.get("input").setValue(item, {emitEvent: false});
+    }
   }
 
   //ControlValueAccesssor
@@ -114,13 +86,13 @@ export class ScSelectComponent<T extends Identifiable> implements ControlValueAc
   }
 
   writeValue(value) {
-    if(value)
-      this.value = value;
+    this.selectedId = value;
+    this.reconcileForm();
   }
 
   setDisabledState( isDisabled : boolean ) : void {
-    for(let control in this.autocompleteForm.controls) {
-      var field = this.autocompleteForm.get(control);
+    for(let control in this.form.controls) {
+      var field = this.form.get(control);
       isDisabled ? field.disable() : field.enable();
     }
   }

@@ -1,16 +1,16 @@
 <form [formGroup]="form">
-  <mat-form-field appearance="standard" *ngIf="!items || items.length > 10" class="input-standard">
+  <mat-form-field appearance="standard" *ngIf="!items || items.length > 10" class="mat-form-field mat-primary mat-form-field-type-mat-input input-{{fieldSize}}">
     <mat-label>{{label}}</mat-label>
     <input type="text" formControlName="input" aria-label="label" matInput [matAutocomplete]="auto" [required]="required">
-    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="displayName"  (optionSelected)="selectItem($event.option.value)">
+    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="displayName" (optionSelected)="selectItem($event.option.value)">
       <mat-option *ngFor="let item of filteredItems | async" [value]="item">
         {{item.display}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
 
-  <mat-form-field appearance="standard" *ngIf="items && items.length <= 10" class="input-standard">
-    <mat-select formControlName="input" [placeholder]="calculateLabel()" [aria-label]="label" [required]="required" (selectionChange)="selectItem($event.value)">
+  <mat-form-field appearance="standard" *ngIf="items && items.length <= 10" class="mat-form-field mat-primary mat-form-field-type-mat-input input-{{fieldSize}}">
+    <mat-select formControlName="input" [placeholder]="calculateLabel()" [aria-label]="label" [required]="required">
         <mat-option *ngIf="nullValue">{{nullValue}}</mat-option>
         <mat-option *ngFor="let item of items" [value]="item">
         {{item.display}}
