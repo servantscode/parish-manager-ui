@@ -23,6 +23,8 @@ import { MinistryService } from '../../ministry/services/ministry.service';
 
 import { PersonService } from '../../sccommon/services/person.service';
 
+import { PersonDialogComponent } from '../../person/person-dialog/person-dialog.component';
+
 import { Event, Recurrence, SelectedEvent, EventConflict } from '../event';
 import { Reservation } from '../reservation';
 import { EventService } from '../services/event.service';
@@ -56,7 +58,6 @@ export class EventDetailsComponent implements OnInit {
   static SHARED_FIELDS = ['title', 'description', 'privateEvent', 
                          'schedulerId', 'contactId', 'ministryId', 
                          'departments', 'categories'];
-
 
   event: Event;
   customEvents : Event[];
@@ -134,6 +135,17 @@ export class EventDetailsComponent implements OnInit {
         this.router.navigate(['not-found']);
       this.eventForm.get('schedulerId').setValue(this.loginService.getUserId());
     }
+  }
+
+  openPersonDialog(field: string): void {
+    const dialogRef = this.dialog.open(PersonDialogComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result)
+        this.eventForm.get(field).setValue(result.id);
+    });
   }
 
   enableEdit(): void {

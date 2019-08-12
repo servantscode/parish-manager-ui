@@ -44,7 +44,8 @@ export class ScMultiSelectComponent<T extends Autocompletable> implements Contro
   ngOnInit() {
     this.autocompleteService.getPage(0, -1, '', this.pathParams).subscribe(resp => {
         this.items = resp.results;
-        this.selected = this.items.filter(item => this.selectedIds.includes(item.id));
+        if(this.selectedIds)
+          this.selected = this.items.filter(item => this.selectedIds.includes(item.id));
         this.form.get('input').setValue(this.selected);
       });
 

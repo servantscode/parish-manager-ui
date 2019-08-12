@@ -1,0 +1,26 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <h1 mat-dialog-title>Add Person</h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required>
+    </mat-form-field><br/>
+
+    <mat-radio-group aria-label="Gender" formControlName="male">
+      <mat-radio-button value="true" [checked]="form.value.male">Male</mat-radio-button>&nbsp;&nbsp;
+      <mat-radio-button value="false" [checked]="!form.value.male">Female</mat-radio-button>
+    </mat-radio-group><br/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Email</mat-label> 
+      <input matInput formControlName="email">
+    </mat-form-field><br/>
+
+    <app-sc-phone-number formControlName="phoneNumber"></app-sc-phone-number>  
+  </div>
+
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+  </div>
+</form>

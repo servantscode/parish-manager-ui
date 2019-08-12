@@ -24,7 +24,16 @@
 
         <app-sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService"></app-sc-auto-complete>
 
-        <app-sc-auto-complete formControlName="schedulerId" label='Scheduled by' [autocompleteService]="personService"></app-sc-auto-complete>
+        <table>
+          <tr>
+            <td>
+              <app-sc-auto-complete formControlName="schedulerId" label='Scheduled by' [autocompleteService]="personService"></app-sc-auto-complete>
+            </td>
+            <td class="col">
+              <div class="actions icon add icon-padding" (click)="openPersonDialog('schedulerId')">&nbsp;</div>
+            </td>
+          </tr>
+        </table>
 
         <input type="hidden" autocomplete="off" formControlName="id"/>
       </div>
@@ -32,7 +41,16 @@
         <app-sc-multi-select formControlName="departmentIds" label="Departments" [autocompleteService]="departmentService"></app-sc-multi-select>
         <app-sc-multi-select formControlName="categoryIds" label="Categories" [autocompleteService]="categoryService"></app-sc-multi-select>
 
-        <app-sc-auto-complete formControlName="contactId" label='Contact' [autocompleteService]="personService"></app-sc-auto-complete>
+        <table>
+          <tr>
+            <td>
+              <app-sc-auto-complete formControlName="contactId" label='Contact' [autocompleteService]="personService"></app-sc-auto-complete>
+            </td>
+            <td class="col">
+              <div class="actions icon add icon-padding" (click)="openPersonDialog('contactId')">&nbsp;</div>
+            </td>
+          </tr>
+        </table>
 
         <mat-checkbox formControlName="privateEvent">Private Event</mat-checkbox>
 

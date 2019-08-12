@@ -23,6 +23,7 @@ import { EmailDialogComponent } from '../../sccommon/email-dialog/email-dialog.c
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
 
 import { Relationship } from '../relationship';
+import { extractSurname } from '../utils';
 
 export enum KEY_CODE {
   ENTER = 13,
@@ -158,14 +159,9 @@ export class PersonDetailComponent implements OnInit {
   }
 
   guessSurname() {
-    const input = this.personForm.get("name").value;
     if(this.person.family.id == undefined) {
-      var bits = input.trim().split(" ");
-      if(bits.length > 1) {
-        this.personForm.get("family.surname").setValue(bits.pop());
-      } else {
-        this.personForm.get("family.surname").setValue('');
-      }
+      const input = this.personForm.get("name").value;
+      this.personForm.get("family.surname").setValue(extractSurname(input));
     }
   }
 

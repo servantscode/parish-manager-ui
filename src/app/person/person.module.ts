@@ -28,6 +28,7 @@ import { FamilyService } from './services/family.service';
 import { RelationshipDialogComponent } from './relationship-dialog/relationship-dialog.component';
 import { FamilyRelationshipsComponent } from './family-relationships/family-relationships.component';
 import { AddressComponent } from './address/address.component';
+import { PersonDialogComponent } from './person-dialog/person-dialog.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { AddressComponent } from './address/address.component';
     PersonTabsComponent,
     RelationshipDialogComponent,
     FamilyRelationshipsComponent,
-    AddressComponent
+    AddressComponent,
+    PersonDialogComponent
   ],
   imports: [
     PersonRoutingModule,
@@ -71,7 +73,8 @@ import { AddressComponent } from './address/address.component';
     FamilyService
   ],
   entryComponents: [
-    RelationshipDialogComponent
+    RelationshipDialogComponent,
+    PersonDialogComponent
   ]
 })
 export class PersonModule { }

@@ -17,6 +17,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { SCCommonModule } from '../sccommon/sccommon.module';
 import { MinistryModule } from '../ministry/ministry.module';
+import { PersonModule } from '../person/person.module';
 
 import { ScheduleRoutingModule } from './schedule-routing.module';
 

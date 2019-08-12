@@ -56,7 +56,6 @@ export class ScPhoneNumberComponent implements OnInit {
 
     var value = tel.toString().trim().replace(/^\+/, '');
     value = value.replace(/[\D]/g, '');
-    console.log('value: ' + value);
 
     if (value.match(/[^0-9]/)) {
       return tel;
