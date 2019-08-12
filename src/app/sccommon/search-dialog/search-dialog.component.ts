@@ -13,9 +13,12 @@ export class SearchDialogComponent implements OnInit {
 
   form = this.fb.group({});
 
+  columns: number = 1;
+
   constructor(public dialogRef: MatDialogRef<SearchDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
                 title: string,
+                columns: number,
                 fields: any},
               private fb: FormBuilder) { }
 
@@ -33,6 +36,9 @@ export class SearchDialogComponent implements OnInit {
           formGroup.addControl(fieldName, this.fb.control(''));
         }
       });
+
+    if(this.data.columns)
+      this.columns = this.data.columns;
   }
 
   search() {

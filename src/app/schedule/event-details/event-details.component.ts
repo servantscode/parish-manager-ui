@@ -46,6 +46,7 @@ export class EventDetailsComponent implements OnInit {
       schedulerId:['', [Validators.required, Validators.pattern(SCValidation.NUMBER)]],
       contactId:['', [Validators.pattern(SCValidation.NUMBER)]],
       ministryId:[''],
+      attendees: '',
       departments: [],
       departmentIds: [],
       categories: [],

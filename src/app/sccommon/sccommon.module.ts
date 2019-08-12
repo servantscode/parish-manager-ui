@@ -54,6 +54,7 @@ import { ScSearchBarComponent } from './sc-search-bar/sc-search-bar.component';
 import { ScEnumPipe } from './sc-enum.pipe';
 import { DisplayCamelCasePipe } from './display-camel-case.pipe';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { TimesPipe } from './times.pipe';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -81,7 +82,8 @@ export function tokenGetter() {
     ScEnumPipe,
     DisplayCamelCasePipe,
     PreferencesComponent,
-    ScMultiSelectComponent
+    ScMultiSelectComponent,
+    TimesPipe
   ],
   imports: [
     SCCommonRoutingModule,

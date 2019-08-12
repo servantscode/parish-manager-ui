@@ -24,6 +24,11 @@
 
         <app-sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService"></app-sc-auto-complete>
 
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Expected attendence</mat-label>
+          <input type="number" matInput formControlName="attendees" autocomplete="off"/>
+        </mat-form-field><br/>
+
         <table>
           <tr>
             <td>
@@ -71,6 +76,7 @@
     <app-reservation formControlName="reservations" 
       [startTime]="eventForm.get('startTime').value" 
       [endTime]="eventForm.get('endTime').value" 
+      [capacity]="eventForm.get('attendees').value"
       [eventId]="eventForm.get('id').value"
       [schedulerId]="eventForm.get('schedulerId').value"
       [eventTitle]="eventForm.get('title').value"

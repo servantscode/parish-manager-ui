@@ -43,6 +43,7 @@ export class ReservationComponent implements OnInit {
 
   @Input() startTime: Date;
   @Input() endTime: Date;
+  @Input() capacity: number;
   @Input() eventId: number;
   @Input() eventTitle: string;
   @Input() schedulerId: number;
@@ -170,7 +171,8 @@ export class ReservationComponent implements OnInit {
     const dialogRef = this.dialog.open(RoomAvailabilityDialogComponent, {
       width: '400px',
       data: { "startTime": this.startTime,
-              "endTime": this.endTime
+              "endTime": this.endTime, 
+              "capacity": this.capacity
       }
     });
 

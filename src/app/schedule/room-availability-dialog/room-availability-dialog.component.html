@@ -4,9 +4,16 @@
       <input type="text" class="form-control" formControlName="search" placeholder="Search..." aria-label="Search">
   </form>
   <div class="room-list scrollable" (mouseleave)="highlight(null)">
-    <div *ngFor="let room of filteredRooms" (mouseover)="highlight(room)" [ngClass]="{'highlight clickable' : room === highlighted}" (click)="select(room)">
-      {{room.name}}
-    </div>
+    <table>
+      <thead>
+        <th width="85%">Name</th>
+        <th class="capacity">Capacity</th>
+      </thead>
+      <tr *ngFor="let room of filteredRooms" (mouseover)="highlight(room)" [ngClass]="{'highlight clickable' : room === highlighted, 'crossed-out': room.capacity < data.capacity}" (click)="select(room)">
+        <td>{{room.name}}</td>
+        <td class="capacity">{{room.capacity}}</td>
+      </tr>
+    </table>
   </div>
 </div>
 

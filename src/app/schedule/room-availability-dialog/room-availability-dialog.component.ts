@@ -24,18 +24,19 @@ export class RoomAvailabilityDialogComponent implements OnInit {
 
   highlighted: Room = null;
 
-
   constructor(public dialogRef: MatDialogRef<RoomAvailabilityDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
                 startTime: Date,
-                endTime: Date
+                endTime: Date,
+                capacity: number
               },
               private fb: FormBuilder,
-              private availabilityService: AvailabilityService) { }
+              private availabilityService: AvailabilityService) { 
+  }
   
   ngOnInit() {
     this.availabilityService.getAvailableRooms(this.data.startTime, this.data.endTime).subscribe(resp => {
-      this.availableRooms = resp;
+      this.availableRooms = resp.filter(room => room.capacity >= this.data.capacity).concat(resp.filter(room => room.capacity < this.data.capacity));
       this.filteredRooms = this.availableRooms;
     });
 

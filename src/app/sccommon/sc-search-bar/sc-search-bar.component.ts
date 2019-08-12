@@ -18,6 +18,7 @@ export class ScSearchBarComponent implements OnInit, OnChanges {
   @Output() search = new EventEmitter<string>();
   @Input() type: string;
   @Input() searchForm: any[];
+  @Input() columns: 1;
 
   form = this.fb.group({
       input: ['', SCValidation.validSearch()]
@@ -42,8 +43,9 @@ export class ScSearchBarComponent implements OnInit, OnChanges {
 
   openSearch() {
     const searchRef = this.dialog.open(SearchDialogComponent, {
-      width: '400px',
+      width: 4*this.columns + '00px',
       data: {"title": "Search " + this.type,
+             "columns": this.columns,
              "fields" : this.searchForm
            }
     });

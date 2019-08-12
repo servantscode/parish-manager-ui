@@ -34,6 +34,7 @@
     <div class="col-8 no-pad pad-top">
       <app-sc-search-bar (search)="updateSearch($event)"
                          type="Events"
+                         columns="2"
                          [searchForm]="[{'name':'title', 'type':'text'},
                                        {'name':'description', 'type':'text'}, 
                                        {'name':'ministryName', 'type':'text'}, 
@@ -41,7 +42,8 @@
                                        {'name':'startTime', 'type':'date'},
                                        {'name':'departments', 'type':'text'}, 
                                        {'name':'categories', 'type':'text'}, 
-                                       {'name':'privateEvent', 'type':'boolean'}]">
+                                       {'name':'privateEvent', 'type':'boolean'},
+                                       {'name':'attendees', 'type':'numberRange', 'displayName':'Expected attendence'}]">
       </app-sc-search-bar>
     </div>
     <div class="col-4">

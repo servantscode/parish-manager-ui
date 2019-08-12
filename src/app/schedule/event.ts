@@ -17,6 +17,7 @@ export class Event extends Identifiable {
   contactId: number;
   ministryName: string;
   ministryId: number;
+  attendees: number;
   departments: string[];
   departmentIds: number[];
   categories: string[];
@@ -41,6 +42,7 @@ export class Event extends Identifiable {
     this.contactId = 0;
     this.ministryName = '';
     this.ministryId = 0;
+    this.attendees = 0;
     this.departments = [];
     this.departmentIds = [];
     this.categories = [];

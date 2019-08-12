@@ -121,6 +121,7 @@ export class CalendarComponent implements OnInit {
               contactId: serverEvent.contactId,
               ministryName: serverEvent.ministryName,
               ministryId: serverEvent.ministryId,
+              attendees: serverEvent.attendees,
               departmentIds: serverEvent.departmentIds,
               categoryIds: serverEvent.categoryIds,
               id: serverEvent.id,
