@@ -19,7 +19,6 @@ import { EnumValue } from '../enum-value';
 })
 export class ScEnumComponent implements ControlValueAccessor, OnInit {
   @Input() label = '';
-  // @Input('value') _value;
   @Input() required = false;
   @Input() fieldSize = 'standard';
   @Input() nullValue: string;
@@ -37,21 +36,6 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
       input: ['']
     });
   
-  // get value() {
-  //   return this._value;
-  // }
-
-  // set value(val) {
-  //   var rawVal = val? (typeof val === 'string')? val: val.value: null;
-  //   var enumVal = val? (typeof val === 'string' && this.items)? this.items.find(item => item.value === val): val: null;
-
-  //   this.selected = enumVal;
-  //   this.form.get("input").setValue(enumVal);
-
-  //   this._value = rawVal;
-  //   this.onChange(rawVal);
-  //   this.onTouched();
-  // }
 
   constructor(private fb: FormBuilder) { }
 
@@ -123,8 +107,6 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   writeValue(value) {
     if(!value)
       return;
-
-    alert("value set at: " + JSON.stringify(value));
 
     this.selected = new EnumValue(value);
     this.reconcileForm();

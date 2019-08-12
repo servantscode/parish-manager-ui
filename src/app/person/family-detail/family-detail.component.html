@@ -41,10 +41,19 @@
 
         <app-sc-phone-number formControlName="homePhone"></app-sc-phone-number>  
 
-        <mat-form-field appearance="standard" class="input-standard">
-          <mat-label>Envelope Number</mat-label>
-          <input matInput type="number" formControlName="envelopeNumber"/>
-        </mat-form-field><br/>
+        <table>
+          <tr>
+            <td>
+              <mat-form-field appearance="standard" class="input-standard">
+                <mat-label>Envelope Number</mat-label>
+                <input matInput type="number" formControlName="envelopeNumber"/>
+              </mat-form-field>
+            </td>
+            <td>
+              <div *ngIf="!familyForm.value.envelopeNumber" class="actions icon add icon-padding" (click)="assignEnvelopeNumber()">&nbsp;</div>
+            </td>
+          </tr>
+        </table>
 
         <app-address formControlName="address"></app-address>
       </div>

@@ -61,4 +61,10 @@ export class FamilyService extends PaginatedService<Family> {
         catchError(this.handleError('updatePreferences', null))
       );
   }
+
+  public getNextEnvelope(): Observable<number> {
+    return this.http.get<number>(this.url+`/nextEnvelope`, this.httpOptions).pipe(
+        catchError(this.handleError('getNextEnvelope', null))
+      );    
+  }
 }

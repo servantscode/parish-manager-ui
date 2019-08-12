@@ -55,9 +55,9 @@ export class PersonDetailComponent implements OnInit {
       confession: [''],
       communion: [''],
       confirmed: [''],
-      maritalStatus: [''],
-      ethnicity: [''],
-      primaryLanguage: [''],
+      maritalStatus: [null],
+      ethnicity: [null],
+      primaryLanguage: [null],
       religion: ['CATHOLIC'],
       specialNeeds: [[]],
       occupation: [''],
@@ -156,6 +156,10 @@ export class PersonDetailComponent implements OnInit {
     this.relationshipService.getRelationships(this.person.id).subscribe(relationships => {
         this.personForm.get("family.relationships").setValue(relationships);
       });
+  }
+
+  assignEnvelopeNumber() {
+    this.familyService.getNextEnvelope().subscribe(envelopeNum => this.personForm.get('family.envelopeNumber').setValue(envelopeNum));
   }
 
   guessSurname() {

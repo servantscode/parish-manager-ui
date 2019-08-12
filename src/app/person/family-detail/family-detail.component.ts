@@ -92,6 +92,10 @@ export class FamilyDetailComponent implements OnInit {
       subscribe(pledges => this.pledges = pledges);
   }
 
+  assignEnvelopeNumber() {
+    this.familyService.getNextEnvelope().subscribe(envelopeNum => this.familyForm.get('envelopeNumber').setValue(envelopeNum));
+  }
+
   goBack(): void {
     if(this.editMode && this.family.id > 0) {
       this.editMode = false;

@@ -201,8 +201,6 @@ export class CalendarComponent implements OnInit {
     var day = null;
     var dayEvents: any[];
 
-    var alerted = 0;
-
     for(let event of events) {
       if(!day || !isEqual(startOfDay(event.start), day)) {
         day = startOfDay(event.start);
