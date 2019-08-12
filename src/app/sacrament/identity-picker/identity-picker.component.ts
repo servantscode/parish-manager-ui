@@ -8,7 +8,7 @@ import { Autocompletable } from '../../sccommon/identifiable';
 
 import { Person } from '../../sccommon/person';
 
-import { Identity } from '../sacrament';
+import { Identity } from '../../sccommon/identity';
 
 @Component({
   selector: 'app-identity-picker',

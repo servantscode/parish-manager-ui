@@ -432,6 +432,15 @@ export class EventDetailsComponent implements OnInit {
       this.eventForm.get('reservations').valueChanges.pipe(debounceTime(0), distinctUntilChanged())
         .subscribe(() => this.event = this.getEventFromForm()));
 
+    this.formSubs.push(
+      this.eventForm.get('ministryId').valueChanges.pipe(debounceTime(0), distinctUntilChanged())
+        .subscribe(id => {
+          const contact = this.eventForm.get('contactId');
+          if(!contact.value) {
+            this.ministryService.getPrimaryContact(id).subscribe(contactId => contact.setValue(contactId));
+          }
+        }));
+
     EventDetailsComponent.SHARED_FIELDS.forEach(f => {
       this.formSubs.push(
         this.eventForm.get(f).valueChanges.pipe(debounceTime(300))

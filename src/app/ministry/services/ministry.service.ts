@@ -8,6 +8,8 @@ import { LoginService } from '../../sccommon/services/login.service';
 import { MessageService } from '../../sccommon/services/message.service';
 import { PaginatedService } from '../../sccommon/services/paginated.service';
 
+import { Identity } from '../../sccommon/identity';
+
 import { Ministry } from '../ministry';
 
 export enum ContactType {
@@ -44,6 +46,13 @@ export class MinistryService extends PaginatedService<Ministry> {
 
   public getEmailList(ministryId: number, contactType: ContactType): Observable<string[]> {
     return this.http.get<string[]>(this.url + `/${ministryId}/email/${ContactType[contactType]}`).pipe(
+        catchError(this.handleError('getEmailList', []))
+      );
+  }
+
+  public getPrimaryContact(ministryId: number): Observable<number> {
+    return this.http.get<number>(this.url + `/${ministryId}/contacts`).pipe(
+        map(resp => resp[0].id),
         catchError(this.handleError('getEmailList', []))
       );
   }

@@ -1,9 +1,5 @@
 import { Identifiable } from '../sccommon/identifiable';
-
-export class Identity {
-  name: string;
-  id: number;
-}
+import { Identity } from '../sccommon/identity';
 
 export abstract class Sacrament extends Identifiable {
   constructor() {
