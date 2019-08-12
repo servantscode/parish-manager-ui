@@ -157,3 +157,10 @@
     </div>
   </div>
 </div>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div *ngIf="loginService.userCan('event.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
+    </div>
+  </div>
+</div>

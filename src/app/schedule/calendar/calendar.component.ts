@@ -1,13 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameMonth, startOfYear, endOfYear, addHours, differenceInMilliseconds, addMilliseconds, parse, format, isEqual } from 'date-fns';
-import { Location } from '@angular/common';
-import { Subject } from 'rxjs';
+import { formatDate, Location } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameMonth, startOfYear, endOfYear, addHours, differenceInMilliseconds, addMilliseconds, parse, format, isEqual } from 'date-fns';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarEventTitleFormatter } from 'angular-calendar';
 
 import { LoginService } from '../../sccommon/services/login.service';
 import { ColorService } from '../../sccommon/services/color.service';
+import { DownloadService } from '../../sccommon/services/download.service';
 
 import { Event, SelectedEvent } from '../event';
 import { Reservation } from '../reservation';
@@ -53,6 +54,7 @@ export class CalendarComponent implements OnInit {
               private dialog: MatDialog,
               private eventService: EventService,
               public loginService: LoginService,
+              private downloadService: DownloadService,
               private selectedEvent: SelectedEvent) {}
 
   @HostListener('window:keyup', ['$event'])
@@ -95,10 +97,9 @@ export class CalendarComponent implements OnInit {
     if(!this.loginService.userCan('event.list'))
         this.router.navigate(['not-found']);
 
-    const dateRange = this.calculateRange(this.viewDate, this.view);
     const isDraggable = this.loginService.userCan('event.update');
 
-    this.eventService.getPage(0, 32768, this.eventService.timeRangeQuery(this.search, dateRange.start, dateRange.end)).
+    this.eventService.getPage(0, 32768, this.query()).
       subscribe(eventResponse => {
         this.events = eventResponse.results.map(serverEvent => {
             return {
@@ -293,6 +294,16 @@ export class CalendarComponent implements OnInit {
     event.color = event.color === ColorService.CALENDAR_COLORS.darkBlue?
       ColorService.CALENDAR_COLORS.blue:
       ColorService.CALENDAR_COLORS.red;
+  }
+
+  query(): string {
+    const dateRange = this.calculateRange(this.viewDate, this.view);
+    return this.eventService.timeRangeQuery(this.search, dateRange.start, dateRange.end)
+  }
+
+  downloadReport() {
+    const filename = "event-report-" + formatDate(new Date(), "yyyy-MM-dd", "en_US") + ".csv";
+    this.downloadService.downloadReport(this.eventService.getReport(this.query()), filename);
   }
 
   private calculateRange(date: Date, view: CalendarView) {

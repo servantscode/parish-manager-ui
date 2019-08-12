@@ -60,6 +60,12 @@ export class EventService extends PaginatedService<Event> {
         catchError(this.handleError('getUpcomingEvents', null))
       );
   }
+
+  public getReport(search = ''): Observable<any> {
+    return this.http.get(this.url + `/report?search=${encodeURI(search)}`, PaginatedService.csvOptions).pipe(
+        catchError(this.handleError('eventReport', null))
+      );
+  }
   
   delete(item: Event, deleteFutureEvents: boolean = false, deletePermenantly: boolean = false, pathVars?: any): Observable<void> {
     var finalUrl = this.modifyUrl(this.url, pathVars) + `/${item.id}?deleteFutureEvents=${deleteFutureEvents}`;
