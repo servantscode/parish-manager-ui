@@ -24,6 +24,7 @@ import { doLater, deepEqual } from '../utils';
 export class ScMultiSelectComponent<T extends Autocompletable> implements ControlValueAccessor, OnInit {
   @Input() label = 'MultiSelect';
   @Input() fieldSize = 'standard';
+  @Input() selectIdentity = false;
 
   @Input() autocompleteService: PaginatedService<T>;
   @Input() pathParams: any = null;
@@ -60,7 +61,7 @@ export class ScMultiSelectComponent<T extends Autocompletable> implements Contro
 
     this.selected = val;
     this.selectedIds = val? val.map(v => v.id): [];
-    this.onChange(this.selectedIds);
+    this.onChange(this.selected.map(i => this.itemValue(i)));
     this.onTouched();
   }
 
@@ -68,6 +69,15 @@ export class ScMultiSelectComponent<T extends Autocompletable> implements Contro
     const inputValue = this.form.get('input').value;
     return inputValue ? inputValue.slice(0,3).map(i => i.identify()) : '';
   }
+
+  private itemValue(item: T) {
+    return !item?
+        null:
+        this.selectIdentity? 
+            item.identify(): 
+            item.id;
+  }
+
 
   //ControlValueAccesssor
   registerOnChange(fn) {

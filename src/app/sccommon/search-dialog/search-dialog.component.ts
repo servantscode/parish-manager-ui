@@ -26,14 +26,15 @@ export class SearchDialogComponent implements OnInit {
     const formGroup = this.form;
     this.data.fields.forEach(field => {
         const fieldName = this.fieldName(field);
-        if(field.type == "date") {
-          formGroup.addControl(fieldName + "Start", this.fb.control(''));
-          formGroup.addControl(fieldName + "End", this.fb.control(''));
-        } else if(field.type == "numberRange") {
-          formGroup.addControl(fieldName + "Start", this.fb.control(''));
-          formGroup.addControl(fieldName + "End", this.fb.control(''));
-        } else {  
-          formGroup.addControl(fieldName, this.fb.control(''));
+        switch (field.type) {
+          case "date":
+          case "numberRange":  
+            formGroup.addControl(fieldName + "Start", this.fb.control(''));
+            formGroup.addControl(fieldName + "End", this.fb.control(''));
+            break;
+          default:
+            formGroup.addControl(fieldName, this.fb.control(''));
+            break;
         }
       });
 
@@ -46,21 +47,29 @@ export class SearchDialogComponent implements OnInit {
 
     this.data.fields.forEach(field => {
         const fieldName = this.fieldName(field);
-        if(field.type == "date") {
-          var start = this.form.get(fieldName + "Start").value;
-          var end = this.form.get(fieldName + "End").value;
-          if(start || end)
-            searchString += field.name + ":[" + this.formatDate(start) + " TO " + this.formatDate(end) + "] ";
-        } else if(field.type == "numberRange") {
-          var start = this.form.get(fieldName + "Start").value;
-          var end = this.form.get(fieldName + "End").value;
-          if(start || end)
-            searchString += field.name + ":[" + this.formatNumber(start) + " TO " + this.formatNumber(end) + "] ";
-        } else {
-          var value = this.form.get(fieldName).value;
-          if(value) {
-            searchString += field.name + ":" + (field.type == 'text' && value.includes(" ")? `"${value}"`: value)+ " ";
-          }
+        switch (field.type) {
+          case "date":
+            var start = this.form.get(fieldName + "Start").value;
+            var end = this.form.get(fieldName + "End").value;
+            if(start || end)
+              searchString += field.name + ":[" + this.formatDate(start) + " TO " + this.formatDate(end) + "] ";
+            break;
+          case "numberRange":  
+            var start = this.form.get(fieldName + "Start").value;
+            var end = this.form.get(fieldName + "End").value;
+            if(start || end)
+              searchString += field.name + ":[" + this.formatNumber(start) + " TO " + this.formatNumber(end) + "] ";
+            break;
+          case "multiselect":
+            var selected = this.form.get(fieldName).value;
+            if(selected)
+              searchString += field.name + ":" + selected.map(i =>  i.includes(" ")? `"${i}"`: i).join("|") + " ";
+            break;
+          default:
+            var value = this.form.get(fieldName).value;
+            if(value)
+              searchString += field.name + ":" + (field.type == 'text' && value.includes(" ")? `"${value}"`: value)+ " ";
+            break;
         }
     });    
 

@@ -34,6 +34,13 @@
                 <mat-radio-button value="false">{{field.noValue? field.noValue: 'No'}}</mat-radio-button>
               </mat-radio-group>
             </div>
+            <div *ngSwitchCase="'multiselect'">
+              <app-sc-multi-select formControlName="{{fieldName(field)}}" 
+                                   [label]="field.displayName? field.displayName: field.name | displaycamelcase" 
+                                   [autocompleteService]="field.service" 
+                                   selectIdentity="true">
+              </app-sc-multi-select>
+            </div>
             <div *ngSwitchCase="'date'">
               <strong>{{field.displayName? field.displayName: field.name | displaycamelcase}}</strong><br/>     
               <mat-form-field appearance="standard" class="input-small">
