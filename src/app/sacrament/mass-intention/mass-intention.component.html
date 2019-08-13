@@ -6,8 +6,8 @@
                       [dialogComponent]="MassIntentionDialogComponent"
                       type="Mass Intentions"
                       [searchForm]="[{'name':'massTime', 'type':'date'},
-                                     {'name':'person.name', 'type':'text'}, 
+                                     {'name':'person.name', 'type':'text', 'displayName':'Intention for'}, 
                                      {'name':'intentionType', 'type':'text'},
-                                     {'name':'requester.name', 'type':'text'}]">>
+                                     {'name':'requester.name', 'type':'text', 'displayName':'Requester'}]">>
   </app-paginated-list>
 </div>

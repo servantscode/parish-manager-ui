@@ -41,6 +41,12 @@
                                    selectIdentity="true">
               </app-sc-multi-select>
             </div>
+            <div *ngSwitchCase="'autocomplete'">
+              <app-sc-auto-complete formControlName="{{fieldName(field)}}"
+                                    [label]="field.displayName? field.displayName: field.name | displaycamelcase" 
+                                    [autocompleteService]="field.service">
+              </app-sc-auto-complete>
+            </div>
             <div *ngSwitchCase="'date'">
               <strong>{{field.displayName? field.displayName: field.name | displaycamelcase}}</strong><br/>     
               <mat-form-field appearance="standard" class="input-small">

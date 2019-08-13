@@ -67,7 +67,7 @@ export class ScMultiSelectComponent<T extends Autocompletable> implements Contro
 
   displayValue(): string {
     const inputValue = this.form.get('input').value;
-    return inputValue ? inputValue.slice(0,3).map(i => i.identify()) : '';
+    return inputValue ? inputValue.slice(0,3).map(i => i.identify()).join(", ") : '';
   }
 
   private itemValue(item: T) {

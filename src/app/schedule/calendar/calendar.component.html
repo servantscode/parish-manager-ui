@@ -36,14 +36,15 @@
                          type="Events"
                          columns="2"
                          [searchForm]="[{'name':'title', 'type':'text'},
-                                       {'name':'description', 'type':'text'}, 
-                                       {'name':'ministryName', 'type':'text'}, 
-                                       {'name':'contactId', 'type':'number'}, 
-                                       {'name':'startTime', 'type':'date'},
-                                       {'name':'departments', 'type':'multiselect', 'service': departmentService}, 
-                                       {'name':'categories', 'type':'multiselect', 'service': categoryService}, 
-                                       {'name':'privateEvent', 'type':'boolean'},
-                                       {'name':'attendees', 'type':'numberRange', 'displayName':'Expected attendence'}]">
+                                        {'name':'description', 'type':'text'}, 
+                                        {'name':'ministryName', 'type':'text'}, 
+                                        {'name':'contactId', 'type':'autocomplete', 'service':personService, 'displayName':'Contact'}, 
+                                        {'name':'schedulerId', 'type':'autocomplete', 'service':personService, 'displayName':'Scheduler'}, 
+                                        {'name':'startTime', 'type':'date'},
+                                        {'name':'departments', 'type':'multiselect', 'service': departmentService}, 
+                                        {'name':'categories', 'type':'multiselect', 'service': categoryService}, 
+                                        {'name':'privateEvent', 'type':'boolean'},
+                                        {'name':'attendees', 'type':'numberRange', 'displayName':'Expected attendence'}]">
       </app-sc-search-bar>
     </div>
     <div class="col-4">

@@ -11,6 +11,7 @@ import { ColorService } from '../../sccommon/services/color.service';
 import { DownloadService } from '../../sccommon/services/download.service';
 import { CategoryService } from '../../sccommon/services/category.service';
 import { DepartmentService } from '../../sccommon/services/department.service';
+import { PersonService } from '../../sccommon/services/person.service';
 
 import { Event, SelectedEvent } from '../event';
 import { Reservation } from '../reservation';
@@ -59,6 +60,7 @@ export class CalendarComponent implements OnInit {
               private downloadService: DownloadService,
               public categoryService: CategoryService,
               public departmentService: DepartmentService,
+              public personService: PersonService,
               private selectedEvent: SelectedEvent) {}
 
   @HostListener('window:keyup', ['$event'])
