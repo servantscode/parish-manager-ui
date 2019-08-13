@@ -32,7 +32,7 @@ export class FamilyService extends PaginatedService<Family> {
   }
 
   public getPage(start = 0, count = 10, search = '', includeInactive=false): Observable<PaginatedResponse<Family>> {
-    return this.http.get<PaginatedResponse<Family>>(this.url+`?start=${start}&count=${count}&partial_name=${encodeURI(search)}&include_inactive=${includeInactive}`).pipe(
+    return this.http.get<PaginatedResponse<Family>>(this.url+`?start=${start}&count=${count}&search=${encodeURI(search)}&include_inactive=${includeInactive}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );

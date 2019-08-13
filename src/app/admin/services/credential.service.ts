@@ -33,7 +33,7 @@ export class CredentialService extends PaginatedService<Credentials> {
   }
 
   public getCredsPage(role:string, start = 0, count = 10, search = ''): Observable<PaginatedResponse<Credentials>> {
-    return this.http.get<PaginatedResponse<Credentials>>(this.url+`/role/${role}?start=${start}&count=${count}&partial_name=${encodeURI(search)}`).pipe(
+    return this.http.get<PaginatedResponse<Credentials>>(this.url+`/role/${role}?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );

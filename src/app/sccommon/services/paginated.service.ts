@@ -27,7 +27,7 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
   }
 
   public getPage(start = 0, count = 10, search = '', pathVars?: any): Observable<PaginatedResponse<T>> {
-    return this.http.get<PaginatedResponse<T>>(this.modifyUrl(this.url, pathVars)+`?start=${start}&count=${count}&partial_name=${encodeURI(search)}`).pipe(
+    return this.http.get<PaginatedResponse<T>>(this.modifyUrl(this.url, pathVars)+`?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );

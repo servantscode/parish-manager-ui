@@ -34,7 +34,7 @@ export class PersonService extends PaginatedService<Person> implements Preferenc
   }
    
   public getPage(start = 0, count = 10, search = '', includeInactive=false): Observable<PaginatedResponse<Person>> {
-    return this.http.get<PaginatedResponse<Person>>(this.url+`?start=${start}&count=${count}&partial_name=${encodeURI(search)}&families=true&include_inactive=${includeInactive}`).pipe(
+    return this.http.get<PaginatedResponse<Person>>(this.url+`?start=${start}&count=${count}&search=${encodeURI(search)}&families=true&include_inactive=${includeInactive}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );
