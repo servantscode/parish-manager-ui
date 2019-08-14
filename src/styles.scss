@@ -124,6 +124,12 @@ div.rounded-rect {
   overflow-y: auto;
 }
 
+.light {
+  color: #999999;
+  font-style: italic;
+  font-weight: 200;
+}
+
 .btn {
   margin: 0 5px;
 }
@@ -243,6 +249,20 @@ div.rounded-rect {
   background-image: url('./assets/images/plus.png');
   &:hover {
     background-image: url('./assets/images/plus-active.png');
+  }
+}
+
+.x {
+  background-image: url('./assets/images/x.png');
+  &:hover {
+    background-image: url('./assets/images/x-active.png');
+  }
+}
+
+.update {
+  background-image: url('./assets/images/download.png');
+  &:hover {
+    background-image: url('./assets/images/download-active.png');
   }
 }
 

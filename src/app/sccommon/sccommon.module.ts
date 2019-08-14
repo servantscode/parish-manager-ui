@@ -55,6 +55,7 @@ import { ScEnumPipe } from './sc-enum.pipe';
 import { DisplayCamelCasePipe } from './display-camel-case.pipe';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { TimesPipe } from './times.pipe';
+import { SaveSearchDialogComponent } from './save-search-dialog/save-search-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -83,7 +84,8 @@ export function tokenGetter() {
     DisplayCamelCasePipe,
     PreferencesComponent,
     ScMultiSelectComponent,
-    TimesPipe
+    TimesPipe,
+    SaveSearchDialogComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -152,7 +154,8 @@ export function tokenGetter() {
     EmailDialogComponent,
     DeleteDialogComponent,
     AdminOverrideDialogComponent,
-    SearchDialogComponent
+    SearchDialogComponent,
+    SaveSearchDialogComponent
   ]
 })
 export class SCCommonModule { }

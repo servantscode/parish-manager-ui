@@ -1,10 +1,25 @@
 <form [formGroup]="form">
   <div class="row">
-    <div class="col-11 no-pad">
+    <div class="col-10 no-pad">
       <input type="text" class="form-control" formControlName="input" placeholder="Search..." aria-label="Search">
+      <table *ngIf="savedSearch" class="middle">
+        <td>
+          <span class="light pad-left-5">{{savedSearch.name}}<span *ngIf="form.value.input != savedSearch.search">&nbsp;(modified)</span></span>
+        </td>
+        <td>
+         <div class="icon x pad-left-5" (click)="clearSearch()">&nbsp;</div>
+       </td>
+     </table>
     </div>
-    <div *ngIf="searchForm" class="col-1 no-pad adv-search">
-      &nbsp;&nbsp;<div class="huge-icon search" (click)="openSearch()">&nbsp;&nbsp;</div>
+    <div *ngIf="searchForm" class="col-2 no-pad adv-search">
+      <table class="middle">
+        <td>
+          <div class="huge-icon search inline pad-left-5" (click)="openSearch()">&nbsp;&nbsp;</div>
+        </td>
+        <td *ngIf="form.value.input">
+          <div class="huge-icon add inline pad-left-5" (click)="saveSearch()">&nbsp;&nbsp;</div>
+        </td>
+      </table>
     </div>
   </div>
 </form>

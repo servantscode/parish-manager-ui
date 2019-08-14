@@ -114,17 +114,6 @@ export class PeopleListComponent implements OnInit {
     }
   }
 
-  changeMode() {
-    this.items = [];
-
-    this.highlighted = null;
-
-    this.page = 1;
-    this.pageSize = 20;
-    this.totalCount = 0;
-    this.search = '';
-  }
-
   getPeople(): void {
     if(!this.loginService.userCan('person.list'))
       return;

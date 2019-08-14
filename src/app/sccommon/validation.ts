@@ -15,6 +15,9 @@ export class SCValidation {
   static MULTI_EMAIL = /^(\s*(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))[,;\s]?)*$/
 
   static verifySearchString(search: string): boolean {
+    if(!search)
+      return true;
+
     var quoted = false;
     var braced = false;
     for (var x = 0; x < search.length; x++) {

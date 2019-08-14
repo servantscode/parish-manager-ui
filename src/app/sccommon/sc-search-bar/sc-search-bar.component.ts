@@ -4,8 +4,12 @@ import { debounceTime } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { SearchDialogComponent } from '../search-dialog/search-dialog.component';
+import { SaveSearchDialogComponent } from '../save-search-dialog/save-search-dialog.component';
+
+import { LoginService } from '../services/login.service';
 
 import { SCValidation } from '../validation';
+import { SavedSearch } from '../saved-search';
 
 import { deepEqual } from '../utils';
 
@@ -20,12 +24,15 @@ export class ScSearchBarComponent implements OnInit, OnChanges {
   @Input() searchForm: any[];
   @Input() columns: 1;
 
+  savedSearch: SavedSearch = null;
+
   form = this.fb.group({
       input: ['', SCValidation.validSearch()]
     });
 
   constructor(private fb: FormBuilder,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private loginService: LoginService) { }
 
   ngOnInit() {
     this.form.get('input').valueChanges
@@ -37,14 +44,16 @@ export class ScSearchBarComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(!deepEqual(changes.searchForm.currentValue, changes.searchForm.previousValue))
+    if(!deepEqual(changes.searchForm.currentValue, changes.searchForm.previousValue)) {
       this.form.get('input').setValue('');
+      this.savedSearch = null;
+    }
   }
 
   openSearch() {
     const searchRef = this.dialog.open(SearchDialogComponent, {
       width: 4*this.columns + '00px',
-      data: {"title": "Search " + this.type,
+      data: {"title": this.type + " Search",
              "columns": this.columns,
              "fields" : this.searchForm
            }
@@ -54,5 +63,27 @@ export class ScSearchBarComponent implements OnInit, OnChanges {
         if(result)
           this.form.get('input').setValue(result);
       });
+  }
+
+  saveSearch() {
+    var savedSearch = this.savedSearch? this.savedSearch: new SavedSearch();
+    savedSearch.searchType = this.type.toUpperCase().replace(' ', '_');
+    savedSearch.search = this.form.get('input').value;
+    savedSearch.searcherId = this.loginService.getUserId();
+
+    const saveRef = this.dialog.open(SaveSearchDialogComponent, {
+        width: '400px',
+        data: { "savedSearch": savedSearch }
+      });
+
+    saveRef.afterClosed().subscribe(result => {
+        if(result)
+          this.savedSearch = result;
+      });
+  }
+
+  clearSearch() {
+    this.savedSearch = null;
+    this.form.get('input').setValue('');
   }
 }
