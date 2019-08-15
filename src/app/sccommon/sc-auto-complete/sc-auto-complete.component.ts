@@ -52,6 +52,8 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
         map(value => value? typeof value === 'string' ? value : value.identify(): ""),
         switchMap(value => this.loadOptions(value))
       );
+
+    this.autocompleteForm.get('input').setValue('');
   }
 
   identifyItem(item?: any): string | undefined {

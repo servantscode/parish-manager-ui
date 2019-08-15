@@ -2,6 +2,14 @@
   <div class="row">
     <div class="col-10 no-pad">
       <input type="text" class="form-control" formControlName="input" placeholder="Search..." aria-label="Search">
+
+      <app-sc-auto-complete formControlName="savedSearch"
+                            label="Saved Search..." 
+                            selectObject="true"
+                            [pathParams]="{'type': type}"
+                            [autocompleteService]="searchService">
+      </app-sc-auto-complete>
+
       <table *ngIf="savedSearch" class="middle">
         <td>
           <span class="light pad-left-5">{{savedSearch.name}}<span *ngIf="form.value.input != savedSearch.search">&nbsp;(modified)</span></span>
@@ -16,7 +24,7 @@
         <td>
           <div class="huge-icon search inline pad-left-5" (click)="openSearch()">&nbsp;&nbsp;</div>
         </td>
-        <td *ngIf="form.value.input">
+        <td *ngIf="form.value.input && (!savedSearch || form.value.input != savedSearch.search)">
           <div class="huge-icon add inline pad-left-5" (click)="saveSearch()">&nbsp;&nbsp;</div>
         </td>
       </table>

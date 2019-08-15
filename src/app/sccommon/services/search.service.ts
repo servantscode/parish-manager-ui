@@ -30,4 +30,16 @@ export class SearchService extends PaginatedService<SavedSearch> {
   public getTemplate(): SavedSearch {
     return new SavedSearch().asTemplate();
   }
+
+  public getPage(start = 0, count = 10, search = '', pathVars?: any): Observable<PaginatedResponse<SavedSearch>> {
+    var url = this.url;
+    if(pathVars && pathVars.type)
+      url += `/type/${pathVars.type}`;
+    
+    return this.http.get<PaginatedResponse<SavedSearch>>(url+`?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
+        map(resp => this.mapResults(resp)),
+        catchError(this.handleError('getPage', null))
+      );
+  }
+
 }

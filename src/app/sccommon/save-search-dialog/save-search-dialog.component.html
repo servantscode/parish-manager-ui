@@ -1,5 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="save()">
-  <h1 mat-dialog-title>Save {{data.type | displaycamelcase}} Search</h1>
+  <h1 *ngIf="data.savedSearch.id > 0" mat-dialog-title>Update {{data.savedSearch.searchType | displaycamelcase}} Search</h1>
+  <h1 *ngIf="data.savedSearch.id == 0" mat-dialog-title>Save {{data.savedSearch.searchType | displaycamelcase}} Search</h1>
   <div mat-dialog-content>
     <mat-form-field appearance="standard" class="input-standard">
       <mat-label>Name</mat-label>
