@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, debounceTime, switchMap } from 'rxjs/operators'
+import { map, debounceTime, switchMap, startWith } from 'rxjs/operators'
 
 import { PaginatedService } from '../services/paginated.service';
 import { Autocompletable } from '../identifiable';
@@ -22,6 +22,8 @@ import { doLater } from '../utils';
   ]
 })
 export class ScAutoCompleteComponent<T extends Autocompletable> implements ControlValueAccessor, OnInit {
+  @Input() type = 'standard';
+  @Input() autoOpen = false;
   @Input() label = 'AutoSelect';
   @Input() required = false;
   @Input() fieldSize = 'standard';
@@ -32,6 +34,8 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   @Input() pathParams: any = null;
 
   @Input() filter;
+
+  @ViewChild('input', {static: false}) input:ElementRef;
 
   filteredItems: Observable<T[]>;
   private selected: T;
@@ -46,14 +50,24 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.filteredItems = this.autocompleteForm.get('input').valueChanges
-      .pipe(
-        debounceTime(300),
-        map(value => value? typeof value === 'string' ? value : value.identify(): ""),
-        switchMap(value => this.loadOptions(value))
-      );
+    if(this.autoOpen) {
+      this.filteredItems = this.autocompleteForm.get('input').valueChanges
+        .pipe(startWith(''),
+              debounceTime(200),
+              map(value => value? typeof value === 'string' ? value : value.identify(): ""),
+              switchMap(value => this.loadOptions(value))
+           );
+    } else {
+      this.filteredItems = this.autocompleteForm.get('input').valueChanges
+        .pipe(debounceTime(300),
+              map(value => value? typeof value === 'string' ? value : value.identify(): ""),
+              switchMap(value => this.loadOptions(value))
+           );
+    }
+  }
 
-    this.autocompleteForm.get('input').setValue('');
+  setFocus() {
+    this.input.nativeElement.focus();
   }
 
   identifyItem(item?: any): string | undefined {

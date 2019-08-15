@@ -21,7 +21,7 @@
     <div class="col-8 no-pad">
       <app-sc-search-bar (search)="updateSearch($event)" [type]="mode | displaycamelcase" [searchForm]='getSearchForm()'></app-sc-search-bar>
     </div>
-    <div class="col">
+    <div class="col padding-top-7">
         <mat-checkbox [(ngModel)]="includeInactive" (change)="populateList()">Show Inactive?</mat-checkbox>
     </div>
     <div class="col controls">

@@ -6,6 +6,19 @@
   }
 }
 
+.floating {
+  position: absolute;
+}
+
+.search-history {
+  top:7px;
+  right:7px;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
 .pad-left-5 {
   margin-left: 5px;
 }

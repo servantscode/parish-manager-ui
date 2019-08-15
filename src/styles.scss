@@ -259,6 +259,17 @@ div.rounded-rect {
   }
 }
 
+.history {
+  background-image: url('./assets/images/clock.png');
+  &:hover {
+    background-image: url('./assets/images/clock-active.png');
+  }
+}
+
+.history-active {
+  background-image: url('./assets/images/clock-active.png');
+}
+
 .update {
   background-image: url('./assets/images/download.png');
   &:hover {

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { SearchDialogComponent } from '../search-dialog/search-dialog.component';
@@ -12,7 +13,7 @@ import { SearchService } from '../services/search.service';
 import { SCValidation } from '../validation';
 import { SavedSearch } from '../saved-search';
 
-import { deepEqual } from '../utils';
+import { deepEqual, doLater } from '../utils';
 
 @Component({
   selector: 'app-sc-search-bar',
@@ -27,10 +28,14 @@ export class ScSearchBarComponent implements OnInit, OnChanges {
 
   savedSearch: SavedSearch = null;
 
+  @ViewChild('savedSearchInput', {static: false}) ssInput:any;
+
   form = this.fb.group({
       input: ['', SCValidation.validSearch()],
       savedSearch: ['']
     });
+
+  findSearch: boolean = false;
 
   constructor(private fb: FormBuilder,
               private dialog: MatDialog,
@@ -48,9 +53,18 @@ export class ScSearchBarComponent implements OnInit, OnChanges {
     this.form.get('savedSearch').valueChanges
       .pipe(distinctUntilChanged())
       .subscribe(savedSearch => {
-        this.savedSearch = savedSearch;
-        this.form.get('input').setValue(savedSearch.search);
+        if(savedSearch) {
+          this.savedSearch = savedSearch;
+          this.form.get('input').setValue(savedSearch.search);
+          this.findSearch = false;
+        }
       });
+  }
+
+  toggleSavedSearchMode() {
+    this.findSearch = !this.findSearch;
+    if(this.findSearch)
+      doLater(function () {this.ssInput.setFocus()}.bind(this));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -96,5 +110,6 @@ export class ScSearchBarComponent implements OnInit, OnChanges {
   clearSearch() {
     this.savedSearch = null;
     this.form.get('input').setValue('');
+    this.form.get('savedSearch').setValue('');
   }
 }

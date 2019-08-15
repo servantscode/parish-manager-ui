@@ -1,11 +1,20 @@
 <form [formGroup]="autocompleteForm">
-  <mat-form-field appearance="standard" class="mat-form-field mat-primary mat-form-field-type-mat-input input-{{fieldSize}}">
+  <mat-form-field *ngIf="type != 'bordered'" appearance="standard" class="mat-form-field mat-primary mat-form-field-type-mat-input input-{{fieldSize}}">
     <mat-label>{{label}}</mat-label>
-    <input type="text" formControlName="input" aria-label="label" matInput [matAutocomplete]="auto" [required]="required" (blur)="verifyInput()">
+    <input #input type="text" formControlName="input" aria-label="label" matInput [matAutocomplete]="auto" [required]="required" (blur)="verifyInput()">
     <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="identifyItem" (optionSelected)="selectItem($event.option.value)">
       <mat-option *ngFor="let item of filteredItems | async" [value]="item" (click)="selectItem(item)">
         {{item.identify()}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
+
+  <div *ngIf="type == 'bordered'">
+    <input #input type="text" formControlName="input" class="form-control margin-0" placeholder="{{label}}" aria-label="label" [matAutocomplete]="auto" [required]="required" (blur)="verifyInput()">
+    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="identifyItem" (optionSelected)="selectItem($event.option.value)">
+      <mat-option *ngFor="let item of filteredItems | async" [value]="item" (click)="selectItem(item)">
+        {{item.identify()}}
+      </mat-option>
+    </mat-autocomplete>
+  </div>
 </form>

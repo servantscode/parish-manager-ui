@@ -1,14 +1,20 @@
 <form [formGroup]="form">
   <div class="row">
     <div class="col-10 no-pad">
-      <input type="text" class="form-control" formControlName="input" placeholder="Search..." aria-label="Search">
+      <input *ngIf="!findSearch" type="text" class="form-control" formControlName="input" placeholder="Search..." aria-label="Search">
 
-      <app-sc-auto-complete formControlName="savedSearch"
+      <app-sc-auto-complete #savedSearchInput
+                            *ngIf="findSearch"
+                            type="bordered"
+                            autoOpen="true"
+                            formControlName="savedSearch"
                             label="Saved Search..." 
                             selectObject="true"
                             [pathParams]="{'type': type}"
                             [autocompleteService]="searchService">
       </app-sc-auto-complete>
+
+      <div class="huge-icon floating search-history" [ngClass]="findSearch? 'history-active': 'history'" (click)="toggleSavedSearchMode()">&nbsp;&nbsp;</div>
 
       <table *ngIf="savedSearch" class="middle">
         <td>
