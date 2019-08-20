@@ -21,6 +21,7 @@ import { ScheduleModule } from './schedule/schedule.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { AccountModule } from './account/account.module';
 import { SystemModule } from './system/system.module';
+import { FormationModule } from './formation/formation.module';
 
 import { AutofocusDirective } from './autofocus.directive';
 import { DateInterceptor } from './services/date-interceptor';
@@ -44,6 +45,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     MetricsModule,
     AccountModule,
     SystemModule,
+    FormationModule,
 
     AppRoutingModule,
 

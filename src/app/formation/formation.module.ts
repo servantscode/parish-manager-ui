@@ -1,0 +1,59 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+// import { MatDatepickerModule } from '@angular/material/datepicker';
+// import { MatAutocompleteModule } from '@angular/material/autocomplete';
+// import { MatSelectModule } from '@angular/material/select';
+// import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { SCCommonModule } from '../sccommon/sccommon.module';
+import { ScheduleModule } from '../schedule/schedule.module';
+
+import { FormationRoutingModule } from './formation-routing.module';
+
+import { ProgramComponent } from './program/program.component';
+import { ProgramDialogComponent } from './program-dialog/program-dialog.component';
+import { ProgramTabsComponent } from './program-tabs/program-tabs.component';
+import { SectionComponent } from './section/section.component';
+import { SectionDialogComponent } from './section-dialog/section-dialog.component';
+
+@NgModule({
+  declarations: [
+    ProgramComponent, 
+    ProgramDialogComponent, 
+    ProgramTabsComponent, 
+    SectionComponent, 
+    SectionDialogComponent
+  ],
+  imports: [
+    FormationRoutingModule,
+
+    SCCommonModule,
+    ScheduleModule,
+
+    //Angular basics
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    
+    //Bootstrap
+    NgbModule,
+
+    //Material
+    MatInputModule,
+    MatToolbarModule,
+    MatCheckboxModule
+  ],
+  entryComponents: [
+    ProgramDialogComponent,
+    SectionDialogComponent
+  ]
+})
+export class FormationModule { }

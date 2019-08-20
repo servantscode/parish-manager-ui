@@ -1,0 +1,9 @@
+<h2>Formation Programs</h2>
+<app-paginated-list [dataService]="programService" 
+                    [fields]="['name', 'coordinatorName']" 
+                    [pageSize]='10' 
+                    [dialogComponent]="ProgramDialogComponent"
+                    [type]="'Program'"
+                    [selectable]='true' 
+                    (onSelect)='programSelected($event)'>
+</app-paginated-list>

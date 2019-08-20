@@ -312,6 +312,28 @@ div.rounded-rect {
   color: #ff0000;
 }
 
+/* Tabs */
+$toolbar-height: 45px;
+.sc-toolbar {
+  .tab {
+    font-family: "Eras ITC", Arial, Verdana, sans-serif; 
+    padding-right: 10px;
+    font-weight: 500;
+  }
+
+  .highlighted {
+    color: #ff0000;
+  }
+
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    height: $toolbar-height;
+  }
+
+  .tab-content {
+    height: calc(100% - $toolbar-height);
+  }
+}
+
 /* Forms */
 .input-full {
   width: 100%;

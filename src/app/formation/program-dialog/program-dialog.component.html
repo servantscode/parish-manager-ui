@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <h1 *ngIf="data.item && data.item.id > 0" mat-dialog-title>Update Program</h1>
+  <h1 *ngIf="data.item == null || data.item.id == 0" mat-dialog-title>Create Program</h1>
+  <div mat-dialog-content>
+    <input type="hidden" autocomplete="off" formControlName="id"/>
+    
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Name</mat-label>
+      <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
+    </mat-form-field><br/>
+
+    <app-sc-auto-complete formControlName="groupId" label='Program Group' [autocompleteService]="programGroupService"></app-sc-auto-complete>
+    <app-sc-auto-complete formControlName="coordinatorId" label='Coordinator' [autocompleteService]="personService"></app-sc-auto-complete>
+
+  </div>
+
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+  </div>
+</form>

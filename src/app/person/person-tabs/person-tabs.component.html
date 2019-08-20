@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar class="sc-toolbar">
   <span class="tab clickable" (click)="selectTab('detail')" [ngClass]="{'highlighted': 'detail' === selectedTab}">Details</span>
   <span class="tab clickable" (click)="selectTab('preferences')" [ngClass]="{'highlighted': 'preferences' === selectedTab}">Preferences</span>
   <span *ngIf="loginService.hasAny('sacrament')" class="tab clickable" (click)="selectTab('sacraments')" [ngClass]="{'highlighted': 'sacraments' === selectedTab}">Sacraments</span>

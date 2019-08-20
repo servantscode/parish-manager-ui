@@ -26,6 +26,9 @@
         <span *ngIf="loginService.userCan('person.metrics') || loginService.userCan('family.metrics')" >
           <a routerLink="/metrics" routerLinkActive="active">Metrics</a><br>
         </span>
+        <span *ngIf="loginService.userCan('program.list')" >
+          <a routerLink="/formation" routerLinkActive="active">Formation</a><br>
+        </span>
         <span *ngIf="loginService.userCan('room.list') || loginService.userCan('equipment.list')" >
           <a routerLink="/facilities" routerLinkActive="active">Facilities</a><br>
         </span>
