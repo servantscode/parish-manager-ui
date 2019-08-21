@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 import { ColorService } from '../../sccommon/services/color.service';
 import { DownloadService } from '../../sccommon/services/download.service';

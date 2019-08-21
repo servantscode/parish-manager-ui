@@ -23,6 +23,8 @@ import { ProgramDialogComponent } from './program-dialog/program-dialog.componen
 import { ProgramTabsComponent } from './program-tabs/program-tabs.component';
 import { SectionComponent } from './section/section.component';
 import { SectionDialogComponent } from './section-dialog/section-dialog.component';
+import { ProgramGroupComponent } from './program-group/program-group.component';
+import { ProgramGroupDialogComponent } from './program-group-dialog/program-group-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import { SectionDialogComponent } from './section-dialog/section-dialog.componen
     ProgramDialogComponent, 
     ProgramTabsComponent, 
     SectionComponent, 
-    SectionDialogComponent
+    SectionDialogComponent, ProgramGroupComponent, ProgramGroupDialogComponent
   ],
   imports: [
     FormationRoutingModule,
@@ -53,7 +55,8 @@ import { SectionDialogComponent } from './section-dialog/section-dialog.componen
   ],
   entryComponents: [
     ProgramDialogComponent,
-    SectionDialogComponent
+    SectionDialogComponent,
+    ProgramGroupDialogComponent
   ]
 })
 export class FormationModule { }

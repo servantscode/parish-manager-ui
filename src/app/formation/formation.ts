@@ -35,6 +35,7 @@ export class ProgramGroup extends Autocompletable {
   }
 
   name: string;
+  complete: boolean;
 
   public identify(): string {
     return this.name;
@@ -48,6 +49,7 @@ export class ProgramGroup extends Autocompletable {
   public asTemplate(): ProgramGroup {
     this.id=0;
     this.name="";
+    this.complete=false;
     return this;
   }
 }

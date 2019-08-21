@@ -1,0 +1,7 @@
+<div class="container rounded-rect">
+  <h3>Program Groups</h3>
+  <app-paginated-list [dataService]="programGroupService" [fields]="['name', {'name':'complete', 'type':'boolean'}]" [pageSize]='10' [dialogComponent]="ProgramGroupDialogComponent"></app-paginated-list>
+</div>
+<div class="container">
+  <button class="btn btn-primary" (click)="goBack()">Ok</button> 
+</div>

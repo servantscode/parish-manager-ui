@@ -11,6 +11,7 @@ import { CustomControl } from '../custom-control';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 import { SCValidation } from '../validation';
+import { doLater } from '../utils';
 
 @Component({
   selector: 'app-paginated-list',
@@ -25,6 +26,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Input() customControls: CustomControl<T>[];
   @Input() pageSize: number = 20;
   @Input() dialogComponent = null;
+  @Input() searchFilter = null;
 
   @Input() newItemTemplate:any = null;
 
@@ -56,7 +58,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
     if (this.refreshOn) {
       this.refreshOn.subscribe((event) => {
-        this.populateList();
+        doLater(function () {this.populateList()}.bind(this));
       });
     }
   }
@@ -70,9 +72,10 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
     if(!this.verifyPermission("list"))
       return;
     
+    const search = this.search + (this.searchFilter? " " + this.searchFilter: '');
     var observable: Observable<PaginatedResponse<T>> = this.pageImpl?
-      this.pageImpl((this.page-1)*this.pageSize, this.pageSize, this.search): 
-      this.dataService.getPage((this.page-1)*this.pageSize, this.pageSize, this.search, this.pathParams);
+      this.pageImpl((this.page-1)*this.pageSize, this.pageSize, search): 
+      this.dataService.getPage((this.page-1)*this.pageSize, this.pageSize, search, this.pathParams);
 
     observable.
       subscribe(resp => {

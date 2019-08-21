@@ -68,7 +68,7 @@ export class ScSearchBarComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(!deepEqual(changes.searchForm.currentValue, changes.searchForm.previousValue)) {
+    if(changes.searchForm && !deepEqual(changes.searchForm.currentValue, changes.searchForm.previousValue)) {
       this.form.get('input').setValue('');
       this.form.get('savedSearch').setValue(null);
       this.savedSearch = null;

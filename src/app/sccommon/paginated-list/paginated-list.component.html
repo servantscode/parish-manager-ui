@@ -27,6 +27,7 @@
             <div *ngSwitchCase="'currency'">{{item[fieldName(field)] | currency:"$"}}</div>
             <div *ngSwitchCase="'identity'">{{item[fieldName(field)].name}}</div>
             <div *ngSwitchCase="'enum'">{{item[fieldName(field)] | scEnum}}</div>
+            <div *ngSwitchCase="'boolean'">{{item[fieldName(field)]? 'true': 'false'}}</div>
             <div *ngSwitchDefault>{{item[fieldName(field)]}}</div>
           </div>
         </td>

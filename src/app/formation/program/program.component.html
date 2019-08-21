@@ -1,9 +1,22 @@
-<h2>Formation Programs</h2>
+<div class="row container-fluid">
+  <div class="col">
+    <form [formGroup]="groupForm">
+      <app-sc-select formControlName="groupId" [autocompleteService]="programGroupService" label="Groups" fieldSize="small" [nullValue]="'Active groups'"></app-sc-select>
+    </form>
+  </div>
+  <div class="col align-right">
+    <button *ngIf="loginService.hasAny('program.groups')" class="btn btn-primary edit-button" [routerLink]="['/formation/program-groups']">Manage Program Groups</button>
+  </div>
+</div>
+
 <app-paginated-list [dataService]="programService" 
                     [fields]="['name', 'coordinatorName']" 
                     [pageSize]='10' 
                     [dialogComponent]="ProgramDialogComponent"
                     [type]="'Program'"
                     [selectable]='true' 
+                    [newItemTemplate]='{"groupId": groupForm.value.groupId}'
+                    [searchFilter]='groupForm.value.groupId? "groupId:"+groupForm.value.groupId: ""'
+                    [refreshOn]='refreshNeeded'
                     (onSelect)='programSelected($event)'>
 </app-paginated-list>
