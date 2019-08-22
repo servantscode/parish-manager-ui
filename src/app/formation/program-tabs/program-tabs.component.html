@@ -1,9 +1,11 @@
 <mat-toolbar class="sc-toolbar">
   <span *ngIf="loginService.userCan('section.list')" class="tab clickable" (click)="selectTab('sections')" [ngClass]="{'highlighted': 'sections' === selectedTab}">Sections</span>
+  <span *ngIf="loginService.userCan('registration.list')" class="tab clickable" (click)="selectTab('registrations')" [ngClass]="{'highlighted': 'registrations' === selectedTab}">Registrations</span>
 </mat-toolbar>
 
 <div class="tab-content scrollable">
   <div [ngSwitch]="selectedTab">
     <app-section *ngSwitchCase="'sections'"></app-section>
+    <app-registration *ngSwitchCase="'registrations'"></app-registration>
   </div>
 </div>

@@ -1,0 +1,7 @@
+<app-paginated-list [dataService]="registrationService" 
+                    [fields]="[{'name':'enrolleeName', 'displayName':'Student'}, 'sectionName', {'name':'enrolleeAge', 'displayName':'Age'}, 'grade', 'sacramentalGroupName']" 
+                    [pageSize]='10' 
+                    [dialogComponent]="RegistrationDialogComponent"
+                    [type]="'Registration'"
+                    [newItemTemplate]='{"programId":activeProgram}'>
+</app-paginated-list>

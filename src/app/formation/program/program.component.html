@@ -5,12 +5,13 @@
     </form>
   </div>
   <div class="col align-right">
-    <button *ngIf="loginService.hasAny('program.groups')" class="btn btn-primary edit-button" [routerLink]="['/formation/program-groups']">Manage Program Groups</button>
+    <button *ngIf="loginService.hasAny('program.groups')" class="btn btn-primary edit-button" [routerLink]="['/formation/program-groups']"> Program Groups</button>
+    <button *ngIf="loginService.hasAny('sacramental-groups')" class="btn btn-primary edit-button" [routerLink]="['/formation/sacramental-groups']">Sacramental Groups</button>
   </div>
 </div>
 
 <app-paginated-list [dataService]="programService" 
-                    [fields]="['name', 'coordinatorName']" 
+                    [fields]="['name', 'coordinatorName', 'registrations']" 
                     [pageSize]='10' 
                     [dialogComponent]="ProgramDialogComponent"
                     [type]="'Program'"

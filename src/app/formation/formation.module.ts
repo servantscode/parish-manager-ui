@@ -25,6 +25,10 @@ import { SectionComponent } from './section/section.component';
 import { SectionDialogComponent } from './section-dialog/section-dialog.component';
 import { ProgramGroupComponent } from './program-group/program-group.component';
 import { ProgramGroupDialogComponent } from './program-group-dialog/program-group-dialog.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { RegistrationDialogComponent } from './registration-dialog/registration-dialog.component';
+import { SacramentalGroupComponent } from './sacramental-group/sacramental-group.component';
+import { SacramentalGroupDialogComponent } from './sacramental-group-dialog/sacramental-group-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +36,7 @@ import { ProgramGroupDialogComponent } from './program-group-dialog/program-grou
     ProgramDialogComponent, 
     ProgramTabsComponent, 
     SectionComponent, 
-    SectionDialogComponent, ProgramGroupComponent, ProgramGroupDialogComponent
+    SectionDialogComponent, ProgramGroupComponent, ProgramGroupDialogComponent, RegistrationComponent, RegistrationDialogComponent, SacramentalGroupComponent, SacramentalGroupDialogComponent
   ],
   imports: [
     FormationRoutingModule,
@@ -56,7 +60,9 @@ import { ProgramGroupDialogComponent } from './program-group-dialog/program-grou
   entryComponents: [
     ProgramDialogComponent,
     SectionDialogComponent,
-    ProgramGroupDialogComponent
+    ProgramGroupDialogComponent,
+    RegistrationDialogComponent,
+    SacramentalGroupDialogComponent
   ]
 })
 export class FormationModule { }

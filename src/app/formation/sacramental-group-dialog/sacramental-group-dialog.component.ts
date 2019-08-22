@@ -4,24 +4,24 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { SCValidation } from '../../sccommon/validation';
 
-import { ProgramGroupService } from '../services/program-group.service';
+import { SacramentalGroupService } from '../services/sacramental-group.service';
 
 @Component({
-  selector: 'app-program-group-dialog',
-  templateUrl: './program-group-dialog.component.html',
-  styleUrls: ['./program-group-dialog.component.scss']
+  selector: 'app-sacramental-group-dialog',
+  templateUrl: './sacramental-group-dialog.component.html',
+  styleUrls: ['./sacramental-group-dialog.component.scss']
 })
-export class ProgramGroupDialogComponent implements OnInit {
+
+export class SacramentalGroupDialogComponent implements OnInit {
   form = this.fb.group({
       id: [0],
-      name: ['', Validators.required],
-      complete: false
+      name: ['', Validators.required]
     });
 
-  constructor(public dialogRef: MatDialogRef<ProgramGroupDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<SacramentalGroupDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
-              private programGroupService: ProgramGroupService) { }
+              private sacramentalGroupService: SacramentalGroupService) { }
   
   ngOnInit() {
     if(this.data.item != null) {
@@ -36,12 +36,12 @@ export class ProgramGroupDialogComponent implements OnInit {
     }
 
     if(this.form.get("id").value > 0) {
-      this.programGroupService.update(this.form.value).
+      this.sacramentalGroupService.update(this.form.value).
         subscribe(() => {
           this.dialogRef.close();
         });
     } else {
-      this.programGroupService.create(this.form.value).
+      this.sacramentalGroupService.create(this.form.value).
         subscribe(() => {
           this.dialogRef.close();
         });
