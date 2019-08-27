@@ -18,6 +18,8 @@ export class SectionComponent implements OnInit {
 
   activeProgram: number;
 
+  selectedSection: Section;
+
   constructor(public sectionService: SectionService,
               private route: ActivatedRoute) { }
 
@@ -26,7 +28,6 @@ export class SectionComponent implements OnInit {
   }
 
   sectionSelected(section: Section) {
-    alert("Section selected: " + JSON.stringify(section));
+    this.selectedSection = section;
   }
-
 }

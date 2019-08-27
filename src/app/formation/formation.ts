@@ -1,3 +1,5 @@
+import { formatDate } from '@angular/common';
+
 import { Autocompletable, Identifiable } from '../sccommon/identifiable';
 
 export class Program extends Autocompletable {
@@ -27,6 +29,35 @@ export class Program extends Autocompletable {
     this.coordinatorId=0
     this.coordinatorName="";
     this.registrations=0; 
+    return this;
+  }
+}
+
+export class Session extends Autocompletable {
+  constructor() {
+    super();
+  }
+
+  programId: number;
+  eventId: number;
+  startTime: Date;
+  endTime: Date;
+
+  public identify(): string {
+    return formatDate(this.startTime, "MM/dd", "en_US")
+  }
+
+  public identifyAs(identity: string): Session {
+    /*Not sure if this will work... if you see it here, then it does ;) */
+    return this;
+  }
+
+  public asTemplate(): Session {
+    this.id=0;
+    this.programId=0;
+    this.eventId=0;
+    this.startTime=null;
+    this.endTime=null;
     return this;
   }
 }

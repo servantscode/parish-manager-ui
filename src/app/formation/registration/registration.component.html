@@ -3,5 +3,7 @@
                     [pageSize]='10' 
                     [dialogComponent]="RegistrationDialogComponent"
                     [type]="'Registration'"
+                    placeholderValue="Unassigned"
+                    [pathParams]='{"programId":activeProgram}'
                     [newItemTemplate]='{"programId":activeProgram}'>
 </app-paginated-list>

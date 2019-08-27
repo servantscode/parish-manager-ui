@@ -8,25 +8,25 @@ import { LoginService } from '../../sccommon/services/login.service';
 import { MessageService } from '../../sccommon/services/message.service';
 import { PaginatedService } from '../../sccommon/services/paginated.service';
 
-import { Registration } from '../formation';
+import { Session } from '../formation';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RegistrationService extends PaginatedService<Registration> {
+export class SessionService extends PaginatedService<Session> {
 
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService,
               protected loginService: LoginService) {
-    super(apiService.prefaceUrl("/rest/program/:programId:/registration"), http, messageService, loginService);
+    super(apiService.prefaceUrl("/rest/program/:programId:/session"), http, messageService, loginService);
   }
 
   public getPermissionType(): string {
-    return "registration";
+    return "session";
   }
 
-  public getTemplate(): Registration {
-    return new Registration().asTemplate();
+  public getTemplate(): Session {
+    return new Session().asTemplate();
   }
 }

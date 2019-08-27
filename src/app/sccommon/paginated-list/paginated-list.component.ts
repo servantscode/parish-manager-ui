@@ -38,6 +38,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   @Input() searchForm: any[];
   @Input() type: string;
+  @Input() placeholderValue: string = "";
 
   items: T[] = [];
 

@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <h1 mat-dialog-title>Record Attendance</h1>
+  <div mat-dialog-content>
+    <input type="hidden" autocomplete="off" formControlName="programId"/>
+
+    <app-sc-auto-complete formControlName="sectionId" label='Section' [autocompleteService]="sectionService" [pathParams]="{'programId': data.programId}"></app-sc-auto-complete>
+    <app-sc-auto-complete formControlName="sessionId" autoOpen='true' label='Session Date' [autocompleteService]="sessionService" [pathParams]="{'programId': data.programId}"></app-sc-auto-complete>
+
+    <table class="sc-table">
+      <thead>
+        <th>Student</th>
+        <th>Attended?</th>
+      </thead>
+      <tbody formArrayName="enrolleeAttendance">
+        <tr *ngFor="let donation of enrolleeControls().controls; let i=index" formGroupName="{{i}}">
+          <td>
+            <input type="hidden" autocomplete="off" formControlName="enrolleeId"/>
+            <span>{{data.enrolleeNames[i]}}</span>
+          </td>
+          <td>
+            <mat-checkbox formControlName="attended"></mat-checkbox>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+  </div>
+</form>

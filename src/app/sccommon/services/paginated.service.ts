@@ -79,17 +79,4 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
       resp[key] = obj[key];
     return resp;
   }
-
-  protected modifyUrl(url:string, vars:any) {
-    if(!vars)
-      return url;
-  
-    var resp = url;
-    for(let key of Object.keys(vars)) {
-      if(!vars[key])
-        alert("Null value for pathParam: " + key);
-      resp = resp.replace(':' + key + ':', vars[key]);
-    }
-    return resp;
-  }
 }

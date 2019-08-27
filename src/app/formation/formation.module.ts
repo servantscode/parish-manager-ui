@@ -29,6 +29,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { RegistrationDialogComponent } from './registration-dialog/registration-dialog.component';
 import { SacramentalGroupComponent } from './sacramental-group/sacramental-group.component';
 import { SacramentalGroupDialogComponent } from './sacramental-group-dialog/sacramental-group-dialog.component';
+import { AttendanceComponent } from './attendance/attendance.component';
+import { AttendanceDialogComponent } from './attendance-dialog/attendance-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,7 @@ import { SacramentalGroupDialogComponent } from './sacramental-group-dialog/sacr
     ProgramDialogComponent, 
     ProgramTabsComponent, 
     SectionComponent, 
-    SectionDialogComponent, ProgramGroupComponent, ProgramGroupDialogComponent, RegistrationComponent, RegistrationDialogComponent, SacramentalGroupComponent, SacramentalGroupDialogComponent
+    SectionDialogComponent, ProgramGroupComponent, ProgramGroupDialogComponent, RegistrationComponent, RegistrationDialogComponent, SacramentalGroupComponent, SacramentalGroupDialogComponent, AttendanceComponent, AttendanceDialogComponent
   ],
   imports: [
     FormationRoutingModule,
@@ -62,7 +64,8 @@ import { SacramentalGroupDialogComponent } from './sacramental-group-dialog/sacr
     SectionDialogComponent,
     ProgramGroupDialogComponent,
     RegistrationDialogComponent,
-    SacramentalGroupDialogComponent
+    SacramentalGroupDialogComponent,
+    AttendanceDialogComponent
   ]
 })
 export class FormationModule { }

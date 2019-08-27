@@ -1,0 +1,72 @@
+.slide {
+  max-width: calc(100% - 10px);
+  position: absolute;
+  overflow: auto;
+}
+
+.center-up {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.sticky {
+  left: 0px;
+  position: sticky;
+  z-index: 1;
+}
+
+.name {
+  width: 200px;
+}
+
+.count {
+  padding: 0 5px 0 5px;
+  text-align: center;
+}
+
+.endsticky {
+  right: 0px;
+  position: sticky;
+  z-index: 1;
+}
+
+.left-border {
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: inherit;
+}
+
+.right-border {
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: inherit;
+}
+
+th {
+  background-color: #666666;
+  border-color: #ffffff;
+}
+
+td {
+  background-color: #ffffff;
+  border-color: #cccccc;
+}
+
+/* Check, x */
+
+.present, .absent {
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+  background-size: 18px 18px;
+}
+
+.present {
+  margin-top:5px;
+  background-image: url('../../../assets/images/plus-active.png');
+}
+
+.absent {
+  margin-top:5px;
+  background-image: url('../../../assets/images/x-active.png');
+}

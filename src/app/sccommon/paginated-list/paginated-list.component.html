@@ -21,7 +21,7 @@
     <tbody (mouseleave)="highlight(null)">
       <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass]="{'highlight' : item === highlighted, 'selected' : item === selected}">
         <td *ngFor="let field of fields" (click)="clicked(item)">
-          <div [ngSwitch]="fieldType(field)">
+          <div *ngIf="item[fieldName(field)]" [ngSwitch]="fieldType(field)">
             <div *ngSwitchCase="'date'">{{item[fieldName(field)] | date: 'MM/dd/yyyy'}}</div>
             <div *ngSwitchCase="'dateTime'">{{item[fieldName(field)] | date: 'MM/dd/yyyy hh:mma'}}</div>
             <div *ngSwitchCase="'currency'">{{item[fieldName(field)] | currency:"$"}}</div>
@@ -30,6 +30,8 @@
             <div *ngSwitchCase="'boolean'">{{item[fieldName(field)]? 'true': 'false'}}</div>
             <div *ngSwitchDefault>{{item[fieldName(field)]}}</div>
           </div>
+
+          <em *ngIf="!item[fieldName(field)]" class="light">{{placeholderValue}}</em>
         </td>
         <td *ngFor="let control of customControls" class="icon">
           <div class="icon" (click)='control.invoke(item)' [ngClass]=" item === highlighted? control.type: ''">&nbsp;</div>
