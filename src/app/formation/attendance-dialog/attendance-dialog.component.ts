@@ -34,8 +34,8 @@ export class AttendanceDialogComponent implements OnInit {
               },
               private fb: FormBuilder,
               private attendanceService: AttendanceService,
-              private sectionService: SectionService,
-              private sessionService: SessionService) { }
+              public sectionService: SectionService,
+              public sessionService: SessionService) { }
   
   ngOnInit() {
     if(this.data.enrolleeIds.length != this.data.enrolleeNames.length) {
@@ -72,8 +72,6 @@ export class AttendanceDialogComponent implements OnInit {
     }
 
     const attendance: SessionAttendance = this.formatAttendanceRequest(this.form.value);
-
-    alert("Saving attendance records: " + JSON.stringify(attendance));
 
     this.attendanceService.saveSessionAttendance(attendance).
       subscribe(updatedAttendance => {

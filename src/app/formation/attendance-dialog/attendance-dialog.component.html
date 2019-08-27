@@ -9,7 +9,7 @@
     <table class="sc-table">
       <thead>
         <th>Student</th>
-        <th>Attended?</th>
+        <th class="center">Attended?</th>
       </thead>
       <tbody formArrayName="enrolleeAttendance">
         <tr *ngFor="let donation of enrolleeControls().controls; let i=index" formGroupName="{{i}}">
@@ -17,7 +17,7 @@
             <input type="hidden" autocomplete="off" formControlName="enrolleeId"/>
             <span>{{data.enrolleeNames[i]}}</span>
           </td>
-          <td>
+          <td class="center attendance">
             <mat-checkbox formControlName="attended"></mat-checkbox>
           </td>
         </tr>

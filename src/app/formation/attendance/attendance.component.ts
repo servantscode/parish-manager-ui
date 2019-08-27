@@ -56,7 +56,8 @@ export class AttendanceComponent implements OnChanges {
     });
 
     attendanceRef.afterClosed().subscribe(result => {
-      this.attendance=result;
+      if(result)
+        this.attendance=result;
     });
 
   }

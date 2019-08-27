@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
 import { LoginService } from '../../sccommon/services/login.service';
@@ -28,5 +28,23 @@ export class SessionService extends PaginatedService<Session> {
 
   public getTemplate(): Session {
     return new Session().asTemplate();
+  }
+
+  link(programId: number, recurrenceId: number): Observable<any> {
+    const data = {"programId": programId, "recurrenceId": recurrenceId};
+    return this.http.post<any>(this.modifyUrl(this.url, {"programId": programId}), data, this.httpOptions).pipe(
+        tap(item => this.log('Sessions linked!')),
+        catchError(this.handleError('linkSessions', null))
+      );
+  }
+
+  create(item: Session, pathVars?: any): Observable<Session> {
+    alert("Not implemented!");
+    return null;
+  }
+
+  update(item: Session, pathVars?: any): Observable<Session> {
+    alert("Not implemented!");
+    return null;
   }
 }
