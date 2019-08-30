@@ -48,8 +48,6 @@ export class LinkSessionDialogComponent implements OnInit {
       this.cancel();
     }
 
-    alert("Saving form data: " + JSON.stringify(formData));
-
     this.sessionService.link(formData.programId, formData.event.recurrence.id).
       subscribe(() => this.dialogRef.close());
   }

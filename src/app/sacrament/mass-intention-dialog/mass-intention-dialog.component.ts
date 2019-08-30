@@ -43,8 +43,9 @@ export class MassIntentionDialogComponent implements OnInit {
     this.form.get('requester').valueChanges.subscribe(val => {
         if(val.id) {
           this.personService.get(val.id).subscribe(person => {
-              if(person.phoneNumber)
-                this.form.get('requesterPhone').setValue(person.phoneNumber);
+              const phoneNumber = person.getPrimaryPhone();
+              if(phoneNumber)
+                this.form.get('requesterPhone').setValue(phoneNumber);
             });
         }
       });

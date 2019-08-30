@@ -15,7 +15,7 @@
               <mat-radio-button value="false" [checked]="!person.male">Female</mat-radio-button>
             </mat-radio-group><br/>
             Email: {{person.email}}&nbsp;&nbsp;<div *ngIf="person.email && loginService.userCan('email.send')" class="big-icon email" (click)="openMailDialog()">&nbsp;</div><br/>
-            Phone: {{person.phoneNumber}}<br/>
+            <app-person-phone-number [phoneNumbers]="person.phoneNumbers"></app-person-phone-number>
             <mat-checkbox [checked]="person.headOfHousehold" [disabled]="true"> Head of Household</mat-checkbox>
           </div>
           <div class="col">

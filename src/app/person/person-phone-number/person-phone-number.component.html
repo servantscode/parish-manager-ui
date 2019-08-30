@@ -1,0 +1,3 @@
+<div *ngFor="let number of phoneNumbers">
+  <span [ngClass]="{'primary': number.primary}">{{number.phoneNumber}}</span> - <span>{{number.type | scEnum}}</span>
+</div>

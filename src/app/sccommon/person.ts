@@ -12,7 +12,7 @@ export class Person extends Autocompletable {
   name: string;
   email: string;
   male: boolean;
-  phoneNumber: string;
+  phoneNumbers: PhoneNumber[];
   headOfHousehold: boolean;
   family: Family;
   birthdate: Date;
@@ -40,12 +40,16 @@ export class Person extends Autocompletable {
     return this;
   }
 
+  public getPrimaryPhone(): String {
+    return this.phoneNumbers.find(n => n.primary).phoneNumber;
+  }
+
   public asTemplate(): Person {
     this.id=0;
     this.name="";
     this.male=false;
     this.email="";
-    this.phoneNumber="";
+    this.phoneNumbers=[];
     this.headOfHousehold =false;
     this.birthdate=new Date();
     this.memberSince=new Date();
@@ -64,4 +68,10 @@ export class Person extends Autocompletable {
     this.occupation=null;
     return this;
   }
+}
+
+export class PhoneNumber {
+  phoneNumber:string;
+  type:string;
+  primary: boolean;
 }
