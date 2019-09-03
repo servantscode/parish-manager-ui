@@ -1,3 +1,13 @@
 .primary {
   font-weight: 600;
 }
+
+.sc-table {
+  tbody {
+    vertical-align: text-top;
+  }
+
+  tr, td {
+    border-bottom-width: 0px;
+  }
+}

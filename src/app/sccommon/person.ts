@@ -10,6 +10,10 @@ export class Person extends Autocompletable {
   }
 
   name: string;
+  salutation: string;
+  suffix: string;
+  maidenName: string;
+  nickname: string;
   email: string;
   male: boolean;
   phoneNumbers: PhoneNumber[];
@@ -47,6 +51,10 @@ export class Person extends Autocompletable {
   public asTemplate(): Person {
     this.id=0;
     this.name="";
+    this.salutation="";
+    this.suffix="";
+    this.maidenName="";
+    this.nickname="";
     this.male=false;
     this.email="";
     this.phoneNumbers=[];

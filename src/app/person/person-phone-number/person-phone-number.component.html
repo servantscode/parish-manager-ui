@@ -1,3 +1,24 @@
-<div *ngFor="let number of phoneNumbers">
-  <span [ngClass]="{'primary': number.primary}">{{number.phoneNumber}}</span> - <span>{{number.type | scEnum}}</span>
-</div>
+<form [formGroup]="form">
+  <strong>Phone Numbers</strong>
+  <div *ngIf="disabled && value">
+    <div *ngFor="let number of value">
+      <span [ngClass]="{'primary': number.primary}">{{number.phoneNumber}}</span> - <span>{{number.type | scEnum}}</span>
+    </div>
+  </div>
+
+  <table *ngIf="!disabled" class="sc-table">
+    <tbody formArrayName="phoneNumbers">
+      <tr *ngFor="let relationship of phoneNumberControls().controls; let i=index" formGroupName="{{i}}">
+        <td>
+          <app-sc-phone-number formControlName="phoneNumber" [required]="true"></app-sc-phone-number>&nbsp;
+        </td>
+        <td>
+          <app-sc-enum formControlName="type" [required]="true" [valueSource]="phoneNumberTypes" fieldSize='5'></app-sc-enum>
+        </td>
+        <td>
+          <mat-checkbox formControlName="primary"> Primary</mat-checkbox>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>

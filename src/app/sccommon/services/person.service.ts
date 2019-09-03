@@ -82,6 +82,12 @@ export class PersonService extends PaginatedService<Person> implements Preferenc
       );
   }
 
+  getPhoneNumberTypes(): Observable<string[]> {
+    return this.http.get(this.url + '/phoneNumberTypes').pipe(
+        catchError(this.handleError('getPhoneNumberTypes', null))
+      );
+  }
+
   public getPreferences(id: number) {
     return this.http.get<any>(this.url+`/${id}/preferences`).pipe(
         catchError(this.handleError('getPreferences', null))
