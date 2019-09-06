@@ -55,6 +55,15 @@ export class ScPhoneNumberComponent implements OnInit {
     if (!tel) { return ''; }
 
     var value = tel.toString().trim().replace(/^\+/, '');
+
+    const hasExtention = value.includes("x");
+
+    var extention = '';
+    if(hasExtention) {
+      var extentionCheck = value.split("x");
+      value = extentionCheck[0].trim();
+      extention = ' x' + (extentionCheck.length > 1? extentionCheck[1]: '');
+    }
     value = value.replace(/[\D]/g, '');
 
     if (value.match(/[^0-9]/)) {
@@ -101,7 +110,7 @@ export class ScPhoneNumberComponent implements OnInit {
 
     number = number.slice(0, 3) + '-' + number.slice(3);
 
-    return (country + " (" + city + ") " + number).trim();
+    return (country + " (" + city + ") " + number).trim() + extention;
   };
 
   //ControlValueAccesssor

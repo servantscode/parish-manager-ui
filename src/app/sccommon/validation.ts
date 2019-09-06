@@ -6,7 +6,7 @@ export class SCValidation {
                              "KY","LA","ME","MH","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","MP",
                              "OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT","VT","VI","VA","WA","WV","WI","WY"];
 
-  static PHONE = /^(\([\d]{3}\) )?[\d]{3}-[\d]{4}$/;
+  static PHONE = /^(\([\d]{3}\) )?[\d]{3}-[\d]{4}( x[\d]+)?$/;
   static NUMBER = /^\d+$/;
   static USD = /^\d*(\.\d{0,2})?$/;
   static TIME = /^\d{1,2}\:\d{2}(\:\d{2})? ([aA]|[pP])[mM]$/;
