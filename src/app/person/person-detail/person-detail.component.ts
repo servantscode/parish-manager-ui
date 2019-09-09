@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { differenceInYears } from 'date-fns';
@@ -46,7 +46,7 @@ export class PersonDetailComponent implements OnInit {
       name: ['', Validators.required],
       maidenName: [''],
       nickname: [''],
-      salutation: ['', Validators.required],
+      salutation: ['Mr.', Validators.required],
       suffix: [''],
       male: true,
       email: ['', Validators.email],
@@ -114,6 +114,8 @@ export class PersonDetailComponent implements OnInit {
   //     this.goBack();
   //   }
   // }
+  salutationAutoUpdater: Subscription;
+  salutationListener: Subscription;
 
   getPerson(): void {
     this.person = new Person();
@@ -137,23 +139,40 @@ export class PersonDetailComponent implements OnInit {
           this.personForm.patchValue(person);
           this.loadRelationships();
         });
-    } else if (familyId > 0) {
-      if(!this.loginService.userCan('person.create'))
-        this.router.navigate(['not-found']);
-
-      this.editMode = true;
-      this.familyService.get(familyId).
-        subscribe(family => {
-          this.person.family = family;
-          this.personForm.patchValue(this.person);
-        });
     } else {
-      if(!this.loginService.userCan('person.create'))
-        this.router.navigate(['not-found']);
+      if (familyId > 0) {
+        if(!this.loginService.userCan('person.create'))
+          this.router.navigate(['not-found']);
 
-      this.editMode = true;
-      this.personForm.patchValue(this.person);        
+        this.editMode = true;
+        this.familyService.get(familyId).
+          subscribe(family => {
+            this.person.family = family;
+            this.personForm.patchValue(this.person);
+          });
+      } else {
+        if(!this.loginService.userCan('person.create'))
+          this.router.navigate(['not-found']);
+
+        this.editMode = true;
+        this.personForm.patchValue(this.person);        
+      }
     }
+
+    this.salutationAutoUpdater = this.personForm.get('male').valueChanges
+        .subscribe(isMale => {
+          // JSON parse needed to parse a boolean from a radio button string value... :(
+          const salutation = JSON.parse(isMale)? 'Mr.': 'Ms.';
+          this.personForm.get('salutation').setValue(salutation, {emitEvent: false});
+        });
+
+    this.salutationListener = this.personForm.get('salutation').valueChanges
+        .subscribe(val => {
+          this.salutationAutoUpdater.unsubscribe();
+          this.salutationListener.unsubscribe();
+          this.salutationAutoUpdater = null;
+          this.salutationListener = null;
+        });
   }
 
   loadRelationships() {

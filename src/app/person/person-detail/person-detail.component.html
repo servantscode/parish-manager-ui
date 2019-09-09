@@ -98,15 +98,10 @@
             <input matInput formControlName="name" (keyup)="guessSurname()" required>
           </mat-form-field><br/>
 
-          <mat-form-field appearance="standard" class="input-standard">
-            <mat-label>Maiden Name</mat-label>
-            <input matInput formControlName="maidenName">
-          </mat-form-field><br/>
-
-          <mat-form-field appearance="standard" class="input-standard">
-            <mat-label>Nickname</mat-label>
-            <input matInput formControlName="nickname">
-          </mat-form-field><br/>
+          <mat-radio-group aria-label="Gender" formControlName="male">
+            <mat-radio-button value='true' [checked]="personForm.value.male">Male</mat-radio-button>&nbsp;&nbsp;
+            <mat-radio-button value='false' [checked]="!personForm.value.male">Female</mat-radio-button>
+          </mat-radio-group><br/>
 
           <mat-form-field appearance="standard" class="input-5">
             <mat-label>Salutation</mat-label>
@@ -118,10 +113,17 @@
             <input matInput formControlName="suffix">
           </mat-form-field><br/>
 
-          <mat-radio-group aria-label="Gender" formControlName="male">
-            <mat-radio-button value="true" [checked]="personForm.value.male">Male</mat-radio-button>&nbsp;&nbsp;
-            <mat-radio-button value="false" [checked]="!personForm.value.male">Female</mat-radio-button>
-          </mat-radio-group><br/>
+          <div *ngIf="personForm.get('male').value == 'false'">
+            <mat-form-field appearance="standard" class="input-standard">
+              <mat-label>Maiden Name</mat-label>
+              <input matInput formControlName="maidenName">
+            </mat-form-field><br/>
+          </div>
+
+          <mat-form-field appearance="standard" class="input-standard">
+            <mat-label>Nickname</mat-label>
+            <input matInput formControlName="nickname">
+          </mat-form-field><br/>
 
           <mat-form-field appearance="standard" class="input-standard">
             <mat-label>Email</mat-label> 
