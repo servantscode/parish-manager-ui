@@ -52,16 +52,29 @@ update:
 stop: ## Stop and remove a running container
 	kubectl.exe delete -f kube.yml
 
-release: build-nc publish ## Make a release by building and publishing the `{version}` ans `latest` tagged containers to ECR
+major-release: bump-major-version build-nc publish 
+
+minor-release: bump-minor-version build-nc publish 
+
+release: bump-patch-version build-nc publish 
 
 # Docker publish
-publish: publish-latest publish-version ## Publish the `{version}` ans `latest` tagged containers to ECR
+publish: publish-latest publish-version 
 
-publish-latest: tag-latest ## Publish the `latest` taged container to ECR
+bump-major-version:
+	./inc-version.sh -M 
+
+bump-minor-version:
+	./inc-version.sh -m 
+
+bump-patch-version:
+	./inc-version.sh -p 
+
+publish-latest: tag-latest
 	@echo 'publish latest to $(DOCKER_REPO)'
 	docker.exe push $(DOCKER_REPO)/servantcode/$(APP_NAME):latest
 
-publish-version: tag-version ## Publish the `{version}` taged container to ECR
+publish-version: tag-version 
 	@echo 'publish $(VERSION) to $(DOCKER_REPO)'
 	docker.exe push $(DOCKER_REPO)/servantcode/$(APP_NAME):$(VERSION)
 
