@@ -26,7 +26,7 @@ help: ## This help.
 
 # DOCKER TASKS
 # Build the container
-build: bump-version ## Build the container
+build: build-webapp bump-version ## Build the container
 	ng build -c production
 	docker.exe build -t servantcode/$(APP_NAME) .
 	docker.exe tag servantcode/$(APP_NAME) servantcode/$(APP_NAME):$(VERSION)
@@ -34,6 +34,9 @@ build: bump-version ## Build the container
 build-nc: ## Build the container without caching
 	docker.exe build --no-cache -t servantcode/$(APP_NAME) .
 	docker.exe tag servantcode/$(APP_NAME) servantcode/$(APP_NAME):$(VERSION)
+
+build-webapp:
+	ng build -c production
 
 run: ## Run container on port configured in `config.env`
 	kubectl.exe create -f kube.yml
@@ -44,14 +47,17 @@ update:
 stop: ## Stop and remove a running container
 	kubectl.exe delete -f kube.yml
 
-major-release: bump-major-version build-nc publish 
+release: build-webapp bump-patch-version build-nc publish 
 
-minor-release: bump-minor-version build-nc publish 
+minor-release: build-webapp bump-minor-version build-nc publish 
 
-release: bump-patch-version build-nc publish 
+major-release: build-webapp bump-major-version build-nc publish 
 
 # Docker publish
-publish: publish-latest publish-version 
+publish:
+	@echo 'publish $(VERSION) to $(DOCKER_REPO)'
+	docker.exe push $(DOCKER_REPO)/servantcode/$(APP_NAME):latest
+	docker.exe push $(DOCKER_REPO)/servantcode/$(APP_NAME):$(VERSION)
 
 bump-major-version:
 	./inc-version.sh -M 
@@ -64,15 +70,6 @@ bump-patch-version:
 
 bump-version:
 	./inc-version.sh
-
-publish-version:
-	@echo 'publish $(VERSION) to $(DOCKER_REPO)'
-	docker.exe push $(DOCKER_REPO)/servantcode/$(APP_NAME):$(VERSION)
-
-publish-latest: tag-latest
-	@echo 'publish latest to $(DOCKER_REPO)'
-	docker.exe tag servantcode/$(APP_NAME) $(DOCKER_REPO)/servantcode/$(APP_NAME):latest
-	docker.exe push $(DOCKER_REPO)/servantcode/$(APP_NAME):latest
 
 logs: ## Get logs from running container
 	kubectl.exe logs $(shell kubectl.exe get pods | grep $(APP_NAME) | grep Running | cut -d ' ' -f 1)

@@ -8,6 +8,6 @@
   <span *ngIf="!data.permaDelete || deletePermanently" class="warning">This cannot be undone!</span><br/>
 </div>
 <div mat-dialog-actions>
-  <button mat-button type="button" class="btn btn-primary" (click)="delete()">Delete</button>
+  <button mat-button type="button" class="btn btn-primary" (click)="delete()">{{(data.actionName && !deletePermanently)? data.actionName: "Delete"}}</button>
   <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
 </div>

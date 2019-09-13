@@ -55,10 +55,15 @@ export class PersonDetailComponent implements OnInit {
       birthdate: [''],
       memberSince: [''],
       parishioner: [true],
+      inactive: [false],
+      inactiveSince: [''],
+      deceased: [false],
+      deathDate: [''],
       baptized: [''],
       confession: [''],
       communion: [''],
       confirmed: [''],
+      holyOrders: [''],
       maritalStatus: [null],
       ethnicity: [null],
       primaryLanguage: [null],
@@ -160,7 +165,7 @@ export class PersonDetailComponent implements OnInit {
     }
 
     this.salutationAutoUpdater = this.personForm.get('male').valueChanges
-        .subscribe(isMale => {
+        .subscribe(isMale => {                                                                         
           // JSON parse needed to parse a boolean from a radio button string value... :(
           const salutation = JSON.parse(isMale)? 'Mr.': 'Ms.';
           this.personForm.get('salutation').setValue(salutation, {emitEvent: false});
@@ -210,16 +215,21 @@ export class PersonDetailComponent implements OnInit {
         subscribe(person => {
           this.person = person;
           relationships.forEach(r => r.personId = person.id);
-          this.relationshipService.updateRelationships(relationships, true).subscribe(() => {
-            this.router.navigate(['person', person.id, 'detail']);
-            this.editMode=false;
-          })
+          if(relationships && relationships.length > 0) {
+            this.relationshipService.updateRelationships(relationships, true).subscribe(() => {
+              this.router.navigate(['person', person.id, 'detail']);
+              this.editMode=false;
+            });
+          } else {
+              this.router.navigate(['person', person.id, 'detail']);
+              this.editMode=false;            
+          }
         });
     } else {
       this.personService.create(p).
         subscribe(person => {
           this.person = person;
-          if(relationships) {
+          if(relationships && relationships.length > 0) {
             relationships.forEach(r => r.personId = person.id);
             this.relationshipService.updateRelationships(relationships, true).subscribe(() => {
               this.router.navigate(['person', person.id, 'detail']);
@@ -233,17 +243,18 @@ export class PersonDetailComponent implements OnInit {
     }
   }
 
-  delete(): void {
+  deactivate(): void {
     if(!this.loginService.userCan('person.delete'))
       return;
 
     this.dialog.open(DeleteDialogComponent, {
       width: '400px',
-      data: {"title": "Confirm Delete",
-             "text" : "Are you sure you want to delete " + this.person.identify() + "?",
+      data: {"title": "Confirm Deactivation",
+             "text" : "Are you sure you want to deactivate " + this.person.identify() + "?",
              "delete": (): Observable<void> => { 
                return this.personService.delete(this.person); 
              },
+             "actionName":"Deactivate",
              "allowPermaDelete": this.loginService.userCan("admin.person.delete"),
              "permaDelete": (): Observable<void> => { 
                return this.personService.delete(this.person, true); 
@@ -252,6 +263,19 @@ export class PersonDetailComponent implements OnInit {
                this.goBack();
              }
         }
+    });
+  }
+
+  activate(): void {
+    if(!this.loginService.userCan('person.update'))
+      return;
+
+    this.person.inactive=false;
+    this.person.inactiveSince=null;
+    this.person.family.members=null;
+    this.personService.update(this.person).subscribe(person => {
+      this.person = person;
+      this.personForm.patchValue(person);
     });
   }
 

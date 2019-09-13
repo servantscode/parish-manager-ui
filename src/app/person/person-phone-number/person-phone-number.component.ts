@@ -70,22 +70,33 @@ export class PersonPhoneNumberComponent implements OnInit {
     this.diableUpdates();
     // this.relationshipListeners.forEach(listener => listener.unsubscribe());
     // this.relationshipListeners = [];
-    const relationships = this.phoneNumberControls();
-    relationships.clear();
+    const rows = this.phoneNumberControls();
+    rows.clear();
 
     if(this.value) {
       for(let number of this.value) {
-        relationships.push(this.createRow());
+        rows.push(this.createRow());
       }
     }
 
     if(this.value)
       this.form.patchValue({"phoneNumbers": this.value});
 
-    //One more for additional input
-    relationships.push(this.createRow())
+    //One for the first input
+    if(rows.length == 0)
+      rows.push(this.createRow())
 
     this.enableUpdates();
+  }
+
+  public addRow() {
+    this.phoneNumberControls().push(this.createRow());
+  }
+
+  public removeRow(i: number) {
+    const rows = this.phoneNumberControls();
+    if(rows.length > 1)
+      rows.removeAt(i);
   }
 
   private createRow() {
@@ -101,8 +112,12 @@ export class PersonPhoneNumberComponent implements OnInit {
       return;
 
     this.value = val;
-    this.onChange(val);
+    this.onChange(this.stripEmptyRows(val));
     this.onTouched();
+  }
+
+  private stripEmptyRows(value: PhoneNumber[]) {
+    return value.filter(n => n.phoneNumber);
   }
 
   //ControlValueAccesssor

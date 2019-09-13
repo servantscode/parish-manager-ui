@@ -15,6 +15,7 @@ export class DeleteDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: {
                 title: string,
                 text: string,
+                actionName: string,
                 delete: () => Observable<void>,
                 allowPermaDelete: boolean,
                 permaDelete?: () => Observable<void>,

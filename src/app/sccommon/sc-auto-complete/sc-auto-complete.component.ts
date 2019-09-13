@@ -69,7 +69,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   ngOnDestroy() {
-    // This is such a hack, but MinistryMemberListComponent fails to properly dispose of inputs after adding or editing a ministry enrollment.
+    // HACK: MinistryMemberListComponent fails to properly dispose of inputs after adding or editing a ministry enrollment.
     // Because of this, repeated enrollment edits start calling MinistryRoleService repeatedly with incorret ministry ids, resulting in 500 errors.
     // If anyone can figure this out, please do so and inform me. I will owe you a coffee. [GL - 9/12/19]
     this.destroyed = true;

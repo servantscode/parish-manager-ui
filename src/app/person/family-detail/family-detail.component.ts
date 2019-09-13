@@ -146,14 +146,15 @@ export class FamilyDetailComponent implements OnInit {
     });
   }
 
-  delete(): void {
+  deactivate(): void {
     this.dialog.open(DeleteDialogComponent, {
       width: '400px',
-      data: {"title": "Confirm Delete",
-             "text" : "Are you sure you want to delete " + this.family.identify() + "?",
+      data: {"title": "Confirm Deactivation",
+             "text" : "Are you sure you want to deactivate " + this.family.identify() + "?",
              "delete": (): Observable<void> => { 
                return this.familyService.delete(this.family); 
              },
+             "actionName":"Deactivate",
              "allowPermaDelete": this.loginService.userCan("admin.family.delete"),
              "permaDelete": (): Observable<void> => { 
                return this.familyService.delete(this.family, true); 
@@ -162,6 +163,22 @@ export class FamilyDetailComponent implements OnInit {
                this.goBack();
              }
         }
+    });
+  }
+
+  activate(): void {
+    if(!this.loginService.userCan('family.update'))
+      return;
+
+    this.family.inactive=false;
+    this.family.inactiveSince=null;
+    this.family.members.forEach(m => {
+        m.inactive = false;
+        delete m['relationship'];
+      });
+    this.familyService.update(this.family).subscribe(family => {
+      this.family = family;
+      this.familyForm.patchValue(family);
     });
   }
 

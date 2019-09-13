@@ -1,5 +1,8 @@
-<button *ngIf="!editMode && loginService.userCan('person.update')" class="btn btn-primary float-right edit-button" (click)="enableEdit()">Edit</button>
-<button *ngIf="!editMode && loginService.userCan('person.delete')" class="btn btn-outline-primary float-right edit-button" (click)="delete()">Delete</button>
+<div *ngIf="!editMode" class="float-right">
+  <button *ngIf="loginService.userCan('person.delete') && !person.inactive" class="btn btn-outline-primary edit-button" (click)="deactivate()">Deactivate</button>
+  <button *ngIf="loginService.userCan('person.update') && person.inactive" class="btn btn-outline-primary edit-button" (click)="activate()">Activate</button>
+  <button *ngIf="loginService.userCan('person.update')" class="btn btn-primary edit-button" (click)="enableEdit()">Edit</button>
+</div>
 <h2 [ngClass]="{inactive: person.inactive}">{{personForm.get("name").value}}</h2>
 
 <form [formGroup]="personForm" (ngSubmit)="save()">
@@ -17,16 +20,19 @@
                 <mat-radio-button value="true" [checked]="person.male">Male</mat-radio-button>&nbsp;&nbsp;
                 <mat-radio-button value="false" [checked]="!person.male">Female</mat-radio-button>
               </mat-radio-group><br/>
-              Email: {{person.email}}&nbsp;&nbsp;<div *ngIf="person.email && loginService.userCan('email.send')" class="big-icon email" (click)="openMailDialog()">&nbsp;</div><br/>
+              <mat-checkbox [checked]="person.headOfHousehold" [disabled]="true"> Head of Household</mat-checkbox><br/>
+
+              Email: {{person.email}}&nbsp;&nbsp;<div *ngIf="person.email && loginService.userCan('email.send')" class="big-icon email" (click)="openMailDialog()">&nbsp;</div>
               
               <app-person-phone-number [disabled]='true' formControlName="phoneNumbers"></app-person-phone-number>  
-              <mat-checkbox [checked]="person.headOfHousehold" [disabled]="true"> Head of Household</mat-checkbox>
             </div>
             <div class="col">
               Birthdate: {{person.birthdate | date: 'MM/dd/yyyy'}}<br/>
               Age: {{getAge()}}<br/>
               <mat-checkbox [checked]="person.parishioner" [disabled]="true" > Parishioner</mat-checkbox><br/>
-              <span *ngIf="person.parishioner">Member Since: {{person.memberSince | date: 'MM/dd/yyyy'}}</span>
+              <span *ngIf="person.parishioner">Member Since: {{person.memberSince | date: 'MM/dd/yyyy'}}<br/></span>
+              <span *ngIf="person.inactive" class="inactive align-bottom">Inactive since: {{person.inactiveSince | date: 'MM/dd/yyyy'}}<br/></span>
+              <span *ngIf="person.deceased">Deceased: {{person.deathDate | date: 'MM/dd/yyyy'}}</span>
             </div>
           </div>
           <div>
@@ -35,7 +41,8 @@
               <mat-checkbox [checked]="person.baptized" [disabled]="true"> Baptized</mat-checkbox>&nbsp;&nbsp;
               <mat-checkbox [checked]="person.confession" [disabled]="true"> Confession</mat-checkbox>&nbsp;&nbsp;
               <mat-checkbox [checked]="person.communion" [disabled]="true"> First Communion</mat-checkbox>&nbsp;&nbsp;
-              <mat-checkbox [checked]="person.confirmed" [disabled]="true"> Confirmed</mat-checkbox><br/>
+              <mat-checkbox [checked]="person.confirmed" [disabled]="true"> Confirmed</mat-checkbox>&nbsp;&nbsp;
+              <mat-checkbox [checked]="person.holyOrders" [disabled]="true"> Holy Orders</mat-checkbox><br/>
               Marital Status: {{person.maritalStatus | scEnum}}<br/>
             </div>
 
@@ -125,6 +132,8 @@
             <input matInput formControlName="nickname">
           </mat-form-field><br/>
 
+          <mat-checkbox formControlName="headOfHousehold"> Head of Household</mat-checkbox>
+
           <mat-form-field appearance="standard" class="input-standard">
             <mat-label>Email</mat-label> 
             <input matInput formControlName="email">
@@ -132,7 +141,6 @@
 
           <app-person-phone-number formControlName="phoneNumbers"></app-person-phone-number>  
 
-          <mat-checkbox formControlName="headOfHousehold"> Head of Household</mat-checkbox>
         </div>
         <div class="col">
           <mat-form-field appearance="standard" >
@@ -147,6 +155,14 @@
             <input matInput formControlName="memberSince" [matDatepicker]="picker2" placeholder="Joined">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field><br/>
+
+          <mat-checkbox formControlName="deceased"> Deceased</mat-checkbox><br/>
+
+          <mat-form-field appearance="standard" *ngIf="personForm.get('deceased').value">
+            <input matInput formControlName="deathDate" [matDatepicker]="picker3" placeholder="Joined">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
           </mat-form-field>
         </div>
         <div class="col-auto">
@@ -160,7 +176,8 @@
           <mat-checkbox formControlName="baptized"> Baptized</mat-checkbox>&nbsp;&nbsp;
           <mat-checkbox formControlName="confession"> Confession</mat-checkbox>&nbsp;&nbsp;
           <mat-checkbox formControlName="communion"> First Communion</mat-checkbox>&nbsp;&nbsp;
-          <mat-checkbox formControlName="confirmed"> Confirmed</mat-checkbox><br/>
+          <mat-checkbox formControlName="confirmed"> Confirmed</mat-checkbox>&nbsp;&nbsp;
+          <mat-checkbox formControlName="holyOrders"> Holy Orders</mat-checkbox><br/>
           
           <app-sc-enum formControlName="maritalStatus" label="Marital Status" [valueSource]="maritalStatuses"></app-sc-enum>
         </div>

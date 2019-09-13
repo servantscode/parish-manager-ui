@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <strong>Phone Numbers</strong>
+  <strong>Phone Numbers</strong>&nbsp;&nbsp;<div *ngIf="!disabled" class="big-icon add" (click)="addRow()">&nbsp;</div>
   <div *ngIf="disabled && value">
     <div *ngFor="let number of value">
       <span [ngClass]="{'primary': number.primary}">{{number.phoneNumber}}</span> - <span>{{number.type | scEnum}}</span>
@@ -10,13 +10,16 @@
     <tbody formArrayName="phoneNumbers">
       <tr *ngFor="let relationship of phoneNumberControls().controls; let i=index" formGroupName="{{i}}">
         <td>
-          <app-sc-phone-number formControlName="phoneNumber" [required]="true"></app-sc-phone-number>&nbsp;
+          <app-sc-phone-number formControlName="phoneNumber" [required]="true"></app-sc-phone-number>
         </td>
         <td>
           <app-sc-enum formControlName="type" [required]="true" [valueSource]="phoneNumberTypes" fieldSize='5'></app-sc-enum>
         </td>
         <td>
           <mat-checkbox formControlName="primary"> Primary</mat-checkbox>
+        </td>
+        <td>
+          <div class="big-icon delete" (click)="removeRow(i)">&nbsp;</div>
         </td>
       </tr>
     </tbody>

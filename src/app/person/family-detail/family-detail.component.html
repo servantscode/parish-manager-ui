@@ -1,5 +1,8 @@
-<button *ngIf="!editMode && loginService.userCan('family.update')" class="btn btn-primary float-right edit-button" (click)="enableEdit()">Edit</button>
-<button *ngIf="!editMode && loginService.userCan('family.delete')" class="btn btn-outline-primary float-right edit-button" (click)="delete()">Delete</button>
+<div *ngIf="!editMode" class="float-right">
+  <button *ngIf="loginService.userCan('family.delete') && !family.inactive" class="btn btn-outline-primary edit-button" (click)="deactivate()">Deactivate</button>
+  <button *ngIf="loginService.userCan('family.update') && family.inactive" class="btn btn-outline-primary edit-button" (click)="activate()">Activate</button>
+  <button *ngIf="loginService.userCan('family.update')" class="btn btn-primary edit-button" (click)="enableEdit()">Edit</button>
+</div>
 <h2 [ngClass]="{inactive: family.inactive}">{{family.surname}}</h2>
 
 <form [formGroup]="familyForm" (ngSubmit)="save()">
