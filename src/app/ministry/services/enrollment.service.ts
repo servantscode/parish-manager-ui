@@ -50,4 +50,10 @@ export class EnrollmentService extends BaseService {
         catchError(this.handleError('updateEnrollment', null))
       );
   }
+
+  deleteEnrollment(enrollment: Enrollment): Observable<void> {
+    return this.http.delete<void>(this.url + `/ministry/${enrollment.ministryId}/person/${enrollment.personId}`).pipe(
+        tap(() => this.log('Deleted enrollment ' + enrollment.personName)),
+        catchError(this.handleError('deleteEnrollment', null)));
+      }
 }

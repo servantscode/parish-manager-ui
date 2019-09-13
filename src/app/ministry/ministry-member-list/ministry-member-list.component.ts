@@ -15,6 +15,7 @@ import { Ministry } from '../ministry';
 import { MinistryService } from '../services/ministry.service';
 import { MinistryRoleService } from '../services/ministry-role.service';
 
+import { doLater } from '../../sccommon/utils';
 
 @Component({
   selector: 'app-ministry-member-list',
@@ -29,6 +30,9 @@ export class MinistryMemberListComponent implements OnInit {
 
   enrollments: Enrollment[];
   newEnrollment = false;
+  editingEnrollment = false;
+
+  activeMinistryId = 0;
 
   enrollmentForm = this.fb.group({
       personId: ['', Validators.required],
@@ -46,7 +50,9 @@ export class MinistryMemberListComponent implements OnInit {
               public ministryRoleService: MinistryRoleService,
               private fb: FormBuilder) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.enrollmentForm.get('ministryId').valueChanges.subscribe(id => this.activeMinistryId = id);
+  }
 
   ngOnChanges() {
     this.loadEnrollments();
@@ -96,6 +102,25 @@ export class MinistryMemberListComponent implements OnInit {
     }
   }
 
+  edit(enrollment: Enrollment) {
+    if(!this.loginService.userCan("ministry.enrollment.update"))
+      return;
+
+    this.activeMinistryId = enrollment.ministryId;
+    this.enrollmentForm.patchValue(enrollment);
+    this.enrollmentForm.get('personId').disable();
+    this.enrollmentForm.get('ministryId').disable();
+    this.enrollments = this.enrollments.filter(e => e != enrollment);
+    this.editingEnrollment = true;
+  }
+
+  delete(enrollment: Enrollment) {
+    if(!this.loginService.userCan("ministry.enrollment.delete"))
+      return;
+    
+    this.enrollmentService.deleteEnrollment(enrollment).subscribe(() => this.loadEnrollments());
+  }
+
   showMembershipForm(): void {
     this.newEnrollment = true;
     this.enrollmentForm.get('ministryId').setValue(this.ministryId);
@@ -103,22 +128,30 @@ export class MinistryMemberListComponent implements OnInit {
   }
 
   addMembership() {
-    if(!this.loginService.userCan('ministry.enrollment.create')) 
-      return;
+    if(this.newEnrollment) {
+      if(!this.loginService.userCan('ministry.enrollment.create')) 
+        return;
 
-    this.enrollmentService.createEnrollment(this.enrollmentForm.value).
-        subscribe(() => {
-          this.loadEnrollments();
-          this.clearEnrollmentForm();
-        });
-  }
+      this.enrollmentService.createEnrollment(this.enrollmentForm.value).subscribe(() => this.clearEnrollmentForm());
+    } else if(this.editingEnrollment) {
+      if(!this.loginService.userCan("ministry.enrollment.update"))
+        return;
 
-  getMinistryId() {
-    return this.enrollmentForm.get('ministryId').value;
+      this.enrollmentForm.get('personId').enable();
+      this.enrollmentForm.get('ministryId').enable();
+      this.enrollmentService.updateEnrollment(this.enrollmentForm.value).subscribe(() => this.clearEnrollmentForm());
+    }
   }
 
   clearEnrollmentForm() {
     this.newEnrollment = false;
+    this.editingEnrollment = false;
+    this.activeMinistryId=0;
+
+    this.enrollmentForm.get('personId').enable();
+    this.enrollmentForm.get('ministryId').enable();
+
     this.enrollmentForm.reset();
+    this.loadEnrollments()
   }
 }

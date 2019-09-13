@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, debounceTime, switchMap, startWith } from 'rxjs/operators'
@@ -40,6 +40,8 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   filteredItems: Observable<T[]>;
   private selected: T;
 
+  destroyed: boolean = false;
+
   onChange: any = () => { };
   onTouched: any = () => { };
 
@@ -64,6 +66,13 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
               switchMap(value => this.loadOptions(value))
            );
     }
+  }
+
+  ngOnDestroy() {
+    // This is such a hack, but MinistryMemberListComponent fails to properly dispose of inputs after adding or editing a ministry enrollment.
+    // Because of this, repeated enrollment edits start calling MinistryRoleService repeatedly with incorret ministry ids, resulting in 500 errors.
+    // If anyone can figure this out, please do so and inform me. I will owe you a coffee. [GL - 9/12/19]
+    this.destroyed = true;
   }
 
   setFocus() {
@@ -150,6 +159,9 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   writeValue(value) {
+    // See above hack warning and coffee offer.
+    if(this.destroyed) return;
+
     this.selected = value;
     if((typeof value === 'string' && value !== "") || (typeof value === 'number' && value != 0))
       this.resolveSelectedItem(value);

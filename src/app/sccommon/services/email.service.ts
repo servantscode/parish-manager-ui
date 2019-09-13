@@ -30,5 +30,10 @@ export class EmailService extends BaseService {
       );
   }
 
-
+  public getSendConfig(): Observable<string> {
+    return this.http.get(this.url + "/sendConfig", this.httpOptions).pipe(
+        map(r => r['sendFromUser']),
+        catchError(this.handleError('getSendConfig', null))
+      );
+  }
 }

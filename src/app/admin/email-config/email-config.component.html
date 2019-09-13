@@ -11,6 +11,11 @@
       <input type="number" matInput formControlName="smtpPort" autocomplete="off"/>
     </mat-form-field> <br/>
 
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Send From User</mat-label>
+      <input type="text" matInput formControlName="sendFromUser" autocomplete="off"/>
+    </mat-form-field><br/>
+
     <mat-checkbox formControlName="useSsl">SSL</mat-checkbox>&nbsp;&nbsp;
     <mat-checkbox formControlName="useTls">TLS</mat-checkbox><br/>
     <mat-checkbox formControlName="requireAuth">Authentication Required?</mat-checkbox><br/>

@@ -4,6 +4,8 @@ export class EmailConfig {
   useTls: boolean;
   smtpHost: string;
   smtpPort: number;
+
+  sendFromUser: string;
   emailAccount: string;
   accountPassword: string;
 }

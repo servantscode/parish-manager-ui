@@ -220,7 +220,7 @@
 
   <div *ngIf="person.id > 0 && loginService.userCan('ministry.enrollment.list')" class="container rounded-rect">
     <h3>Ministry Engagement</h3>
-    <app-ministry-member-list [personId]="person.id" [columns]="['ministry', 'role']"></app-ministry-member-list>
+    <app-ministry-member-list [personId]="person.id" [columns]="['ministry', 'role', 'controls']"></app-ministry-member-list>
   </div>
 
   <div *ngIf="person.id > 0 && loginService.userCan('note.list')" class="container rounded-rect">

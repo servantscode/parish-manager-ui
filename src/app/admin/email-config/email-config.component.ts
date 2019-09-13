@@ -21,6 +21,7 @@ export class EmailConfigComponent implements OnInit {
       useSsl: false,
       useTls: false,
       requireAuth: false,
+      sendFromUser: false,
       emailAccount:  [{value:'', disabled: true}, Validators.required],
       accountPassword:  [{value:'', disabled: true}, Validators.required]
     });

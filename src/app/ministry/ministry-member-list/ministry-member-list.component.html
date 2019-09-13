@@ -6,6 +6,8 @@
           <th *ngIf="columns.includes('ministry')">Ministry</th>
           <th *ngIf="columns.includes('member')">Member</th>
           <th *ngIf="columns.includes('role')">Role</th>
+          <th *ngIf="columns.includes('controls') && loginService.userCan('ministry.enrollment.update')"></th>
+          <th *ngIf="columns.includes('controls') && loginService.userCan('ministry.enrollment.delete')"></th>
         </tr>
       </thead>
       <tbody (mouseleave)="highlightEnrollment(null)">
@@ -13,8 +15,15 @@
           <td *ngIf="columns.includes('ministry')" (click)="viewMinistry(enrollment.ministryId)">{{enrollment.ministryName}}</td>
           <td *ngIf="columns.includes('member')" (click)="viewPerson(enrollment.personId)">{{enrollment.personName}}</td>
           <td *ngIf="columns.includes('role')">{{enrollment.role}}</td>
+          <td *ngIf="columns.includes('controls') && loginService.userCan('ministry.enrollment.update') && !newEnrollment && !editingEnrollment" class="icon">
+            <div class="icon" (click)='edit(enrollment)' [ngClass]="{'edit' : enrollment === highlightedEnrollment}">&nbsp;</div>
+          </td>
+          <td *ngIf="columns.includes('controls') && loginService.userCan('ministry.enrollment.delete') && !newEnrollment && !editingEnrollment" class="icon">
+            <div class="icon" (click)='delete(enrollment)' [ngClass]="{'delete' : enrollment === highlightedEnrollment}">&nbsp;</div>
+          </td>
+
         </tr>
-        <tr *ngIf="newEnrollment">
+        <tr *ngIf="newEnrollment || editingEnrollment">
           <td *ngIf="columns.includes('ministry')">
             <app-sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService" [required]="true" [filter]="ministryFilter()"></app-sc-auto-complete>
           </td>
@@ -22,16 +31,18 @@
             <app-sc-auto-complete formControlName="personId" label='Name' [autocompleteService]="personService" [required]="true" [filter]="peopleFilter()"></app-sc-auto-complete>            
           </td>
           <td *ngIf="columns.includes('role')">
-            <app-sc-auto-complete formControlName="roleId" label='Role' [autocompleteService]="ministryRoleService" [required]="true" [pathParams]="{'id': getMinistryId()}"></app-sc-auto-complete> 
+            <app-sc-auto-complete formControlName="roleId" label='Role' [autocompleteService]="ministryRoleService" [required]="true" [pathParams]="{'id': activeMinistryId}"></app-sc-auto-complete> 
           </td>
+          <td *ngIf="columns.includes('controls') && loginService.userCan('ministry.enrollment.update')"></td>
+          <td *ngIf="columns.includes('controls') && loginService.userCan('ministry.enrollment.delete')"></td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div *ngIf="!newEnrollment && (ministryId > 0 || personId > 0) && loginService.userCan('ministry.enrollment.create')" class="container-fluid align-right">
+  <div *ngIf="!newEnrollment && !editingEnrollment && (ministryId > 0 || personId > 0) && loginService.userCan('ministry.enrollment.create')" class="container-fluid align-right">
     <button type="button" class="btn btn-primary" (click)="showMembershipForm()">Add...</button>
   </div>
-  <div *ngIf="newEnrollment" class="container-fluid align-right">
+  <div *ngIf="newEnrollment || editingEnrollment" class="container-fluid align-right">
     <button class="btn btn-primary" type="submit" [disabled]="!enrollmentForm.valid">Save</button>
     <button type="button" class="btn btn-outline-primary" (click)="clearEnrollmentForm()">Close</button>
   </div>

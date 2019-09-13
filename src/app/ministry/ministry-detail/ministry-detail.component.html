@@ -51,7 +51,7 @@
 
   <div *ngIf="loginService.userCan('ministry.enrollment.list')" class="container rounded-rect">
     <h3>Membership</h3>  
-    <app-ministry-member-list [ministryId]="ministry.id" [columns]="['member', 'role']"></app-ministry-member-list>
+    <app-ministry-member-list [ministryId]="ministry.id" [columns]="['member', 'role', 'controls']"></app-ministry-member-list>
   </div>
 
   <div class="container rounded-rect">

@@ -71,6 +71,7 @@ export class PeopleListComponent implements OnInit {
               {"name":"memberSince", "type":"date"}];
     } else if(this.mode == "family") {
       return [{"name":"surname", "type":"text"},
+              {"name":"address.street1", "type":"text", "displayName":"Street"}, 
               {"name":"address.city", "type":"text", "displayName":"City"},
               {"name":"address.state", "type":"text", "displayName":"State"},
               {"name":"address.zip", "type":"number", "displayName":"Zip Code"},

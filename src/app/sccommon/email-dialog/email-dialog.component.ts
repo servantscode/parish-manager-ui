@@ -26,7 +26,7 @@ export class EmailDialogComponent implements OnInit {
       from: [this.loginService.getUserName(), [Validators.required, Validators.pattern(SCValidation.EMAIL)]],
       to: ['', [Validators.required, Validators.pattern(SCValidation.MULTI_EMAIL)]],
       cc: ['', Validators.pattern(SCValidation.MULTI_EMAIL)],
-      replyTo: ['noreply@servantscode.org', Validators.pattern(SCValidation.EMAIL)],
+      replyTo: ['', Validators.pattern(SCValidation.EMAIL)],
       subject: ['', Validators.required],
       message: ['', Validators.required]
     });
@@ -41,6 +41,11 @@ export class EmailDialogComponent implements OnInit {
   ngOnInit() {
     if(this.data)
       this.form.patchValue(this.data);
+
+    this.emailService.getSendConfig().subscribe(from => {
+        this.form.get('from').setValue(from); 
+        this.form.get('replyTo').setValue(from);
+      });
   }
 
   send() {
@@ -69,6 +74,6 @@ export class EmailDialogComponent implements OnInit {
   private splitAddresses(input: string): string[] {
     if(Array.isArray(input))
       return input;
-    return input.split(/[,;\s]/).map(addr => addr.trim());
+    return input.split(/[,;]/).map(addr => addr.trim());
   }
 }
