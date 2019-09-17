@@ -1,4 +1,4 @@
-import { Identifiable } from '../sccommon/identifiable';
+import { Identifiable } from 'sc-common';
 import { formatDate } from '@angular/common';
 
 export class MassAvailability extends Identifiable {

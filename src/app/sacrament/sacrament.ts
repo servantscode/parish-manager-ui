@@ -1,4 +1,4 @@
-import { Identifiable } from '../sccommon/identifiable';
+import { Identifiable } from 'sc-common';
 import { Identity } from '../sccommon/identity';
 
 export abstract class Sacrament extends Identifiable {

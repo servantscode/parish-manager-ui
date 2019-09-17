@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { ColorService } from '../../sccommon/services/color.service'
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 
 import { MetricsService } from '../services/metrics.service';
 import { ChartData } from '../chart-data';

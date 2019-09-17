@@ -6,7 +6,7 @@ import { map, startWith } from 'rxjs/operators'
 
 import { SCValidation } from '../../sccommon/validation';
 
-import { Person } from '../../sccommon/person';
+import { Person } from 'sc-common';
 import { deepEqual } from '../../sccommon/utils';
 
 import { RelationshipService } from '../services/relationship.service';

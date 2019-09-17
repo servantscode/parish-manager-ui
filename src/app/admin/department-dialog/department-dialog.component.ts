@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { DepartmentService } from '../../sccommon/services/department.service';
-import { PersonService } from '../../sccommon/services/person.service';
+import { PersonService } from 'sc-common';
 
 @Component({
   selector: 'app-department-dialog',

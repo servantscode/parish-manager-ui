@@ -4,10 +4,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ResponseContentType } from '@angular/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
-import { LoginService } from '../../sccommon/services/login.service';
-import { MessageService } from '../../sccommon/services/message.service';
-import { BaseService } from '../../sccommon/services/base.service';
+import { MessageService } from 'sc-common';
+
+import { ApiLocatorService } from 'sc-common';
+import { LoginService } from 'sc-common';
+import { BaseService } from 'sc-common';
 
 import { AttendanceReport, SessionAttendance } from '../attendance';
 

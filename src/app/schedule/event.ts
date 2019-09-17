@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Reservation } from './reservation';
-import { Identifiable } from '../sccommon/identifiable';
+import { Identifiable } from 'sc-common';
 
 export class Event extends Identifiable {
 

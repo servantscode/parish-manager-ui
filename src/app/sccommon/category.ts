@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { Autocompletable } from './identifiable';
+import { Autocompletable } from 'sc-common';
 
 export class Category extends Autocompletable {
 

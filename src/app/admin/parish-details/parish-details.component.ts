@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 import { OrganizationService } from '../../sccommon/services/organization.service';
 import { DepartmentService } from '../../sccommon/services/department.service';
 import { CategoryService } from '../../sccommon/services/category.service';

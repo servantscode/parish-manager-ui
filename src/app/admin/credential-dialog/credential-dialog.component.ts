@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
-import { PersonService } from '../../sccommon/services/person.service';
+import { PersonService } from 'sc-common';
 
 import { CredentialService } from '../services/credential.service';
 import { RoleService } from '../services/role.service';

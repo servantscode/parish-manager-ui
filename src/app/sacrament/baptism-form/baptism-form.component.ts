@@ -4,8 +4,8 @@ import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 
-import { LoginService } from '../../sccommon/services/login.service';
-import { PersonService } from '../../sccommon/services/person.service';
+import { LoginService } from 'sc-common';
+import { PersonService } from 'sc-common';
 
 import { BaptismService } from '../services/baptism.service';
 

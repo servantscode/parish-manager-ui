@@ -5,7 +5,7 @@ import { FormBuilder } from '@angular/forms';
 
 import { ColorService } from '../../sccommon/services/color.service';
 import { DownloadService } from '../../sccommon/services/download.service';
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 
 import { ChartData } from '../../metrics/chart-data';
 import { MetricsService } from '../../metrics/services/metrics.service';

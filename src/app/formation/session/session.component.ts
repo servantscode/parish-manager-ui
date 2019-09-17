@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 
 import { EventService } from '../../schedule/services/event.service';
 import { Event }from '../../schedule/event';

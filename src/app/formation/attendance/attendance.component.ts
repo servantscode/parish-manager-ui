@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 
 import { AttendanceDialogComponent } from '../attendance-dialog/attendance-dialog.component';
 

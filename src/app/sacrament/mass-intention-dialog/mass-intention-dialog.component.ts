@@ -4,9 +4,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { SCValidation } from '../../sccommon/validation';
-import { PaginatedResponse } from '../../sccommon/paginated.response';
+import { PaginatedResponse } from 'sc-common';
 
-import { PersonService } from '../../sccommon/services/person.service';
+import { PersonService } from 'sc-common';
 
 import { MassIntentionService } from '../services/mass-intention.service';
 import { MassAvailabilityService } from '../services/mass-availability.service';

@@ -1,5 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Alert } from '../alert';
+
+export class Alert {
+  message: string;
+  type: string;
+
+  constructor(aMessage: string, aType: string) {
+    this.message=aMessage;
+    this.type=aType;
+  }
+}
+
 
 @Injectable({
   providedIn: 'root'

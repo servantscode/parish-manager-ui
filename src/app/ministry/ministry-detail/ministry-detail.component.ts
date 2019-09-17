@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 import { SCValidation } from '../../sccommon/validation';
 
 import { Event } from '../../schedule/event';

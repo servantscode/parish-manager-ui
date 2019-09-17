@@ -7,7 +7,7 @@ import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
 import { SCValidation } from '../../sccommon/validation';
-import { Family } from '../../sccommon/family';
+import { Family } from 'sc-common';
 
 import { FamilyService } from '../../person/services/family.service';
 

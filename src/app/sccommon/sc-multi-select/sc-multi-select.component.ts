@@ -3,9 +3,9 @@ import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/f
 import { Observable } from 'rxjs';
 import { map, debounceTime, switchMap } from 'rxjs/operators'
 
-import { PaginatedService } from '../services/paginated.service';
-import { Autocompletable } from '../identifiable';
-import { PaginatedResponse } from '../paginated.response';
+import { PaginatedService } from 'sc-common';
+import { Autocompletable } from 'sc-common';
+import { PaginatedResponse } from 'sc-common';
 
 import { doLater, deepEqual } from '../utils';
 

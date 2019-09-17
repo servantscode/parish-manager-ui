@@ -6,13 +6,12 @@ import { map, startWith } from 'rxjs/operators'
 
 import { SCValidation } from '../../sccommon/validation';
 
-import { PersonService } from '../../sccommon/services/person.service';
+import { PersonService } from 'sc-common';
 
-import { Person } from '../../sccommon/person';
+import { Person } from 'sc-common';
 import { deepEqual } from '../../sccommon/utils';
 
-import { PhoneNumber } from '../../sccommon/person';
-
+import { PhoneNumber } from 'sc-common';
 @Component({
   selector: 'app-person-phone-number',
   templateUrl: './person-phone-number.component.html',

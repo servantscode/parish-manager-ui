@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
 
 import { EmailConfigService } from '../services/email-config.service';

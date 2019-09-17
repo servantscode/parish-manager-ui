@@ -7,7 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
 import { startOfHour, endOfYear, addHours, addSeconds } from 'date-fns';
 
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 import { SCValidation } from '../../sccommon/validation';
 
 import { doLater } from '../../sccommon/utils';
@@ -21,7 +21,7 @@ import { AdminOverrideDialogComponent } from '../../sccommon/admin-override-dial
 
 import { MinistryService } from '../../ministry/services/ministry.service';
 
-import { PersonService } from '../../sccommon/services/person.service';
+import { PersonService } from 'sc-common';
 
 import { PersonDialogComponent } from '../../person/person-dialog/person-dialog.component';
 

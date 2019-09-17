@@ -4,11 +4,11 @@ import { formatDate } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { DownloadService } from '../../sccommon/services/download.service';
-import { LoginService } from '../../sccommon/services/login.service';
-import { PersonService } from '../../sccommon/services/person.service';
+import { LoginService } from 'sc-common';
+import { PersonService } from 'sc-common';
 
-import { Person } from '../../sccommon/person';
-import { Family } from '../../sccommon/family';
+import { Person } from 'sc-common';
+import { Family } from 'sc-common';
 
 import { FamilyService } from '../services/family.service';
 

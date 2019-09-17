@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 
 import { SCValidation } from '../../sccommon/validation';
-import { Address } from '../../sccommon/address';
+import { Address } from 'sc-common';
 import { deepEqual } from '../../sccommon/utils';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Identifiable } from './identifiable';
+import { Identifiable } from 'sc-common';
 
 export class SavedSearch extends Identifiable {
 

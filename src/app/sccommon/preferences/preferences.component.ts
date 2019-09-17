@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, Validators, FormArray, FormGroup, AbstractControl } from '@angular/forms';
 
-import { PreferencesService } from '../services/preferences.service';
+import { PreferencesService } from 'sc-common';
 
-import { Preference, PreferenceSource } from '../preference';
+import { Preference, PreferenceSource } from 'sc-common';
 
 @Component({
   selector: 'app-preferences',

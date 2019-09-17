@@ -1,7 +1,7 @@
 import { Component, OnChanges, Input, HostListener } from '@angular/core';
 import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
-import { LoginService } from '../services/login.service';
+import { LoginService } from 'sc-common';
 import { NoteService } from '../services/note.service';
 import { Note } from '../note';
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, Observable } from 'rxjs';
 
-import { PaginatedResponse } from '../../sccommon/paginated.response';
+import { PaginatedResponse } from 'sc-common';
 import { CustomControl } from '../../sccommon/custom-control';
 
 import { RoleDialogComponent } from '../role-dialog/role-dialog.component';

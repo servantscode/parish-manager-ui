@@ -1,4 +1,4 @@
-import { Identifiable } from '../sccommon/identifiable';
+import { Identifiable } from 'sc-common';
 
 export class Pledge extends Identifiable {
   constructor() {

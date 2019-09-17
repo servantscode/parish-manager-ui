@@ -7,7 +7,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SearchDialogComponent } from '../search-dialog/search-dialog.component';
 import { SaveSearchDialogComponent } from '../save-search-dialog/save-search-dialog.component';
 
-import { LoginService } from '../services/login.service';
+import { LoginService } from 'sc-common';
 import { SearchService } from '../services/search.service';
 
 import { SCValidation } from '../validation';

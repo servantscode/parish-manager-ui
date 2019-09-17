@@ -6,12 +6,12 @@ import { Subject } from 'rxjs';
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameMonth, startOfYear, endOfYear, addHours, differenceInMilliseconds, addMilliseconds, parse, format, isEqual } from 'date-fns';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarEventTitleFormatter } from 'angular-calendar';
 
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 import { ColorService } from '../../sccommon/services/color.service';
 import { DownloadService } from '../../sccommon/services/download.service';
 import { CategoryService } from '../../sccommon/services/category.service';
 import { DepartmentService } from '../../sccommon/services/department.service';
-import { PersonService } from '../../sccommon/services/person.service';
+import { PersonService } from 'sc-common';
 
 import { Event, SelectedEvent } from '../event';
 import { Reservation } from '../reservation';

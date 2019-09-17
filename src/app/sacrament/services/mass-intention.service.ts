@@ -3,10 +3,11 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 
-import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
-import { LoginService } from '../../sccommon/services/login.service';
-import { MessageService } from '../../sccommon/services/message.service';
-import { PaginatedService } from '../../sccommon/services/paginated.service';
+import { MessageService } from 'sc-common';
+
+import { ApiLocatorService } from 'sc-common';
+import { LoginService } from 'sc-common';
+import { PaginatedService } from 'sc-common';
 
 import { MassIntention } from '../sacrament';
 

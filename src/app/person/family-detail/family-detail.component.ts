@@ -5,10 +5,10 @@ import { Observable, of } from 'rxjs';
 import { map, startWith, reduce } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 import { SCValidation } from '../../sccommon/validation';
-import { Person } from '../../sccommon/person';
-import { Family } from '../../sccommon/family';
+import { Person } from 'sc-common';
+import { Family } from 'sc-common';
 
 import { Donation } from '../../finance/donation';
 import { Pledge } from '../../finance/pledge';

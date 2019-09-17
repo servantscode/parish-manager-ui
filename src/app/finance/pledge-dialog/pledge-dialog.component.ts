@@ -6,7 +6,7 @@ import { addYears, addDays } from 'date-fns';
 
 import { SCValidation } from '../../sccommon/validation';
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
 
 import { FundService } from '../services/fund.service';

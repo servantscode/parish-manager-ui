@@ -3,10 +3,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
-import { PersonService } from '../../sccommon/services/person.service'
-
-import { Person } from '../../sccommon/person';
-import { Family } from '../../sccommon/family';
+import { PersonService } from 'sc-common';
+import { Person } from 'sc-common';
+import { Family } from 'sc-common';
 import { SCValidation } from '../../sccommon/validation';
 
 import { extractSurname } from '../utils';

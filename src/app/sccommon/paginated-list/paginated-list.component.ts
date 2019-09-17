@@ -2,11 +2,11 @@ import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angu
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject, Observable } from 'rxjs';
 
-import { PaginatedService } from '../services/paginated.service';
-import { LoginService } from '../services/login.service';
+import { PaginatedService } from 'sc-common';
+import { LoginService } from 'sc-common';
 
-import { PaginatedResponse } from '../paginated.response';
-import { Identifiable } from '../identifiable';
+import { PaginatedResponse } from 'sc-common';
+import { Identifiable } from 'sc-common';
 import { CustomControl } from '../custom-control';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 

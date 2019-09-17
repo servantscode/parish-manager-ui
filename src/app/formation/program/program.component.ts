@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 
 
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 
 import { ProgramService } from '../services/program.service';
 import { ProgramGroupService } from '../services/program-group.service';

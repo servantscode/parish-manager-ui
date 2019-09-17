@@ -28,6 +28,8 @@ import { DateInterceptor } from './services/date-interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
+import { ScCommonModule } from 'sc-common';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +38,8 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     UserMenuComponent
   ],
   imports: [
+    ScCommonModule,
+    
     SCCommonModule,
     AdminModule,
     MinistryModule,

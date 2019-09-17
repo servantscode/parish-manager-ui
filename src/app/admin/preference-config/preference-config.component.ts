@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { PreferenceDialogComponent } from '../preference-dialog/preference-dialog.component';
 
-import { PreferencesService } from '../../sccommon/services/preferences.service';
+import { PreferencesService } from 'sc-common';
 
 @Component({
   selector: 'app-preference-config',

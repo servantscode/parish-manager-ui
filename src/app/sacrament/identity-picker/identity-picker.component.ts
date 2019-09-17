@@ -3,10 +3,10 @@ import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/f
 import { Observable } from 'rxjs';
 import { map, debounceTime, switchMap } from 'rxjs/operators'
 
-import { PersonService } from '../../sccommon/services/person.service';
-import { Autocompletable } from '../../sccommon/identifiable';
+import { PersonService } from 'sc-common';
+import { Autocompletable } from 'sc-common';
 
-import { Person } from '../../sccommon/person';
+import { Person } from 'sc-common';
 
 import { Identity } from '../../sccommon/identity';
 

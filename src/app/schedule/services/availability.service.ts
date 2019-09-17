@@ -3,10 +3,11 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError} from 'rxjs/operators';
 
-import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
-import { BaseService } from '../../sccommon/services/base.service';
-import { LoginService } from '../../sccommon/services/login.service';
-import { MessageService } from '../../sccommon/services/message.service';
+import { MessageService } from 'sc-common';
+
+import { ApiLocatorService } from 'sc-common';
+import { BaseService } from 'sc-common';
+import { LoginService } from 'sc-common';
 
 import { Room } from '../room';
 

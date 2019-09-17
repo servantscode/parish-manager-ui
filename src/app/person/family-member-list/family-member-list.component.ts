@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { differenceInYears } from 'date-fns';
 
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 
-import { Person } from '../../sccommon/person';
+import { Person } from 'sc-common';
 import { doLater } from '../../sccommon/utils';
 
 import { RelationshipDialogComponent } from '../relationship-dialog/relationship-dialog.component';

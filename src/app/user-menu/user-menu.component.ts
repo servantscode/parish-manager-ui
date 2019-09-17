@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { LoginService } from '../sccommon/services/login.service';
-
 import { MatMenu } from '@angular/material/menu';
+
+import { LoginService } from 'sc-common';
 
 @Component({
   selector: 'app-user-menu',

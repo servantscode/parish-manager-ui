@@ -32,6 +32,8 @@ import { PersonDialogComponent } from './person-dialog/person-dialog.component';
 import { PersonPhoneNumberComponent } from './person-phone-number/person-phone-number.component';
 
 
+import { ScCommonModule } from 'sc-common';
+
 @NgModule({
   declarations: [
     PersonDetailComponent,
@@ -47,6 +49,7 @@ import { PersonPhoneNumberComponent } from './person-phone-number/person-phone-n
   ],
   imports: [
     PersonRoutingModule,
+    ScCommonModule,
 
     SCCommonModule,
     MinistryModule,

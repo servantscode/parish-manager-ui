@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
-import { PreferencesService } from '../../sccommon/services/preferences.service';
+import { PreferencesService } from 'sc-common';
 
 @Component({
   selector: 'app-preference-dialog',

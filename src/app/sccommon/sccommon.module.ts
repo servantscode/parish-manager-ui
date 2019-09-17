@@ -35,10 +35,7 @@ import { ScMultiEnumComponent } from './sc-multi-enum/sc-multi-enum.component';
 import { DateTimeComponent } from './date-time/date-time.component';
 import { ScMultiSelectComponent } from './sc-multi-select/sc-multi-select.component';
 
-import { ApiLocatorService } from './services/api-locator.service';
 import { EmailService } from './services/email.service';
-import { LoginService } from './services/login.service';
-import { PersonService } from './services/person.service';
 import { PhotoService } from './services/photo.service';
 import { DownloadService } from './services/download.service';
 import { OrganizationService } from './services/organization.service';
@@ -51,11 +48,10 @@ import { SearchDialogComponent } from './search-dialog/search-dialog.component';
 import { ScPhoneNumberComponent } from './sc-phone-number/sc-phone-number.component';
 import { ScSearchBarComponent } from './sc-search-bar/sc-search-bar.component';
 
-import { ScEnumPipe } from './sc-enum.pipe';
-import { DisplayCamelCasePipe } from './display-camel-case.pipe';
 import { PreferencesComponent } from './preferences/preferences.component';
-import { TimesPipe } from './times.pipe';
 import { SaveSearchDialogComponent } from './save-search-dialog/save-search-dialog.component';
+
+import { ScCommonModule } from 'sc-common';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -80,15 +76,14 @@ export function tokenGetter() {
     SearchDialogComponent,
     ScPhoneNumberComponent,
     ScSearchBarComponent,
-    ScEnumPipe,
-    DisplayCamelCasePipe,
     PreferencesComponent,
     ScMultiSelectComponent,
-    TimesPipe,
     SaveSearchDialogComponent
   ],
   imports: [
     SCCommonRoutingModule,
+
+    ScCommonModule,
 
     //Angular basics
     CommonModule,
@@ -135,14 +130,9 @@ export function tokenGetter() {
     ScSearchBarComponent,
     PreferencesComponent,
     ScMultiSelectComponent,
-    ScEnumPipe,
-    DisplayCamelCasePipe
   ],
   providers: [ 
-    ApiLocatorService,
     EmailService,
-    LoginService,
-    PersonService,
     PhotoService,
     DownloadService,
     OrganizationService,

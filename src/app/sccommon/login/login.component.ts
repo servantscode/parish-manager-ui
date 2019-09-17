@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { ApiLocatorService } from '../services/api-locator.service';
-import { LoginService } from '../services/login.service';
+import { ApiLocatorService } from 'sc-common';
+import { LoginService } from 'sc-common';
 import { OrganizationService } from '../services/organization.service';
 
 @Component({

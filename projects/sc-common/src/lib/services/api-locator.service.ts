@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +6,13 @@ import { environment } from '../../../environments/environment';
 export class ApiLocatorService {  
   constructor() {}
 
+  prefixUrl: string = 'http://localhost';
+
+  setPrefixUrl(prefix: string) {
+    this.prefixUrl = prefix;
+  }
+
   prefaceUrl(path: string): string {
-    return environment.serviceUrlPrefix + path;
+    return this.prefixUrl + path;
   }
 }

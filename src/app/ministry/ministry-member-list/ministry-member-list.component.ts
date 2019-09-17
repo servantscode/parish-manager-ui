@@ -4,10 +4,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap, map, filter, switchMap, startWith, debounceTime } from 'rxjs/operators'
 
-import { LoginService } from '../../sccommon/services/login.service';
-import { PersonService } from '../../sccommon/services/person.service';
+import { LoginService } from 'sc-common';
+import { PersonService } from 'sc-common';
 
-import { Person } from '../../sccommon/person';
+import { Person } from 'sc-common';
 
 import { Enrollment } from '../enrollment';
 import { EnrollmentService } from '../services/enrollment.service';

@@ -3,12 +3,12 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { ApiLocatorService } from '../../sccommon/services/api-locator.service';
-import { LoginService } from '../../sccommon/services/login.service';
-import { MessageService } from '../../sccommon/services/message.service';
-import { PaginatedService } from '../../sccommon/services/paginated.service';
-import { PaginatedResponse } from '../../sccommon/paginated.response';
-import { Family } from '../../sccommon/family';
+import { MessageService } from 'sc-common';
+
+import { ApiLocatorService } from 'sc-common';
+import { LoginService } from 'sc-common';
+import { PaginatedService, PaginatedResponse } from 'sc-common';
+import { Family } from 'sc-common';
 
 import { Donation } from '../donation';
 import { DonationPrediction } from '../donation-prediction';

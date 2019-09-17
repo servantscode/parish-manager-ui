@@ -1,4 +1,4 @@
-import { Autocompletable } from '../sccommon/identifiable';
+import { Autocompletable } from 'sc-common';
 
 export class Organization extends Autocompletable {
   constructor() {

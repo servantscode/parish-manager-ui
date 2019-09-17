@@ -6,13 +6,13 @@ import { map, startWith } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { differenceInYears } from 'date-fns';
 
-import { LoginService } from '../../sccommon/services/login.service';
+import { LoginService } from 'sc-common';
 import { PhotoService } from '../../sccommon/services/photo.service';
-import { PersonService } from '../../sccommon/services/person.service';
+import { PersonService } from 'sc-common';
 
 import { SCValidation } from '../../sccommon/validation';
-import { Person } from '../../sccommon/person';
-import { Family } from '../../sccommon/family';
+import { Person } from 'sc-common';
+import { Family } from 'sc-common';
 
 import { FamilyService } from '../services/family.service';
 import { RelationshipService } from '../services/relationship.service';

@@ -6,8 +6,9 @@ import { Router } from '@angular/router';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { ApiLocatorService } from './api-locator.service';
 import { MessageService } from './message.service';
+
+import { ApiLocatorService } from './api-locator.service';
 
 @Injectable({
   providedIn: 'root'

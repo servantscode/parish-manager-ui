@@ -5,7 +5,7 @@ import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 
-import { LoginService } from '../services/login.service';
+import { LoginService } from 'sc-common';
 import { PhotoService } from '../services/photo.service';
 
 @Component({

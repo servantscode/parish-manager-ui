@@ -4,8 +4,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
-import { LoginService } from '../services/login.service';
-import { MessageService } from '../services/message.service';
+
+import { MessageService } from 'sc-common';
+
+import { LoginService } from 'sc-common';
 
 import { EmailService } from '../services/email.service';
 import { Email } from '../email';

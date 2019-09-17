@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { LoginService } from '../../sccommon/services/login.service';
-import { PersonService } from '../../sccommon/services/person.service';
+import { LoginService } from 'sc-common';
+import { PersonService } from 'sc-common';
 
 @Component({
   selector: 'app-person-tabs',
