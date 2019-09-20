@@ -27,7 +27,6 @@ help: ## This help.
 # DOCKER TASKS
 # Build the container
 build: build-webapp bump-version ## Build the container
-	ng build -c production
 	docker.exe build -t servantcode/$(APP_NAME) .
 	docker.exe tag servantcode/$(APP_NAME) servantcode/$(APP_NAME):$(VERSION)
 
@@ -36,6 +35,7 @@ build-nc: ## Build the container without caching
 	docker.exe tag servantcode/$(APP_NAME) servantcode/$(APP_NAME):$(VERSION)
 
 build-webapp:
+	ng build sc-common 
 	ng build -c production
 
 run: ## Run container on port configured in `config.env`
