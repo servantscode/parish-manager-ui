@@ -63,7 +63,7 @@ export class PreferencesComponent implements OnInit {
 
   private parseValue(prefField: Preference, value?: any) {
     var val = !value? prefField.defaultValue: value;
-    if(prefField.type == 'BOOLEAN')
+    if(val && prefField.type == 'BOOLEAN')
       val = JSON.parse(val);
     return val;
   }

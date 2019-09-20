@@ -36,7 +36,7 @@ export class RoomAvailabilityDialogComponent implements OnInit {
   
   ngOnInit() {
     this.availabilityService.getAvailableRooms(this.data.startTime, this.data.endTime).subscribe(resp => {
-      this.availableRooms = resp.filter(room => room.capacity >= this.data.capacity).concat(resp.filter(room => room.capacity < this.data.capacity));
+      this.availableRooms = resp.filter(room => !this.data.capacity || room.capacity >= this.data.capacity).concat(resp.filter(room => this.data.capacity && room.capacity < this.data.capacity));
       this.filteredRooms = this.availableRooms;
     });
 

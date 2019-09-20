@@ -43,11 +43,11 @@ export class FamilyMemberListComponent implements OnInit, OnChanges {
     this.relationships = this.members;
     this.relationships.forEach(r => r.relationship = "");
 
-    if(!this.person)
-      return;
+    // if(!this.person)
+    //   return;
     
     //For family view take perspective of head of household for family roles
-    if(this.person.id) {
+    if(this.person && this.person.id) {
       this.relationshipService.getRelationships(this.person.id).subscribe( results => {
           results.forEach(relation => {
             const person = this.relationships.find(r => relation.otherId == r.id);
@@ -58,8 +58,14 @@ export class FamilyMemberListComponent implements OnInit, OnChanges {
     } else {
       const head = this.relationships.find(m => m.headOfHousehold);
       if(head) {
-        head.relationship = 'HEAD';
-        this.person.id = head.id;
+        head.relationship = {'relationship': 'HEAD'};
+        this.relationshipService.getRelationships(head.id).subscribe( results => {
+          results.forEach(relation => {
+            const person = this.relationships.find(r => relation.otherId == r.id);
+            if(person)
+              person.relationship = relation;
+          })
+        });
       }
     }
   }

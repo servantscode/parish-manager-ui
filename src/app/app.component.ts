@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from '../environments/environment';
+
+import { LoginService } from 'sc-common';
 
 import { OrganizationService } from './sccommon/services/organization.service';
-
-import { ApiLocatorService, LoginService } from 'sc-common';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +16,6 @@ export class AppComponent implements OnInit {
   isDemo: boolean = false;
 
   constructor(private router: Router,
-              public apiLocatorService: ApiLocatorService,
               public loginService: LoginService,
               public organizationService: OrganizationService) { 
 }
@@ -28,7 +26,6 @@ export class AppComponent implements OnInit {
     this.isDev = href.indexOf("localhost") > -1;
     this.isDemo = href.startsWith("https://demo");
 
-    this.apiLocatorService.setPrefixUrl(environment.serviceUrlPrefix)
     this.organizationService.setActiveOrg();
   }
 }

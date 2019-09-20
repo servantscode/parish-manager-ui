@@ -99,11 +99,18 @@ export class PersonPhoneNumberComponent implements OnInit {
   }
 
   private createRow() {
-    return this.fb.group({
+    const group = this.fb.group({
         phoneNumber: ["", Validators.required],
         type: ["", Validators.required],
         primary: false
     });
+
+    group.get('phoneNumber').valueChanges.subscribe(n => {
+      if(!group.get('type').value)
+        group.get('type').setValue('CELL');
+    })
+
+    return group; 
   }
 
   private detectChanges(val: PhoneNumber[]) {

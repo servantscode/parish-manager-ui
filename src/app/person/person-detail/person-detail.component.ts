@@ -25,6 +25,8 @@ import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialo
 import { Relationship } from '../relationship';
 import { extractSurname } from '../utils';
 
+import { doLater } from '../../sccommon/utils';
+
 export enum KEY_CODE {
   ENTER = 13,
   ESCAPE = 27
@@ -49,7 +51,7 @@ export class PersonDetailComponent implements OnInit {
       salutation: ['Mr.', Validators.required],
       suffix: [''],
       male: true,
-      email: ['', Validators.email],
+      email: ['', Validators.pattern(SCValidation.EMAIL)],
       phoneNumbers: [null],
       headOfHousehold: [''],
       birthdate: [''],
@@ -126,6 +128,7 @@ export class PersonDetailComponent implements OnInit {
     this.person = new Person();
     //Default values
     this.person.religion = 'CATHOLIC';
+    this.person.parishioner = true;
     this.person.memberSince = new Date();
 
     this.personId = +this.route.snapshot.paramMap.get('id');
@@ -142,6 +145,7 @@ export class PersonDetailComponent implements OnInit {
           }
           this.person = person;
           this.personForm.patchValue(person);
+          this.personForm.markAllAsTouched();
           this.loadRelationships();
         });
     } else {
@@ -209,6 +213,9 @@ export class PersonDetailComponent implements OnInit {
     const p = this.personForm.value;
     const relationships = p.family.relationships;
     delete p.family.relationships;
+
+    if(p.email)
+      p.email = p.email.trim();
 
     if(this.person.id > 0) {
       this.personService.update(p).

@@ -205,7 +205,7 @@ export class ReservationComponent implements OnInit {
     this.rooms.push(newRoom);
 
     this.roomAvailability.push(false);
-    this.form.get('room').reset();
+    doLater(function() {this.form.get('room').reset()}.bind(this));
     this.updateReservationTimes();
   }
 

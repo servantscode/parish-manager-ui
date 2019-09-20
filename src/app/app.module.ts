@@ -28,6 +28,8 @@ import { DateInterceptor } from './services/date-interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
+import { environment } from '../environments/environment'
+
 import { ScCommonModule } from 'sc-common';
 
 @NgModule({
@@ -63,6 +65,8 @@ import { ScCommonModule } from 'sc-common';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: DateInterceptor, multi: true },
+    { provide: 'environment', useValue: environment }
+
   ],
   bootstrap: [AppComponent]
 })

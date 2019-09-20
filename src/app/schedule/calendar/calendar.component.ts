@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { formatDate, Location } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
-import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameMonth, startOfYear, endOfYear, addHours, differenceInMilliseconds, addMilliseconds, parse, format, isEqual } from 'date-fns';
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isToday, isSameMonth, startOfYear, endOfYear, startOfHour, addHours, differenceInMilliseconds, addMilliseconds, parse, format, isEqual } from 'date-fns';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarEventTitleFormatter } from 'angular-calendar';
 
 import { LoginService } from 'sc-common';
@@ -200,7 +200,17 @@ export class CalendarComponent implements OnInit {
   }
 
   newEvent() {
-    this.router.navigate(['calendar', 'event']);
+    var date = isToday(this.viewDate) ? 
+        startOfHour(addHours(new Date(), 1)): 
+        addHours(startOfDay(this.viewDate), 8);
+
+    this.editEvent({
+        id: 0,
+        startTime: date,
+        endTime: addHours(date, 1),
+        title: '',
+        schedulerId: this.loginService.getUserId()
+      });
   }
 
   groupByDate(events: any[]): any {

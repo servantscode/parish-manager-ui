@@ -7,7 +7,7 @@ import { PaginatedService } from 'sc-common';
 import { Autocompletable } from 'sc-common';
 import { PaginatedResponse } from 'sc-common';
 
-import { doLater } from '../utils';
+import { doLater, deepEqual } from '../utils';
 
 @Component({
   selector: 'app-sc-auto-complete',
@@ -84,7 +84,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   selectItem(item: T): void {
-    if(this.selected == item)
+    if(deepEqual(this.selected, item))
       return;
 
     this.selected = item;
@@ -159,7 +159,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   writeValue(value) {
-    // See above hack warning and coffee offer.
+   // See above hack warning and coffee offer.
     if(this.destroyed) return;
 
     this.selected = value;
