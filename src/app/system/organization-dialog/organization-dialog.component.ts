@@ -2,9 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 
-import { OrganizationService } from '../../sccommon/services/organization.service';
+import { OrganizationService } from 'sc-common';
 
 @Component({
   selector: 'app-organization-dialog',

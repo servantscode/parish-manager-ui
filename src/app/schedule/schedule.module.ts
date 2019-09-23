@@ -16,6 +16,8 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { SCCommonModule } from '../sccommon/sccommon.module';
+import { ScCommonModule } from 'sc-common';
+
 import { MinistryModule } from '../ministry/ministry.module';
 import { PersonModule } from '../person/person.module';
 
@@ -59,6 +61,8 @@ import { CustomEventDialogComponent } from './custom-event-dialog/custom-event-d
     ScheduleRoutingModule,
 
     SCCommonModule,
+    ScCommonModule,
+    
     MinistryModule,
 
     //Angular basics

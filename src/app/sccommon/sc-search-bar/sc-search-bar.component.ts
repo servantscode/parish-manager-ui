@@ -13,7 +13,7 @@ import { SearchService } from '../services/search.service';
 import { SCValidation } from '../validation';
 import { SavedSearch } from '../saved-search';
 
-import { deepEqual, doLater } from '../utils';
+import { deepEqual, doLater } from '../../sccommon/utils';
 
 @Component({
   selector: 'app-sc-search-bar',

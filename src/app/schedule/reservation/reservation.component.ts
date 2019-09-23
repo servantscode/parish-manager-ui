@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
 import { addMinutes, differenceInMinutes } from 'date-fns';
 
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 import { deepEqual, doLater } from '../../sccommon/utils';
 
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';

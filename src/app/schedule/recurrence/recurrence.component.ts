@@ -6,7 +6,7 @@ import { debounceTime } from 'rxjs/operators';
 
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 import { deepEqual, doLater } from '../../sccommon/utils';
 
 import { Event, Recurrence } from '../event';

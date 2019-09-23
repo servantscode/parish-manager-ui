@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SCCommonModule } from '../sccommon/sccommon.module';
+import { ScCommonModule } from 'sc-common';
 
 import { MinistryListComponent } from './ministry-list/ministry-list.component';
 import { MinistryDetailComponent } from './ministry-detail/ministry-detail.component';
@@ -31,6 +32,7 @@ import { MinistryRoleDialogComponent } from './ministry-role-dialog/ministry-rol
     MinistryRoutingModule,
 
     SCCommonModule,
+    ScCommonModule,
 
     //Angular basics
     CommonModule,

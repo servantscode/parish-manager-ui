@@ -8,7 +8,7 @@ import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs
 import { startOfHour, endOfYear, addHours, addSeconds } from 'date-fns';
 
 import { LoginService } from 'sc-common';
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 
 import { doLater } from '../../sccommon/utils';
 

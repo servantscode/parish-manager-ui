@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { LoginService } from 'sc-common';
-import { OrganizationService } from '../../sccommon/services/organization.service';
+import { OrganizationService } from 'sc-common';
 import { DepartmentService } from '../../sccommon/services/department.service';
 import { CategoryService } from '../../sccommon/services/category.service';
 
-import { Organization } from '../../sccommon/organization';
+import { Organization } from 'sc-common';
 
 import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
 import { DepartmentDialogComponent } from '../department-dialog/department-dialog.component';

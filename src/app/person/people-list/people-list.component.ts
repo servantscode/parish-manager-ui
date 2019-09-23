@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { DownloadService } from '../../sccommon/services/download.service';
+import { DownloadService } from 'sc-common';
 import { LoginService } from 'sc-common';
 import { PersonService } from 'sc-common';
 

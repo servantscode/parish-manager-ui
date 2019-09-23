@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { LoginService } from 'sc-common';
 
-import { OrganizationService } from './sccommon/services/organization.service';
+import { OrganizationService } from 'sc-common';
 
 @Component({
   selector: 'app-root',

@@ -4,7 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 
 import { ColorService } from '../../sccommon/services/color.service';
-import { DownloadService } from '../../sccommon/services/download.service';
+import { DownloadService } from 'sc-common';
 import { LoginService } from 'sc-common';
 
 import { ChartData } from '../../metrics/chart-data';

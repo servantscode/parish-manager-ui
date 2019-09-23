@@ -6,7 +6,7 @@ import { map, startWith } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { LoginService } from 'sc-common';
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 
 import { Event } from '../../schedule/event';
 import { EventService } from '../../schedule/services/event.service';

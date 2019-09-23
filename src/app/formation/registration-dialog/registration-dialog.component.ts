@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { PersonService } from 'sc-common';
 
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 
 import { RoomService } from '../../schedule/services/room.service';
 

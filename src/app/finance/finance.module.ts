@@ -11,6 +11,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { SCCommonModule } from '../sccommon/sccommon.module';
+import { ScCommonModule } from 'sc-common';
 
 import { FinanceRoutingModule } from './finance-routing.module';
 
@@ -37,6 +38,7 @@ import { FundDialogComponent } from './fund-dialog/fund-dialog.component';
     FinanceRoutingModule,
 
     SCCommonModule,
+    ScCommonModule,
 
     //Angular basics
     CommonModule,

@@ -10,6 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { SCCommonModule } from '../sccommon/sccommon.module';
+import { ScCommonModule } from 'sc-common';
 
 import { SacramentRoutingModule } from './sacrament-routing.module';
 
@@ -49,6 +50,7 @@ import { MassIntentionDialogComponent } from './mass-intention-dialog/mass-inten
     SacramentRoutingModule,
 
     SCCommonModule,
+    ScCommonModule,
 
     //Angular basics
     CommonModule,

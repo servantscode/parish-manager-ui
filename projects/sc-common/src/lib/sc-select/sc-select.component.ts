@@ -3,8 +3,8 @@ import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/f
 import { Observable } from 'rxjs';
 import { map, debounceTime, switchMap } from 'rxjs/operators'
 
-import { PaginatedService } from 'sc-common';
-import { Identifiable } from 'sc-common';
+import { PaginatedService } from '../services/paginated.service';
+import { Identifiable } from '../identifiable';
 
 @Component({
   selector: 'app-sc-select',

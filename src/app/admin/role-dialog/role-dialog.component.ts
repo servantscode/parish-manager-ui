@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { RoleService } from '../services/role.service';
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 
 @Component({
   selector: 'app-role-dialog',

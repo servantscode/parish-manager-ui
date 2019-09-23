@@ -8,7 +8,7 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, Cal
 
 import { LoginService } from 'sc-common';
 import { ColorService } from '../../sccommon/services/color.service';
-import { DownloadService } from '../../sccommon/services/download.service';
+import { DownloadService } from 'sc-common';
 import { CategoryService } from '../../sccommon/services/category.service';
 import { DepartmentService } from '../../sccommon/services/department.service';
 import { PersonService } from 'sc-common';

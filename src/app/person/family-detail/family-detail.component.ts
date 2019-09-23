@@ -6,7 +6,7 @@ import { map, startWith, reduce } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { LoginService } from 'sc-common';
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 import { Person } from 'sc-common';
 import { Family } from 'sc-common';
 

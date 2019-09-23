@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { addYears, addDays } from 'date-fns';
 
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 import { LoginService } from 'sc-common';
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';

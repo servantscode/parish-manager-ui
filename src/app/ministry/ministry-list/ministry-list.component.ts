@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 
-import { DownloadService } from '../../sccommon/services/download.service';
+import { DownloadService } from 'sc-common';
 import { LoginService } from 'sc-common';
 
 import { MinistryService } from '../services/ministry.service';

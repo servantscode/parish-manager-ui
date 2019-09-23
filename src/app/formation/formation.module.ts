@@ -14,6 +14,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 // import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SCCommonModule } from '../sccommon/sccommon.module';
+import { ScCommonModule } from 'sc-common';
+
 import { ScheduleModule } from '../schedule/schedule.module';
 
 import { FormationRoutingModule } from './formation-routing.module';
@@ -46,6 +48,8 @@ import { LinkSessionDialogComponent } from './link-session-dialog/link-session-d
     FormationRoutingModule,
 
     SCCommonModule,
+    ScCommonModule,
+    
     ScheduleModule,
 
     //Angular basics

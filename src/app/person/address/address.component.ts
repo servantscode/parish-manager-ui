@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormControl, ControlValueAccessor, NG_VALUE_AC
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 import { Address } from 'sc-common';
 import { deepEqual } from '../../sccommon/utils';
 

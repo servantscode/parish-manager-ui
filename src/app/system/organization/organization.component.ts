@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { OrganizationService } from '../../sccommon/services/organization.service';
+import { OrganizationService } from 'sc-common';
 
 import { OrganizationDialogComponent } from '../organization-dialog/organization-dialog.component';
 

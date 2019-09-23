@@ -4,7 +4,7 @@ import { FormBuilder, Validators, FormArray, FormGroup, AbstractControl, FormCon
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 
 import { Person } from 'sc-common';
 import { deepEqual } from '../../sccommon/utils';

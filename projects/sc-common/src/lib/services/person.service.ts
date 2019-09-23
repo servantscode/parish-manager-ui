@@ -8,10 +8,9 @@ import { MessageService } from './message.service';
 import { ApiLocatorService } from './api-locator.service';
 import { LoginService } from './login.service';
 import { PaginatedService } from './paginated.service';
-import { PaginatedResponse } from '../paginated.response';
 
+import { PaginatedResponse } from '../paginated-response';
 import { Person } from '../person';
-
 import { PreferenceSource } from '../preference';
 
 @Injectable({

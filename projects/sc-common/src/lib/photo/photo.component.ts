@@ -1,7 +1,7 @@
 import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { LoginService } from 'sc-common';
+import { LoginService } from '../services/login.service';
 import { PhotoService } from '../services/photo.service';
 
 import { PhotoUploadDialogComponent } from '../photo-upload-dialog/photo-upload-dialog.component'

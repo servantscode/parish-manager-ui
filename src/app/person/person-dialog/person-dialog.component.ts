@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { PersonService } from 'sc-common';
 import { Person } from 'sc-common';
 import { Family } from 'sc-common';
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 
 import { extractSurname } from '../utils';
 

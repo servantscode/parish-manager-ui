@@ -14,7 +14,6 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
-import { NgxFileDropModule } from 'ngx-file-drop';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { SCCommonRoutingModule } from './sccommon-routing.module';
@@ -22,33 +21,19 @@ import { SCCommonRoutingModule } from './sccommon-routing.module';
 import { environment } from '../../environments/environment';
 
 import { PaginatedListComponent } from './paginated-list/paginated-list.component';
-import { MessagesComponent } from './messages/messages.component';
 import { LoginComponent } from './login/login.component';
-import { ScAutoCompleteComponent } from './sc-auto-complete/sc-auto-complete.component';
-import { PhotoComponent } from './photo/photo.component';
-import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-dialog.component';
 import { NotesComponent } from './notes/notes.component';
 import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
-import { ScEnumComponent } from './sc-enum/sc-enum.component';
-import { ScMultiEnumComponent } from './sc-multi-enum/sc-multi-enum.component';
-import { DateTimeComponent } from './date-time/date-time.component';
-import { ScMultiSelectComponent } from './sc-multi-select/sc-multi-select.component';
 
 import { EmailService } from './services/email.service';
-import { PhotoService } from './services/photo.service';
-import { DownloadService } from './services/download.service';
-import { OrganizationService } from './services/organization.service';
 import { DepartmentService } from './services/department.service';
 import { CategoryService } from './services/category.service';
 
 import { AdminOverrideDialogComponent } from './admin-override-dialog/admin-override-dialog.component';
-import { ScSelectComponent } from './sc-select/sc-select.component';
 import { SearchDialogComponent } from './search-dialog/search-dialog.component';
-import { ScPhoneNumberComponent } from './sc-phone-number/sc-phone-number.component';
-import { ScSearchBarComponent } from './sc-search-bar/sc-search-bar.component';
 
-import { PreferencesComponent } from './preferences/preferences.component';
+import { ScSearchBarComponent } from './sc-search-bar/sc-search-bar.component';
 import { SaveSearchDialogComponent } from './save-search-dialog/save-search-dialog.component';
 
 import { ScCommonModule } from 'sc-common';
@@ -60,25 +45,14 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     PaginatedListComponent,
-    MessagesComponent,
     LoginComponent,
-    ScAutoCompleteComponent,
-    PhotoComponent,
-    PhotoUploadDialogComponent,
     NotesComponent,
     EmailDialogComponent,
     DeleteDialogComponent,
-    ScEnumComponent,
-    ScMultiEnumComponent,
-    DateTimeComponent,
     AdminOverrideDialogComponent,
-    ScSelectComponent,
     SearchDialogComponent,
-    ScPhoneNumberComponent,
-    ScSearchBarComponent,
-    PreferencesComponent,
-    ScMultiSelectComponent,
-    SaveSearchDialogComponent
+    SaveSearchDialogComponent,
+    ScSearchBarComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -112,35 +86,20 @@ export function tokenGetter() {
       }
     }),
 
-    NgxFileDropModule,
     CKEditorModule
   ],
   exports: [
     PaginatedListComponent,
-    MessagesComponent,
     LoginComponent,
-    ScAutoCompleteComponent,
-    PhotoComponent,
     NotesComponent,
-    ScEnumComponent,
-    ScMultiEnumComponent,
-    DateTimeComponent,
-    ScSelectComponent,
-    ScPhoneNumberComponent,
-    ScSearchBarComponent,
-    PreferencesComponent,
-    ScMultiSelectComponent,
+    ScSearchBarComponent
   ],
   providers: [ 
     EmailService,
-    PhotoService,
-    DownloadService,
-    OrganizationService,
     DepartmentService,
     CategoryService
   ],
   entryComponents: [
-    PhotoUploadDialogComponent,
     EmailDialogComponent,
     DeleteDialogComponent,
     AdminOverrideDialogComponent,

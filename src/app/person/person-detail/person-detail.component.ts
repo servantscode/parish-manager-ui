@@ -7,10 +7,10 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { differenceInYears } from 'date-fns';
 
 import { LoginService } from 'sc-common';
-import { PhotoService } from '../../sccommon/services/photo.service';
+import { PhotoService } from 'sc-common';
 import { PersonService } from 'sc-common';
 
-import { SCValidation } from '../../sccommon/validation';
+import { SCValidation } from 'sc-common';
 import { Person } from 'sc-common';
 import { Family } from 'sc-common';
 

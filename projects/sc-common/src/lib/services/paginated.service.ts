@@ -7,7 +7,7 @@ import { MessageService } from './message.service';
 import { LoginService } from './login.service';
 import { BaseService } from './base.service';
 
-import { PaginatedResponse } from '../paginated.response';
+import { PaginatedResponse } from '../paginated-response';
 import { Identifiable } from '../identifiable';
 
 export abstract class PaginatedService<T extends Identifiable> extends BaseService {

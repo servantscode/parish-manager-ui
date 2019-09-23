@@ -11,6 +11,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { SCCommonModule } from '../sccommon/sccommon.module';
+import { ScCommonModule } from 'sc-common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 
@@ -50,6 +51,7 @@ import { CategoryDialogComponent } from './category-dialog/category-dialog.compo
     AdminRoutingModule,
 
     SCCommonModule,
+    ScCommonModule,
 
     //Angular basics
     CommonModule,

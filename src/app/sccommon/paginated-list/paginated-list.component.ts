@@ -10,8 +10,8 @@ import { Identifiable } from 'sc-common';
 import { CustomControl } from '../custom-control';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
-import { SCValidation } from '../validation';
-import { doLater } from '../utils';
+import { SCValidation } from 'sc-common';
+import { doLater } from '../../sccommon/utils';
 
 @Component({
   selector: 'app-paginated-list',

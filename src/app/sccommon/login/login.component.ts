@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { ApiLocatorService } from 'sc-common';
 import { LoginService } from 'sc-common';
-import { OrganizationService } from '../services/organization.service';
+import { OrganizationService } from 'sc-common';
 
 @Component({
   selector: 'app-login',
