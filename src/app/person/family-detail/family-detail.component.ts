@@ -6,6 +6,7 @@ import { map, startWith, reduce } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { LoginService } from 'sc-common';
+import { FamilyService } from 'sc-common';
 import { SCValidation } from 'sc-common';
 import { Person } from 'sc-common';
 import { Family } from 'sc-common';
@@ -17,7 +18,6 @@ import { PledgeDialogComponent } from '../../finance/pledge-dialog/pledge-dialog
 import { DonationService } from '../../finance/services/donation.service';
 import { PledgeService } from '../../finance/services/pledge.service';
 
-import { FamilyService } from '../services/family.service';
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
 
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';

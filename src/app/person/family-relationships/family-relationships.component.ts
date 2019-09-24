@@ -9,9 +9,9 @@ import { SCValidation } from 'sc-common';
 import { Person } from 'sc-common';
 import { deepEqual } from '../../sccommon/utils';
 
-import { RelationshipService } from '../services/relationship.service';
+import { RelationshipService } from 'sc-common';
 
-import { Relationship } from '../relationship';
+import { Relationship } from 'sc-common';
 
 @Component({
   selector: 'app-family-relationships',

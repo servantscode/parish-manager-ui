@@ -19,7 +19,7 @@ import { Ministry } from '../ministry';
 })
 export class MinistryRoleComponent implements OnInit {
   public ministryId: number;
-  private ministry: Ministry;
+  public ministry: Ministry;
 
   MinistryRoleDialogComponent = MinistryRoleDialogComponent;
 

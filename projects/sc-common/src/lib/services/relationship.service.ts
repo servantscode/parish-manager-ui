@@ -3,11 +3,10 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { MessageService } from 'sc-common';
-
-import { ApiLocatorService } from 'sc-common';
-import { LoginService } from 'sc-common';
-import { BaseService } from 'sc-common';
+import { ApiLocatorService } from '../services/api-locator.service';
+import { LoginService } from '../services/login.service';
+import { MessageService } from '../services/message.service';
+import { BaseService } from '../services/base.service';
 
 import { Relationship } from '../relationship';
 @Injectable({

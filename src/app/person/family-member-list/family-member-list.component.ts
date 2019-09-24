@@ -10,9 +10,9 @@ import { doLater } from '../../sccommon/utils';
 
 import { RelationshipDialogComponent } from '../relationship-dialog/relationship-dialog.component';
 
-import { RelationshipService } from '../services/relationship.service';
+import { RelationshipService } from 'sc-common';
 
-import { Relationship } from '../relationship';
+import { Relationship } from 'sc-common';
 
 @Component({
   selector: 'app-family-member-list',
@@ -74,6 +74,8 @@ export class FamilyMemberListComponent implements OnInit, OnChanges {
     var relationship;
     if(familyMember.relationship) {
       relationship = familyMember.relationship;
+      relationship.personName = this.person.name;
+      relationship.otherName = familyMember.name;
     } else {
       relationship = new Relationship();
       relationship.personId = this.person.id;

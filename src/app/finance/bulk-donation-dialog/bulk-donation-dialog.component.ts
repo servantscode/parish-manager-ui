@@ -9,7 +9,7 @@ import { DataCleanupService } from '../../sccommon/services/data-cleanup.service
 import { SCValidation } from 'sc-common';
 import { Family } from 'sc-common';
 
-import { FamilyService } from '../../person/services/family.service';
+import { FamilyService } from 'sc-common';
 
 import { DonationService } from '../services/donation.service';
 import { FundService } from '../services/fund.service';

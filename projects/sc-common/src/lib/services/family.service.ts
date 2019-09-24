@@ -3,14 +3,13 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { MessageService } from 'sc-common';
+import { ApiLocatorService } from '../services/api-locator.service';
+import { LoginService } from '../services/login.service';
+import { MessageService } from '../services/message.service';
+import { PaginatedService } from '../services/paginated.service';
 
-import { ApiLocatorService } from 'sc-common';
-import { LoginService } from 'sc-common';
-import { PaginatedService } from 'sc-common';
-import { PaginatedResponse } from 'sc-common';
-
-import { Family } from 'sc-common';
+import { PaginatedResponse } from '../paginated-response';
+import { Family } from '../family';
 
 @Injectable({
   providedIn: 'root'

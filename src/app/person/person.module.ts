@@ -24,7 +24,6 @@ import { FamilyMemberListComponent } from './family-member-list/family-member-li
 import { PeopleListComponent } from './people-list/people-list.component';
 import { PersonTabsComponent } from './person-tabs/person-tabs.component';
 
-import { FamilyService } from './services/family.service';
 import { RelationshipDialogComponent } from './relationship-dialog/relationship-dialog.component';
 import { FamilyRelationshipsComponent } from './family-relationships/family-relationships.component';
 import { AddressComponent } from './address/address.component';
@@ -75,7 +74,6 @@ import { ScCommonModule } from 'sc-common';
   exports: [
   ],
   providers: [
-    FamilyService
   ],
   entryComponents: [
     RelationshipDialogComponent,

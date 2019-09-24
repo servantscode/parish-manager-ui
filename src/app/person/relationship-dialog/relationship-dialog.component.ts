@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 
 import { SCValidation } from 'sc-common';
 
-import { RelationshipService } from '../services/relationship.service';
+import { RelationshipService } from 'sc-common';
 
-import { Relationship } from '../relationship';
+import { Relationship } from 'sc-common';
 
 @Component({
   selector: 'app-relationship-dialog',

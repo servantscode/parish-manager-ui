@@ -10,7 +10,7 @@ import { PersonService } from 'sc-common';
 import { Person } from 'sc-common';
 import { Family } from 'sc-common';
 
-import { FamilyService } from '../services/family.service';
+import { FamilyService } from 'sc-common';
 
 export enum KEY_CODE {
   PLUS = 107,

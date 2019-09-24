@@ -14,15 +14,15 @@ import { SCValidation } from 'sc-common';
 import { Person } from 'sc-common';
 import { Family } from 'sc-common';
 
-import { FamilyService } from '../services/family.service';
-import { RelationshipService } from '../services/relationship.service';
+import { FamilyService } from 'sc-common';
+import { RelationshipService } from 'sc-common';
 
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component'
 import { EmailDialogComponent } from '../../sccommon/email-dialog/email-dialog.component';
 
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
 
-import { Relationship } from '../relationship';
+import { Relationship } from 'sc-common';
 import { extractSurname } from '../utils';
 
 import { doLater } from '../../sccommon/utils';
