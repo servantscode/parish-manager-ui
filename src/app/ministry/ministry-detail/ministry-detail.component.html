@@ -1,4 +1,5 @@
 <button *ngIf="!editMode && loginService.userCan('ministry.update')" class="btn btn-primary float-right edit-button" (click)="enableEdit()">Edit</button>
+<button *ngIf="!editMode && loginService.userCan('ministry.role.list')" class="btn btn-primary float-right edit-button" [routerLink]="['/ministry', ministry.id, 'role']">Manage Roles</button>
 <button *ngIf="!editMode && loginService.userCan('ministry.delete')" class="btn btn-outline-primary float-right edit-button" (click)="delete()">Delete</button>
 <h2>{{ministryForm.get("name").value}}&nbsp;</h2>
 
@@ -32,21 +33,6 @@
       <mat-label>Description</mat-label>
       <textarea matInput type="textarea" cdkTextareaAutosize cdkAutosizeMaxRows="10" formControlName="description"></textarea>
     </mat-form-field><br/>
-  </div>
-
-  <div *ngIf="editMode && ministryId() !== 0 && loginService.userCan('ministry.role.list')" class="container rounded-rect">
-  <h3>Roles</h3>
-  <app-paginated-list [dataService]="ministryRoleService" 
-                      [fields]="['name','leader','contact']" 
-                      [pageSize]='5' 
-                      [pathParams]="pathParams()" 
-                      [dialogComponent]="MinistryRoleDialogComponent" 
-                      [newItemTemplate]="{'ministryId': ministryId()}"
-                      type="Ministry Roles"
-                      [searchForm]="[{'name':'name', 'type':'text'},
-                                     {'name':'contact', 'type':'boolean'},
-                                     {'name':'leader', 'type':'boolean'}]">
-    </app-paginated-list>
   </div>
 
   <div *ngIf="loginService.userCan('ministry.enrollment.list')" class="container rounded-rect">

@@ -23,6 +23,7 @@ import { environment } from '../../environments/environment';
 import { PaginatedListComponent } from './paginated-list/paginated-list.component';
 import { LoginComponent } from './login/login.component';
 import { NotesComponent } from './notes/notes.component';
+import { MessagesComponent } from './messages/messages.component';
 import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 
@@ -46,6 +47,7 @@ export function tokenGetter() {
   declarations: [
     PaginatedListComponent,
     LoginComponent,
+    MessagesComponent,
     NotesComponent,
     EmailDialogComponent,
     DeleteDialogComponent,
@@ -92,7 +94,8 @@ export function tokenGetter() {
     PaginatedListComponent,
     LoginComponent,
     NotesComponent,
-    ScSearchBarComponent
+    ScSearchBarComponent,
+    MessagesComponent
   ],
   providers: [ 
     EmailService,

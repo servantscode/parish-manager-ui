@@ -20,13 +20,15 @@ import { EnrollmentService } from './services/enrollment.service';
 
 import { MinistryRoutingModule } from './ministry-routing.module';
 import { MinistryRoleDialogComponent } from './ministry-role-dialog/ministry-role-dialog.component';
+import { MinistryRoleComponent } from './ministry-role/ministry-role.component';
 
 @NgModule({
   declarations: [
     MinistryListComponent,
     MinistryDetailComponent,
     MinistryMemberListComponent,
-    MinistryRoleDialogComponent
+    MinistryRoleDialogComponent,
+    MinistryRoleComponent
   ],
   imports: [
     MinistryRoutingModule,

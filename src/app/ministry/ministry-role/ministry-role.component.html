@@ -1,0 +1,17 @@
+<div class="container rounded-rect">
+  <h2>{{ministry? ministry.name: ''}} Roles</h2>
+  <app-paginated-list [dataService]="ministryRoleService" 
+                      [fields]="['name','leader','contact']" 
+                      [pageSize]='5' 
+                      [pathParams]="{'id': ministryId}"
+                      [dialogComponent]="MinistryRoleDialogComponent" 
+                      [newItemTemplate]="{'ministryId': ministryId}"
+                      type="Ministry Roles"
+                      [searchForm]="[{'name':'name', 'type':'text'},
+                                     {'name':'contact', 'type':'boolean'},
+                                     {'name':'leader', 'type':'boolean'}]">
+  </app-paginated-list>
+</div>
+<div class="container">
+  <button class="btn btn-primary" (click)="goBack()">Ok</button> 
+</div>

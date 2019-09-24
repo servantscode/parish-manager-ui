@@ -20,7 +20,7 @@ import { MinistryRoleService } from '../services/ministry-role.service';
 
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
 import { EmailDialogComponent } from '../../sccommon/email-dialog/email-dialog.component';
-import { MinistryRoleDialogComponent } from '../ministry-role-dialog/ministry-role-dialog.component';
+// import { MinistryRoleDialogComponent } from '../ministry-role-dialog/ministry-role-dialog.component';
 
 export enum KEY_CODE {
   ENTER = 13,
@@ -42,7 +42,7 @@ export class MinistryDetailComponent implements OnInit {
 
   public editMode = false;
 
-  MinistryRoleDialogComponent = MinistryRoleDialogComponent;
+  // MinistryRoleDialogComponent = MinistryRoleDialogComponent;
   ContactType = ContactType;
 
   ministryForm = this.fb.group({
@@ -65,7 +65,7 @@ export class MinistryDetailComponent implements OnInit {
               private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.getMinistry();
+    // this.getMinistry();
 
     this.route.params.subscribe(
         params => {
@@ -181,9 +181,5 @@ export class MinistryDetailComponent implements OnInit {
 
   ministryId() {
     return +this.route.snapshot.paramMap.get('id');
-  }
-
-  pathParams() {
-    return {'id': this.ministryId()};
   }
 }
