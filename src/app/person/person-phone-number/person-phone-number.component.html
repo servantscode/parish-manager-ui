@@ -13,7 +13,7 @@
           <app-sc-phone-number formControlName="phoneNumber" [required]="true"></app-sc-phone-number>
         </td>
         <td>
-          <app-sc-enum formControlName="type" [required]="true" [valueSource]="phoneNumberTypes" fieldSize='5'></app-sc-enum>
+          <app-sc-enum formControlName="type" label="Type" [required]="true" [valueSource]="phoneNumberTypes" fieldSize='5'></app-sc-enum>
         </td>
         <td>
           <mat-checkbox formControlName="primary"> Primary</mat-checkbox>

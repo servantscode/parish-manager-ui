@@ -31,8 +31,6 @@ export class PersonPhoneNumberComponent implements OnInit {
       phoneNumbers: this.fb.array([])
     });
 
-  //, Validators.pattern(SCValidation.PHONE)
-
   value: PhoneNumber[];
 
   @Input() disabled = false;
@@ -48,10 +46,8 @@ export class PersonPhoneNumberComponent implements OnInit {
   }
 
   enableUpdates() {
-    if(this.changeListener)
-      return;
-
-    this.changeListener = this.form.valueChanges.subscribe(phoneNumbers => this.detectChanges(phoneNumbers.phoneNumbers));
+    if(!this.changeListener)
+      this.changeListener = this.form.valueChanges.subscribe(phoneNumbers => this.detectChanges(phoneNumbers.phoneNumbers));
   }
 
   diableUpdates() {
@@ -67,8 +63,6 @@ export class PersonPhoneNumberComponent implements OnInit {
 
   private updateForm() {
     this.diableUpdates();
-    // this.relationshipListeners.forEach(listener => listener.unsubscribe());
-    // this.relationshipListeners = [];
     const rows = this.phoneNumberControls();
     rows.clear();
 
@@ -106,9 +100,17 @@ export class PersonPhoneNumberComponent implements OnInit {
     });
 
     group.get('phoneNumber').valueChanges.subscribe(n => {
-      if(!group.get('type').value)
-        group.get('type').setValue('CELL');
-    })
+        if(!group.get('type').value)
+          group.get('type').setValue('CELL');
+      });
+
+    group.get('primary').valueChanges.subscribe(primary => {
+        if(!primary)
+          return;
+
+        this.phoneNumberControls().controls.filter(pn => pn != group).forEach(c => c.get("primary").setValue(false));
+
+      });
 
     return group; 
   }
