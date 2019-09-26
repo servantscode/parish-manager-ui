@@ -4,27 +4,26 @@ import { FormBuilder, Validators, FormArray, FormGroup, AbstractControl, FormCon
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
 
-import { SCValidation } from 'sc-common';
+import { PersonService } from '../services/person.service';
 
-import { PersonService } from 'sc-common';
+import { SCValidation } from '../validation';
+import { Person, PhoneNumber } from '../person';
 
-import { Person } from 'sc-common';
-import { deepEqual } from '../../sccommon/utils';
+import { deepEqual } from '../utils';
 
-import { PhoneNumber } from 'sc-common';
 @Component({
-  selector: 'app-person-phone-number',
-  templateUrl: './person-phone-number.component.html',
-  styleUrls: ['./person-phone-number.component.scss'],
+  selector: 'sc-multi-phone-number',
+  templateUrl: './multi-phone-number.component.html',
+  styleUrls: ['./multi-phone-number.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PersonPhoneNumberComponent),
+      useExisting: forwardRef(() => MultiPhoneNumberComponent),
       multi: true
     }
   ]
 })
-export class PersonPhoneNumberComponent implements OnInit {
+export class MultiPhoneNumberComponent implements OnInit {
   public phoneNumberTypes = this.personService.getPhoneNumberTypes.bind(this.personService);
 
   form = this.fb.group({

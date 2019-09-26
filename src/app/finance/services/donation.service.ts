@@ -19,8 +19,6 @@ import { DonationPrediction } from '../donation-prediction';
 })
 export class DonationService extends PaginatedService<Donation> {
 
-  public selectedFamily:Family;
-
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService,
@@ -36,13 +34,13 @@ export class DonationService extends PaginatedService<Donation> {
     return new Donation().asTemplate();
   }
 
-  getPage(start = 0, count = 10, search = ''): Observable<PaginatedResponse<Donation>> {
-    if(!this.selectedFamily) 
-      throw new Error("No selected family");
 
-    return this.http.get<PaginatedResponse<Donation>>(this.url+`/family/${this.selectedFamily.id}?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
+  public getPage(start = 0, count = 10, search = '', pathVars?: any): Observable<PaginatedResponse<Donation>> {
+    const url = (pathVars && pathVars.familyId)? this.url+`/family/${pathVars.familyId}`: this.url;
+
+    return this.http.get<PaginatedResponse<Donation>>(url+`?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
         map(resp => this.mapResults(resp)),
-        catchError(this.handleError('getFamilyContributions', null))
+        catchError(this.handleError('getPage', null))
       );
   }
 
@@ -56,6 +54,12 @@ export class DonationService extends PaginatedService<Donation> {
   getDonationTypes(): Observable<string[]> {
     return this.http.get(this.url + '/types').pipe(
         catchError(this.handleError('getDonationTypes', null))
+      );
+  }
+
+  public getReport(search = ''): Observable<any> {
+    return this.http.get(this.url + `/report?search=${encodeURI(search)}`, PaginatedService.csvOptions).pipe(
+        catchError(this.handleError('ministryReport', null))
       );
   }
 

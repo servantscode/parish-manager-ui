@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -16,6 +17,7 @@ import { ScCommonModule } from 'sc-common';
 import { FinanceRoutingModule } from './finance-routing.module';
 
 import { BulkDonationDialogComponent } from './bulk-donation-dialog/bulk-donation-dialog.component';
+import { DonationOverviewComponent } from './donation-overview/donation-overview.component';
 import { DonationComponent } from './donation/donation.component';
 import { DonationDialogComponent } from './donation-dialog/donation-dialog.component';
 import { PledgeDialogComponent } from './pledge-dialog/pledge-dialog.component';
@@ -24,15 +26,20 @@ import { DonationService } from './services/donation.service';
 import { PledgeService } from './services/pledge.service';
 import { FundComponent } from './fund/fund.component';
 import { FundDialogComponent } from './fund-dialog/fund-dialog.component';
+import { FinanceTabsComponent } from './finance-tabs/finance-tabs.component';
+import { RecordDonationComponent } from './record-donation/record-donation.component';
 
 @NgModule({
   declarations: [
     BulkDonationDialogComponent,
-    DonationComponent,
+    DonationOverviewComponent,
     DonationDialogComponent,
     PledgeDialogComponent,
     FundComponent,
-    FundDialogComponent
+    FundDialogComponent,
+    FinanceTabsComponent,
+    RecordDonationComponent,
+    DonationComponent
   ],
   imports: [
     FinanceRoutingModule,
@@ -50,6 +57,7 @@ import { FundDialogComponent } from './fund-dialog/fund-dialog.component';
     MatInputModule,
     MatDatepickerModule,
     MatAutocompleteModule,
+    MatToolbarModule,
 
     //Charts
     NgxChartsModule

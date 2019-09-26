@@ -26,9 +26,7 @@ import { PersonTabsComponent } from './person-tabs/person-tabs.component';
 
 import { RelationshipDialogComponent } from './relationship-dialog/relationship-dialog.component';
 import { FamilyRelationshipsComponent } from './family-relationships/family-relationships.component';
-import { AddressComponent } from './address/address.component';
 import { PersonDialogComponent } from './person-dialog/person-dialog.component';
-import { PersonPhoneNumberComponent } from './person-phone-number/person-phone-number.component';
 
 
 import { ScCommonModule } from 'sc-common';
@@ -42,9 +40,7 @@ import { ScCommonModule } from 'sc-common';
     PersonTabsComponent,
     RelationshipDialogComponent,
     FamilyRelationshipsComponent,
-    AddressComponent,
-    PersonDialogComponent,
-    PersonPhoneNumberComponent
+    PersonDialogComponent
   ],
   imports: [
     PersonRoutingModule,

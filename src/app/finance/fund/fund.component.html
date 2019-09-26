@@ -1,7 +1,4 @@
-<div class="container rounded-rect">
+<div class="container-fluid">
   <h3>Funds</h3>
   <app-paginated-list [dataService]="fundService" [fields]="['name']" [pageSize]='10' [dialogComponent]="FundDialogComponent"></app-paginated-list>
-</div>
-<div class="container">
-  <button class="btn btn-primary" (click)="goBack()">Ok</button> 
 </div>

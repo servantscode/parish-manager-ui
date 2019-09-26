@@ -1,15 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, Validators, FormArray, FormGroup, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, filter, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators'
 
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
-import { SCValidation } from 'sc-common';
-import { Family } from 'sc-common';
-
-import { FamilyService } from 'sc-common';
+import { SCValidation, Family, FamilyService } from 'sc-common';
 
 import { DonationService } from '../services/donation.service';
 import { FundService } from '../services/fund.service';
@@ -19,13 +15,16 @@ import { DonationPrediction } from '../donation-prediction';
 
 import { doLater } from '../../sccommon/utils';
 
+export enum KEY_CODE {
+  PLUS = 107,
+}
 
 @Component({
-  selector: 'app-bulk-donation-dialog',
-  templateUrl: './bulk-donation-dialog.component.html',
-  styleUrls: ['./bulk-donation-dialog.component.scss']
+  selector: 'app-record-donation',
+  templateUrl: './record-donation.component.html',
+  styleUrls: ['./record-donation.component.scss']
 })
-export class BulkDonationDialogComponent implements OnInit {
+export class RecordDonationComponent implements OnInit {
 
   donationTypes = this.donationService.getDonationTypes.bind(this.donationService);
 
@@ -37,15 +36,21 @@ export class BulkDonationDialogComponent implements OnInit {
         ])
     });
 
-  constructor(public dialogRef: MatDialogRef<BulkDonationDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private donationService: DonationService,
               public fundService: FundService,
               private familyService: FamilyService,
               private cleaningService: DataCleanupService) { }
   
   ngOnInit() {
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): boolean {    
+    if (event.keyCode === KEY_CODE.PLUS) {
+      this.addRow();
+      return false;
+    }
   }
 
   addRow() {
@@ -71,7 +76,7 @@ export class BulkDonationDialogComponent implements OnInit {
     const control = this.donationControls();
     control.removeAt(i);
     if(control.length == 0) {
-      this.cancel();
+      this.donationControls().push(this.newRow());
     }
   }
 
@@ -126,31 +131,28 @@ export class BulkDonationDialogComponent implements OnInit {
   }
 
   createDonations() {
-    if(this.donationForm.valid) {
-      var donations: Donation[] = [];
-      const donationDate = this.donationForm.get('donationDate').value;
-      const fundId = this.donationForm.get('fundId').value;
+    if(!this.donationForm.valid)
+      return;
 
-      for(let control of (<FormArray>this.donationForm.controls['donations']).controls) {
-        var tempDon = this.cleaningService.prune(control.value, new Donation().asTemplate());
-        tempDon.donationDate = donationDate;
-        tempDon.fundId = fundId;
-        donations.push(tempDon);
-      }
-      
-      localStorage.setItem('donation-fund', fundId);
+    var donations: Donation[] = [];
+    const donationDate = this.donationForm.get('donationDate').value;
+    const fundId = this.donationForm.get('fundId').value;
 
-      this.donationService.createDonations(donations).
-        subscribe(() => {
-          this.dialogRef.close();
-        });
-    } else {
-      this.cancel();
+    for(let control of (<FormArray>this.donationForm.controls['donations']).controls) {
+      var tempDon = this.cleaningService.prune(control.value, new Donation().asTemplate());
+      tempDon.donationDate = donationDate;
+      tempDon.fundId = fundId;
+      donations.push(tempDon);
     }
-  }
+    
+    localStorage.setItem('donation-fund', fundId);
 
-  cancel() {
-    this.dialogRef.close();    
+    this.donationService.createDonations(donations).
+      subscribe(() => {
+        const controls = this.donationControls();
+        controls.clear();
+        controls.push(this.newRow());
+      });
   }
 
   predictGroup(group, type:string) {

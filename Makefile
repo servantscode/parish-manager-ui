@@ -47,7 +47,7 @@ update:
 stop: ## Stop and remove a running container
 	kubectl.exe delete -f kube.yml
 
-release: build-webapp bump-patch-version build-nc publish 
+release: bump-patch-version build-nc publish 
 
 minor-release: build-webapp bump-minor-version build-nc publish 
 

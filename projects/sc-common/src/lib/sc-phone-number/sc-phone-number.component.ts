@@ -123,8 +123,7 @@ export class ScPhoneNumberComponent implements OnInit {
   }
 
   writeValue(value) {
-    if(value)
-      this.value = value;
+    this.value = value;
   }
 
   setDisabledState( isDisabled : boolean ) : void {

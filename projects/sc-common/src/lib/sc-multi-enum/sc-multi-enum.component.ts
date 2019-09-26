@@ -26,7 +26,7 @@ export class ScMultiEnumComponent implements ControlValueAccessor, OnInit {
   @Input() valueSource: () => Observable<string[]>;
 
   items: EnumValue[];
-  selected: string[];
+  selected: EnumValue[];
   
   onChange: any = () => { };
   onTouched: any = () => { };
@@ -35,13 +35,12 @@ export class ScMultiEnumComponent implements ControlValueAccessor, OnInit {
       input: ['']
     });
   
-  notifyObservers() {
-    const newVal = this.form.get('input').value.map(e => e.value);
-    if(deepEqual(newVal, this.selected))
+  notifyObservers(input: EnumValue[]) {
+    if(deepEqual(input, this.selected))
       return
 
-    this.selected = newVal;
-    this.onChange(newVal);
+    this.selected = input;
+    this.onChange(this.selected.map(e => e.value));
     this.onTouched();
   }
 
@@ -49,14 +48,20 @@ export class ScMultiEnumComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit() {
     this.valueSource().subscribe(values => {
-        this.items = values? values.map(item => new EnumValue(item)): null;
-        const selectedItems: EnumValue[] = this.items.filter(i => this.selected.includes(i.value));
-        this.form.get('input').setValue(selectedItems);
+        this.items = values? values.map(item => new EnumValue(item)): [];
+        this.reconcileForm();
       });
 
-    this.form.get('input').valueChanges.subscribe(value => {
-        this.notifyObservers();
-      });
+    this.form.get('input').valueChanges.subscribe(value => this.notifyObservers(value? value: []));
+  }
+
+  reconcileForm() {
+    if(this.selected && this.items) {
+      const selectedValues = this.selected.map(v => v.value);
+      const selectedItems: EnumValue[] = this.items.filter(i => selectedValues.includes(i.value));
+      this.selected = selectedItems;
+    } 
+    this.form.get('input').setValue(this.selected, {emitEvent:false});
   }
 
   //ControlValueAccesssor
@@ -69,8 +74,8 @@ export class ScMultiEnumComponent implements ControlValueAccessor, OnInit {
   }
 
   writeValue(value) {
-    this.selected = value;
-    this.form.get('input').setValue(value? value.map(item => new EnumValue(item)): null);
+    this.selected = value? value: [];
+    this.reconcileForm();
   }
 
   setDisabledState( isDisabled : boolean ) : void {

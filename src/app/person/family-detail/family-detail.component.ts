@@ -71,7 +71,6 @@ export class FamilyDetailComponent implements OnInit {
         subscribe(family => {
           this.family = family;
           this.familyForm.patchValue(family);
-          this.donationService.selectedFamily = family;
         });
 
       this.loadPledges(id);

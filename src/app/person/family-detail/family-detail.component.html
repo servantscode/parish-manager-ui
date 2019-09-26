@@ -95,6 +95,7 @@
                           [pageSize]='5' 
                           [dialogComponent]="DonationDialogComponent" 
                           [newItemTemplate]="{'familyId':family.id}"
+                          [pathParams]="{'familyId': family.id}"
                           type="Donations"
                           [searchForm]="[{'name':'fundName', 'type':'text'},
                                          {'name':'donationDate', 'type':'date'}, 

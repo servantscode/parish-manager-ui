@@ -17,9 +17,5 @@ export class FundComponent implements OnInit {
               private location: Location) { }
 
   ngOnInit() {
-  }
-
-  goBack() {
-    this.location.back();
-  }
+  }  
 }

@@ -21,7 +21,7 @@
           <a routerLink="/mass/intention" routerLinkActive="active">Intentions</a><br>
         </span>
         <span *ngIf="loginService.userCan('pledge.metrics') || loginService.userCan('donation.metrics')"> 
-          <a routerLink="/donations" routerLinkActive="active">Finances</a><br>
+          <a routerLink="/finance" routerLinkActive="active">Finances</a><br>
         </span>
         <span *ngIf="loginService.userCan('person.metrics') || loginService.userCan('family.metrics')" >
           <a routerLink="/metrics" routerLinkActive="active">Metrics</a><br>

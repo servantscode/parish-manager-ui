@@ -66,7 +66,6 @@ import { ScCommonModule } from 'sc-common';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: DateInterceptor, multi: true },
     { provide: 'environment', useValue: environment }
-
   ],
   bootstrap: [AppComponent]
 })

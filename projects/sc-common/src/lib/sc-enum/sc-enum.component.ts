@@ -91,8 +91,8 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
     if(this.selected && this.items) {
       const item = this.items.find(i => i.value == this.selected.value);
       this.selected = item;
-      this.form.get('input').setValue(this.selected, {emitEvent:false});
-    }
+    } 
+    this.form.get('input').setValue(this.selected, {emitEvent:false});
   }
 
   //ControlValueAccesssor
@@ -105,10 +105,7 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   }
 
   writeValue(value) {
-    if(!value)
-      return;
-
-    this.selected = new EnumValue(value);
+    this.selected = value? new EnumValue(value): null;
     this.reconcileForm();
   }
 

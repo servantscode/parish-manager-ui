@@ -6,6 +6,7 @@ export class Donation extends Identifiable {
   }
 
   familyId: number;
+  familyName: string;
   fundId: number;
   fundName: string;
   amount: number
@@ -21,6 +22,7 @@ export class Donation extends Identifiable {
   public asTemplate(): Donation {
     this.id=0;
     this.familyId=0;
+    this.familyName=null;
     this.fundId=0;
     this.fundName=null;
     this.amount=0;

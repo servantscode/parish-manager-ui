@@ -1,6 +1,6 @@
 <form [formGroup]="donationForm" (ngSubmit)="createDonations()">
-  <h1 mat-dialog-title>Record Donations</h1>
-  <div mat-dialog-content>
+  <h2>Record Donations</h2>
+  <div class="container-fluid">
     <div class="row">
       <div class="col">
         <mat-form-field appearance="standard" class="input-small">
@@ -64,10 +64,9 @@
     <div class="container align-right">
       <button mat-button type="button" class="btn btn-primary" (click)="addRow()">Add Donation Row</button>
     </div>
-  </div>
+  </div>  
 
-  <div mat-dialog-actions class="align-right">
+  <div>
     <button mat-button type="submit" class="btn btn-primary" [disabled]="!donationForm.valid">Save</button>
-    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
   </div>
 </form>

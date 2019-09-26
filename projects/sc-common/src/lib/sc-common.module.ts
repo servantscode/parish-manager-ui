@@ -27,7 +27,9 @@ import { PersonService } from './services/person.service';
 import { PhotoService } from './services/photo.service';
 import { PreferencesService } from './services/preferences.service';
 
+import { AddressComponent } from './address/address.component';
 import { DateTimeComponent } from './date-time/date-time.component';
+import { MultiPhoneNumberComponent } from './multi-phone-number/multi-phone-number.component';
 import { PhotoComponent } from './photo/photo.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { ScAutoCompleteComponent } from './sc-auto-complete/sc-auto-complete.component';
@@ -45,7 +47,9 @@ import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-d
     TimesPipe,
     ScEnumPipe,
 
+    AddressComponent,
     DateTimeComponent,
+    MultiPhoneNumberComponent,
     PhotoComponent,
     PreferencesComponent,
     ScAutoCompleteComponent,
@@ -84,7 +88,9 @@ import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-d
     TimesPipe,
     ScEnumPipe,
 
+    AddressComponent,
     DateTimeComponent,
+    MultiPhoneNumberComponent,
     PhotoComponent,
     PreferencesComponent,
     ScAutoCompleteComponent,

@@ -73,6 +73,8 @@ export class ScSelectComponent<T extends Identifiable> implements ControlValueAc
       const item = this.items.find(item => item.id === this.selectedId);
       this.selected=item;
       this.form.get("input").setValue(item, {emitEvent: false});
+    } else if(!this.selectedId) {
+      this.form.get("input").setValue(null, {emitEvent: false});
     }
   }
 

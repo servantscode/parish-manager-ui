@@ -32,6 +32,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   @Input() selectable: boolean = false;
   @Output() onSelect: EventEmitter<T> = new EventEmitter<T>(); 
+  @Output() onSearch: EventEmitter<string> = new EventEmitter<string>(); 
   @Input() refreshOn: Subject<any>;
 
   @Input() pathParams: any = null;
@@ -66,6 +67,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   updateSearch(search:string) {
     this.search = search;
+    this.onSearch.emit(search);
     this.populateList();
   }
 

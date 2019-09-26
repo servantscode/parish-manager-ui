@@ -3,6 +3,8 @@
   <h1 *ngIf="!data.item || !data.item.id" mat-dialog-title>Record Donation</h1>
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="familyId"/>
+
+    <app-sc-auto-complete *ngIf="!data.item || !data.item.familyId" formControlName="familyId" label='Family Name' [autocompleteService]="familyService" [required]="true" fieldSize="small"></app-sc-auto-complete>
     
     <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="standard"></app-sc-select>
 

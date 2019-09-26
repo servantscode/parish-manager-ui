@@ -24,7 +24,7 @@
 
               Email: {{person.email}}&nbsp;&nbsp;<div *ngIf="person.email && loginService.userCan('email.send')" class="big-icon email" (click)="openMailDialog()">&nbsp;</div>
               
-              <app-person-phone-number [disabled]='true' formControlName="phoneNumbers"></app-person-phone-number>  
+              <sc-multi-phone-number [disabled]='true' formControlName="phoneNumbers"></sc-multi-phone-number>  
             </div>
             <div class="col">
               Birthdate: {{person.birthdate | date: 'MM/dd/yyyy'}}<br/>
@@ -139,7 +139,7 @@
             <input matInput formControlName="email">
           </mat-form-field><br/>
 
-          <app-person-phone-number formControlName="phoneNumbers"></app-person-phone-number>  
+          <sc-multi-phone-number formControlName="phoneNumbers"></sc-multi-phone-number>  
 
         </div>
         <div class="col">

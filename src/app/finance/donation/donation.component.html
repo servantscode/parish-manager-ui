@@ -1,64 +1,17 @@
-<div class="row container-fluid">
-  <div class="col">
-    <form [formGroup]="fundForm">
-      <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="small" [nullValue]="'All Funds'"></app-sc-select>
-    </form>
-  </div>
-  <div class="col align-right">
-    <button *ngIf="loginService.hasAny('fund')" class="btn btn-primary edit-button"[routerLink]="['/fund']">Manage Funds</button>
-  </div>
-</div>
-
-<div *ngIf="loginService.userCan('pledge.metrics')" class="container rounded-rect clear-float">
-  <div class='row'>
-    <div class='col'>
-      <h3>Donation Overview</h3><br/>
-      Annual Pledges: <strong>{{annualPledgeTotal | currency:"$"}}</strong><br/>
-      YTD Donations: <strong>{{ytdDonations | currency:"$"}}</strong><br/>
-      Vs. Projected: <strong class="{{vsProjection < 0? 'red': 'green'}}">{{vsProjection | currency:"$"}}</strong>
-    </div>
-    <div class="col align-right">
-      <div class="chart-square">
-        <ngx-charts-advanced-pie-chart
-          [scheme]="pledgeFulfillment.colorScheme"
-          [results]="pledgeFulfillment.data">
-        </ngx-charts-advanced-pie-chart>
-      </div>
-    </div>
-  </div>
-</div>
-<div *ngIf="loginService.userCan('donation.metrics')" class="container rounded-rect">
-  <h3>Monthly Donations</h3>
-
-  <div class="container">
-    <div class="row">
-      <div class="col">
-      </div>
-      <div class="col align-right">
-        <button *ngIf="loginService.userCan('donation.create')" mat-button class="btn btn-primary" (click)="openDonationForm()">Record Donations</button>
-      </div>
-    </div>
-  </div>
-
-  <table class="sc-table">
-    <thead>
-      <tr>
-        <th>Month</th>
-        <th>Pledged Donations</th>
-        <th>Unpledged Donations</th>
-        <th>Total Donations</th>
-      </tr>
-    </thead>
-    <tbody >
-      <tr *ngFor="let month of monthlyDonations">
-        <td>{{month.label}}</td>
-        <td>{{month.pledged | currency:"$"}}</td>
-        <td>{{month.unpledged | currency:"$"}}</td>
-        <td>{{month.totalDonations | currency:"$"}}</td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="container-fluid">
-    <div *ngIf="loginService.userCan('donation.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
-  </div>
+<div class="container-fluid">
+  <h3>Donations</h3>
+  <app-paginated-list [dataService]="donationService" 
+                      [fields]="[{'name':'donationDate', 'type':'date'}, 'familyName', 'fundName', 
+                                 {'name':'donationType', 'type':'enum'}, {'name':'amount', 'type':'currency'}]" 
+                      [pageSize]='20' 
+                      [dialogComponent]="DonationDialogComponent" 
+                      type="Donations"
+                      (search)="updateSearch($event)"
+                      [searchForm]="[{'name':'familyName', 'type':'text'},
+                                     {'name':'fundName', 'type':'text'},
+                                     {'name':'donationDate', 'type':'date'}, 
+                                     {'name':'donationType', 'type':'text'}, 
+                                     {'name':'amount', 'type':'numberRange'}]">                    
+  </app-paginated-list>
+  <div *ngIf="loginService.userCan('ministry.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
 </div>

@@ -3,12 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuardService as AuthGuard } from '../services/auth-guard.service';
 
-import { DonationComponent } from './donation/donation.component';
-import { FundComponent } from './fund/fund.component';
+import { FinanceTabsComponent } from './finance-tabs/finance-tabs.component';
 
 const routes: Routes = [
-  { path: 'donations', component: DonationComponent, canActivate: [AuthGuard] },
-  { path: 'fund', component: FundComponent, canActivate: [AuthGuard] }
+  { path: 'finance', component: FinanceTabsComponent, canActivate: [AuthGuard] },
+  { path: 'finance/:tab', component: FinanceTabsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
