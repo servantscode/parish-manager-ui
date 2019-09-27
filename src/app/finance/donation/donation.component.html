@@ -1,12 +1,20 @@
 <div class="container-fluid">
-  <h3>Donations</h3>
+  <div class="row">
+    <div class="col">
+      <h3>Donations</h3>
+    </div>
+    <div class="col">
+      <span>Selected Total: <strong>{{totalValue | currency:"$"}}</strong></span>
+    </div>
+  </div>
+
   <app-paginated-list [dataService]="donationService" 
                       [fields]="[{'name':'donationDate', 'type':'date'}, 'familyName', 'fundName', 
                                  {'name':'donationType', 'type':'enum'}, {'name':'amount', 'type':'currency'}]" 
                       [pageSize]='20' 
                       [dialogComponent]="DonationDialogComponent" 
-                      type="Donations"
-                      (search)="updateSearch($event)"
+                      type="Donation"
+                      (onSearch)="updateSearch($event)"
                       [searchForm]="[{'name':'familyName', 'type':'text'},
                                      {'name':'fundName', 'type':'text'},
                                      {'name':'donationDate', 'type':'date'}, 

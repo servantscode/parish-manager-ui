@@ -44,6 +44,12 @@ export class DonationService extends PaginatedService<Donation> {
       );
   }
 
+  public getTotal(search = ''): Observable<number> {
+    return this.http.get<number>(this.url+`/total?search=${encodeURI(search)}`).pipe(
+        catchError(this.handleError('getTotal', null))
+      );
+  }  
+
   createDonations(donations: Donation[]): Observable<Donation[]> {
     return this.http.post<Donation[]>(this.url + '/batch', donations, this.httpOptions).pipe(
         tap(donations => this.log(`Created ${donations.length} donations`)),

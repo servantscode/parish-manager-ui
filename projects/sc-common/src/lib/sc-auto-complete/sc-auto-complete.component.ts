@@ -143,8 +143,8 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
     } else {
       //Otherwise, go get it from the server.
       this.autocompleteService.get(rawValue, this.pathParams).subscribe(item => {
-            this.setInputValue(item);
             this.selected = item;
+            this.setInputValue(item);
           });
     }
   }

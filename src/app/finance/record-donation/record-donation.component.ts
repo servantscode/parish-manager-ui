@@ -159,7 +159,7 @@ export class RecordDonationComponent implements OnInit {
     var familyId = (type === 'familyId')? group.get("familyId").value: 0;
     var envelopeNumber = (type === 'envelopeNumber')? group.get("envelopeNumber").value: 0;
 
-    if(familyId == 0 && envelopeNumber == 0)
+    if(!familyId && !envelopeNumber)
       return;
 
     const fundId = this.donationForm.get('fundId').value;

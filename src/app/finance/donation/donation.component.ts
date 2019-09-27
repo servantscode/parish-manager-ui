@@ -15,16 +15,20 @@ export class DonationComponent implements OnInit {
 
   DonationDialogComponent = DonationDialogComponent;
 
-  private search:string;
+  private search:string = "";
+  public totalValue: number = 0;
 
   constructor(public donationService: DonationService,
               public loginService: LoginService,
               private downloadService: DownloadService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.donationService.getTotal(this.search).subscribe(v => this.totalValue=v);
+  }
 
   updateSearch(search:string) {
     this.search = search;
+    this.donationService.getTotal(search).subscribe(v => this.totalValue=v);
   }
 
   downloadReport() {
