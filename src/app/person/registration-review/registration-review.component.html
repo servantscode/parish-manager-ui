@@ -1,0 +1,75 @@
+<div class="container-fluid">
+  <h3>Registration Requests</h3>
+  <app-paginated-list [dataService]="registrationService" 
+                      [fields]="['familyName',
+                                 {'name': 'requestTime', 'type':'dateTime'},
+                                 'approvalStatus']" 
+                      [pageSize]='5' 
+                      [type]="'RegistrationRequest'"
+                      selectable='true'
+                      (onSelect)="select($event)"
+                      allowCreate='false'
+                      [refreshOn]='refresh'
+                      [searchForm]="[{'name':'familyName', 'type':'text'}]">>
+  </app-paginated-list>
+</div>
+
+<div *ngIf="req" class="container-fluid">
+  <div class="row">
+    <div class="col pad-5">
+     <h3>Registration Request</h3>
+     <div class="rounded-rect pad-5">
+        <h3>Family Name: {{req.familyData.surname}}</h3>
+        <span *ngIf="req.familyData.phoneNumber">Home phone: {{req.familyData.phoneNumber}}<br/></span>
+        <span *ngIf="req.familyData.address">Home Address: {{req.familyData.address.street1}}, {{req.familyData.address.city}}, {{req.familyData.address.state}} {{req.familyData.address.zip}}<br/></span>
+        <br/>
+
+        <!-- <h3>Family Members:</h3> -->
+        <table class="sc-table">
+          <thead>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Primary Phone</th>
+            <th>Age</th>
+          </thead>
+          <tr *ngFor="let person of req.familyData.members">
+            <td>{{person.name}}&nbsp;&nbsp;<img class="icon" *ngIf="person.headOfHousehold" src="assets/images/crown.png"/></td>
+            <td>{{person.email}}</td>
+            <td>{{(person.phoneNumbers && person.phoneNumbers.length > 0)? person.phoneNumbers[0].phoneNumber: ''}}</td>
+            <td>{{currentAge(person.birthdate)}}</td>
+          </tr>
+        </table>
+      </div>
+      <button class="btn btn-primary float-right" type="button" (click)="setStatus('APPROVED')">Approve</button>
+      <button class="btn btn-outline-primary float-right" type="button" (click)="setStatus('NEEDS_REVIEW')">Review Later</button>
+      <button class="btn btn-outline-primary float-right" type="button" (click)="setStatus('REJECTED')">Deny</button>
+    </div>
+    <div class="col pad-5 ">
+      <h3>Possible Duplicates ({{possibleMatches? possibleMatches.length: 0}})</h3>
+      <div *ngFor="let family of possibleMatches" class="rounded-rect pad-5">
+        <button class="btn btn-outline-primary float-right" type="button" (click)="merge(family)">Update this family</button>
+
+        <h3>Family Name: {{family.surname}}</h3>
+        <span *ngIf="family.phoneNumber">Home phone: {{family.phoneNumber}}<br/></span>
+        <span *ngIf="family.address">Home Address: {{family.address.street1}}, {{family.address.city}}, {{family.address.state}} {{family.address.zip}}<br/></span>
+        <br/>
+
+        <!-- <h3>Family Members:</h3> -->
+        <table class="sc-table">
+          <thead>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Primary Phone</th>
+            <th>Age</th>
+          </thead>
+          <tr *ngFor="let person of family.members">
+            <td>{{person.name}}&nbsp;&nbsp;<img class="icon" *ngIf="person.headOfHousehold" src="assets/images/crown.png"/></td>
+            <td>{{person.email}}</td>
+            <td>{{(person.phoneNumbers && person.phoneNumbers.length > 0)? person.phoneNumbers[0].phoneNumber: ''}}</td>
+            <td>{{currentAge(person.birthdate)}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

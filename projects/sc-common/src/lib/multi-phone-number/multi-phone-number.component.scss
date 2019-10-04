@@ -4,10 +4,11 @@
 
 .sc-table {
   tbody {
-    vertical-align: text-top;
+    vertical-align: middle;
   }
 
   tr, td {
     border-bottom-width: 0px;
+    padding: 0 5px 0 5px;
   }
 }

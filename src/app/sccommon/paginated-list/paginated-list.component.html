@@ -50,7 +50,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <button *ngIf="verifyPermission('create')" class="btn btn-primary" type="button" (click)="openModal(null)">New</button>
+      <button *ngIf="allowCreate == true && verifyPermission('create')" class="btn btn-primary" type="button" (click)="openModal(null)">New</button>
     </div>
     <div class="col align-right">
       <span class="page-status">Showing: {{this.pageStart()}}-{{this.pageEnd()}} of {{totalCount}}</span>

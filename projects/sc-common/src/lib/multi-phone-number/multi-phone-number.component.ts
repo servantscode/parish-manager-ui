@@ -75,8 +75,11 @@ export class MultiPhoneNumberComponent implements OnInit {
       this.form.patchValue({"phoneNumbers": this.value});
 
     //One for the first input
-    if(rows.length == 0)
-      rows.push(this.createRow())
+    if(rows.length == 0) {
+      const row = this.createRow();
+      row.get('primary').setValue(true, {emitEvent: false});
+      rows.push(row)
+    }
 
     this.enableUpdates();
   }
@@ -108,7 +111,6 @@ export class MultiPhoneNumberComponent implements OnInit {
           return;
 
         this.phoneNumberControls().controls.filter(pn => pn != group).forEach(c => c.get("primary").setValue(false));
-
       });
 
     return group; 

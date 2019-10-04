@@ -31,6 +31,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Input() newItemTemplate:any = null;
 
   @Input() selectable: boolean = false;
+  @Input() allowCreate: boolean = true;
   @Output() onSelect: EventEmitter<T> = new EventEmitter<T>(); 
   @Output() onSearch: EventEmitter<string> = new EventEmitter<string>(); 
   @Input() refreshOn: Subject<any>;
@@ -93,7 +94,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
     else if(item && !this.verifyPermission("update"))
       return;
 
-    if(this.openDialogRef != null)
+    if(!this.dialogComponent || this.openDialogRef)
       return;
 
     if(!item)

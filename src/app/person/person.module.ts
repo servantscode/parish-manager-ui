@@ -27,9 +27,12 @@ import { PersonTabsComponent } from './person-tabs/person-tabs.component';
 import { RelationshipDialogComponent } from './relationship-dialog/relationship-dialog.component';
 import { FamilyRelationshipsComponent } from './family-relationships/family-relationships.component';
 import { PersonDialogComponent } from './person-dialog/person-dialog.component';
+import { RegistrationReviewComponent } from './registration-review/registration-review.component';
 
+import { RegistrationService } from './services/registration.service';
 
 import { ScCommonModule } from 'sc-common';
+import { FamilyMergeDialogComponent } from './family-merge-dialog/family-merge-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,9 @@ import { ScCommonModule } from 'sc-common';
     PersonTabsComponent,
     RelationshipDialogComponent,
     FamilyRelationshipsComponent,
-    PersonDialogComponent
+    PersonDialogComponent,
+    RegistrationReviewComponent,
+    FamilyMergeDialogComponent
   ],
   imports: [
     PersonRoutingModule,
@@ -70,10 +75,12 @@ import { ScCommonModule } from 'sc-common';
   exports: [
   ],
   providers: [
+      RegistrationService
   ],
   entryComponents: [
     RelationshipDialogComponent,
-    PersonDialogComponent
+    PersonDialogComponent,
+    FamilyMergeDialogComponent
   ]
 })
 export class PersonModule { }
