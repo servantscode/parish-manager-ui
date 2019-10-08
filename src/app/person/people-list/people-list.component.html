@@ -40,7 +40,7 @@
   	</thead>
   	<tbody (mouseleave)="highlight(null)">
   		<tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}" (click)="viewDetails(item)">
-  			<td [ngClass]="{'inactive': item.inactive}">{{item.name}}</td>
+  			<td [ngClass]="{'inactive': item.inactive}">{{item.name}}&nbsp;&nbsp;<img class="icon" *ngIf="item.headOfHousehold" src="assets/images/crown.png"/></td>
         <td [ngClass]="{'inactive': item.inactive}">{{getAddressString(item)}}</td>
   		</tr>
   	</tbody>
