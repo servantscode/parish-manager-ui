@@ -10,7 +10,7 @@
 
     <mat-form-field appearance="standard" class="input-5">
       <mat-label>School Grade</mat-label>
-      <input type="number" matInput formControlName="grade" autocomplete="off" cdkFocusInitial required/>
+      <input maxlength="2" matInput formControlName="schoolGrade" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field><br/>
 
     <app-sc-auto-complete formControlName="sacramentalGroupId" label='Sacramental Group' [autocompleteService]="sacramentalGroupService"></app-sc-auto-complete>

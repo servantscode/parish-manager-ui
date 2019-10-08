@@ -24,7 +24,7 @@ export class RegistrationDialogComponent implements OnInit {
       enrolleeId: ['', Validators.required],
       programId: ['', Validators.required],
       sectionId: [''],
-      grade: ['', Validators.pattern(SCValidation.NUMBER)],
+      schoolGrade: [''],
       sacramentalGroupId: ['']
     });
 

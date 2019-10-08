@@ -56,7 +56,6 @@ export class FamilyRelationshipsComponent implements OnInit, OnChanges {
       return;
 
     this.changeListener = this.form.valueChanges.subscribe(relationships => this.detectChanges(relationships.relationships));
-
   }
 
   diableUpdates() {

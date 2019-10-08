@@ -158,7 +158,7 @@ export class Registration extends Identifiable {
   sectionId: number;
   sectionName: string;
   enrolleeAge: number;
-  grade: number;
+  schoolGrade: string;
   sacramentalGroupId: number;
   sacramentalGroupName: string;
 
@@ -174,7 +174,7 @@ export class Registration extends Identifiable {
     this.sectionId=0;
     this.sectionName='';
     this.enrolleeAge=0;
-    this.grade=0;
+    this.schoolGrade="";
     this.sacramentalGroupId=0;
     this.sacramentalGroupName='';
     return this;
