@@ -9,7 +9,7 @@
         <th class="center">Do Not Contact</th>
       </tr>
     </thead>
-    <tbody formArrayName="relationships">
+    <tbody *ngIf="familyMembers" formArrayName="relationships">
       <tr *ngFor="let relationship of relationshipControls().controls; let i=index" formGroupName="{{i}}">
         <td>{{familyMembers[i].name}}</td>
         <td>

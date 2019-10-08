@@ -13,6 +13,6 @@ export function deepEqual(x, y) {
     (x === y);
 }
 
-export function doLater(fn): void {
-  setTimeout(fn, 0);
+export function doLater(fn, timeout=0): void {
+  setTimeout(fn, timeout);
 }

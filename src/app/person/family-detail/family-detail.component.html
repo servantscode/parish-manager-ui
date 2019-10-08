@@ -115,7 +115,7 @@
     <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 
   </div>
   <div *ngIf="editMode" class="container">
-    <button class="btn btn-primary" type="submit" [disabled]="!familyForm.valid">Save</button>
-    <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 
+    <button type="submit" class="btn btn-primary" [disabled]="!familyForm.valid">Save</button>
+    <button type="button" class="btn btn-outline-primary" (click)="goBack()">Close</button> 
   </div>
 </form>

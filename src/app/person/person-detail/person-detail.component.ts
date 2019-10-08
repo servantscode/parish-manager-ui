@@ -2,7 +2,7 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators'
+import { map, startWith, debounceTime } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { differenceInYears } from 'date-fns';
 
@@ -108,6 +108,12 @@ export class PersonDetailComponent implements OnInit {
             this.getPerson();
         }
     );
+
+    if(!this.personId || this.personId == 0) {
+      this.personForm.get('birthdate').valueChanges.pipe(debounceTime(500)).subscribe(date => {
+          this.predictRelationships();
+        });
+    }
   }
 
 //Disabled until I can capture events from autocomplete without taking form action as well...
@@ -199,6 +205,62 @@ export class PersonDetailComponent implements OnInit {
       const input = this.personForm.get("name").value;
       this.personForm.get("family.surname").setValue(extractSurname(input));
     }
+  }
+
+  private predictRelationships() {
+    const relationships: Relationship[] = [];
+    const person = this.personForm.value;
+    if(this.person.family.members) {
+      var foundParents = 0;
+      var firstParentBDay = null;
+      for(let member of this.person.family.members) {
+        const r = new Relationship();
+        r.personId = person.id;
+        r.otherId = member.id;
+
+        if(member.headOfHousehold) {
+          if(Math.abs(differenceInYears(person.birthdate, member.birthdate)) < 14 &&
+              person.male != member.male) {
+            r.relationship = "SPOUSE";
+            r.contactPreference = 1;
+            foundParents++;
+            firstParentBDay = member.birthdate;
+          } else if(foundParents < 2 && 
+              differenceInYears(person.birthdate, member.birthdate) > 15) {
+
+            r.relationship = member.male? "FATHER": "MOTHER";
+            r.guardian = true;
+            r.contactPreference = 1;
+
+            foundParents++;
+            firstParentBDay = member.birthdate;
+          } else {
+            r.relationship = "OTHER";
+            r.guardian = false;
+            r.contactPreference = 0;
+          }
+        } else if(foundParents < 2 && 
+              differenceInYears(person.birthdate, member.birthdate) > 15) {
+
+            r.relationship = member.male? "FATHER": "MOTHER";
+            r.guardian = true;
+            r.contactPreference = 1;
+
+            foundParents++;
+            firstParentBDay = member.birthdate;
+        } else if (Math.abs(differenceInYears(person.birthdate, member.birthdate)) < 15) {
+          r.relationship = "SIBLING";
+          r.guardian = false;
+          r.contactPreference = 0;
+        } else {
+          r.relationship = "OTHER";
+          r.guardian = false;
+          r.contactPreference = 0;
+        }
+        relationships.push(r);
+      }
+    }    
+    this.personForm.get("family.relationships").setValue(relationships);
   }
 
   goBack(): void {

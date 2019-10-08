@@ -160,7 +160,7 @@
           <mat-checkbox formControlName="deceased"> Deceased</mat-checkbox><br/>
 
           <mat-form-field appearance="standard" *ngIf="personForm.get('deceased').value">
-            <input matInput formControlName="deathDate" [matDatepicker]="picker3" placeholder="Joined">
+            <input matInput formControlName="deathDate" [matDatepicker]="picker3" placeholder="Died">
             <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
             <mat-datepicker #picker3></mat-datepicker>
           </mat-form-field>
@@ -231,7 +231,7 @@
 
       <app-address formControlName="address"></app-address>
       
-      <app-family-relationships [person]="person" [familyMembers]="person.family.members" formControlName="relationships"></app-family-relationships>
+      <app-family-relationships [person]="personForm.value" [familyMembers]="person.family.members" formControlName="relationships"></app-family-relationships>
     </div>
   </div>
 
@@ -246,7 +246,7 @@
   </div>
 
   <div class="container">
-    <button *ngIf="editMode" class="btn btn-primary" type="submit" [disabled]="!personForm.valid">Save</button>
-    <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 
+    <button *ngIf="editMode" type="submit" class="btn btn-primary" [disabled]="!personForm.valid">Save</button>
+    <button type="button" class="btn btn-outline-primary" (click)="goBack()">Close</button> 
   </div>
 </form>
