@@ -8,9 +8,14 @@
     
     <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="standard"></app-sc-select>
 
-    <mat-form-field appearance="standard" class="input-standard">
+    <mat-form-field appearance="standard" class="input-small">
       <mat-label>Amount</mat-label>
       <input type="text" matInput formControlName="amount" autocomplete="off" cdkFocusInitial required/>
+    </mat-form-field>&nbsp;&nbsp;
+
+    <mat-form-field appearance="standard" class="input-small">
+      <mat-label>Deductible Amount</mat-label>
+      <input type="text" matInput formControlName="deductibleAmount" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field><br/>
 
     <mat-form-field>

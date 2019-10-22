@@ -19,7 +19,7 @@
           <mat-checkbox formControlName="primary"> Primary</mat-checkbox>
         </td>
         <td>
-          <div class="big-icon delete" (click)="removeRow(i)">&nbsp;</div>
+          <div *ngIf="phoneNumberControls().length > 1" class="big-icon delete" (click)="removeRow(i)">&nbsp;</div>
         </td>
       </tr>
     </tbody>

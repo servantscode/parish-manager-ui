@@ -21,6 +21,7 @@ export class DonationDialogComponent implements OnInit {
       familyId: ['', Validators.required],
       fundId: ['', Validators.required],
       amount: ['', [Validators.required, Validators.pattern(SCValidation.USD)]],
+      deductibleAmount: ['', [Validators.pattern(SCValidation.USD)]],
       donationDate: [new Date(), Validators.required],
       donationType: ['', Validators.required],
       checkNumber: ['', Validators.pattern(SCValidation.NUMBER)],
@@ -50,6 +51,12 @@ export class DonationDialogComponent implements OnInit {
               checkNumber.setValidators([Validators.pattern(SCValidation.NUMBER)]);
           }
           checkNumber.updateValueAndValidity();
+      });
+
+    this.form.get('amount').valueChanges.subscribe(value => {
+        const deductible = this.form.get('deductibleAmount');
+        if(!deductible.touched)
+          deductible.setValue(value);
       });
   }
 

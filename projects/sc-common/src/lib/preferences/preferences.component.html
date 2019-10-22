@@ -1,12 +1,4 @@
 <form [formGroup]="preferencesForm" (submit)="save();">
-  <div formArrayName="preferences">
-    <div *ngFor="let pref of preferenceControls().controls; let i=index">
-      <div [ngSwitch]="preferenceFields[i].type">
-        <div *ngSwitchCase="'BOOLEAN'">
-          <mat-checkbox formControlName="{{i}}">{{preferenceFields[i].name}}</mat-checkbox>
-        </div>
-      </div>
-    </div>
-  </div><br/>
+  <sc-preference-form formControlName="preferences" [type]="type"></sc-preference-form>
   <button [disabled]="!changesReady" class="btn btn-primary" type="submit">Save changes</button>
 </form>

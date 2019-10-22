@@ -17,6 +17,7 @@ export class Family extends Autocompletable {
   photoGuid: string;
   inactive: boolean;
   inactiveSince: Date;
+  preferences: any;
 
   public identify(): string {
     return this.surname;
@@ -37,6 +38,7 @@ export class Family extends Autocompletable {
     this.photoGuid = "";
     this.inactive = false;
     this.inactiveSince = new Date();
+    this.preferences = {};
     return this;
   }
 }

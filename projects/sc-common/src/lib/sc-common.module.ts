@@ -32,6 +32,7 @@ import { DateTimeComponent } from './date-time/date-time.component';
 import { MultiPhoneNumberComponent } from './multi-phone-number/multi-phone-number.component';
 import { PhotoComponent } from './photo/photo.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { PreferenceFormComponent } from './preference-form/preference-form.component';
 import { ScAutoCompleteComponent } from './sc-auto-complete/sc-auto-complete.component';
 import { ScEnumComponent } from './sc-enum/sc-enum.component';
 import { ScMultiEnumComponent } from './sc-multi-enum/sc-multi-enum.component';
@@ -52,6 +53,7 @@ import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-d
     MultiPhoneNumberComponent,
     PhotoComponent,
     PreferencesComponent,
+    PreferenceFormComponent,
     ScAutoCompleteComponent,
     ScEnumComponent,
     ScMultiEnumComponent,
@@ -93,6 +95,7 @@ import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-d
     MultiPhoneNumberComponent,
     PhotoComponent,
     PreferencesComponent,
+    PreferenceFormComponent,
     ScAutoCompleteComponent,
     ScEnumComponent,
     ScMultiEnumComponent,

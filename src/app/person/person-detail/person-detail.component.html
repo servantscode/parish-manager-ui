@@ -106,8 +106,8 @@
           </mat-form-field><br/>
 
           <mat-radio-group aria-label="Gender" formControlName="male">
-            <mat-radio-button value='true' [checked]="personForm.value.male">Male</mat-radio-button>&nbsp;&nbsp;
-            <mat-radio-button value='false' [checked]="!personForm.value.male">Female</mat-radio-button>
+            <mat-radio-button [value]=true [checked]="personForm.value.male">Male</mat-radio-button>&nbsp;&nbsp;
+            <mat-radio-button [value]=false [checked]="!personForm.value.male">Female</mat-radio-button>
           </mat-radio-group><br/>
 
           <mat-form-field appearance="standard" class="input-5">
@@ -120,7 +120,7 @@
             <input matInput formControlName="suffix">
           </mat-form-field><br/>
 
-          <div *ngIf="personForm.get('male').value == 'false'">
+          <div *ngIf="!personForm.get('male').value">
             <mat-form-field appearance="standard" class="input-standard">
               <mat-label>Maiden Name</mat-label>
               <input matInput formControlName="maidenName">

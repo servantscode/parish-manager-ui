@@ -142,6 +142,7 @@ export class RecordDonationComponent implements OnInit {
       var tempDon = this.cleaningService.prune(control.value, new Donation().asTemplate());
       tempDon.donationDate = donationDate;
       tempDon.fundId = fundId;
+      tempDon.deductibleAmount = tempDon.amount;
       donations.push(tempDon);
     }
     

@@ -25,6 +25,9 @@ help: ## This help.
 
 
 # DOCKER TASKS
+serve:
+	ng s -o
+
 # Build the container
 build: build-webapp bump-version ## Build the container
 	docker.exe build -t servantcode/$(APP_NAME) .

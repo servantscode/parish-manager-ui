@@ -38,6 +38,7 @@ export class Person extends Autocompletable {
   religion: string;
   specialNeeds: string[];
   occupation: string;
+  preferences: any;
 
   public identify(): string { 
     return this.name;
@@ -82,6 +83,7 @@ export class Person extends Autocompletable {
     this.religion=null;
     this.specialNeeds=null;
     this.occupation=null;
+    this.preferences={};
     return this;
   }
 }

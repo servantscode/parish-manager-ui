@@ -41,7 +41,8 @@ export class FamilyDetailComponent implements OnInit {
       surname: ['', Validators.required],
       homePhone: ['', Validators.pattern(SCValidation.PHONE)],
       envelopeNumber: ['', Validators.pattern(SCValidation.NUMBER)],
-      address: null
+      address: null,
+      preferences: {}
     });
 
   filteredOptions: Observable<string[]>;
@@ -71,9 +72,11 @@ export class FamilyDetailComponent implements OnInit {
         subscribe(family => {
           this.family = family;
           this.familyForm.patchValue(family);
+          this.familyService.getPreferences(id).subscribe(prefs => this.familyForm.get("preferences").setValue(prefs));
         });
 
       this.loadPledges(id);
+      this.familyForm.disable();
 
     } else {
       if(!this.loginService.userCan('family.create'))
@@ -97,6 +100,7 @@ export class FamilyDetailComponent implements OnInit {
 
   goBack(): void {
     if(this.editMode && this.family.id > 0) {
+      this.familyForm.disable();
       this.editMode = false;
     } else {
       this.router.navigate(['person']);
@@ -111,6 +115,7 @@ export class FamilyDetailComponent implements OnInit {
       this.familyService.update(this.familyForm.value).
         subscribe(family => {
           this.family = family;
+          this.familyForm.disable();
           this.editMode = false;
           this.getFamily();
         });
@@ -121,6 +126,7 @@ export class FamilyDetailComponent implements OnInit {
       this.familyService.create(this.familyForm.value).
         subscribe(family => {
           this.family = family;
+          this.familyForm.disable();
           this.editMode = false;
           this.router.navigate(['family', 'detail', family.id]);
         });
@@ -128,6 +134,7 @@ export class FamilyDetailComponent implements OnInit {
   }
 
   enableEdit(): void {
+    this.familyForm.enable();
     this.editMode=true;
   }
 

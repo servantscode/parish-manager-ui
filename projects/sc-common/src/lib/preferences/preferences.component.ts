@@ -16,66 +16,25 @@ export class PreferencesComponent implements OnInit {
   @Input() type: string;
   @Input() preferenceSource: PreferenceSource;
 
-  preferenceFields: Preference[];
   changesReady = false;
 
   preferencesForm = this.fb.group({
-      preferences: this.fb.array([])
+      preferences: {}
     });
 
-
-  constructor(private preferencesService: PreferencesService,
-              private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.preferencesService.getPage(0, 0, `objectType:${this.type}`)
-      .subscribe(resp => {
-          this.preferenceFields = resp.results;
-          const prefControls = this.preferenceControls();
-          for(let pref of this.preferenceFields) {
-            prefControls.push(this.fb.control(this.parseValue(pref)));
-          }
-          this.populatePreferences();
+    if(this.id)
+      this.preferenceSource.getPreferences(this.id).subscribe(prefs => {
+          this.preferencesForm.get('preferences').setValue(prefs);
         });
-
+  
     this.preferencesForm.valueChanges.subscribe(() => this.changesReady = true);
   }
 
-  preferenceControls(): FormArray {
-    return <FormArray>this.preferencesForm.controls['preferences'];
-  }
-
   save() {
-    const prefs = this.collectPreferences();
+    const prefs = this.preferencesForm.get('preferences').value;
     this.preferenceSource.updatePreferences(this.id, prefs).subscribe(() => this.changesReady = false);
-  }
-
-  private populatePreferences() {
-    this.preferenceSource.getPreferences(this.id).subscribe(prefs => {
-        Object.keys(prefs).forEach(pref => {
-          const index = this.preferenceFields.findIndex(ap => ap.name == pref);
-          var value = this.parseValue(this.preferenceFields[index], prefs[pref]);
-          this.preferenceControls().at(index).setValue(value);
-          this.changesReady = false;
-        })
-      });
-  }
-
-  private parseValue(prefField: Preference, value?: any) {
-    var val = !value? prefField.defaultValue: value;
-    if(val && prefField.type == 'BOOLEAN')
-      val = JSON.parse(val);
-    return val;
-  }
-
-  private collectPreferences(): any {
-    var collectedPrefs = {};
-    var prefFormValue = this.preferencesForm.get('preferences').value;
-    var i=0;
-    for(let pref of this.preferenceFields) {
-      collectedPrefs[pref.name] = prefFormValue[i];
-      i++;
-    }
-    return collectedPrefs;
   }
 }

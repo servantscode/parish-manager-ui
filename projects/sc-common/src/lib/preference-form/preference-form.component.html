@@ -1,0 +1,11 @@
+<form [formGroup]="preferencesForm">
+  <div formArrayName="preferences">
+    <div *ngFor="let pref of preferenceControls().controls; let i=index">
+      <div [ngSwitch]="preferenceFields[i].type">
+        <div *ngSwitchCase="'BOOLEAN'">
+          <mat-checkbox formControlName="{{i}}">{{preferenceFields[i].name}}</mat-checkbox>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

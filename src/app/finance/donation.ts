@@ -10,10 +10,11 @@ export class Donation extends Identifiable {
   fundId: number;
   fundName: string;
   amount: number
+  deductibleAmount: number
   donationDate: Date;
   donationType: string;
   checkNumber: number;
-  transactionId: number;
+  transactionId: string;
 
   public identify(): string {
     return this.donationType.toLowerCase() + " donation of $" + this.amount;
@@ -26,10 +27,11 @@ export class Donation extends Identifiable {
     this.fundId=0;
     this.fundName=null;
     this.amount=0;
+    this.deductibleAmount=0;
     this.donationDate=new Date();
     this.donationType ="";
     this.checkNumber=0;
-    this.transactionId=0;
+    this.transactionId="";
     return this;
   }
 }

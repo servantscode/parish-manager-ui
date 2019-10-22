@@ -67,7 +67,7 @@
   </div>
 
   <div class="container rounded-rect" *ngIf="family.id > 0">
-    <app-preferences [id]="family.id" [type]="'family'" [preferenceSource]="familyService"></app-preferences>
+    <sc-preference-form type="family" formControlName='preferences'></sc-preference-form>
   </div>
 
   <div *ngIf="family.id > 0" class="container rounded-rect">
