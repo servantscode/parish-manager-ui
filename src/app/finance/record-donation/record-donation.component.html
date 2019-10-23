@@ -1,3 +1,10 @@
+<ng-template #familyChoice let-family="item">
+  <div class="autocomplete-template">
+    <span>{{family.surname}}</span>&nbsp;<em>({{family.getCoupleNames()}})</em><br/>
+    <span class="secondary-info">{{family.address.street1}}, {{family.address.city}}, {{family.address.state}}</span>
+  </div>
+</ng-template>
+
 <form [formGroup]="donationForm" (ngSubmit)="createDonations()">
   <h2>Record Donations</h2>
   <div class="container-fluid">
@@ -36,7 +43,7 @@
             </mat-form-field><br/>
           </td>
           <td>
-            <app-sc-auto-complete formControlName="familyId" label='Family Name' [autocompleteService]="familyService" [required]="true" fieldSize="small"></app-sc-auto-complete>
+            <app-sc-auto-complete formControlName="familyId" label='Family' [autocompleteService]="familyService" [required]="true" fieldSize="standard" [itemTemplate]="familyChoice"></app-sc-auto-complete>
           </td>
           <td>
             <mat-form-field appearance="standard" class="input-5">

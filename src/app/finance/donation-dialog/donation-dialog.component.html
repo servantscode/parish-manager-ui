@@ -1,10 +1,17 @@
+<ng-template #familyChoice let-family="item">
+  <div class="autocomplete-template">
+    <span>{{family.surname}}</span>&nbsp;<em>({{family.getCoupleNames()}})</em><br/>
+    <span class="secondary-info">{{family.address.street1}}, {{family.address.city}}, {{family.address.state}}</span>
+  </div>
+</ng-template>
+
 <form [formGroup]="form" (ngSubmit)="save()">
   <h1 *ngIf="data.item && data.item.id" mat-dialog-title>Update Donation</h1>
   <h1 *ngIf="!data.item || !data.item.id" mat-dialog-title>Record Donation</h1>
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="familyId"/>
 
-    <app-sc-auto-complete *ngIf="!data.item || !data.item.familyId" formControlName="familyId" label='Family Name' [autocompleteService]="familyService" [required]="true" fieldSize="small"></app-sc-auto-complete>
+    <app-sc-auto-complete *ngIf="!data.item || !data.item.familyId" formControlName="familyId" label='Family' [autocompleteService]="familyService" [required]="true" fieldSize="standard" [itemTemplate]="familyChoice"></app-sc-auto-complete>
     
     <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="standard"></app-sc-select>
 

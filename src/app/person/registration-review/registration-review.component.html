@@ -22,6 +22,10 @@
         <h3>Family Name: {{req.familyData.surname}}</h3>
         <span *ngIf="req.familyData.phoneNumber">Home phone: {{req.familyData.phoneNumber}}<br/></span>
         <span *ngIf="req.familyData.address">Home Address: {{req.familyData.address.street1}}, {{req.familyData.address.city}}, {{req.familyData.address.state}} {{req.familyData.address.zip}}<br/></span>
+        <span *ngIf="req.familyData.envelopeNumber">Envelope Number: {{req.familyData.envelopeNumber}}<br/></span>
+        <div *ngIf="!req.familyData.envelopeNumber">
+          <button class="btn btn-primary" type="button" (click)="addEnvelopeNumber()">Add Envelope Number</button>
+        </div>
         <br/>
 
         <!-- <h3>Family Members:</h3> -->
@@ -52,6 +56,7 @@
         <h3>Family Name: {{family.surname}}</h3>
         <span *ngIf="family.phoneNumber">Home phone: {{family.phoneNumber}}<br/></span>
         <span *ngIf="family.address">Home Address: {{family.address.street1}}, {{family.address.city}}, {{family.address.state}} {{family.address.zip}}<br/></span>
+        <span *ngIf="family.envelopeNumber">Envelope Number: {{family.envelopeNumber}}<br/></span>
         <br/>
 
         <!-- <h3>Family Members:</h3> -->

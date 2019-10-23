@@ -100,14 +100,12 @@
     </div>
   </ng-template>
 
-  <ng-template 
-    #eventTemplate
-    let-event="event">
-      <strong>{{event.title}}</strong> <br/>
-      <div *ngFor="let room of event.reservations">
-        {{room.resourceName}}
-      </div>
-    </ng-template>
+  <ng-template #eventTemplate let-event="event">
+    <strong>{{event.title}}</strong> <br/>
+    <div *ngFor="let room of event.reservations">
+      {{room.resourceName}}
+    </div>
+  </ng-template>
 
   <div *ngIf="!listView" [ngSwitch]="view">
     <mwl-calendar-month-view

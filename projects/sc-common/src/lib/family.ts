@@ -17,6 +17,8 @@ export class Family extends Autocompletable {
   photoGuid: string;
   inactive: boolean;
   inactiveSince: Date;
+  headName: string;
+  spouseName: string;
   preferences: any;
 
   public identify(): string {
@@ -26,6 +28,17 @@ export class Family extends Autocompletable {
   public identifyAs(identity: string): Family {
     this.surname=identity;
     return this;
+  }
+
+  public getCoupleNames(): string {
+    if(!this.headName)
+      return "Unknown";
+    
+    var firstNames = this.headName.split(/\s/)[0];
+    if(this.spouseName)
+      firstNames += " & " + this.spouseName.split(/\s/)[0];
+
+    return firstNames;
   }
 
   public asTemplate(): Family {
@@ -38,6 +51,8 @@ export class Family extends Autocompletable {
     this.photoGuid = "";
     this.inactive = false;
     this.inactiveSince = new Date();
+    this.headName = null;
+    this.spouseName = null;
     this.preferences = {};
     return this;
   }

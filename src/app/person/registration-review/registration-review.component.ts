@@ -52,6 +52,10 @@ export class RegistrationReviewComponent implements OnInit {
       });
   }
 
+  addEnvelopeNumber() {
+    this.familyService.getNextEnvelope().subscribe(num => this.req.familyData.envelopeNumber=num);
+  }
+
   merge(existingFamily: Family) {
 
     const openDialogRef = this.dialog.open(FamilyMergeDialogComponent, {

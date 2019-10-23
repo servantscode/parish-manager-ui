@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 
@@ -15,6 +15,8 @@ import { Organization } from '../organization';
 })
 export class OrganizationService extends PaginatedService<Organization> {
 
+  orgSub = new Subject<Organization>();
+
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService,
@@ -25,9 +27,10 @@ export class OrganizationService extends PaginatedService<Organization> {
   public setActiveOrg() {
     this.http.get<Organization>(this.url+"/active").pipe(
         map(resp => this.mapObject(resp)),
-        catchError(this.handleError('get', null))
-      ).subscribe(org => {
+        catchError(this.handleError('get', null))).
+        subscribe(org => {
           localStorage.setItem("activeOrg", JSON.stringify(org));
+          this.orgSub.next(org);
         });
   }
 

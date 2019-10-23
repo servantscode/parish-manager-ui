@@ -33,6 +33,8 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   @Input() autocompleteService: PaginatedService<T>;
   @Input() pathParams: any = null;
 
+  @Input() itemTemplate = null;
+
   @Input() filter;
 
   @ViewChild('input', {static: false}) input:ElementRef;

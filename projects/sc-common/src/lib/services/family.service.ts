@@ -31,8 +31,8 @@ export class FamilyService extends PaginatedService<Family> {
     return new Family().asTemplate();
   }
 
-  public getPage(start = 0, count = 10, search = '', includeInactive=false): Observable<PaginatedResponse<Family>> {
-    return this.http.get<PaginatedResponse<Family>>(this.url+`?start=${start}&count=${count}&search=${encodeURI(search)}&include_inactive=${includeInactive}`).pipe(
+  public getPage(start = 0, count = 10, search = '', includeInactive=false, includeFamilyMembers=false): Observable<PaginatedResponse<Family>> {
+    return this.http.get<PaginatedResponse<Family>>(this.url+`?start=${start}&count=${count}&search=${encodeURI(search)}&include_inactive=${includeInactive}&members=${includeFamilyMembers}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );

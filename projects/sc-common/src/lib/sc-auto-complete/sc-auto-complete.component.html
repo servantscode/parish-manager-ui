@@ -4,7 +4,15 @@
     <input #input type="text" formControlName="input" aria-label="label" matInput [matAutocomplete]="auto" [required]="required" (blur)="verifyInput()">
     <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="identifyItem" (optionSelected)="selectItem($event.option.value)">
       <mat-option *ngFor="let item of filteredItems | async" [value]="item" (click)="selectItem(item)">
-        {{item.identify()}}
+        <ng-container 
+          *ngIf="itemTemplate" 
+          [ngTemplateOutlet]="itemTemplate" 
+          [ngTemplateOutletContext]="{item: item}"
+        ></ng-container>
+
+        <span *ngIf="!itemTemplate">
+          {{item.identify()}}
+        </span>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
@@ -13,7 +21,15 @@
     <input #input type="text" formControlName="input" class="form-control margin-0" placeholder="{{label}}" aria-label="label" [matAutocomplete]="auto" [required]="required" (blur)="verifyInput()">
     <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="identifyItem" (optionSelected)="selectItem($event.option.value)">
       <mat-option *ngFor="let item of filteredItems | async" [value]="item" (click)="selectItem(item)">
-        {{item.identify()}}
+        <ng-container 
+          *ngIf="itemTemplate" 
+          [ngTemplateOutlet]="itemTemplate" 
+          [ngTemplateOutletContext]="{item: item}"
+        ></ng-container>
+
+        <span *ngIf="!itemTemplate">
+          {{item.identify()}}
+        </span>
       </mat-option>
     </mat-autocomplete>
   </div>

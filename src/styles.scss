@@ -368,6 +368,16 @@ $toolbar-height: 45px;
   width: 3em;
 }
 
+.autocomplete-template {
+  line-height: 1.4;
+
+  .secondary-info {
+    font-size: 12px;
+    font-style: italic;
+    color: #999999;
+  }
+}
+
 .cal-month-view mwl-calendar-month-cell.cal-day-cell {
   flex-basis: 1;
   min-width: calc(100%/7);

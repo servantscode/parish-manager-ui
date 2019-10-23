@@ -17,6 +17,7 @@ import { doLater } from '../../sccommon/utils';
 
 export enum KEY_CODE {
   PLUS = 107,
+  ENTER = 13
 }
 
 @Component({
@@ -49,6 +50,9 @@ export class RecordDonationComponent implements OnInit {
   onKeyDown(event: KeyboardEvent): boolean {    
     if (event.keyCode === KEY_CODE.PLUS) {
       this.addRow();
+      return false;
+    } else if (event.keyCode === KEY_CODE.ENTER) {
+      //Eat enters to prevent premature submit
       return false;
     }
   }

@@ -26,6 +26,8 @@ export class FamilyMergeDialogComponent implements OnInit {
     this.existing = data.existing;
     this.merged = this.cloneFamily(this.request);
     this.merged.id = this.existing.id;
+    if(this.existing.envelopeNumber)
+      this.merged.envelopeNumber = this.existing.envelopeNumber;
   }
 
   ngOnInit() {
