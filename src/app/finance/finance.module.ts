@@ -28,6 +28,7 @@ import { FundComponent } from './fund/fund.component';
 import { FundDialogComponent } from './fund-dialog/fund-dialog.component';
 import { FinanceTabsComponent } from './finance-tabs/finance-tabs.component';
 import { RecordDonationComponent } from './record-donation/record-donation.component';
+import { PledgeComponent } from './pledge/pledge.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { RecordDonationComponent } from './record-donation/record-donation.compo
     FundDialogComponent,
     FinanceTabsComponent,
     RecordDonationComponent,
-    DonationComponent
+    DonationComponent,
+    PledgeComponent
   ],
   imports: [
     FinanceRoutingModule,

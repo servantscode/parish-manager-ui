@@ -32,14 +32,15 @@ export class PledgeService extends PaginatedService<Pledge> {
     return new Pledge().asTemplate();
   }
 
-  getPage(start?: number, count?: number, search?: string): Observable<PaginatedResponse<Pledge>> {
-    alert("Not implemented!!");
-    return null;
-  }
-
   getPledges(familyId: number): Observable<Pledge[]> {
     return this.http.get<Pledge[]>(this.url+`/family/${familyId}`).pipe(
         catchError(this.handleError('getPledge', null))
+      );
+  }
+
+  public getReport(search = ''): Observable<any> {
+    return this.http.get(this.url + `/report?search=${encodeURI(search)}`, PaginatedService.csvOptions).pipe(
+        catchError(this.handleError('ministryReport', null))
       );
   }
 

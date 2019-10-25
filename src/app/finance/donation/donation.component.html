@@ -4,6 +4,22 @@
       <h3>Donations</h3>
     </div>
     <div class="col">
+      <div class="btn-group">
+        <div class="btn btn-primary" (click)="setView('WEEK')" [class.active]="view === 'WEEK'"> 
+          This Week
+        </div>
+        <div class="btn btn-primary" (click)="setView('MONTH')" [class.active]="view === 'MONTH'">
+          This Month
+        </div>
+        <div class="btn btn-primary" (click)="setView('YEAR')" [class.active]="view === 'YEAR'">
+          YTD
+        </div>
+        <div class="btn btn-primary" (click)="setView('ALL')" [class.active]="view === 'ALL'">
+          All
+        </div>
+      </div>
+    </div>
+    <div class="col">
       <span>Selected Total: <strong>{{totalValue | currency:"$"}}</strong></span>
     </div>
   </div>
@@ -15,11 +31,13 @@
                       [dialogComponent]="DonationDialogComponent" 
                       type="Donation"
                       (onSearch)="updateSearch($event)"
+                      [searchFilter]="viewFilter"
+                      [refreshOn]="filterChanges"
                       [searchForm]="[{'name':'familyName', 'type':'text'},
                                      {'name':'fundName', 'type':'text'},
                                      {'name':'donationDate', 'type':'date'}, 
                                      {'name':'donationType', 'type':'text'}, 
                                      {'name':'amount', 'type':'numberRange'}]">                    
   </app-paginated-list>
-  <div *ngIf="loginService.userCan('ministry.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
+  <div *ngIf="loginService.userCan('donation.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
 </div>

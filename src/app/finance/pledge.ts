@@ -6,6 +6,7 @@ export class Pledge extends Identifiable {
   }
 
   familyId: number;
+  familyName: string;
   fundId: number;
   fundName: string;
   pledgeType: string;
@@ -16,6 +17,12 @@ export class Pledge extends Identifiable {
   pledgeAmount: number;
   annualPledgeAmount: number;
 
+  collectedAmount: number;
+  collectedPct: number;
+  timePct: number;
+  completionScore: number;
+  pledgeStatus: string;
+
   public identify(): string {
     return this.pledgeFrequency.toLowerCase() + " pledge of $" + this.pledgeAmount;
   }
@@ -23,6 +30,7 @@ export class Pledge extends Identifiable {
   public asTemplate(): Pledge {
     this.id=0;
     this.familyId=0;
+    this.familyName=null;
     this.fundId=0;
     this.fundName=null;
     this.pledgeType="";
@@ -32,6 +40,11 @@ export class Pledge extends Identifiable {
     this.pledgeFrequency="";
     this.pledgeAmount=0;
     this.annualPledgeAmount=0;
+    this.collectedAmount=0;
+    this.collectedPct=0;
+    this.timePct=0;
+    this.completionScore=0;
+    this.pledgeStatus=null;
     return this;
   }
 }

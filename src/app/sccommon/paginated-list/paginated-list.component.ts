@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject, Observable } from 'rxjs';
 
@@ -26,6 +26,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Input() customControls: CustomControl<T>[];
   @Input() pageSize: number = 20;
   @Input() dialogComponent = null;
+  @Input() dialogWidth = 400;
   @Input() searchFilter = null;
 
   @Input() newItemTemplate:any = null;
@@ -101,7 +102,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
       item = this.newItemTemplate;
 
     this.openDialogRef = this.dialog.open(this.dialogComponent, {
-      width: '400px',
+      width: this.dialogWidth + 'px',
       data: {"item": item}
     });
 

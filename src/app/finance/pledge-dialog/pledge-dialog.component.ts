@@ -4,9 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { addYears, addDays } from 'date-fns';
 
-import { SCValidation } from 'sc-common';
+import { SCValidation, LoginService, FamilyService } from 'sc-common';
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
-import { LoginService } from 'sc-common';
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
 
 import { FundService } from '../services/fund.service';
@@ -22,7 +21,7 @@ import { Pledge } from '../pledge';
 export class PledgeDialogComponent implements OnInit {
   pledgeForm = this.fb.group({
       id: [0],
-      familyId: [this.data.id, Validators.required],
+      familyId: ['', Validators.required],
       fundId: [1, Validators.required],
       pledgeType: ['', Validators.required], 
       pledgeDate: [new Date(), Validators.required],
@@ -42,14 +41,15 @@ export class PledgeDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               private dialog: MatDialog,
+              public familyService: FamilyService,
               public fundService: FundService,
               private pledgeService: PledgeService,
               public loginService: LoginService,
               private dataCleanup: DataCleanupService) { }
   
   ngOnInit() {
-    if(this.data.pledge != null) {
-      this.pledgeForm.patchValue(this.data.pledge)
+    if(this.data.item != null) {
+      this.pledgeForm.patchValue(this.data.item)
       this.calculateAnnual();
     }
     

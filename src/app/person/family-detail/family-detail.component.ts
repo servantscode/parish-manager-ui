@@ -142,9 +142,15 @@ export class FamilyDetailComponent implements OnInit {
     if(!this.loginService.userCan('pledge.create'))
       return;
 
+    var item = pledge;
+    if(!item) {
+      item = new Pledge();
+      item.familyId=this.family.id;
+    }
+
     const pledgeRef = this.dialog.open(PledgeDialogComponent, {
       width: '800px',
-      data: {"id": this.family.id, "pledge": pledge}
+      data: {"item": item}
     });
 
     pledgeRef.afterClosed().subscribe(result => {

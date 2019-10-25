@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <h3>Pledges</h3>
+
+  <app-paginated-list [dataService]="pledgeService" 
+                      [fields]="['familyName', 'fundName', 
+                                 {'name':'annualPledgeAmount', 'type':'currency'},
+                                 {'name':'collectedAmount', 'type':'currency'},
+                                 {'name':'pledgeStatus', 'type':'enum'},
+                                 {'name':'pledgeStart', 'type':'date'}, {'name':'pledgeEnd', 'type':'date'},
+                                 {'name':'pledgeAmount', 'type':'currency'},
+                                 {'name':'pledgeFrequency', 'type':'enum'},
+                                 {'name':'pledgeType', 'type':'enum'}]" 
+                      [pageSize]='20' 
+                      [dialogComponent]="PledgeDialogComponent" 
+                      [dialogWidth]="800"
+                      (onSearch)="updateSearch($event)"
+                      type="Pledge"
+                      [searchForm]="[{'name':'familyName', 'type':'text'},
+                                     {'name':'fundName', 'type':'text'},
+                                     {'name':'pledgeStart', 'type':'date'}, 
+                                     {'name':'pledgeType', 'type':'text'}, 
+                                     {'name':'pledgeFrequency', 'type':'text'},
+                                     {'name':'annualPledgeAmount', 'type':'numberRange'},
+                                     {'name':'collectedAmount', 'type':'numberRange'}]">                    
+
+,
+             <!-- {'name':'completionScore', 'type':'numberRange'} -->
+<!--              
+                  [searchFilter]="viewFilter"
+                  [refreshOn]="filterChanges" -->
+
+  </app-paginated-list>
+  <div *ngIf="loginService.userCan('pledge.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
+</div>

@@ -1,10 +1,19 @@
+<ng-template #familyChoice let-family="item">
+  <div class="autocomplete-template">
+    <span>{{family.surname}}</span>&nbsp;<em>({{family.getCoupleNames()}})</em><br/>
+    <span class="secondary-info">{{family.address.street1}}, {{family.address.city}}, {{family.address.state}}</span>
+  </div>
+</ng-template>
+
 <form [formGroup]="pledgeForm" (ngSubmit)="createDonation()">
   <h1 *ngIf="data.pledge && data.pledge.id > 0" mat-dialog-title>Update Pledge</h1>
   <h1 *ngIf="data.pledge == null || data.pledge.id == 0" mat-dialog-title>Record Pledge</h1>
   <div mat-dialog-content>
     <div class="row">
       <div class="col">
-        <input type="hidden" autocomplete="off" formControlName="familyId"/>
+
+        <app-sc-auto-complete formControlName="familyId" label='Family' [autocompleteService]="familyService" [required]="true" fieldSize="standard" [itemTemplate]="familyChoice"></app-sc-auto-complete>
+
         <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="standard"></app-sc-select>
 
         <app-sc-enum formControlName="pledgeType" label="Pledge Type" [required]="true" [valueSource]="pledgeTypes"></app-sc-enum>
