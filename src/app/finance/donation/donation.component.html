@@ -30,7 +30,7 @@
                       [pageSize]='20' 
                       [dialogComponent]="DonationDialogComponent" 
                       type="Donation"
-                      (onSearch)="updateSearch($event)"
+                      (searchChange)="updateSearch($event)"
                       [searchFilter]="viewFilter"
                       [refreshOn]="filterChanges"
                       [searchForm]="[{'name':'familyName', 'type':'text'},

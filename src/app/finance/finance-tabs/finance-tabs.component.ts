@@ -22,7 +22,10 @@ export class FinanceTabsComponent implements OnInit {
 
   public selectTab(tab: any): void {
     this.selectedTab = tab;
-    this.router.navigate(['finance', tab]);
+    if(tab == 'overview')
+      this.router.navigate(['finance']);
+    else
+      this.router.navigate(['finance', tab]);
   }
 
   public getId(): number {

@@ -8,15 +8,17 @@
   <div class='row'>
     <div class='col'>
       <h3>Donation Overview</h3><br/>
-      Annual Pledges: <strong>{{annualPledgeTotal | currency:"$"}}</strong><br/>
       YTD Donations: <strong>{{ytdDonations | currency:"$"}}</strong><br/>
-      Vs. Projected: <strong class="{{vsProjection < 0? 'red': 'green'}}">{{vsProjection | currency:"$"}}</strong>
+      YTD Pledged Donations: <strong>{{pledgedDonations | currency:"$"}}</strong><br/>
+      Pledge Fullfillment Rate: <strong>{{pledgeFulfillmentPct*100 | number: '1.2-2'}}%</strong><br/>
+      YTD Unpledged Donations: <strong>{{unpledgedDonations | currency:"$"}}</strong><br/>
     </div>
     <div class="col align-right">
       <div class="chart-square">
         <ngx-charts-advanced-pie-chart
           [scheme]="pledgeFulfillment.colorScheme"
-          [results]="pledgeFulfillment.data">
+          [results]="pledgeFulfillment.data"
+          (select)="clicked($event)">
         </ngx-charts-advanced-pie-chart>
       </div>
     </div>
@@ -25,16 +27,6 @@
 <div *ngIf="loginService.userCan('donation.metrics')" class="container rounded-rect">
   <h3>Monthly Donations</h3>
 
-<!--   <div class="container">
-    <div class="row">
-      <div class="col">
-      </div>
-      <div class="col align-right">
-        <button *ngIf="loginService.userCan('donation.create')" mat-button class="btn btn-primary" (click)="openDonationForm()">Record Donations</button>
-      </div>
-    </div>
-  </div>
- -->
   <table class="sc-table">
     <thead>
       <tr>

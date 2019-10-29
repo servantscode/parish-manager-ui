@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
+import { ActivatedRoute } from '@angular/router'
 import { Subject } from 'rxjs';
 import { startOfWeek, startOfMonth, startOfYear } from 'date-fns';
 
@@ -17,17 +18,19 @@ export class PledgeComponent implements OnInit {
 
   PledgeDialogComponent=PledgeDialogComponent;
 
+  public pledgeStatuses = this.pledgeService.getPledgeStatuses.bind(this.pledgeService);
+  public pledgeTypes = this.pledgeService.getPledgeTypes.bind(this.pledgeService);
+  public pledgeFrequencies = this.pledgeService.getPledgeFrequencies.bind(this.pledgeService);
+
   private search:string = "";
 
-  constructor(public pledgeService: PledgeService,
+  constructor(private route: ActivatedRoute,
+              public pledgeService: PledgeService,
               public loginService: LoginService,
               public downloadService: DownloadService) { }
 
   ngOnInit() {
-  }
-
-  updateSearch(search:string) {
-    this.search = search;
+    this.route.queryParams.subscribe(params => this.search = params['search']? params['search']: '');
   }
 
   downloadReport() {

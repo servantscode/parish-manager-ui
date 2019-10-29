@@ -55,4 +55,10 @@ export class PledgeService extends PaginatedService<Pledge> {
         catchError(this.handleError('getPledgeFrequencies', null))
       );
   }
+
+  getPledgeStatuses(): Observable<string[]> {
+    return this.http.get<string[]>(this.url+`/statuses`).pipe(
+        catchError(this.handleError('getPledgeStatuses', null))
+      );
+  }
 }

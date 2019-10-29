@@ -47,6 +47,12 @@
                                     [autocompleteService]="field.service">
               </app-sc-auto-complete>
             </div>
+            <div *ngSwitchCase="'enum'">
+              <app-sc-enum formControlName="{{fieldName(field)}}"
+                           [label]="field.displayName? field.displayName: field.name | displaycamelcase" 
+                           [valueSource]="field.valueSource">
+              </app-sc-enum>
+            </div>
             <div *ngSwitchCase="'date'">
               <strong>{{field.displayName? field.displayName: field.name | displaycamelcase}}</strong><br/>     
               <mat-form-field appearance="standard" class="input-small">

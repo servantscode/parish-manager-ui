@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { formatDate } from '@angular/common';
+import { Router, NavigationExtras } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
+import { getDayOfYear, getDaysInYear } from 'date-fns';
 
 import { ColorService } from '../../sccommon/services/color.service';
 import { DownloadService } from 'sc-common';
@@ -21,9 +23,10 @@ import { BulkDonationDialogComponent } from '../bulk-donation-dialog/bulk-donati
   styleUrls: ['./donation-overview.component.scss']
 })
 export class DonationOverviewComponent implements OnInit {
-  annualPledgeTotal: number;
   ytdDonations: number;
-  vsProjection: number;
+  pledgedDonations: number;
+  unpledgedDonations: number;
+  pledgeFulfillmentPct: number;
   pledgeFulfillment: ChartData = new ChartData(null, ['#2222dd']);
   monthlyDonations: DonationReport[];
 
@@ -31,7 +34,9 @@ export class DonationOverviewComponent implements OnInit {
       fundId: ''
     });
 
-  constructor(private metricsService: MetricsService,
+  constructor(private zone: NgZone,
+              private router: Router,
+              private metricsService: MetricsService,
               private colorService: ColorService,
               private downloadService: DownloadService,
               public loginService: LoginService,
@@ -49,14 +54,23 @@ export class DonationOverviewComponent implements OnInit {
     if(this.loginService.userCan('pledge.metrics'))
       this.metricsService.getPledgeFulfillments(this.getFundId()).
         subscribe(results => {
-          this.annualPledgeTotal = results.totalPledges;
           this.ytdDonations = results.donationsToDate;
-          const projectedDonations = results.totalPledges * this.dayOfYear()/this.daysInYear();
-          this.vsProjection = results.donationsToDate - projectedDonations;
+          this.pledgedDonations = results.pledgedDonations;
+          this.unpledgedDonations = results.unpledgedDonations;
+          this.pledgeFulfillmentPct = results.pledgedDonations/results.pledgedTarget;
           this.pledgeFulfillment = new ChartData(results.data, this.colorService.trafficLight());
         });
     
     this.updateDonations();
+  }
+
+  public clicked(event: any) {
+    if(event.name == 'Unpledged')
+      return;
+
+    const search = 'pledgeStatus:' + event.name.toUpperCase().replace(/\s/, '_');
+    const navExtras: NavigationExtras = {queryParams: { search: search } };
+    this.router.navigate(['../finance/pledges'], navExtras);
   }
 
   private updateDonations() {
@@ -69,35 +83,8 @@ export class DonationOverviewComponent implements OnInit {
     return this.fundForm.get('fundId').value;
   }
 
-  public openDonationForm() {
-    if(!this.loginService.userCan('donation.create'))
-      return;
-
-    const donationRef = this.dialog.open(BulkDonationDialogComponent, {
-      width: '800px'
-    });
-
-    donationRef.afterClosed().subscribe(result => {
-      this.updateMetrics();
-    });
-  }
-
   downloadReport() {
     const filename = "donation-report-" + formatDate(new Date(), "yyyy-MM-dd", "en_US") + ".csv";
     this.downloadService.downloadReport(this.metricsService.getMonthlyDonationReport(this.fundForm.get('fundId').value), filename);
-  }
-
-  private dayOfYear(): number {
-    const now = new Date();
-    const start = new Date(now.getFullYear(), 0, 0);
-    const diff = (now.valueOf() - start.valueOf()) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
-    const oneDay = 1000 * 60 * 60 * 24;
-    return Math.floor(diff / oneDay);
-  }
-
-  private daysInYear(): number {
-    const now = new Date().getFullYear();
-    var isLeapYear = (now % 4 == 0 && !(now%100 == 0)) || (now%400 == 0); //Overengineered ;)
-    return isLeapYear? 366: 365;
   }
 }

@@ -34,7 +34,6 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Input() selectable: boolean = false;
   @Input() allowCreate: boolean = true;
   @Output() onSelect: EventEmitter<T> = new EventEmitter<T>(); 
-  @Output() onSearch: EventEmitter<string> = new EventEmitter<string>(); 
   @Input() refreshOn: Subject<any>;
 
   @Input() pathParams: any = null;
@@ -50,7 +49,9 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   page = 1;
   totalCount = 0;
-  search = '';
+
+  @Input() search = '';
+  @Output() searchChange: EventEmitter<string> = new EventEmitter<string>(); 
 
   openDialogRef = null;
 
@@ -69,7 +70,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   updateSearch(search:string) {
     this.search = search;
-    this.onSearch.emit(search);
+    this.searchChange.emit(search);
     this.populateList();
   }
 
@@ -176,5 +177,9 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   fieldType(field:any): string {
     return typeof field === 'string' ? 'string' : field.type;
+  }
+
+  searchColumns(): number {
+    return Math.floor(this.searchForm.length/5)+1;
   }
 }

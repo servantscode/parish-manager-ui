@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <app-sc-search-bar [searchForm]="searchForm" [type]="type" (search)="updateSearch($event)"></app-sc-search-bar>
+      <app-sc-search-bar [columns]="searchColumns()" [searchForm]="searchForm" [type]="type" (search)="updateSearch($event)"></app-sc-search-bar>
     </div>
     <div class="col controls">
       <ngb-pagination [(collectionSize)]="totalCount" [(pageSize)]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" size="sm" (pageChange)="populateList()"></ngb-pagination>
@@ -24,7 +24,7 @@
           <div *ngIf="item[fieldName(field)]" [ngSwitch]="fieldType(field)">
             <div *ngSwitchCase="'date'">{{item[fieldName(field)] | date: 'MM/dd/yyyy'}}</div>
             <div *ngSwitchCase="'dateTime'">{{item[fieldName(field)] | date: 'MM/dd/yyyy hh:mma'}}</div>
-            <div *ngSwitchCase="'currency'">{{item[fieldName(field)] | currency:"$"}}</div>
+            <div *ngSwitchCase="'currency'">{{(item[fieldName(field)]? item[fieldName(field)]: 0) | currency:"$"}}</div>
             <div *ngSwitchCase="'identity'">{{item[fieldName(field)].name}}</div>
             <div *ngSwitchCase="'enum'">{{item[fieldName(field)] | scEnum}}</div>
             <div *ngSwitchCase="'boolean'">{{item[fieldName(field)]? 'true': 'false'}}</div>

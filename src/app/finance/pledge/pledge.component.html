@@ -13,15 +13,16 @@
                       [pageSize]='20' 
                       [dialogComponent]="PledgeDialogComponent" 
                       [dialogWidth]="800"
-                      (onSearch)="updateSearch($event)"
+                      [(search)]="search"
                       type="Pledge"
                       [searchForm]="[{'name':'familyName', 'type':'text'},
                                      {'name':'fundName', 'type':'text'},
                                      {'name':'pledgeStart', 'type':'date'}, 
-                                     {'name':'pledgeType', 'type':'text'}, 
-                                     {'name':'pledgeFrequency', 'type':'text'},
+                                     {'name':'pledgeType', 'type':'enum', 'valueSource':pledgeTypes}, 
+                                     {'name':'pledgeFrequency', 'type':'enum', 'valueSource':pledgeFrequencies},
                                      {'name':'annualPledgeAmount', 'type':'numberRange'},
-                                     {'name':'collectedAmount', 'type':'numberRange'}]">                    
+                                     {'name':'collectedAmount', 'type':'numberRange'},
+                                     {'name':'pledgeStatus', 'type':'enum', 'valueSource':pledgeStatuses}]">                    
 
 ,
              <!-- {'name':'completionScore', 'type':'numberRange'} -->
