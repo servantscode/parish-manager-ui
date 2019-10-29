@@ -166,20 +166,25 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   }
 
   formatFieldName(field: any): string {
-    var fieldName = this.fieldName(field);
+    var fieldName = typeof field === 'string'? field : 
+                                      field.displayName? field.displayName: 
+                                                         field.name;
     var bits = fieldName.split(/(?=[A-Z])/);
     return bits.join(" ");
   }
 
   fieldName(field:any): string {
-    return typeof field === 'string' ? field : field.name;
+    return typeof field === 'string'? field : field.name;
   }
 
   fieldType(field:any): string {
     return typeof field === 'string' ? 'string' : field.type;
   }
 
+
   searchColumns(): number {
+    if(!this.searchForm)
+      return 1;
     return Math.floor(this.searchForm.length/5)+1;
   }
 }

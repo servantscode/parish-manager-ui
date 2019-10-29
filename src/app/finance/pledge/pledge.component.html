@@ -3,12 +3,12 @@
 
   <app-paginated-list [dataService]="pledgeService" 
                       [fields]="['familyName', 'fundName', 
-                                 {'name':'annualPledgeAmount', 'type':'currency'},
-                                 {'name':'collectedAmount', 'type':'currency'},
+                                 {'name':'annualPledgeAmount', 'type':'currency', 'displayName': 'Total Pledge'},
+                                 {'name':'collectedAmount', 'type':'currency', 'displayName': 'Total Collected'},
                                  {'name':'pledgeStatus', 'type':'enum'},
                                  {'name':'pledgeStart', 'type':'date'}, {'name':'pledgeEnd', 'type':'date'},
-                                 {'name':'pledgeAmount', 'type':'currency'},
-                                 {'name':'pledgeFrequency', 'type':'enum'},
+                                 {'name':'pledgeAmount', 'type':'currency', 'displayName': 'Amount'},
+                                 {'name':'pledgeFrequency', 'type':'enum', 'displayName': 'Frequency'},
                                  {'name':'pledgeType', 'type':'enum'}]" 
                       [pageSize]='20' 
                       [dialogComponent]="PledgeDialogComponent" 

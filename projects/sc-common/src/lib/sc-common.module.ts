@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms'
 import { FormsModule } from '@angular/forms';
 import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -66,6 +67,7 @@ import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-d
   imports: [
     //Angular basics
     CommonModule,
+    HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
     
@@ -82,8 +84,7 @@ import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-d
     MatSelectModule,
     MatRadioModule,
 
-    NgxFileDropModule,
-
+    NgxFileDropModule
   ],
   exports: [
     DisplayCamelCasePipe,
@@ -101,7 +102,8 @@ import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-d
     ScMultiEnumComponent,
     ScMultiSelectComponent,
     ScPhoneNumberComponent,
-    ScSelectComponent
+    ScSelectComponent,
+    HttpClientModule
   ],
   providers: [ 
     ApiLocatorService,

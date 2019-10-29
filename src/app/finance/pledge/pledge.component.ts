@@ -22,7 +22,7 @@ export class PledgeComponent implements OnInit {
   public pledgeTypes = this.pledgeService.getPledgeTypes.bind(this.pledgeService);
   public pledgeFrequencies = this.pledgeService.getPledgeFrequencies.bind(this.pledgeService);
 
-  private search:string = "";
+  public search:string = "";
 
   constructor(private route: ActivatedRoute,
               public pledgeService: PledgeService,
