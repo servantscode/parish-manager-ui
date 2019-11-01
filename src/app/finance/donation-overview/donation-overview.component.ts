@@ -70,7 +70,7 @@ export class DonationOverviewComponent implements OnInit {
 
     const search = 'pledgeStatus:' + event.name.toUpperCase().replace(/\s/, '_');
     const navExtras: NavigationExtras = {queryParams: { search: search } };
-    this.router.navigate(['../finance/pledges'], navExtras);
+    this.router.navigate(['/finance/pledges'], navExtras);
   }
 
   private updateDonations() {

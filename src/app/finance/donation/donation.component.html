@@ -25,7 +25,9 @@
   </div>
 
   <app-paginated-list [dataService]="donationService" 
-                      [fields]="[{'name':'donationDate', 'type':'date'}, 'familyName', 'fundName', 
+                      [fields]="[{'name':'donationDate', 'type':'date'}, 
+                                 {'name':'familyName', 'type':'string', 'linkTo':{'path':'/family/detail', 'idField':'familyId'}},
+                                 'fundName', 
                                  {'name':'donationType', 'type':'enum'}, {'name':'amount', 'type':'currency'}]" 
                       [pageSize]='20' 
                       [dialogComponent]="DonationDialogComponent" 

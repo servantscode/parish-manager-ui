@@ -24,6 +24,7 @@ import { doLater, deepEqual } from '../utils';
 export class ScAutoCompleteComponent<T extends Autocompletable> implements ControlValueAccessor, OnInit {
   @Input() type = 'standard';
   @Input() autoOpen = false;
+  @Input() optionCount = 20;
   @Input() label = 'AutoSelect';
   @Input() required = false;
   @Input() fieldSize = 'standard';
@@ -117,7 +118,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   }
 
   private loadOptions(value: string): Observable<T[]> {
-    return this.autocompleteService.getPage(0, 10, value, this.pathParams)
+    return this.autocompleteService.getPage(0, this.optionCount, value, this.pathParams)
         .pipe(map(resp => (this.filter? this.filter(resp.results): resp.results)));
   }
 

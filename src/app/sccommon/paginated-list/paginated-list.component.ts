@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject, Observable } from 'rxjs';
 
@@ -55,7 +56,8 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   openDialogRef = null;
 
-  constructor(private dialog: MatDialog,
+  constructor(private router: Router,
+              private dialog: MatDialog,
               private loginService: LoginService) { }
 
   ngOnInit() {
@@ -137,8 +139,12 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
     });
   }
 
-  clicked(item: T) {
-    if(this.selectable) {
+  clicked(item: T, field: any) {
+    if(field.linkTo) {
+      const path = field.linkTo.path;
+      const idField = field.linkTo.idField;
+      this.router.navigate([path, item[idField]]);
+    } else if(this.selectable) {
       this.selected = item;
       this.onSelect.emit(item);
     } else {

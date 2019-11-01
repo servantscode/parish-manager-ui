@@ -2,7 +2,8 @@
   <h3>Pledges</h3>
 
   <app-paginated-list [dataService]="pledgeService" 
-                      [fields]="['familyName', 'fundName', 
+                      [fields]="[{'name':'familyName', 'type':'string', 'linkTo':{'path':'/family/detail', 'idField':'familyId'}}, 
+                                 'fundName', 
                                  {'name':'annualPledgeAmount', 'type':'currency', 'displayName': 'Total Pledge'},
                                  {'name':'collectedAmount', 'type':'currency', 'displayName': 'Total Collected'},
                                  {'name':'pledgeStatus', 'type':'enum'},

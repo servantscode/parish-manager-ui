@@ -103,7 +103,9 @@ import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-d
     ScMultiSelectComponent,
     ScPhoneNumberComponent,
     ScSelectComponent,
-    HttpClientModule
+
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [ 
     ApiLocatorService,

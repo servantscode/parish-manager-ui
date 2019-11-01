@@ -29,7 +29,7 @@ export class ColorService {
   };
 
   trafficLight(): string[] {
-    return ['#666666', '#ff0000', '#ee9900', '#dddd00', '#00cc00', '#0000cc']
+    return ['#666666', '#ff0000', '#dddd00', '#00cc00', '#0000cc']
   }
 
   generateColors(count: number): string[] {
