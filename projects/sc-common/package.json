@@ -3,6 +3,12 @@
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^8.0.1",
-    "@angular/core": "^8.0.1"
+    "@angular/core": "^8.0.1",
+		"@angular/forms": "^8.2.13",
+    "@angular/http": "7.2.15",
+    "@angular/material": "^8.2.3",
+    "@ng-bootstrap/ng-bootstrap": "^5.1.2",
+    "ngx-file-drop": "^8.0.2",
+    "rxjs": "~6.5.3"
   }
 }

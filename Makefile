@@ -38,7 +38,7 @@ build-nc: ## Build the container without caching
 	docker.exe tag servantcode/$(APP_NAME) servantcode/$(APP_NAME):$(VERSION)
 
 build-webapp:
-	ng build sc-common 
+	npm run package
 	ng build -c production
 
 run: ## Run container on port configured in `config.env`
