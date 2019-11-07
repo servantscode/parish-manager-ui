@@ -4,11 +4,7 @@ import { Observable } from 'rxjs';
 import { map, debounceTime, switchMap } from 'rxjs/operators'
 
 import { PersonService } from 'sc-common';
-import { Autocompletable } from 'sc-common';
-
-import { Person } from 'sc-common';
-
-import { Identity } from '../../sccommon/identity';
+import { Autocompletable, Identity, Person } from 'sc-common';
 
 @Component({
   selector: 'app-identity-picker',

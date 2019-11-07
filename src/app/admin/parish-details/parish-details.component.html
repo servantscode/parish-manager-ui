@@ -2,13 +2,31 @@
   <div class="row">
     <div class="col">
       <h3>{{parish.name}}</h3>
-      <span>Url: https://{{parish.hostName}}.servantscode.org</span>
+      <span>Url: https://{{organization.hostName}}.servantscode.org</span><br/>
+      <span>Website: {{parish.website}}</span><br/>
+      <span>Phone Number: {{parish.phoneNumber}}</span><br/>
+      <span>Address:</span><br/>
+      <span>{{parish.address.street1}}</span><br/>
+      <span>{{parish.address.city}}, {{parish.address.state}} {{parish.address.zip}}</span>
     </div>
     <div class="col">
-      <app-photo class="portrait" [guid]="parish.photoGuid" [altText]="parish.name" [editable]="loginService.userCan('admin.organization.update')" [publicPhoto]="true" (photoStored)="attachPhoto($event)"></app-photo>
+      <app-photo class="portrait" [guid]="organization.photoGuid" [altText]="parish.name" [editable]="loginService.userCan('admin.organization.update')" [publicPhoto]="true" (photoStored)="attachPhoto($event)"></app-photo>
     </div>
   </div>
-</div>  
+</div>
+<div class="container rounded-rect">
+  <h3>Registration configuration</h3>
+  <div class="row">
+    <div class="col">
+      <strong>Banner</strong>
+      <app-photo class="portrait" [guid]="parish.bannerGuid" altText="banner" [editable]="loginService.userCan('admin.parish.update')" [publicPhoto]="true" (photoStored)="attachBannerPhoto($event)"></app-photo>
+    </div>
+    <div class="col">
+      <strong>Portrait</strong>
+      <app-photo class="portrait" [guid]="parish.portraitGuid" altText="portrait" [editable]="loginService.userCan('admin.parish.update')" [publicPhoto]="true" (photoStored)="attachPortraitPhoto($event)"></app-photo>
+    </div>
+  </div>
+</div>
 <div class="container rounded-rect">
   <h3>Departments</h3>
   <app-paginated-list [dataService]="departmentService" 

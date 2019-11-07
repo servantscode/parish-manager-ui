@@ -3,13 +3,9 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 
-import { MessageService } from 'sc-common';
+import { ApiLocatorService, LoginService, MessageService, PaginatedService } from 'sc-common';
 
-import { ApiLocatorService } from 'sc-common';
-import { LoginService } from 'sc-common';
-import { PaginatedService } from 'sc-common';
-
-import { Identity } from '../../sccommon/identity';
+import { Identity } from 'sc-common';
 
 import { Ministry } from '../ministry';
 
