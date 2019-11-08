@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { LoginService, OrganizationService, ParishService } from 'sc-common';
 import { DepartmentService } from '../../sccommon/services/department.service';
@@ -19,34 +20,64 @@ export class ParishDetailsComponent implements OnInit {
 
   parish: Parish;
   organization: Organization;
+
   CategoryDialogComponent = CategoryDialogComponent;
   DepartmentDialogComponent = DepartmentDialogComponent;
+
+  public editMode = false;
 
   form = this.fb.group({
       id: ['', Validators.required],
       name: ['', Validators.required],
       address: ['', Validators.required],
       phoneNumber: ['', Validators.required],
-      website: [''],
-      pastor: [''],
+      website: '',
+      pastor: '',
+      bannerGuid: '',
+      portraitGuid: '',
       orgId: ['', Validators.required]
     });
 
   constructor(private fb: FormBuilder,
+              private router: Router,
               public loginService: LoginService,
               public categoryService: CategoryService,
               public departmentService: DepartmentService,
               private organizationService: OrganizationService,
-              private parishService: ParishService) { 
-      this.organization = this.organizationService.activeOrg();
-  }
+              private parishService: ParishService) {}
 
   ngOnInit() {
+    this.organization = this.organizationService.activeOrg();
+
     this.parishService.getActiveParish().subscribe(parish => {
-        this.parish = parish;
-        if(parish)
-          this.form.patchValue(parish);
+        this.activateParish(parish);
       });
+  }
+
+  save(): void {
+    if(!this.loginService.userCan('parish.update'))
+      this.router.navigate(['not-found']);
+
+    this.parishService.update(this.form.value).subscribe(parish => {
+        this.activateParish(parish);
+        this.editMode = false;
+      });
+  }
+
+  cancel(): void {
+    this.activateParish(this.parish);
+    this.editMode = false;
+  }
+
+  enableEdit(): void {
+    this.form.enable();
+    this.editMode=true;
+  }
+
+  private activateParish(parish: Parish) {
+    this.parish = parish;
+    if(parish)
+      this.form.patchValue(parish);
   }
 
   attachPhoto(guid: any): void {

@@ -1,14 +1,45 @@
 <div class="container rounded-rect">
   <div class="row">
-    <div class="col">
-      <h3>{{parish.name}}</h3>
-      <span>Url: https://{{organization.hostName}}.servantscode.org</span><br/>
-      <span>Website: {{parish.website}}</span><br/>
-      <span>Phone Number: {{parish.phoneNumber}}</span><br/>
-      <span>Address:</span><br/>
-      <span>{{parish.address.street1}}</span><br/>
-      <span>{{parish.address.city}}, {{parish.address.state}} {{parish.address.zip}}</span>
+    <div *ngIf="editMode; else displayOnly" class="col">
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Parish Name</mat-label>
+          <input matInput formControlName="name" required/>
+        </mat-form-field><br/>
+
+        <span>Url: https://{{organization.hostName}}.servantscode.org</span><br/>
+
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>Website</mat-label>
+          <input matInput formControlName="website" required/>
+        </mat-form-field><br/>
+
+        <app-sc-phone-number formControlName="phoneNumber"></app-sc-phone-number>  
+
+        <app-address formControlName="address"></app-address>
+
+        <!-- <app-identity-picker formControlName="pastor"></app-identity-picker> -->
+
+        <div class="button-bar">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+        </div>
+      </form>
     </div>
+    <ng-template #displayOnly>
+      <div class="col">
+        <h3>{{parish.name}}</h3>
+        <span>Url: https://{{organization.hostName}}.servantscode.org</span><br/>
+        <span>Website: {{parish.website}}</span><br/>
+        <span>Phone Number: {{parish.phoneNumber}}</span><br/>
+        <span>Address:</span><br/>
+        <span>{{parish.address.street1}}</span><br/>
+        <span>{{parish.address.city}}, {{parish.address.state}} {{parish.address.zip}}</span><br/>
+        <div class="button-bar">
+          <button *ngIf="loginService.userCan('parish.admin.update')" class="btn btn-primary" (click)="enableEdit()">Edit</button>
+        </div>
+      </div>
+    </ng-template>
     <div class="col">
       <app-photo class="portrait" [guid]="organization.photoGuid" [altText]="parish.name" [editable]="loginService.userCan('admin.organization.update')" [publicPhoto]="true" (photoStored)="attachPhoto($event)"></app-photo>
     </div>

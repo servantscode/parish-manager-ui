@@ -35,3 +35,8 @@ $tree-control-size: 12px;
 .closed {
   background-image: url('../../../assets/images/plus.png');
 }
+
+.max-lines-10 {
+  border: solid #cccccc 1px;
+  max-height: 18em;
+}

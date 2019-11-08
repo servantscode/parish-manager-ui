@@ -6,6 +6,7 @@ export class Role extends Autocompletable {
   }
 
   name: string;
+  requiresCheckin: boolean;
   permissions: string[];
 
   public identify(): string {
@@ -20,6 +21,7 @@ export class Role extends Autocompletable {
   public asTemplate(): Role {
     this.id=0;
     this.name="";
+    this.requiresCheckin=false;
     this.permissions=[];
     return this;
   }

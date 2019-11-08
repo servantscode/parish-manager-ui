@@ -15,6 +15,7 @@ import { SCValidation } from 'sc-common';
 export class RoleDialogComponent implements OnInit {
   form = this.fb.group({
       id: [0],
+      requiresCheckin: false,
       name: ['', Validators.required]
     });
 

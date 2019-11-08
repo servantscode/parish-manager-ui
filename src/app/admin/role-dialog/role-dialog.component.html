@@ -9,6 +9,9 @@
       <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field><br/>
 
+    <mat-checkbox formControlName="requiresCheckin">Role requires checkin</mat-checkbox><br/>
+
+    <strong>Permissions</strong>
     <app-permission-tree [permissions]="permissions"></app-permission-tree>
   </div>
 

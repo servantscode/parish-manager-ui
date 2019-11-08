@@ -108,7 +108,9 @@ export class EventDetailsComponent implements OnInit {
   }
 
   userCan(action: string): boolean {
-    return this.loginService.getUserId() === this.event.schedulerId || this.loginService.userCan("admin.event." + action);
+    return this.loginService.getUserId() === this.event.schedulerId? 
+        this.loginService.userCan(action): 
+        this.loginService.userCan("admin." + action);
   }
 
   getEvent(): void {
