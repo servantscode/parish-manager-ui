@@ -103,8 +103,6 @@ export class EventDetailsComponent implements OnInit {
           }
         }
     );
-
-    // this.enableSubscriptions(); //Try to figure out if it's possible to do this
   }
 
   userCan(action: string): boolean {
@@ -247,6 +245,9 @@ export class EventDetailsComponent implements OnInit {
     this.futureConflicts = count;
   }
 
+  updateFutureDates(futureDates: Date[]) {
+    this.futureDates = futureDates.length;
+  }
 
   delete(): void {
     if(this.getValue('recurringMeeting')) {

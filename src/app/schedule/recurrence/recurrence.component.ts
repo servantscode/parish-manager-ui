@@ -38,7 +38,8 @@ export class RecurrenceComponent implements ControlValueAccessor, OnInit {
 
   @Input() event: Event;
   @Output() futureConflictsChange = new EventEmitter();
-  
+  @Output() futureDatesChange = new EventEmitter();
+
   value: Recurrence;
   disabled: boolean = false;
 
@@ -50,6 +51,7 @@ export class RecurrenceComponent implements ControlValueAccessor, OnInit {
   set customEvents(events: Event[]) {
     this._customEvents = events;
     this.customEventsChange.emit(events);
+    this.futureDatesChange.emit(events.map(e => e.startTime));
   }
 
   get customEvents(): Event[] {
@@ -116,6 +118,7 @@ export class RecurrenceComponent implements ControlValueAccessor, OnInit {
 
   updateSelectedDates(selectedDates: any[]): void {
     this.selectedDates = selectedDates;
+    this.futureDatesChange.emit(selectedDates);
   }
 
   verifyDayIsSelected() {

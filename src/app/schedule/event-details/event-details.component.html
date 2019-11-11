@@ -90,6 +90,7 @@
       formControlName="recurrence" 
       [event]="event"
       [(customEvents)]="customEvents"
+      (futureDatesChange)="updateFutureDates($event)"
       (futureConflictsChange)="updateFutureConflictCount($event)">
     </app-recurrence>
   </div>
