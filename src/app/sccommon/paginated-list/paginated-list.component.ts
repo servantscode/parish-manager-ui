@@ -14,6 +14,8 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
 import { SCValidation } from 'sc-common';
 import { doLater } from '../../sccommon/utils';
 
+import { isBefore, isAfter } from 'date-fns';
+
 @Component({
   selector: 'app-paginated-list',
   templateUrl: './paginated-list.component.html',
@@ -187,10 +189,13 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
     return typeof field === 'string' ? 'string' : field.type;
   }
 
-
   searchColumns(): number {
     if(!this.searchForm)
       return 1;
     return Math.floor(this.searchForm.length/5)+1;
+  }
+
+  public afterNow(date: Date): boolean {
+    return isBefore(new Date(), date);
   }
 }

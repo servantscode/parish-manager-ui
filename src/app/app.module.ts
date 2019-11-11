@@ -22,6 +22,7 @@ import { MetricsModule } from './metrics/metrics.module';
 import { AccountModule } from './account/account.module';
 import { SystemModule } from './system/system.module';
 import { FormationModule } from './formation/formation.module';
+import { VolunteerModule } from './volunteer/volunteer.module';
 
 import { AutofocusDirective } from './autofocus.directive';
 import { DateInterceptor } from './services/date-interceptor';
@@ -52,6 +53,7 @@ import { ScCommonModule } from 'sc-common';
     AccountModule,
     SystemModule,
     FormationModule,
+    VolunteerModule,
 
     AppRoutingModule,
 

@@ -1,0 +1,15 @@
+<h2>Volunteers</h2>
+<div class="container rounded-rect">
+  <app-paginated-list [dataService]="checkinService" 
+                      [pageImpl]="activeCheckins" 
+                      [fields]="[{'name': 'personName', 'displayName':'Volunteer'},
+                                 {'name':'expiration', 'type':'countdown'},
+                                 {'name':'checkedinByName', 'displayName':'Checked In By'}]" 
+                      [pageSize]='5' 
+                      [dialogComponent]="CheckinDialogComponent"
+                      [type]="'Checkin'">
+<!--                       [searchForm]="[{'name':'name', 'type':'text'},
+                                     {'name':'type', 'type':'text'}, 
+                                     {'name':'capacity', 'type':'numberRange'}]"> -->
+  </app-paginated-list>
+</div>
