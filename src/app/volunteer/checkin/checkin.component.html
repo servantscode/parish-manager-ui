@@ -7,6 +7,8 @@
                                  {'name':'checkedinByName', 'displayName':'Checked In By'}]" 
                       [pageSize]='5' 
                       [dialogComponent]="CheckinDialogComponent"
+                      [customControls]="controls"
+                      [refreshOn]="refreshList"
                       [type]="'Checkin'">
 <!--                       [searchForm]="[{'name':'name', 'type':'text'},
                                      {'name':'type', 'type':'text'}, 

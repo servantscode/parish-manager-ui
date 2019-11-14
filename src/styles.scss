@@ -289,6 +289,14 @@ div.rounded-rect {
   }
 }
 
+.checkin {
+  background-image: url('./assets/images/check.png');
+  &:hover {
+    background-image: url('./assets/images/check-active.png');
+  }
+}
+
+
 .email {
   background-image: url('./assets/images/mail.png'); 
   &:hover {
