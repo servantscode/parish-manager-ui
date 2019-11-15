@@ -4,6 +4,7 @@
   <span *ngIf="loginService.hasAny('admin.mail.config')" class="tab clickable" (click)="selectTab('email')" [ngClass]="{'highlighted': 'email' === selectedTab}">Email</span>
   <span *ngIf="loginService.hasAny('admin.preference')" class="tab clickable" (click)="selectTab('preferences')" [ngClass]="{'highlighted': 'preferences' === selectedTab}">Preferences</span>
   <span *ngIf="loginService.hasAny('admin.organization')" class="tab clickable" (click)="selectTab('parish')" [ngClass]="{'highlighted': 'parish' === selectedTab}">Parish</span>
+  <span *ngIf="loginService.hasAny('admin.integration')" class="tab clickable" (click)="selectTab('integration')" [ngClass]="{'highlighted': 'integration' === selectedTab}">Integrations</span>
 </mat-toolbar>
 
 <div class="tab-content scrollable">
@@ -13,5 +14,6 @@
     <app-email-config *ngSwitchCase="'email'"></app-email-config>
     <app-preference-config *ngSwitchCase="'preferences'"></app-preference-config>
     <app-parish-details *ngSwitchCase="'parish'"></app-parish-details>
+    <app-integration *ngSwitchCase="'integration'"></app-integration>
   </div>
 </div>

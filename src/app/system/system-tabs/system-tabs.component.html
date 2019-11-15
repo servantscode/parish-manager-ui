@@ -1,9 +1,11 @@
 <mat-toolbar>
   <span class="tab clickable" (click)="selectTab('organizations')" [ngClass]="{'highlighted': 'organizations' === selectedTab}">Orgs</span>
+  <span class="tab clickable" (click)="selectTab('integration')" [ngClass]="{'highlighted': 'integration' === selectedTab}">Integrations</span>
 </mat-toolbar>
 
 <div class="tab-content scrollable">
   <div [ngSwitch]="selectedTab">
     <app-organization *ngSwitchCase="'organizations'"></app-organization>
+    <app-system-integration *ngSwitchCase="'integration'"></app-system-integration>
   </div>
 </div>

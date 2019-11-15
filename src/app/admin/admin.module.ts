@@ -30,6 +30,8 @@ import { PreferenceDialogComponent } from './preference-dialog/preference-dialog
 import { ParishDetailsComponent } from './parish-details/parish-details.component';
 import { DepartmentDialogComponent } from './department-dialog/department-dialog.component';
 import { CategoryDialogComponent } from './category-dialog/category-dialog.component';
+import { IntegrationComponent } from './integration/integration.component';
+import { IntegrationDialogComponent } from './integration-dialog/integration-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { CategoryDialogComponent } from './category-dialog/category-dialog.compo
     PreferenceDialogComponent,
     ParishDetailsComponent,
     DepartmentDialogComponent,
-    CategoryDialogComponent
+    CategoryDialogComponent,
+    IntegrationComponent,
+    IntegrationDialogComponent
   ],
   imports: [
     AdminRoutingModule,
@@ -77,7 +81,8 @@ import { CategoryDialogComponent } from './category-dialog/category-dialog.compo
     PasswordDialogComponent,
     PreferenceDialogComponent,
     DepartmentDialogComponent,
-    CategoryDialogComponent
+    CategoryDialogComponent,
+    IntegrationDialogComponent
   ]
 })
 export class AdminModule { }

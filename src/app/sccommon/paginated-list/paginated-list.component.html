@@ -15,7 +15,7 @@
         <th *ngFor="let field of fields">{{formatFieldName(field) | titlecase }}</th>
         <th *ngFor="let control of customControls">&nbsp;</th>
         <th *ngIf="selectable && verifyPermission('edit')">&nbsp;</th>
-        <th *ngIf="verifyPermission('delete')">&nbsp;</th>
+        <th *ngIf="allowDelete && verifyPermission('delete')">&nbsp;</th>
       </tr>
     </thead>
     <tbody (mouseleave)="highlight(null)">
@@ -43,7 +43,7 @@
         <td *ngIf="selectable && verifyPermission('update')" class="icon">
           <div class="icon" (click)='edit(item)' [ngClass]="{'edit' : item === highlighted}">&nbsp;</div>
         </td>
-        <td *ngIf="verifyPermission('delete')" class="icon">
+        <td *ngIf="allowDelete && verifyPermission('delete')" class="icon">
           <div class="icon" (click)='delete(item)' [ngClass]="{'delete' : item === highlighted}">&nbsp;</div>
         </td>
       </tr>

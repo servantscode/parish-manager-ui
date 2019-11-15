@@ -58,8 +58,4 @@ export class DepartmentDialogComponent implements OnInit {
   cancel() {
     this.dialogRef.close();    
   }
-
-  formData() {
-    alert(JSON.stringify(this.form.value));
-  }
 }

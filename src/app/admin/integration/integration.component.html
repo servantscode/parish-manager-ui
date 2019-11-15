@@ -1,0 +1,10 @@
+<h2>Integration</h2>
+<div class="container rounded-rect">
+  <app-paginated-list [dataService]="integrationService" 
+                      [fields]="['name']" 
+                      [pageSize]='20' 
+                      [dialogComponent]="IntegrationDialogComponent"
+                      [allowDelete]="false"
+                      [type]="'Integration'">
+  </app-paginated-list>
+</div>

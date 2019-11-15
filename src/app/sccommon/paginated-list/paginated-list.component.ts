@@ -36,6 +36,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   @Input() selectable: boolean = false;
   @Input() allowCreate: boolean = true;
+  @Input() allowDelete: boolean = true;
   @Output() onSelect: EventEmitter<T> = new EventEmitter<T>(); 
   @Input() refreshOn: Subject<any>;
 

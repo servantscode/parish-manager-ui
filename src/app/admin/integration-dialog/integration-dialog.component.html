@@ -1,0 +1,18 @@
+<form [formGroup]="form">
+  <h1 mat-dialog-title>Configure Integration</h1>
+  <div mat-dialog-content>
+
+    <app-sc-auto-complete formControlName="integration" label='Available Integrations' [autocompleteService]="aailableIntegrationService" selectObject="true" autoOpen="true"></app-sc-auto-complete>
+
+    <div *ngIf="selectedIntegration && selectedIntegration.authorizationUrl">
+      <span>This integration requires your authorization.</span>
+      <span>Click "Authorize" to open a new browser tab to perform this necessary authorization.</span><br/>
+      <button mat-button type="button" class="btn btn-primary" (click)="doAuthorize()">Authorize</button>
+    </div>
+
+  </div>
+  <div mat-dialog-actions class="align-right">
+    <!-- <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid" cdkFocusInitial>Save</button> -->
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+  </div>
+</form>

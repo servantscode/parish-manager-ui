@@ -1,0 +1,10 @@
+<h2>System Integration</h2>
+<div class="container rounded-rect">
+  <app-paginated-list [dataService]="systemIntegrationService" 
+                      [fields]="['name']" 
+                      [pageSize]='20' 
+                      [dialogComponent]="SystemIntegrationDialogComponent"
+                      [allowDelete]="false"
+                      [type]="'System Integration'">
+  </app-paginated-list>
+</div>
