@@ -1,6 +1,7 @@
 <div *ngIf="!editMode" class="float-right">
   <button *ngIf="loginService.userCan('family.delete') && !family.inactive" class="btn btn-outline-primary edit-button" (click)="deactivate()">Deactivate</button>
   <button *ngIf="loginService.userCan('family.update') && family.inactive" class="btn btn-outline-primary edit-button" (click)="activate()">Activate</button>
+  <button *ngIf="loginService.userCan('admin.family.delete') && family.inactive" class="btn btn-outline-primary edit-button" (click)="delete()">Delete</button>
   <button *ngIf="loginService.userCan('family.update')" class="btn btn-primary edit-button" (click)="enableEdit()">Edit</button>
 </div>
 <h2 [ngClass]="{inactive: family.inactive}">{{family.surname}}</h2>
@@ -81,7 +82,8 @@
         <span *ngIf="!pledges || pledges.length == 0"><em>No pledge information available.</em></span> 
         <div *ngFor="let pledge of pledges"> 
           Pledged <strong>{{pledge.annualPledgeAmount | currency:"$"}}</strong> to fund <strong>{{pledge.fundName}}</strong>&nbsp;&nbsp;
-          <div class="big-icon edit" (click)="openPledgeForm(pledge)">&nbsp;</div>
+          <div class="big-icon edit" (click)="openPledgeForm(pledge)">&nbsp;</div>&nbsp;  
+          <div class="big-icon delete" (click)="deletePledge(pledge)">&nbsp;</div>
         </div>
       </div>  
       <div class="col align-right"> 

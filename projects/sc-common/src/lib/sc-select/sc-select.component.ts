@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, debounceTime, switchMap } from 'rxjs/operators'
@@ -24,6 +24,7 @@ export class ScSelectComponent<T extends Identifiable> implements ControlValueAc
   @Input() fieldSize = 'standard';
   @Input() nullValue: string;
   @Input() filter;
+  @Input() autoFocus  = false;
 
   @Input() autocompleteService: PaginatedService<T>
 
@@ -38,9 +39,14 @@ export class ScSelectComponent<T extends Identifiable> implements ControlValueAc
       input: ['']
     });
   
+  @ViewChild('input', {static: false}) input:ElementRef;
+
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    if(this.autoFocus)
+      this.input.nativeElement.focus();
+
     this.autocompleteService.getPage(0, 200).subscribe(resp => {
         if(resp.totalResults > 200)
           alert("Too many results to show in dropdown");

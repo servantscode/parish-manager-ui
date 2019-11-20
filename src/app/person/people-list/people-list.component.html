@@ -1,12 +1,12 @@
 <div class="container-fluid">
   <div class="row justify-content-between">
     <div class="col">
-      <div class="btn-group btn-group-toggle" ngbRadioGroup [(ngModel)]="mode">
+      <div class="btn-group btn-group-toggle" ngbRadioGroup [ngModel]="mode">
         <label class="btn-primary" ngbButtonLabel>
-          <input type="radio" ngbButton value="person"> People
+          <input type="radio" ngbButton value="person" (click)='setMode("person")'> People
         </label>
         <label class="btn-primary" ngbButtonLabel>
-          <input type="radio" ngbButton value="family"> Families
+          <input type="radio" ngbButton value="family" (click)='setMode("family")'> Families
         </label>
       </div>
     </div>
@@ -20,7 +20,23 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-8 no-pad">
-      <app-sc-search-bar (search)="updateSearch($event)" [type]="mode | displaycamelcase" [searchForm]='getSearchForm()'></app-sc-search-bar>
+      <app-sc-search-bar *ngIf="mode === 'person'" (search)="updateSearch($event)" [type]="mode | displaycamelcase" 
+        [searchForm]='[{"name":"name", "type":"text"},
+              {"name":"male", "type":"boolean", "displayName":"Gender", "yesValue":"male", "noValue":"female"},
+              {"name":"birthdate", "type":"date"},
+              {"name":"parishioner", "displayName":"Parishioner?", "type":"boolean"},
+              {"name":"memberSince", "type":"date"},
+              {"name":"birthMonth", "type":"enum", "valueSource": months}]'>
+      </app-sc-search-bar>
+      <app-sc-search-bar *ngIf="mode === 'family'" (search)="updateSearch($event)" [type]="mode | displaycamelcase" 
+        [searchForm]=' [{"name":"surname", "type":"text"},
+              {"name":"address.street1", "type":"text", "displayName":"Street"}, 
+              {"name":"address.city", "type":"text", "displayName":"City"},
+              {"name":"address.state", "type":"text", "displayName":"State"},
+              {"name":"address.zip", "type":"number", "displayName":"Zip Code"},
+              {"name":"envelopeNumber", "type":"number"}]'>
+      </app-sc-search-bar>
+
     </div>
     <div class="col padding-top-7">
         <mat-checkbox [(ngModel)]="includeInactive" (change)="populateList()">Show Inactive?</mat-checkbox>
@@ -55,7 +71,7 @@
     </thead>
     <tbody (mouseleave)="highlight(null)">
       <tr *ngFor="let item of items" (mouseover)="highlight(item)" [ngClass] = "{'highlight' : item === highlighted}" (click)="viewDetails(item)">
-        <td [ngClass]="{'inactive': item.inactive}">{{item.surname}}</td>
+        <td [ngClass]="{'inactive': item.inactive}">{{item.surname}} <span *ngIf="item.headName">({{item.headName.split(" ")[0]}})</span></td>
         <td [ngClass]="{'inactive': item.inactive}">{{getAddressString(item)}}</td>
         <td [ngClass]="{'inactive': item.inactive}">{{item.envelopeNumber? item.envelopeNumber: ''}}</td>
       </tr>

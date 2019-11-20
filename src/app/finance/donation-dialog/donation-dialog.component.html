@@ -11,18 +11,18 @@
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="familyId"/>
 
-    <app-sc-auto-complete *ngIf="!data.item || !data.item.familyId" formControlName="familyId" label='Family' [autocompleteService]="familyService" [required]="true" fieldSize="standard" [itemTemplate]="familyChoice"></app-sc-auto-complete>
+    <app-sc-auto-complete *ngIf="!data.item || !data.item.familyId" formControlName="familyId" label='Family' [autocompleteService]="familyService" [required]="true" fieldSize="standard" [itemTemplate]="familyChoice" autoFocus='true'></app-sc-auto-complete>
     
     <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="standard"></app-sc-select>
 
     <mat-form-field appearance="standard" class="input-small">
       <mat-label>Amount</mat-label>
-      <input type="text" matInput formControlName="amount" autocomplete="off" cdkFocusInitial required/>
+      <input type="text" matInput formControlName="amount" autocomplete="off"  required/>
     </mat-form-field>&nbsp;&nbsp;
 
     <mat-form-field appearance="standard" class="input-small">
       <mat-label>Deductible Amount</mat-label>
-      <input type="text" matInput formControlName="deductibleAmount" autocomplete="off" cdkFocusInitial required/>
+      <input type="text" matInput formControlName="deductibleAmount" autocomplete="off" required/>
     </mat-form-field><br/>
 
     <mat-form-field>

@@ -37,6 +37,7 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   @Input() itemTemplate = null;
 
   @Input() filter;
+  @Input() autoFocus = false;
 
   @ViewChild('input', {static: false}) input:ElementRef;
 
@@ -55,6 +56,9 @@ export class ScAutoCompleteComponent<T extends Autocompletable> implements Contr
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    if(this.autoFocus)
+      this.setFocus;
+    
     if(this.autoOpen) {
       this.filteredItems = this.autocompleteForm.get('input').valueChanges
         .pipe(startWith(''),

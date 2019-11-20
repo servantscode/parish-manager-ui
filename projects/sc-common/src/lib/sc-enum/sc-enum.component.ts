@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { map, debounceTime, switchMap } from 'rxjs/operators'
@@ -22,6 +22,7 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   @Input() required = false;
   @Input() fieldSize = 'standard';
   @Input() nullValue: string;
+  @Input() autoFocus  = false;
 
   @Input() valueSource: () => Observable<string[]>;
 
@@ -36,10 +37,13 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
       input: ['']
     });
   
+  @ViewChild('input', {static: false}) input:ElementRef;
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    if(this.autoFocus)
+      this.input.nativeElement.focus();
 
     this.valueSource().subscribe(values => {
         this.items = values? values.map(item => new EnumValue(item)): null;

@@ -1,6 +1,7 @@
 <div *ngIf="!editMode" class="float-right">
   <button *ngIf="loginService.userCan('person.delete') && !person.inactive" class="btn btn-outline-primary edit-button" (click)="deactivate()">Deactivate</button>
   <button *ngIf="loginService.userCan('person.update') && person.inactive" class="btn btn-outline-primary edit-button" (click)="activate()">Activate</button>
+  <button *ngIf="loginService.userCan('admin.person.delete') && person.inactive" class="btn btn-outline-primary edit-button" (click)="delete()">Delete</button>
   <button *ngIf="loginService.userCan('person.update')" class="btn btn-primary edit-button" (click)="enableEdit()">Edit</button>
 </div>
 <h2 [ngClass]="{inactive: person.inactive}">{{personForm.get("name").value}}</h2>

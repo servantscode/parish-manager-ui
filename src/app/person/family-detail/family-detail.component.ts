@@ -68,7 +68,7 @@ export class FamilyDetailComponent implements OnInit {
       if(!this.loginService.userCan('family.read'))
         this.router.navigate(['not-found']);
 
-      this.familyService.get(id).
+      this.familyService.get(id, true).
         subscribe(family => {
           this.family = family;
           this.familyForm.patchValue(family);
@@ -177,6 +177,45 @@ export class FamilyDetailComponent implements OnInit {
         }
     });
   }
+
+  delete(): void {
+    if(!this.loginService.userCan('admin.family.delete'))
+      return;
+
+    this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: {"title": "Confirm Deletion",
+             "text" : "Are you sure you want to delete " + this.family.identify() + "?",
+             "delete": (): Observable<void> => { 
+               return this.familyService.delete(this.family, true); 
+             },
+             "actionName":"Delete",
+             "nav": () => { 
+               this.goBack();
+             }
+        }
+    });
+  }
+
+  deletePledge(pledge: Pledge): void {
+    if(!this.loginService.userCan('pledge.delete'))
+      return;
+
+    this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: {"title": "Confirm Deletion",
+             "text" : "Are you sure you want to delete " + pledge.identify() + "?",
+             "delete": (): Observable<void> => { 
+               return this.pledgeService.delete(pledge, true); 
+             },
+             "actionName":"Delete",
+             "nav": () => { 
+               this.loadPledges(this.family.id);
+             }
+        }
+    });
+  }
+
 
   activate(): void {
     if(!this.loginService.userCan('family.update'))

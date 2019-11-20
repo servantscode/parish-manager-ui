@@ -335,6 +335,25 @@ export class PersonDetailComponent implements OnInit {
     });
   }
 
+  delete(): void {
+    if(!this.loginService.userCan('admin.person.delete'))
+      return;
+
+    this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: {"title": "Confirm Deletion",
+             "text" : "Are you sure you want to delete " + this.person.identify() + "?",
+             "delete": (): Observable<void> => { 
+               return this.personService.delete(this.person, true); 
+             },
+             "actionName":"Delete",
+             "nav": () => { 
+               this.goBack();
+             }
+        }
+    });
+  }
+
   activate(): void {
     if(!this.loginService.userCan('person.update'))
       return;

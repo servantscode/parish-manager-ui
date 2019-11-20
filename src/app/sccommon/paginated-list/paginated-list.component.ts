@@ -55,7 +55,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   totalCount = 0;
 
   @Input() search = '';
-  @Output() searchChange: EventEmitter<string> = new EventEmitter<string>(); 
+  @Output() onSearch: EventEmitter<string> = new EventEmitter<string>(); 
 
   openDialogRef = null;
 
@@ -75,7 +75,6 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   updateSearch(search:string) {
     this.search = search;
-    this.searchChange.emit(search);
     this.populateList();
   }
 
@@ -92,6 +91,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
       subscribe(resp => {
         this.items = resp.results;
         this.totalCount = resp.totalResults;
+        this.onSearch.emit(this.search);
       });
   }
 

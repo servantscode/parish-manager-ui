@@ -34,6 +34,7 @@ export class PledgeService extends PaginatedService<Pledge> {
 
   getPledges(familyId: number): Observable<Pledge[]> {
     return this.http.get<Pledge[]>(this.url+`/family/${familyId}`).pipe(
+        map(resp => resp.map(item => this.mapObject(item))),
         catchError(this.handleError('getPledge', null))
       );
   }

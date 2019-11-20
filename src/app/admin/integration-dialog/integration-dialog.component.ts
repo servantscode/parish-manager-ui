@@ -38,7 +38,7 @@ export class IntegrationDialogComponent implements OnInit {
 
   doAuthorize() {
     if(this.selectedIntegration.authorizationUrl)
-      window.location.href = this.selectedIntegration.authorizationUrl;
+      window.open(this.selectedIntegration.authorizationUrl, "_blank");
     else
       this.cancel();
   }

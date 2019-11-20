@@ -5,7 +5,7 @@
     <app-sc-auto-complete formControlName="integration" label='Available Integrations' [autocompleteService]="aailableIntegrationService" selectObject="true" autoOpen="true"></app-sc-auto-complete>
 
     <div *ngIf="selectedIntegration && selectedIntegration.authorizationUrl">
-      <span>This integration requires your authorization.</span>
+      <span>This integration requires your authorization.</span><br/>
       <span>Click "Authorize" to open a new browser tab to perform this necessary authorization.</span><br/>
       <button mat-button type="button" class="btn btn-primary" (click)="doAuthorize()">Authorize</button>
     </div>

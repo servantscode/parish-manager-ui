@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators'
@@ -33,6 +33,8 @@ export class DateTimeComponent implements ControlValueAccessor, OnInit {
       time: ['', Validators.pattern(SCValidation.TIME)]
     });
   
+  @Input() autoFocus = false;
+  @ViewChild('dateInput', {static: false}) input:ElementRef;
 
   get value() {
     return this._value;
@@ -47,6 +49,9 @@ export class DateTimeComponent implements ControlValueAccessor, OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    if(this.autoFocus)
+      this.input.nativeElement.focus();
+
     this.form.get('date').valueChanges
       .pipe(distinctUntilChanged())
       .subscribe( () => {

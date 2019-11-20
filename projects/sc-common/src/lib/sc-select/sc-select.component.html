@@ -1,6 +1,6 @@
 <form [formGroup]="form">
   <mat-form-field appearance="standard" class="mat-form-field mat-primary mat-form-field-type-mat-input input-{{fieldSize}}">
-    <mat-select formControlName="input" [placeholder]="calculateLabel()" [aria-label]="label" [required]="required">
+    <mat-select #input formControlName="input" [placeholder]="calculateLabel()" [aria-label]="label" [required]="required">
         <mat-option *ngIf="nullValue">{{nullValue}}</mat-option>
         <mat-option *ngFor="let item of items" [value]="item">
         {{item.identify()}}

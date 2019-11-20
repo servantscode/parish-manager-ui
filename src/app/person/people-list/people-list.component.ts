@@ -2,15 +2,11 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Observable, of } from 'rxjs';
 
-import { DownloadService } from 'sc-common';
-import { LoginService } from 'sc-common';
-import { PersonService } from 'sc-common';
+import { DownloadService, FamilyService, LoginService, PersonService } from 'sc-common';
 
-import { Person } from 'sc-common';
-import { Family } from 'sc-common';
-
-import { FamilyService } from 'sc-common';
+import { Person, Family } from 'sc-common';
 
 export enum KEY_CODE {
   PLUS = 107,
@@ -54,6 +50,14 @@ export class PeopleListComponent implements OnInit {
     this.populateList();
   }
 
+  setMode(mode: string) {
+    if(mode !== 'person' && mode !== 'family')
+      return;
+
+    this.mode = mode;
+    this.populateList();
+  }
+
   populateList() {
     if(this.mode == "person") {
       this.getPeople();
@@ -62,22 +66,8 @@ export class PeopleListComponent implements OnInit {
     }
   }
 
-  getSearchForm(): any[] {
-    if(this.mode == "person") {
-      return [{"name":"name", "type":"text"},
-              {"name":"male", "type":"boolean", "displayName":"Gender", "yesValue":"male", "noValue":"female"},
-              {"name":"birthdate", "type":"date"},
-              {"name":"parishioner", "displayName":"Parishioner?", "type":"boolean"},
-              {"name":"memberSince", "type":"date"}];
-    } else if(this.mode == "family") {
-      return [{"name":"surname", "type":"text"},
-              {"name":"address.street1", "type":"text", "displayName":"Street"}, 
-              {"name":"address.city", "type":"text", "displayName":"City"},
-              {"name":"address.state", "type":"text", "displayName":"State"},
-              {"name":"address.zip", "type":"number", "displayName":"Zip Code"},
-              {"name":"envelopeNumber", "type":"number"}];
-    }
-  }
+  private static MONTHS = [ 'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+  months = function(): Observable<string[]> { return of(PeopleListComponent.MONTHS)};
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {    

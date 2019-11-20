@@ -32,7 +32,7 @@ export class DonationComponent implements OnInit {
     this.updateTotal();
   }
 
-  updateSearch(search:string) {
+  processUpdate(search:string) {
     this.search = search;
     this.updateTotal();
   }
