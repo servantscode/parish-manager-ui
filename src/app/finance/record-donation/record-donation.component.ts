@@ -30,7 +30,7 @@ export class RecordDonationComponent implements OnInit {
   donationTypes = this.donationService.getDonationTypes.bind(this.donationService);
 
   donationForm = this.fb.group({
-      donationDate: [new Date(), Validators.required],
+      donationDate: ['', Validators.required],
       fundId: [this.defaultFund(), Validators.required],
       donations: this.fb.array([
           this.newRow()

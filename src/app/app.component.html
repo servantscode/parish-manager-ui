@@ -32,7 +32,7 @@
         <span *ngIf="loginService.userCan('room.list') || loginService.userCan('equipment.list')" >
           <a routerLink="/facilities" routerLinkActive="active">Facilities</a><br>
         </span>
-        <span *ngIf="loginService.userCan('admin.volunteer.list')" >
+        <span *ngIf="loginService.userCan('admin.checkin.list')" >
           <a routerLink="/volunteer" routerLinkActive="active">Volunteers</a><br>
         </span>
       </div>
