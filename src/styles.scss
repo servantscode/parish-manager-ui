@@ -213,6 +213,11 @@ div.rounded-rect {
   cursor: pointer;
 }
 
+.busy {
+  background-image: url('./assets/images/spinner.gif');
+  cursor: progress;
+}
+
 .big-icon {
   display: inline-block;
   height: 18px;
@@ -247,6 +252,13 @@ div.rounded-rect {
   background-image: url('./assets/images/trash.png');
   &:hover {
     background-image: url('./assets/images/trash-active.png');
+  }
+}
+
+.sync {
+  background-image: url('./assets/images/sync.png');
+  &:hover {
+    background-image: url('./assets/images/sync-active.png');
   }
 }
 

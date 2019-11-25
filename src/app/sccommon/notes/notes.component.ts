@@ -60,14 +60,30 @@ export class NotesComponent implements OnChanges {
     this.getNotes();
   }
 
+  canEdit(note: Note): boolean {
+    return this.loginService.userCan('admin.note.update') || 
+           (note.creatorId === this.loginService.getUserId() && this.loginService.userCan('note.update'));
+  }
+
   edit(note: Note): void {
     this.form.get("note").setValue(note.note);
     this.form.get("private").setValue(note.private);
     this.form.get("id").setValue(note.id);
   }
 
-  save(): void {
+  canDelete(note: Note): boolean {
+    return this.loginService.userCan('admin.note.delete') || 
+           (note.creatorId === this.loginService.getUserId() && this.loginService.userCan('note.delete'));
+  }
 
+  delete(note: Note) {
+    this.noteService.delete(note).subscribe(() => {
+        var replacePoint = this.notes.findIndex(n => n.id == note.id);
+        this.notes.splice(replacePoint, 1);
+      });
+  }
+
+  save(): void {
     if(this.form.get("id").value > 0) {
       if(!this.loginService.userCan('note.update'))
         return;
@@ -113,7 +129,7 @@ export class NotesComponent implements OnChanges {
 
   private resetForm() {
     this.form.get("note").reset();
-    this.form.get("private").reset();
-    this.form.get("id").reset();
+    this.form.get("private").setValue(false);
+    this.form.get("note").markAsPristine();
   }
 }

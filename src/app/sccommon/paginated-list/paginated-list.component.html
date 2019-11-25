@@ -38,7 +38,8 @@
           <em *ngIf="!item[fieldName(field)]" class="light">{{placeholderValue}}</em>
         </td>
         <td *ngFor="let control of customControls" class="icon">
-          <div *ngIf="control.isEnabled(item)" class="icon" (click)='control.invoke(item)' [ngClass]=" item === highlighted? control.type: ''">&nbsp;</div>
+          <div *ngIf="control.isEnabled(item) && !control.isBusy(item)" class="icon" (click)='control.invoke(item)' [ngClass]=" item === highlighted? control.type: ''">&nbsp;</div>
+          <div *ngIf="control.isEnabled(item) && control.isBusy(item)" class="icon busy">&nbsp;</div>
         </td>
         <td *ngIf="selectable && verifyPermission('update')" class="icon">
           <div class="icon" (click)='edit(item)' [ngClass]="{'edit' : item === highlighted}">&nbsp;</div>

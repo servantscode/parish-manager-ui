@@ -25,4 +25,10 @@ export class IntegrationService extends PaginatedService<Integration> {
   public getTemplate(): Integration {
     return new Integration().asTemplate();
   }
+
+  public syncPushpay(): Observable<void> {
+    return this.http.post<void>(this.url + "/pushpay/payment/sync", null, this.httpOptions).pipe(
+        catchError(this.handleError('syncPushpay', null))
+      );
+  }
 }
