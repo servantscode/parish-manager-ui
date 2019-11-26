@@ -21,7 +21,7 @@ export class PersonDialogComponent implements OnInit {
       name: ['', Validators.required],
       male: true,
       email: ['', Validators.email],
-      phoneNumber: ['', Validators.pattern(SCValidation.PHONE)]
+      phoneNumbers: ['']
     });
 
   constructor(public dialogRef: MatDialogRef<PersonDialogComponent>,
@@ -30,8 +30,8 @@ export class PersonDialogComponent implements OnInit {
               public personService: PersonService) { }
   
   ngOnInit() {
-    // if(this.data.item)
-    //   this.form.patchValue(this.data.item)
+    if(this.data.item)
+      this.form.patchValue(this.data.item)
   }
 
   save() {

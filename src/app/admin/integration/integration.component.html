@@ -1,7 +1,7 @@
 <div class="container rounded-rect">
   <app-paginated-list [dataService]="integrationService" 
-                      [fields]="['name', 'failure', {'name':'lastSync', 'type':'datetime'}]" 
-                      [pageSize]='20' 
+                      [fields]="['name', 'failure', {'name':'lastSync', 'type':'dateTime'}]" 
+                      [pageSize]='10' 
                       [dialogComponent]="IntegrationDialogComponent"
                       [customControls]="controls"
                       [type]="'Integration'">

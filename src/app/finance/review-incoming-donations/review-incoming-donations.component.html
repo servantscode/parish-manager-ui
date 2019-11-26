@@ -1,0 +1,16 @@
+<div class="container rounded-rect">
+  <h3>Review Incoming Donations</h3>
+  <app-paginated-list [dataService]="incomingDonationService" 
+                      [fields]="['donorName', 'fund', 
+                                 {'name':'amount', 'type':'currency'}, 
+                                 {'name':'donationDate', 'type':'dateTime'}]"
+                      [pageSize]='10'
+                      allowCreate='false'
+                      allowDelete='false'
+                      [refreshOn]='refresh'
+                      [customControls]="controls"
+                      type="Incoming Donation">
+<!--                       [searchForm]="[{'name':'name', 'type':'text'},
+                                     {'name':'email', 'type':'text'}]">
+ -->  </app-paginated-list>
+</div>

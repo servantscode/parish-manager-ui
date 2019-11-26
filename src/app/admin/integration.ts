@@ -7,6 +7,8 @@ export class Integration extends Identifiable {
   
   name: string;
   systemIntegrationId: number;
+  failure: string;
+  lastSync: Date;
   config: string;
 
   public identify(): string {
@@ -17,6 +19,8 @@ export class Integration extends Identifiable {
     this.id=0;
     this.name="";
     this.systemIntegrationId=0;
+    this.failure="";
+    this.lastSync=null;
     this.config="";
     return this;
   }
