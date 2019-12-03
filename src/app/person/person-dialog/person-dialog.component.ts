@@ -21,7 +21,8 @@ export class PersonDialogComponent implements OnInit {
       name: ['', Validators.required],
       male: true,
       email: ['', Validators.email],
-      phoneNumbers: ['']
+      phoneNumbers: [''],
+      parishioner: true
     });
 
   constructor(public dialogRef: MatDialogRef<PersonDialogComponent>,

@@ -1,7 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Router, NavigationExtras } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { getDayOfYear, getDaysInYear } from 'date-fns';
 
@@ -41,7 +40,6 @@ export class DonationOverviewComponent implements OnInit {
               private downloadService: DownloadService,
               public loginService: LoginService,
               public fundService: FundService,
-              private dialog: MatDialog,
               private fb: FormBuilder) { }
 
   ngOnInit() {

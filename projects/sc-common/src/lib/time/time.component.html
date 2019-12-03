@@ -1,0 +1,6 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="standard" class="input-5">
+    <mat-label>{{label}} Time</mat-label>
+    <input type="text" matInput #timeInput formControlName="time" autocomplete="off" (blur)="formatTime()" required/>
+  </mat-form-field>
+</form>

@@ -15,7 +15,7 @@
   </div>
 </div>
 <div class="timeline">
-  <div class="timespan" *ngFor="let window of visibleEvents" matTooltip="{{window.eventTitle}}&#13;{{window.reserverName}}" [ngClass]="{'busy': window.resourceType, 'requested': window === reservation, 'conflict': window.overlaps}" [style.width.%]="window.width" [style.left.%]="window.left" [style.top.%]="window.top" [style.height.%]="window.height">
+  <div class="timespan" *ngFor="let window of visibleEvents" matTooltip="{{window.eventTitle}}&#13;{{window.reserverName}}" [ngClass]="{'unavailable': window.resourceType, 'requested': window === reservation, 'conflict': window.overlaps}" [style.width.%]="window.width" [style.left.%]="window.left" [style.top.%]="window.top" [style.height.%]="window.height">
     <span class="clickable" (click)="gotoEvent(window.eventId)">{{window.eventTitle}}</span>
   </div>
 </div>

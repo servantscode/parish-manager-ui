@@ -241,6 +241,20 @@ div.rounded-rect {
   }
 }
 
+.link {
+  background-image: url('./assets/images/link.png');
+  &:hover {
+    background-image: url('./assets/images/link-active.png');
+  }  
+}
+
+.gear {
+  background-image: url('./assets/images/gear.png');
+  &:hover {
+    background-image: url('./assets/images/gear-active.png');
+  }  
+}
+
 .search {
   background-image: url('./assets/images/search.png');
   &:hover {

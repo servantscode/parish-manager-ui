@@ -49,6 +49,9 @@ export class RecurrenceComponent implements ControlValueAccessor, OnInit {
   _customEvents: Event[] = [];
   @Input('customEvents') 
   set customEvents(events: Event[]) {
+    if(!events)
+      return; 
+    
     this._customEvents = events;
     this.customEventsChange.emit(events);
     this.futureDatesChange.emit(events.map(e => e.startTime));

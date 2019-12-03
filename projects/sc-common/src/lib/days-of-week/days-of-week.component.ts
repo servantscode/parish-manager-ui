@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { FormBuilder, Validators, FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { endOfYear } from 'date-fns';
 
-import { deepEqual } from '../../sccommon/utils';
+import { deepEqual } from '../utils';
 
 
 @Component({

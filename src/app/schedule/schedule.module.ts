@@ -34,7 +34,6 @@ import { RecurringEditDialogComponent } from './recurring-edit-dialog/recurring-
 import { SelectedEvent } from './event';
 import { RoomAvailabilityDialogComponent } from './room-availability-dialog/room-availability-dialog.component';
 import { RecurrenceComponent } from './recurrence/recurrence.component';
-import { DaysOfWeekComponent } from './days-of-week/days-of-week.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { DateSeriesComponent } from './date-series/date-series.component';
 import { CustomDateSeriesComponent } from './custom-date-series/custom-date-series.component';
@@ -51,7 +50,6 @@ import { CustomEventDialogComponent } from './custom-event-dialog/custom-event-d
     RecurringEditDialogComponent,
     RoomAvailabilityDialogComponent,
     RecurrenceComponent,
-    DaysOfWeekComponent,
     ReservationComponent,
     DateSeriesComponent,
     CustomDateSeriesComponent,

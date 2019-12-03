@@ -16,7 +16,7 @@ import { AvailableIntegration } from '../integration';
 export class IntegrationDialogComponent implements OnInit {
 
   form = this.fb.group({
-      integration: [''],
+      integration: ['', Validators.required],
     });
 
   selectedIntegration: AvailableIntegration;
@@ -39,8 +39,8 @@ export class IntegrationDialogComponent implements OnInit {
   doAuthorize() {
     if(this.selectedIntegration.authorizationUrl)
       window.open(this.selectedIntegration.authorizationUrl, "_blank");
-    else
-      this.cancel();
+
+    this.cancel();
   }
 
   cancel() {

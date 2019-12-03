@@ -40,8 +40,10 @@ import { ScMultiEnumComponent } from './sc-multi-enum/sc-multi-enum.component';
 import { ScMultiSelectComponent } from './sc-multi-select/sc-multi-select.component';
 import { ScPhoneNumberComponent } from './sc-phone-number/sc-phone-number.component';
 import { ScSelectComponent } from './sc-select/sc-select.component';
+import { DaysOfWeekComponent } from './days-of-week/days-of-week.component';
 
 import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-dialog.component';
+import { TimeComponent } from './time/time.component';
 
 @NgModule({
   declarations: [
@@ -61,8 +63,11 @@ import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-d
     ScMultiSelectComponent,
     ScPhoneNumberComponent,
     ScSelectComponent,
+    DaysOfWeekComponent,
 
-    PhotoUploadDialogComponent
+    PhotoUploadDialogComponent,
+
+    TimeComponent
   ],
   imports: [
     //Angular basics
@@ -103,6 +108,7 @@ import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-d
     ScMultiSelectComponent,
     ScPhoneNumberComponent,
     ScSelectComponent,
+    DaysOfWeekComponent,
 
     HttpClientModule,
     MatDialogModule

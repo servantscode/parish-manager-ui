@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSelectModule } from '@angular/material/select';
 
 import { SCCommonModule } from '../sccommon/sccommon.module';
 import { ScCommonModule } from 'sc-common';
@@ -32,6 +33,7 @@ import { DepartmentDialogComponent } from './department-dialog/department-dialog
 import { CategoryDialogComponent } from './category-dialog/category-dialog.component';
 import { IntegrationComponent } from './integration/integration.component';
 import { IntegrationDialogComponent } from './integration-dialog/integration-dialog.component';
+import { AutomationDialogComponent } from './automation-dialog/automation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { IntegrationDialogComponent } from './integration-dialog/integration-dia
     DepartmentDialogComponent,
     CategoryDialogComponent,
     IntegrationComponent,
-    IntegrationDialogComponent
+    IntegrationDialogComponent,
+    AutomationDialogComponent
   ],
   imports: [
     AdminRoutingModule,
@@ -68,7 +71,8 @@ import { IntegrationDialogComponent } from './integration-dialog/integration-dia
     MatInputModule,
     MatTreeModule,
     MatCheckboxModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSelectModule
   ],
   exports: [
   ],
@@ -82,7 +86,8 @@ import { IntegrationDialogComponent } from './integration-dialog/integration-dia
     PreferenceDialogComponent,
     DepartmentDialogComponent,
     CategoryDialogComponent,
-    IntegrationDialogComponent
+    IntegrationDialogComponent,
+    AutomationDialogComponent
   ]
 })
 export class AdminModule { }

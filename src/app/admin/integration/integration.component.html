@@ -1,9 +1,11 @@
 <div class="container rounded-rect">
   <app-paginated-list [dataService]="integrationService" 
-                      [fields]="['name', 'failure', {'name':'lastSync', 'type':'dateTime'}]" 
+                      [fields]="['name', 'failure', {'name':'lastSync', 'type':'dateTime'}, 
+                                 {'name':'nextScheduledSync', 'type':'dateTime', 'displayName':'Next Sync'}]" 
                       [pageSize]='10' 
                       [dialogComponent]="IntegrationDialogComponent"
                       [customControls]="controls"
+                      [refreshOn]="refresh"
                       [type]="'Integration'">
   </app-paginated-list>
 </div>
