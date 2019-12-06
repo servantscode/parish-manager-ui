@@ -100,8 +100,8 @@ export class MinistryDetailComponent implements OnInit {
           this.ministryForm.patchValue(ministry);
         });
 
-      this.metricsService.getMinistryEnrollment(id).subscribe(stats => this.ministryStats = stats);
-
+      this.updateMembershipCounts();
+        
       this.eventService.getUpcomingEvents(id).
         subscribe(events => {
           this.upcomingEvents = events;
@@ -111,6 +111,10 @@ export class MinistryDetailComponent implements OnInit {
         this.router.navigate(['not-found']);
       this.editMode = true;
     }
+  }
+
+  updateMembershipCounts() {
+    this.metricsService.getMinistryEnrollment(this.ministryId()).subscribe(stats => this.ministryStats = stats);
   }
 
   goBack(): void {

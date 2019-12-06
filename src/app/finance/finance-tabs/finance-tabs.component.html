@@ -4,7 +4,7 @@
   <span *ngIf="loginService.userCan('donation.list')" class="tab clickable" (click)="selectTab('donations')" [ngClass]="{'highlighted': 'donations' === selectedTab}">Donations</span>
   <span *ngIf="loginService.userCan('fund.list')" class="tab clickable" (click)="selectTab('funds')" [ngClass]="{'highlighted': 'funds' === selectedTab}">Funds</span>
   <span *ngIf="loginService.userCan('donation.create')" class="tab clickable" (click)="selectTab('record')" [ngClass]="{'highlighted': 'record' === selectedTab}">Record</span>
-  <span *ngIf="loginService.userCan('donation.review')" class="tab clickable" (click)="selectTab('review')" [ngClass]="{'highlighted': 'review' === selectedTab}">Review Incoming</span>
+  <span *ngIf="loginService.userCan('donation.review')" class="tab clickable" (click)="selectTab('review')" [ngClass]="{'highlighted': 'review' === selectedTab}">Incoming Egifts</span>
 </mat-toolbar>
 
 <div class="tab-content scrollable">

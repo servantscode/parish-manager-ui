@@ -24,13 +24,6 @@
                                      {'name':'annualPledgeAmount', 'type':'numberRange'},
                                      {'name':'collectedAmount', 'type':'numberRange'},
                                      {'name':'pledgeStatus', 'type':'enum', 'valueSource':pledgeStatuses}]">                    
-
-,
-             <!-- {'name':'completionScore', 'type':'numberRange'} -->
-<!--              
-                  [searchFilter]="viewFilter"
-                  [refreshOn]="filterChanges" -->
-
   </app-paginated-list>
   <div *ngIf="loginService.userCan('pledge.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
 </div>

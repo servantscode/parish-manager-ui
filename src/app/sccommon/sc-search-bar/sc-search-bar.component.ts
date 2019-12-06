@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { SearchDialogComponent } from '../search-dialog/search-dialog.component';
 import { SaveSearchDialogComponent } from '../save-search-dialog/save-search-dialog.component';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 import { LoginService } from 'sc-common';
 import { SearchService } from '../services/search.service';
@@ -13,7 +14,7 @@ import { SearchService } from '../services/search.service';
 import { SCValidation } from '../validation';
 import { SavedSearch } from '../saved-search';
 
-import { deepEqual, doLater } from '../../sccommon/utils';
+import { deepEqual, doLater } from '../utils';
 
 @Component({
   selector: 'app-sc-search-bar',
@@ -111,5 +112,21 @@ export class ScSearchBarComponent implements OnInit, OnChanges {
     this.savedSearch = null;
     this.form.get('input').setValue('');
     this.form.get('savedSearch').setValue('');
+  }
+
+  deleteSearch() {
+   const saveRef = this.dialog.open(DeleteDialogComponent, {
+        width: '400px',
+        data: {"title": "Confirm Delete",
+             "text" : "Are you sure you want to delete search \"" + this.savedSearch.name + "\"?",
+             "delete": (): Observable<void> => { 
+                 return this.searchService.delete(this.savedSearch);
+               }
+            }
+      });
+
+    saveRef.afterClosed().subscribe(result => {
+        this.clearSearch();
+      });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, OnChanges, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -27,6 +27,8 @@ export class MinistryMemberListComponent implements OnInit {
   @Input() ministryId: number;
   @Input() personId: number;
   @Input() columns: string[];
+
+  @Output() onChange = new EventEmitter<any>();
 
   enrollments: Enrollment[];
   newEnrollment = false;
@@ -112,13 +114,17 @@ export class MinistryMemberListComponent implements OnInit {
     this.enrollmentForm.get('ministryId').disable();
     this.enrollments = this.enrollments.filter(e => e != enrollment);
     this.editingEnrollment = true;
+    this.onChange.emit();
   }
 
   delete(enrollment: Enrollment) {
     if(!this.loginService.userCan("ministry.enrollment.delete"))
       return;
     
-    this.enrollmentService.deleteEnrollment(enrollment).subscribe(() => this.loadEnrollments());
+    this.enrollmentService.deleteEnrollment(enrollment).subscribe(() => {
+        this.loadEnrollments();
+        this.onChange.emit();
+      });
   }
 
   showMembershipForm(): void {
@@ -132,14 +138,20 @@ export class MinistryMemberListComponent implements OnInit {
       if(!this.loginService.userCan('ministry.enrollment.create')) 
         return;
 
-      this.enrollmentService.createEnrollment(this.enrollmentForm.value).subscribe(() => this.clearEnrollmentForm());
+      this.enrollmentService.createEnrollment(this.enrollmentForm.value).subscribe(() => {
+          this.clearEnrollmentForm();
+          this.onChange.emit();
+        });
     } else if(this.editingEnrollment) {
       if(!this.loginService.userCan("ministry.enrollment.update"))
         return;
 
       this.enrollmentForm.get('personId').enable();
       this.enrollmentForm.get('ministryId').enable();
-      this.enrollmentService.updateEnrollment(this.enrollmentForm.value).subscribe(() => this.clearEnrollmentForm());
+      this.enrollmentService.updateEnrollment(this.enrollmentForm.value).subscribe(() => {
+          this.clearEnrollmentForm();
+          this.onChange.emit();
+        });
     }
   }
 

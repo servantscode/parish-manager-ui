@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, forwardRef, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { startOfDay, isEqual, compareAsc, isAfter } from 'date-fns';
+import { startOfDay, isEqual, compareAsc, isBefore } from 'date-fns';
 
 import { deepEqual } from '../../sccommon/utils';
 
@@ -90,7 +90,7 @@ export class DateSeriesComponent implements OnInit, OnChanges {
           });
           this.futureEvents = this.futureEvents.concat(
             this.exceptionDates
-              .filter(d => isAfter(d, this.event.startTime))
+              .filter(d => !isBefore(d, startOfDay(this.event.startTime)))
               .map(t => { return {"startTime": t, "excluded": true} }));
           this.futureEvents.sort((a, b) => compareAsc(a.startTime, b.startTime));
           this.open = [].fill(false, 0, this.futureEvents.length);

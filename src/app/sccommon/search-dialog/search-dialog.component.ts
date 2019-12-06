@@ -68,7 +68,7 @@ export class SearchDialogComponent implements OnInit {
           default:
             var value = this.form.get(fieldName).value;
             if(value)
-              searchString += field.name + ":" + (field.type == 'text' && value.includes(" ")? `"${value}"`: value)+ " ";
+              searchString += field.name + ":" + (typeof value === 'string' && value.includes(" ")? `"${value}"`: value)+ " ";
             break;
         }
     });    

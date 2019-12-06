@@ -37,6 +37,8 @@ export class RecordDonationComponent implements OnInit {
         ])
     });
 
+  total:number = 0;
+
   constructor(private fb: FormBuilder,
               private donationService: DonationService,
               public fundService: FundService,
@@ -119,7 +121,15 @@ export class RecordDonationComponent implements OnInit {
     group.get('familyId').valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => this.predictGroup(group, 'familyId'));
 
+    group.get('amount').valueChanges.pipe(distinctUntilChanged())
+      .subscribe(() => this.calculateTotal());
+
     return group;
+  }
+
+  calculateTotal() {
+    this.total = 0;
+    this.donationControls().controls.forEach(c => this.total += c.get("amount").value);
   }
 
   hasDirtyOrInvalidFields(donation: FormGroup): boolean {
@@ -179,6 +189,7 @@ export class RecordDonationComponent implements OnInit {
             group.patchValue(prediction, {emitEvent: false});
             this.clearZero(group.get("envelopeNumber"));
             this.clearZero(group.get("amount"));
+            this.calculateTotal();
           }
         });
   }

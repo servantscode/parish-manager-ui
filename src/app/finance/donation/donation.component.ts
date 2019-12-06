@@ -3,7 +3,9 @@ import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 import { startOfWeek, startOfMonth, startOfYear } from 'date-fns';
 
-import { DownloadService, LoginService } from 'sc-common';
+import { DownloadService, LoginService, FamilyService } from 'sc-common';
+
+import { FundService } from '../services/fund.service';
 
 import { DonationService } from '../services/donation.service';
 import { DonationDialogComponent } from '../donation-dialog/donation-dialog.component';
@@ -24,9 +26,13 @@ export class DonationComponent implements OnInit {
   private search:string = "";
   public totalValue: number = 0;
 
+  public donationTypes = this.donationService.getDonationTypes.bind(this.donationService);
+
   constructor(public donationService: DonationService,
               public loginService: LoginService,
-              private downloadService: DownloadService) { }
+              private downloadService: DownloadService,
+              public fundService: FundService,
+              public familyService: FamilyService) { }
 
   ngOnInit() {
     this.updateTotal();

@@ -6,74 +6,82 @@
 </ng-template>
 
 <form [formGroup]="donationForm" (ngSubmit)="createDonations()">
-  <h2>Record Donations</h2>
-  <div class="container-fluid">
+  <div class="donation-input scrollable">
+    <h2>Record Donations</h2>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="standard" class="input-small">
+            <input matInput formControlName="donationDate" [matDatepicker]="picker" placeholder="Donation Date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col">
+        <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="small"></app-sc-select>
+        </div>
+      </div>
+      <table class="sc-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Envelope #</th>
+            <th>Family</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody formArrayName="donations">
+          <tr *ngFor="let donation of donationControls().controls; let i=index" formGroupName="{{i}}" [ngClass] = "{'invalid' : hasDirtyOrInvalidFields(donation)}">
+            <td>
+              <img src="assets/images/red-minus.png" class="icon" (click)="deleteRow(i)"/>
+            </td>
+            <td>
+              <mat-form-field appearance="standard" class="input-5">
+                <mat-label>Envelope #</mat-label>
+                <input type="text" matInput formControlName="envelopeNumber" autocomplete="off" id="envelope-{{i}}"/>
+              </mat-form-field><br/>
+            </td>
+            <td>
+              <app-sc-auto-complete formControlName="familyId" optionCount="50" label='Family' [autocompleteService]="familyService" [required]="true" fieldSize="standard" [itemTemplate]="familyChoice"></app-sc-auto-complete>
+            </td>
+            <td>
+              <mat-form-field appearance="standard" class="input-5">
+                <mat-label>Amount</mat-label>
+                <input type="number" matInput formControlName="amount" autocomplete="off" required/>
+              </mat-form-field>
+            </td>
+            <td>
+              <app-sc-enum formControlName="donationType" label="Type" fieldSize="small" [required]="true" [valueSource]="donationTypes"></app-sc-enum>
+            </td>
+            <td>
+              <mat-form-field *ngIf="donationType(i) === 'CHECK'" appearance="standard" class="input-5">
+                <mat-label>Check Number</mat-label>
+                <input type="text" matInput formControlName="checkNumber" autocomplete="off" required/>
+              </mat-form-field>
+              <mat-form-field *ngIf="donationType(i) === 'EGIFT' || donationType(i) === 'CREDIT_CARD'" appearance="standard" class="input-small">
+                <mat-label>Transaction Id</mat-label>
+                <input type="text" matInput formControlName="transactionId" autocomplete="off"/>
+              </mat-form-field>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>  
+  </div>
+  <div class="pin-bottom">
     <div class="row">
       <div class="col">
-        <mat-form-field appearance="standard" class="input-small">
-          <input matInput formControlName="donationDate" [matDatepicker]="picker" placeholder="Donation Date">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+        <button mat-button type="submit" class="btn btn-primary" [disabled]="!donationForm.valid">Save</button>
       </div>
       <div class="col">
-      <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="small"></app-sc-select>
+        <span>Total: <strong>{{total | currency:"$"}}</strong></span>
+      </div>
+      <div class="col align-right">
+        <button mat-button type="button" class="btn btn-primary" (click)="addRow()">Add Donation Row</button>
       </div>
     </div>
-    <table class="sc-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Envelope #</th>
-          <th>Family</th>
-          <th>Amount</th>
-          <th>Type</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody formArrayName="donations">
-        <tr *ngFor="let donation of donationControls().controls; let i=index" formGroupName="{{i}}" [ngClass] = "{'invalid' : hasDirtyOrInvalidFields(donation)}">
-          <td>
-            <img src="assets/images/red-minus.png" class="icon" (click)="deleteRow(i)"/>
-          </td>
-          <td>
-            <mat-form-field appearance="standard" class="input-5">
-              <mat-label>Envelope #</mat-label>
-              <input type="text" matInput formControlName="envelopeNumber" autocomplete="off" id="envelope-{{i}}"/>
-            </mat-form-field><br/>
-          </td>
-          <td>
-            <app-sc-auto-complete formControlName="familyId" optionCount="50" label='Family' [autocompleteService]="familyService" [required]="true" fieldSize="standard" [itemTemplate]="familyChoice"></app-sc-auto-complete>
-          </td>
-          <td>
-            <mat-form-field appearance="standard" class="input-5">
-              <mat-label>Amount</mat-label>
-              <input type="text" matInput formControlName="amount" autocomplete="off" required/>
-            </mat-form-field>
-          </td>
-          <td>
-            <app-sc-enum formControlName="donationType" label="Type" fieldSize="small" [required]="true" [valueSource]="donationTypes"></app-sc-enum>
-          </td>
-          <td>
-            <mat-form-field *ngIf="donationType(i) === 'CHECK'" appearance="standard" class="input-5">
-              <mat-label>Check Number</mat-label>
-              <input type="text" matInput formControlName="checkNumber" autocomplete="off" required/>
-            </mat-form-field>
-            <mat-form-field *ngIf="donationType(i) === 'EGIFT' || donationType(i) === 'CREDIT_CARD'" appearance="standard" class="input-small">
-              <mat-label>Transaction Id</mat-label>
-              <input type="text" matInput formControlName="transactionId" autocomplete="off"/>
-            </mat-form-field>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="container align-right">
-      <button mat-button type="button" class="btn btn-primary" (click)="addRow()">Add Donation Row</button>
-    </div>
-  </div>  
-
-  <div>
-    <button mat-button type="submit" class="btn btn-primary" [disabled]="!donationForm.valid">Save</button>
   </div>
 </form>

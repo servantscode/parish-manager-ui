@@ -5,11 +5,9 @@ import { Observable, of } from 'rxjs';
 import { map, startWith, reduce } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { LoginService } from 'sc-common';
-import { FamilyService } from 'sc-common';
+import { DownloadService, FamilyService, LoginService } from 'sc-common';
 import { SCValidation } from 'sc-common';
-import { Person } from 'sc-common';
-import { Family } from 'sc-common';
+import { Family, Person } from 'sc-common';
 
 import { Donation } from '../../finance/donation';
 import { Pledge } from '../../finance/pledge';
@@ -53,6 +51,7 @@ export class FamilyDetailComponent implements OnInit {
               private donationService: DonationService,
               private pledgeService: PledgeService,
               public loginService: LoginService,
+              public downloadService: DownloadService,
               private fb: FormBuilder,
               private dialog: MatDialog) { }
 
@@ -238,5 +237,10 @@ export class FamilyDetailComponent implements OnInit {
     .subscribe(() => {
       this.family.photoGuid = guid
     });
+  }
+
+  downloadAnnualReport(): void {
+    const filename = this.family.surname + "-annual-report-2019.pdf";
+    this.downloadService.downloadPdf(this.donationService.annualReport(this.family.id, 2019), filename);
   }
 }

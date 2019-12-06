@@ -44,7 +44,8 @@
             <div *ngSwitchCase="'autocomplete'">
               <app-sc-auto-complete formControlName="{{fieldName(field)}}"
                                     [label]="field.displayName? field.displayName: field.name | displaycamelcase" 
-                                    [autocompleteService]="field.service">
+                                    [autocompleteService]="field.service"
+                                    [selectIdentity]="field.selectIdentity">
               </app-sc-auto-complete>
             </div>
             <div *ngSwitchCase="'enum'">

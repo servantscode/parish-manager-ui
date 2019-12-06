@@ -83,6 +83,7 @@ export class PermissionTreeComponent implements OnInit {
     this.permissions.forEach(perm => { 
         this.activatePermission(perm.split(/\./), perms);
       });
+    this.sortPermissions(perms);
     this.permissionTree = perms;
     this.nestedDataSource.data = perms;
   }
@@ -97,6 +98,14 @@ export class PermissionTreeComponent implements OnInit {
     } else if (permission.children != null) {
       this.activatePermission(permBits.slice(1), permission.children);
     }
+  }
+
+  private sortPermissions(perms: Permission[]): void {
+    perms.sort((a,b) => a.name.localeCompare(b.name));
+    perms.forEach(item => {
+        if(item.children && item.children.length > 0)
+          this.sortPermissions(item.children);
+      });
   }
 
   private _getChildren(node: Permission) {

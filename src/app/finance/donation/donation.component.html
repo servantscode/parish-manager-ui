@@ -35,10 +35,10 @@
                       (onSearch)="processUpdate($event)"
                       [searchFilter]="viewFilter"
                       [refreshOn]="filterChanges"
-                      [searchForm]="[{'name':'familyName', 'type':'text'},
-                                     {'name':'fundName', 'type':'text'},
+                      [searchForm]="[{'name':'familyName', 'type':'autocomplete', 'service':familyService, 'selectIdentity':true},
+                                     {'name':'fundName', 'type':'autocomplete', 'service':fundService, 'selectIdentity':true},
                                      {'name':'donationDate', 'type':'date'}, 
-                                     {'name':'donationType', 'type':'text'}, 
+                                     {'name':'donationType', 'type':'enum', 'valueSource':donationTypes}, 
                                      {'name':'amount', 'type':'numberRange'}]">                    
   </app-paginated-list>
   <div *ngIf="loginService.userCan('donation.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
