@@ -7,6 +7,8 @@
           <input matInput formControlName="name" required/>
         </mat-form-field><br/>
 
+        <app-identity-picker formControlName="pastor"></app-identity-picker>
+
         <span>Url: https://{{organization.hostName}}.servantscode.org</span><br/>
 
         <mat-form-field appearance="standard" class="input-standard">
@@ -17,9 +19,7 @@
         <app-sc-phone-number formControlName="phoneNumber"></app-sc-phone-number>  
 
         <app-address formControlName="address"></app-address>
-
-        <!-- <app-identity-picker formControlName="pastor"></app-identity-picker> -->
-
+        
         <div class="button-bar">
           <button type="submit" class="btn btn-primary">Save</button>
           <button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
@@ -29,7 +29,9 @@
     <ng-template #displayOnly>
       <div class="col">
         <h3>{{parish.name}}</h3>
-        <span>Url: https://{{organization.hostName}}.servantscode.org</span><br/>
+        <span>Url: https://{{organization.hostName}}.servantscode.org</span><br/><br/>
+
+        <span>Pastor:{{parish.pastor.name}}</span><br/><br/>
         <span>Website: {{parish.website}}</span><br/>
         <span>Phone Number: {{parish.phoneNumber}}</span><br/>
         <span>Address:</span><br/>

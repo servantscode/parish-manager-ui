@@ -15,7 +15,6 @@ import { ScCommonModule } from 'sc-common';
 import { SacramentRoutingModule } from './sacrament-routing.module';
 
 import { BaptismComponent } from './baptism/baptism.component';
-import { IdentityPickerComponent } from './identity-picker/identity-picker.component';
 import { BaptismDetailsComponent } from './baptism-details/baptism-details.component';
 import { BaptismFormComponent } from './baptism-form/baptism-form.component';
 import { NotationsComponent } from './notations/notations.component';
@@ -32,7 +31,6 @@ import { MassIntentionDialogComponent } from './mass-intention-dialog/mass-inten
 @NgModule({
   declarations: [
     BaptismComponent,
-    IdentityPickerComponent,
     BaptismDetailsComponent,
     BaptismFormComponent,
     NotationsComponent,

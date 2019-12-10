@@ -41,6 +41,7 @@ import { ScMultiSelectComponent } from './sc-multi-select/sc-multi-select.compon
 import { ScPhoneNumberComponent } from './sc-phone-number/sc-phone-number.component';
 import { ScSelectComponent } from './sc-select/sc-select.component';
 import { DaysOfWeekComponent } from './days-of-week/days-of-week.component';
+import { IdentityPickerComponent } from './identity-picker/identity-picker.component';
 
 import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-dialog.component';
 import { TimeComponent } from './time/time.component';
@@ -64,6 +65,7 @@ import { TimeComponent } from './time/time.component';
     ScPhoneNumberComponent,
     ScSelectComponent,
     DaysOfWeekComponent,
+    IdentityPickerComponent,
 
     PhotoUploadDialogComponent,
 
@@ -109,6 +111,7 @@ import { TimeComponent } from './time/time.component';
     ScPhoneNumberComponent,
     ScSelectComponent,
     DaysOfWeekComponent,
+    IdentityPickerComponent,
 
     HttpClientModule,
     MatDialogModule

@@ -3,8 +3,10 @@ import { FormBuilder, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/f
 import { Observable } from 'rxjs';
 import { map, debounceTime, switchMap } from 'rxjs/operators'
 
-import { PersonService } from 'sc-common';
-import { Autocompletable, Identity, Person } from 'sc-common';
+import { PersonService } from '../services/person.service';
+import { Autocompletable } from '../identifiable';
+import { Identity } from '../identity';
+import { Person } from '../person';
 
 @Component({
   selector: 'app-identity-picker',
