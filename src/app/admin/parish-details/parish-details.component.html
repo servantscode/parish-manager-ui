@@ -19,6 +19,11 @@
         <app-sc-phone-number formControlName="phoneNumber"></app-sc-phone-number>  
 
         <app-address formControlName="address"></app-address>
+
+        <mat-form-field appearance="standard" class="input-standard">
+          <mat-label>First month of Fiscal Year</mat-label>
+          <input type="number" max="12" min="1" matInput formControlName="fiscalYearStartMonth"/>
+        </mat-form-field><br/>
         
         <div class="button-bar">
           <button type="submit" class="btn btn-primary">Save</button>
@@ -31,12 +36,14 @@
         <h3>{{parish.name}}</h3>
         <span>Url: https://{{organization.hostName}}.servantscode.org</span><br/><br/>
 
-        <span>Pastor:{{parish.pastor.name}}</span><br/><br/>
+        <span>Pastor: {{parish.pastor.name}}</span><br/><br/>
         <span>Website: {{parish.website}}</span><br/>
         <span>Phone Number: {{parish.phoneNumber}}</span><br/>
         <span>Address:</span><br/>
         <span>{{parish.address.street1}}</span><br/>
-        <span>{{parish.address.city}}, {{parish.address.state}} {{parish.address.zip}}</span><br/>
+        <span>{{parish.address.city}}, {{parish.address.state}} {{parish.address.zip}}</span><br/><br/>
+        <span>Fiscal Year: {{fyStart | date: 'MM-dd-yyyy'}} - {{fyEnd | date: 'MM-dd-yyyy'}}</span><br/>
+
         <div class="button-bar">
           <button *ngIf="loginService.userCan('parish.admin.update')" class="btn btn-primary" (click)="enableEdit()">Edit</button>
         </div>

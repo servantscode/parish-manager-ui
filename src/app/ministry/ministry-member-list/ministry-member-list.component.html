@@ -31,7 +31,7 @@
             <app-sc-auto-complete formControlName="personId" label='Name' [autocompleteService]="personService" [required]="true" [filter]="peopleFilter()"></app-sc-auto-complete>            
           </td>
           <td *ngIf="columns.includes('role')">
-            <app-sc-auto-complete formControlName="roleId" label='Role' [autocompleteService]="ministryRoleService" [required]="true" [pathParams]="{'id': activeMinistryId}"></app-sc-auto-complete> 
+            <app-sc-auto-complete formControlName="roleId" label='Role' [autocompleteService]="ministryRoleService" [required]="true" [pathParams]="{'id': activeMinistryId}" autoOpen='true'></app-sc-auto-complete> 
           </td>
           <td *ngIf="columns.includes('controls') && loginService.userCan('ministry.enrollment.update')"></td>
           <td *ngIf="columns.includes('controls') && loginService.userCan('ministry.enrollment.delete')"></td>

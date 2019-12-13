@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { isAfter, addYears, subYears, subDays} from 'date-fns';
 
 import { LoginService, OrganizationService, ParishService } from 'sc-common';
 import { DepartmentService } from '../../sccommon/services/department.service';
@@ -24,6 +25,9 @@ export class ParishDetailsComponent implements OnInit {
   CategoryDialogComponent = CategoryDialogComponent;
   DepartmentDialogComponent = DepartmentDialogComponent;
 
+  fyStart: Date;
+  fyEnd: Date;
+
   public editMode = false;
 
   form = this.fb.group({
@@ -33,6 +37,7 @@ export class ParishDetailsComponent implements OnInit {
       phoneNumber: ['', Validators.required],
       website: '',
       pastor: '',
+      fiscalYearStartMonth: 1,
       bannerGuid: '',
       portraitGuid: '',
       orgId: ['', Validators.required]
@@ -76,8 +81,14 @@ export class ParishDetailsComponent implements OnInit {
 
   private activateParish(parish: Parish) {
     this.parish = parish;
-    if(parish)
+    if(parish) {
       this.form.patchValue(parish);
+      const today = new Date();
+      this.fyStart = new Date(today.getFullYear(), parish.fiscalYearStartMonth-1, 1);
+      if(isAfter(this.fyStart, today))
+        this.fyStart = subYears(this.fyStart, 1);
+      this.fyEnd = subDays(addYears(this.fyStart, 1), 1);
+    }
   }
 
   attachPhoto(guid: any): void {

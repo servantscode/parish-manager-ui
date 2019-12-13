@@ -10,7 +10,7 @@ import { ApiLocatorService } from 'sc-common';
 import { LoginService } from 'sc-common';
 import { BaseService } from 'sc-common';
 
-import { DonationReport } from '../../finance/donation-report';
+import { MonthlyDonations, DonationReport } from '../../finance/donation-report';
 
 import { MetricsResponse, MinistryEnrollmentStats } from '../metrics-response';
 import { PledgeStatus } from '../pledge-status';
@@ -68,11 +68,20 @@ export class MetricsService extends BaseService {
       );
   }
 
-  getMonthlyDonations(fundId = 0): Observable<DonationReport[]> {
+  getMonthlyDonations(fundId = 0): Observable<MonthlyDonations[]> {
     var url = this.url+`/pledges/monthly`;
     if(fundId > 0)
       url += `/fund/${fundId}`;
-    return this.http.get<DonationReport[]>(url).pipe(
+    return this.http.get<MonthlyDonations[]>(url).pipe(
+        catchError(this.handleError('getMonthlyDonations', null))
+      );
+  }
+
+  getYtdDonations(fundId = 0): Observable<DonationReport> {
+    var url = this.url+`/pledges/ytd`;
+    if(fundId > 0)
+      url += `/fund/${fundId}`;
+    return this.http.get<MonthlyDonations[]>(url).pipe(
         catchError(this.handleError('getMonthlyDonations', null))
       );
   }

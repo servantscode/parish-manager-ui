@@ -14,7 +14,7 @@
                             [autocompleteService]="searchService">
       </app-sc-auto-complete>
 
-      <div class="huge-icon floating search-history" [ngClass]="findSearch? 'history-active': 'history'" (click)="toggleSavedSearchMode()">&nbsp;&nbsp;</div>
+      <div *ngIf="searchForm" class="huge-icon floating search-history" [ngClass]="findSearch? 'history-active': 'history'" (click)="toggleSavedSearchMode()">&nbsp;&nbsp;</div>
 
       <table *ngIf="savedSearch" class="middle">
         <td>

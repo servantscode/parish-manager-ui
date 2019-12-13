@@ -39,13 +39,13 @@ export class PhotoService extends BaseService {
     return this.http.post<any>(this.url, fileToUpload, {headers: {"Content-Type": fileToUpload.type}}).pipe(
         map(resp => resp.guid),
         tap(guid => this.log('Image Stored')),
-        catchError(this.handleError('uploadImage', null)));
+        catchError(this.handleResponseCode('uploadImage', 413, "Images larger than 1Mb cannot be accepted.")));
   }
 
   uploadPublicImage(fileToUpload: File): Observable<string> {
     return this.http.post<any>(this.url+"/public", fileToUpload, {headers: {"Content-Type": fileToUpload.type}}).pipe(
         map(resp => resp.guid),
         tap(guid => this.log('Image Stored')),
-        catchError(this.handleError('uploadPublicImage', null)));
+        catchError(this.handleResponseCode('uploadImage', 413, "Images larger than 1Mb cannot be accepted.")));
   }
 }

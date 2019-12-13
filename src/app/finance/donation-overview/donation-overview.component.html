@@ -5,9 +5,11 @@
 </div>
 
 <div *ngIf="loginService.userCan('pledge.metrics')" class="container rounded-rect clear-float">
+  <h3>Donation Overview <span class="light">({{fyStart | date: 'MM-dd-yyyy'}} - {{fyEnd | date: 'MM-dd-yyyy'}})</span></h3>
   <div class='row'>
     <div class='col'>
-      <h3>Donation Overview</h3><br/>
+      <br/><br/>
+      <!-- Fiscal Year: <strong>{{fyStart | date: 'MM-dd-yyyy'}} - {{fyEnd | date: 'MM-dd-yyyy'}}</strong><br/> -->
       YTD Donations: <strong>{{ytdDonations | currency:"$"}}</strong><br/>
       YTD Pledged Donations: <strong>{{pledgedDonations | currency:"$"}}</strong><br/>
       Pledge Fullfillment Rate: <strong>{{pledgeFulfillmentPct*100 | number: '1.2-2'}}%</strong><br/>

@@ -439,6 +439,9 @@ export class EventDetailsComponent implements OnInit {
     this.formSubs.push(
       this.eventForm.get('ministryId').valueChanges.pipe(debounceTime(0), distinctUntilChanged())
         .subscribe(id => {
+          if(!id)
+            return;
+          
           const contact = this.eventForm.get('contactId');
           if(!contact.value) {
             this.ministryService.getPrimaryContact(id).subscribe(contactId => contact.setValue(contactId));

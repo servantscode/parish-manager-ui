@@ -23,6 +23,19 @@ export class BaseService {
               protected messageService: MessageService,
               protected loginService: LoginService) { }
 
+  protected handleResponseCode<T> (operation = 'operation', code: number, logMessage: string) {
+    return (error: any): Observable<T> => {
+        if(error.status == code) {
+          this.logError(logMessage);
+        } else {
+          console.error(error);
+          this.logError(`${operation} failed: ${error.message}: status: ${error.status}`);
+        }
+
+        return of(null);
+    };
+  }
+
   protected handleError<T> (operation = 'operation', result?: T, ignoredErrorCodes?: number[]) {
     return (error: any): Observable<T> => {
       if(error.status == 401)

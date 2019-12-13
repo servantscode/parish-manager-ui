@@ -14,6 +14,7 @@ export class Parish extends Autocompletable {
   phoneNumber: string;
   website: string;
   pastor: Identity;
+  fiscalYearStartMonth: number;
   orgId: number;
 
   bannerGuid: string;
@@ -36,6 +37,7 @@ export class Parish extends Autocompletable {
     this.phoneNumber="";
     this.website="";
     this.pastor=null;
+    this.fiscalYearStartMonth=0;
     this.orgId=0;
     this.bannerGuid="";
     this.portraitGuid="";

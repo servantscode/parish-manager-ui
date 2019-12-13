@@ -13,7 +13,7 @@ import { MetricsService } from '../../metrics/services/metrics.service';
 
 import { FundService } from '../services/fund.service';
 
-import { DonationReport } from '../donation-report';
+import { MonthlyDonations } from '../donation-report';
 import { BulkDonationDialogComponent } from '../bulk-donation-dialog/bulk-donation-dialog.component';
 
 @Component({
@@ -27,7 +27,9 @@ export class DonationOverviewComponent implements OnInit {
   unpledgedDonations: number;
   pledgeFulfillmentPct: number;
   pledgeFulfillment: ChartData = new ChartData(null, ['#2222dd']);
-  monthlyDonations: DonationReport[];
+  monthlyDonations: MonthlyDonations[];
+  fyStart: Date;
+  fyEnd: Date;
 
   fundForm = this.fb.group({
       fundId: ''
@@ -50,13 +52,17 @@ export class DonationOverviewComponent implements OnInit {
 
   updateMetrics() {
     if(this.loginService.userCan('pledge.metrics'))
-      this.metricsService.getPledgeFulfillments(this.getFundId()).
-        subscribe(results => {
-          this.ytdDonations = results.donationsToDate;
-          this.pledgedDonations = results.pledgedDonations;
-          this.unpledgedDonations = results.unpledgedDonations;
+      this.metricsService.getPledgeFulfillments(this.getFundId()).subscribe(results => {
           this.pledgeFulfillmentPct = results.pledgedDonations/results.pledgedTarget;
           this.pledgeFulfillment = new ChartData(results.data, this.colorService.trafficLight());
+        });
+
+      this.metricsService.getYtdDonations(this.getFundId()).subscribe(results => {
+          this.ytdDonations = results.totalDonations;
+          this.pledgedDonations = results.pledged;
+          this.unpledgedDonations = results.unpledged;
+          this.fyStart = results.startDate;
+          this.fyEnd = results.endDate;
         });
     
     this.updateDonations();
