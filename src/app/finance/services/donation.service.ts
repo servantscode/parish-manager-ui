@@ -94,4 +94,11 @@ export class DonationService extends PaginatedService<Donation> {
         catchError(this.handleError('annualReport', 'foo'))
       );
   }
+
+  emailAnnualReport(familyId: number, year:number): Observable<any> {
+    return this.http.post<any>(this.url + `/report/${familyId}/annual/${year}/email`, {}).pipe(
+        tap(() => this.messageService.add("Annual donation report emailed.")),
+        catchError(this.handleError('annualReport', null))
+      );
+  }
 }

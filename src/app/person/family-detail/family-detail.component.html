@@ -104,8 +104,8 @@
                                          {'name':'donationType', 'type':'text'}, 
                                          {'name':'amount', 'type':'numberRange'}]">  
       </app-paginated-list>
-      <strong>Annual Report:</strong>&nbsp; <div class="huge-icon download" (click)="downloadAnnualReport()">&nbsp;</div>&nbsp;&nbsp; 
-      <!-- <div class="huge-icon email" (click)="emailAnnualReport()">&nbsp;</div> -->
+      <strong>Annual Report:</strong>&nbsp; <div class="huge-icon download" (click)="downloadAnnualReport()">&nbsp;</div>
+      <span *ngIf="canEmail()">&nbsp;&nbsp;<div class="huge-icon email" (click)="emailAnnualReport()">&nbsp;</div></span>
     </div>
   </div>
 

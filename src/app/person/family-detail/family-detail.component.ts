@@ -243,4 +243,12 @@ export class FamilyDetailComponent implements OnInit {
     const filename = this.family.surname + "-annual-report-2019.pdf";
     this.downloadService.downloadPdf(this.donationService.annualReport(this.family.id, 2019), filename);
   }
+
+  canEmail(): boolean {
+    return this.loginService.userCan("email.send") && this.family.members.some(p => p.headOfHousehold && p.email);
+  }
+
+  emailAnnualReport(): void {
+    this.donationService.emailAnnualReport(this.family.id, 2019).subscribe();
+  }
 }
