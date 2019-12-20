@@ -34,6 +34,7 @@ import { RegistrationService } from './services/registration.service';
 import { ScCommonModule } from 'sc-common';
 import { FamilyMergeDialogComponent } from './family-merge-dialog/family-merge-dialog.component';
 import { SelectPersonDialogComponent } from './select-person-dialog/select-person-dialog.component';
+import { FamilyFinancialComponent } from './family-financial/family-financial.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { SelectPersonDialogComponent } from './select-person-dialog/select-perso
     PersonDialogComponent,
     RegistrationReviewComponent,
     FamilyMergeDialogComponent,
-    SelectPersonDialogComponent
+    SelectPersonDialogComponent,
+    FamilyFinancialComponent
   ],
   imports: [
     PersonRoutingModule,

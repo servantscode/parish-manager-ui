@@ -89,9 +89,15 @@ export class DonationService extends PaginatedService<Donation> {
       );
   }
 
+  availableReports(familyId:number): Observable<number[]> {
+    return this.http.get<number[]>(this.url + `/report/${familyId}/annual/years`).pipe(
+        catchError(this.handleError('availableReports', []))
+      );
+  }
+
   annualReport(familyId: number, year:number): Observable<any> {
     return this.http.get(this.url + `/report/${familyId}/annual/${year}`, DonationService.pdfOptions).pipe(
-        catchError(this.handleError('annualReport', 'foo'))
+        catchError(this.handleError('annualReport', null))
       );
   }
 

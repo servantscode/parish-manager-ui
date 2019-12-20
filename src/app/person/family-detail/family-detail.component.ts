@@ -5,16 +5,9 @@ import { Observable, of } from 'rxjs';
 import { map, startWith, reduce } from 'rxjs/operators'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { DownloadService, FamilyService, LoginService } from 'sc-common';
+import { FamilyService, LoginService } from 'sc-common';
 import { SCValidation } from 'sc-common';
 import { Family, Person } from 'sc-common';
-
-import { Donation } from '../../finance/donation';
-import { Pledge } from '../../finance/pledge';
-import { DonationDialogComponent } from '../../finance/donation-dialog/donation-dialog.component';
-import { PledgeDialogComponent } from '../../finance/pledge-dialog/pledge-dialog.component';
-import { DonationService } from '../../finance/services/donation.service';
-import { PledgeService } from '../../finance/services/pledge.service';
 
 import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
 
@@ -27,12 +20,9 @@ import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialo
 })
 export class FamilyDetailComponent implements OnInit {
 
-  DonationDialogComponent = DonationDialogComponent;
-
   family: Family;
 
   public editMode = false;
-  private pledges: Pledge[];
 
   familyForm = this.fb.group({
       id: '',
@@ -48,10 +38,7 @@ export class FamilyDetailComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private familyService: FamilyService,
-              private donationService: DonationService,
-              private pledgeService: PledgeService,
               public loginService: LoginService,
-              public downloadService: DownloadService,
               private fb: FormBuilder,
               private dialog: MatDialog) { }
 
@@ -74,7 +61,6 @@ export class FamilyDetailComponent implements OnInit {
           this.familyService.getPreferences(id).subscribe(prefs => this.familyForm.get("preferences").setValue(prefs));
         });
 
-      this.loadPledges(id);
       this.familyForm.disable();
 
     } else {
@@ -85,13 +71,6 @@ export class FamilyDetailComponent implements OnInit {
     }
   }
 
-  loadPledges(id): void {
-    if(!this.loginService.userCan('pledge.read'))
-      return;
-
-    this.pledgeService.getPledges(id).
-      subscribe(pledges => this.pledges = pledges);
-  }
 
   assignEnvelopeNumber() {
     this.familyService.getNextEnvelope().subscribe(envelopeNum => this.familyForm.get('envelopeNumber').setValue(envelopeNum));
@@ -137,26 +116,6 @@ export class FamilyDetailComponent implements OnInit {
     this.editMode=true;
   }
 
-  public openPledgeForm(pledge: Pledge) {
-    if(!this.loginService.userCan('pledge.create'))
-      return;
-
-    var item = pledge;
-    if(!item) {
-      item = new Pledge();
-      item.familyId=this.family.id;
-    }
-
-    const pledgeRef = this.dialog.open(PledgeDialogComponent, {
-      width: '800px',
-      data: {"item": item}
-    });
-
-    pledgeRef.afterClosed().subscribe(result => {
-      this.loadPledges(this.family.id);
-    });
-  }
-
   deactivate(): void {
     this.dialog.open(DeleteDialogComponent, {
       width: '400px',
@@ -196,25 +155,6 @@ export class FamilyDetailComponent implements OnInit {
     });
   }
 
-  deletePledge(pledge: Pledge): void {
-    if(!this.loginService.userCan('pledge.delete'))
-      return;
-
-    this.dialog.open(DeleteDialogComponent, {
-      width: '400px',
-      data: {"title": "Confirm Deletion",
-             "text" : "Are you sure you want to delete " + pledge.identify() + "?",
-             "delete": (): Observable<void> => { 
-               return this.pledgeService.delete(pledge, true); 
-             },
-             "actionName":"Delete",
-             "nav": () => { 
-               this.loadPledges(this.family.id);
-             }
-        }
-    });
-  }
-
 
   activate(): void {
     if(!this.loginService.userCan('family.update'))
@@ -237,18 +177,5 @@ export class FamilyDetailComponent implements OnInit {
     .subscribe(() => {
       this.family.photoGuid = guid
     });
-  }
-
-  downloadAnnualReport(): void {
-    const filename = this.family.surname + "-annual-report-2019.pdf";
-    this.downloadService.downloadPdf(this.donationService.annualReport(this.family.id, 2019), filename);
-  }
-
-  canEmail(): boolean {
-    return this.loginService.userCan("email.send") && this.family.members.some(p => p.headOfHousehold && p.email);
-  }
-
-  emailAnnualReport(): void {
-    this.donationService.emailAnnualReport(this.family.id, 2019).subscribe();
   }
 }
