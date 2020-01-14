@@ -25,9 +25,10 @@ export class FamilyMergeDialogComponent implements OnInit {
     this.request = data.request;
     this.existing = data.existing;
     this.merged = this.cloneFamily(this.request);
-    this.merged.id = this.existing.id;
-    if(this.existing.envelopeNumber)
-      this.merged.envelopeNumber = this.existing.envelopeNumber;
+
+    for (let key of Object.keys(this.merged))
+      if(key != 'members' && !this.merged[key])
+        this.merged[key] = this.existing[key];
   }
 
   ngOnInit() {
@@ -62,10 +63,31 @@ export class FamilyMergeDialogComponent implements OnInit {
   }
 
   private mergePerson(mergedPerson: Person, existingPerson: Person) {
-    this.merged.members.forEach(p => p.id = p.id == existingPerson.id? 0: p.id);
+    this.resetMergedPerson(existingPerson.id);
+
+    for (let key of Object.keys(mergedPerson))
+      if(!mergedPerson[key] || (Array.isArray(mergedPerson[key]) && mergedPerson[key].length == 0))
+        mergedPerson[key] = existingPerson[key];
+
+    //Make sure these are kept
     mergedPerson.id = existingPerson.id;
+    mergedPerson.memberSince = existingPerson.memberSince;
+    mergedPerson.parishioner = existingPerson.parishioner;
+
     this.selectedMergedPerson = null;
     this.selectedExistingPerson = null;
+  }
+
+  private resetMergedPerson(personId: number) {
+    var index = 0;
+    this.merged.members.map(p => {
+        if(p.id != personId)
+          return p;
+
+        const person = this.clonePerson(this.request.members[index]);
+        index++;
+        return person
+      });
   }
 
   private cloneFamily(input: Family): Family {
