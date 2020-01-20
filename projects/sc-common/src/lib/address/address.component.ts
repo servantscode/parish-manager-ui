@@ -36,6 +36,8 @@ export class AddressComponent implements OnInit {
   onChange: any = () => { };
   onTouched: any = () => { };
 
+  @Input() required = false;
+
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {

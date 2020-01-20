@@ -53,7 +53,11 @@ export class RegistrationReviewComponent implements OnInit {
   }
 
   addEnvelopeNumber() {
-    this.familyService.getNextEnvelope().subscribe(num => this.req.familyData.envelopeNumber=num);
+    this.familyService.getNextEnvelope().subscribe(num => 
+      { 
+        this.req.familyData.envelopeNumber=num;
+        this.registrationService.update(this.req).subscribe();
+      });
   }
 
   merge(existingFamily: Family) {

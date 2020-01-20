@@ -84,6 +84,7 @@ export class RecordDonationComponent implements OnInit {
     if(control.length == 0) {
       this.donationControls().push(this.newRow());
     }
+    this.calculateTotal();
   }
 
   newRow() {
@@ -189,8 +190,8 @@ export class RecordDonationComponent implements OnInit {
             group.patchValue(prediction, {emitEvent: false});
             this.clearZero(group.get("envelopeNumber"));
             this.clearZero(group.get("amount"));
-            this.calculateTotal();
           }
+          this.calculateTotal();
         });
   }
 
