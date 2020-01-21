@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ResponseContentType } from '@angular/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from 'sc-common';
