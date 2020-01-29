@@ -70,7 +70,7 @@ export class DonationService extends PaginatedService<Donation> {
 
   public getReport(search = ''): Observable<any> {
     return this.http.get(this.url + `/report?search=${encodeURI(search)}`, PaginatedService.csvOptions).pipe(
-        catchError(this.handleError('ministryReport', null))
+        catchError(this.handleError('donationReport', null))
       );
   }
 
@@ -90,21 +90,21 @@ export class DonationService extends PaginatedService<Donation> {
   }
 
   availableReports(familyId:number): Observable<number[]> {
-    return this.http.get<number[]>(this.url + `/report/${familyId}/annual/years`).pipe(
-        catchError(this.handleError('availableReports', []))
+    return this.http.get<number[]>(this.url + `/record/${familyId}/annual/years`).pipe(
+        catchError(this.handleError('availableRecords', []))
       );
   }
 
   annualReport(familyId: number, year:number): Observable<any> {
-    return this.http.get(this.url + `/report/${familyId}/annual/${year}`, DonationService.pdfOptions).pipe(
-        catchError(this.handleError('annualReport', null))
+    return this.http.get(this.url + `/record/${familyId}/annual/${year}`, DonationService.pdfOptions).pipe(
+        catchError(this.handleError('annualRecord', null))
       );
   }
 
   emailAnnualReport(familyId: number, year:number): Observable<any> {
-    return this.http.post<any>(this.url + `/report/${familyId}/annual/${year}/email`, {}).pipe(
-        tap(() => this.messageService.add("Annual donation report emailed.")),
-        catchError(this.handleError('annualReport', null))
+    return this.http.post<any>(this.url + `/record/${familyId}/annual/${year}/email`, {}).pipe(
+        tap(() => this.messageService.add("Annual donation record emailed.")),
+        catchError(this.handleError('annualRecord', null))
       );
   }
 }

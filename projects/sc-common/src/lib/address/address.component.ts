@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators, FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
@@ -19,7 +19,7 @@ import { deepEqual } from '../utils';
     }
   ]
 })
-export class AddressComponent implements OnInit {
+export class AddressComponent implements OnInit, OnChanges {
 
   form = this.fb.group({
           street1: [''],
@@ -47,7 +47,23 @@ export class AddressComponent implements OnInit {
         map(value => this._filter(value))
       );
 
-    this.form.valueChanges.subscribe(addr => this.detectChanges(addr));
+    this.form.valueChanges.subscribe(addr => {
+        this.detectChanges((!this.required || this.form.valid)? addr: null);
+      });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.required) {
+      this.form.get("street1").setValidators([Validators.required]);
+      this.form.get("city").setValidators([Validators.required]);
+      this.form.get("state").setValidators([SCValidation.actualState(), Validators.required]);
+      this.form.get("zip").setValidators([Validators.pattern(/^\d{5}$/), Validators.required]);
+    } else {
+      this.form.get("street1").clearValidators();
+      this.form.get("city").clearValidators();
+      this.form.get("state").setValidators([SCValidation.actualState()]);
+      this.form.get("zip").setValidators([Validators.pattern(/^\d{5}$/)]);
+    }
   }
 
   private detectChanges(val: Address) {

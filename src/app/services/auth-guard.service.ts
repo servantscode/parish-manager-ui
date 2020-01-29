@@ -16,6 +16,7 @@ export class AuthGuardService implements CanActivate {
       return false;
     }
 
+
     if(this.login.userMust("password.reset")) {
       this.router.navigate(['account', 'reset']);
       return false;

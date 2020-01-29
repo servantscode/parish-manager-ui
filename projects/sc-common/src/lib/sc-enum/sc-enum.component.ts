@@ -73,10 +73,12 @@ export class ScEnumComponent implements ControlValueAccessor, OnInit {
   }
 
   calculateLabel() {
+    var labelText;
     if(!this.selected && this.nullValue)
-      return this.nullValue
+      labelText =  this.nullValue 
     else
-      return this.label;
+      labelText = this.label;
+    return labelText + (this.required? " *": "");
   }
 
   selectItem(item: EnumValue): void {

@@ -47,7 +47,15 @@ export class LoginService {
 
   public isAuthenticated(): boolean {
     const token = this.getToken();
-    return token && !this.jwtHelper.isTokenExpired(token);
+    if(!token)
+      return false;
+
+    if(this.jwtHelper.isTokenExpired(token)) {
+      console.warn("Token expired at: " + this.jwtHelper.getTokenExpirationDate(token));
+      return false;
+    }
+
+    return true;
   }
 
   public getUserName(): string {
