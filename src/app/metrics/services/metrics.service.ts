@@ -13,6 +13,7 @@ import { MonthlyDonations, DonationReport } from '../../finance/donation-report'
 
 import { MetricsResponse, MinistryEnrollmentStats } from '../metrics-response';
 import { PledgeStatus } from '../pledge-status';
+import { DonationTierReport } from '../donation-tier-report';
 
 @Injectable({
   providedIn: 'root'
@@ -98,6 +99,18 @@ export class MetricsService extends BaseService {
   getMinistryEnrollment(ministryId: number): Observable<MinistryEnrollmentStats> {
     return this.http.get<MinistryEnrollmentStats>(this.url+`/ministry/${ministryId}/membership`).pipe(
         catchError(this.handleError('getMinistryEnrollment', null))
+      );
+  }
+
+  availableDonationTierReports(): Observable<number[]> {
+    return this.http.get<number[]>(this.url+`/donations/available`).pipe(
+        catchError(this.handleError('availableDonationTierReports', [2019]))
+      );
+  }
+
+  getDonationTierReport(year: number): Observable<DonationTierReport> {
+    return this.http.get<DonationTierReport>(this.url+`/donations/tiers/${year}`).pipe(
+        catchError(this.handleError('getDonationTierReport', null))
       );
   }
 }

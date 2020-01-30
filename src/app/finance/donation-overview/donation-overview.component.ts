@@ -3,6 +3,8 @@ import { formatDate } from '@angular/common';
 import { Router, NavigationExtras } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { getDayOfYear, getDaysInYear } from 'date-fns';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { ColorService } from '../../sccommon/services/color.service';
 import { DownloadService } from 'sc-common';
@@ -10,6 +12,8 @@ import { LoginService } from 'sc-common';
 
 import { ChartData } from '../../metrics/chart-data';
 import { MetricsService } from '../../metrics/services/metrics.service';
+
+import { DonationTierReport } from '../../metrics/donation-tier-report';
 
 import { FundService } from '../services/fund.service';
 
@@ -31,9 +35,24 @@ export class DonationOverviewComponent implements OnInit {
   fyStart: Date;
   fyEnd: Date;
 
+  tierReport: DonationTierReport;
+
   fundForm = this.fb.group({
       fundId: ''
     });
+
+  annualReportForm = this.fb.group({
+    year: "" + (new Date().getFullYear() - 1)
+  });
+
+  availableYears = this.getAvailableYears.bind(this);
+
+  getAvailableYears():Observable<string[]> {
+    return this.metricsService.availableDonationTierReports().pipe(
+        map(values => values.map(y => "" + y))
+      );
+  }
+
 
   constructor(private zone: NgZone,
               private router: Router,
@@ -48,6 +67,8 @@ export class DonationOverviewComponent implements OnInit {
     this.updateMetrics();
 
     this.fundForm.get('fundId').valueChanges.subscribe(() => this.updateMetrics());
+
+    this.annualReportForm.get("year").valueChanges.subscribe(value => this.updateDonationTierReport(value));
   }
 
   updateMetrics() {
@@ -65,8 +86,14 @@ export class DonationOverviewComponent implements OnInit {
           this.fyEnd = results.endDate;
         });
     
+    this.updateDonationTierReport(this.annualReportForm.get("year").value);
     this.updateDonations();
   }
+
+  updateDonationTierReport(year) {
+      this.metricsService.getDonationTierReport(year).subscribe(result => this.tierReport = result);
+  }
+
 
   public clicked(event: any) {
     if(event.name == 'Unpledged')

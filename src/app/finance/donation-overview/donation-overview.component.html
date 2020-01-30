@@ -26,9 +26,9 @@
     </div>
   </div>
 </div>
+
 <div *ngIf="loginService.userCan('donation.metrics')" class="container rounded-rect">
   <h3>Monthly Donations</h3>
-
   <table class="sc-table">
     <thead>
       <tr>
@@ -41,7 +41,7 @@
     <tbody >
       <tr *ngFor="let month of monthlyDonations">
         <td>{{month.label}}</td>
-        <td>{{month.pledged | currency:"$"}}</td>
+        <td>{{month.pledged }}</td>
         <td>{{month.unpledged | currency:"$"}}</td>
         <td>{{month.totalDonations | currency:"$"}}</td>
       </tr>
@@ -50,4 +50,41 @@
   <div class="container-fluid">
     <div *ngIf="loginService.userCan('donation.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
   </div>
+</div>
+
+<div *ngIf="loginService.userCan('donation.metrics') && tierReport" class="container rounded-rect">
+  <h3>Donation Tiers <span class="light">({{tierReport.startDate | date: 'MM-dd-yyyy'}} - {{tierReport.endDate | date: 'MM-dd-yyyy'}})</span></h3>
+
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="annualReportForm">
+        <app-sc-enum formControlName="year" [valueSource]="availableYears" label="Year" fieldSize="small"></app-sc-enum>
+      </form>
+    </div>
+    <div class="col">
+      Donating familes: <strong>{{tierReport.totalFamilies}}</strong><br/>
+      Total Donations: <strong>{{tierReport.totalDonations | currency:"$"}}</strong><br/>
+      Average Donation: <strong>{{tierReport.averageFamilyDonation | currency:"$"}}</strong><br/>
+    </div>
+  </div>
+  <table class="sc-table">
+    <thead>
+      <tr>
+        <th>Amount Given</th>
+        <th># of Families</th>
+        <th>% of Families</th>
+        <th>Total Donations</th>
+        <th>% of Total</th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let tier of tierReport.tiers">
+        <td>{{tier.name}}</td>
+        <td>{{tier.families}}</td>
+        <td>{{tier.percentFamilies | number : '1.2-2'}} %</td>
+        <td>{{tier.total | currency:"$"}}</td>
+        <td>{{tier.percentTotal | number : '1.2-2'}} %</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
