@@ -1,7 +1,7 @@
 <div class="containter-fluid header">
   <div *ngIf="isDev" class="mode-header dev">Development Mode</div>
   <div *ngIf="isDemo" class="mode-header demo">Demo Mode</div>
-	<img src="assets/images/logo-w-shield.png" class="logo"/><span class="header-text">{{organizationService.activeOrgName()}}</span>
+	<img src="assets/images/logo-w-shield.png" height="20px" class="logo"/><span class="header-text">{{organizationService.activeOrgName()}}</span>
   <app-user-menu *ngIf="loginService.isAuthenticated()"></app-user-menu>
 </div>
 <div class="page">

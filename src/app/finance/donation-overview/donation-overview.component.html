@@ -41,7 +41,7 @@
     <tbody >
       <tr *ngFor="let month of monthlyDonations">
         <td>{{month.label}}</td>
-        <td>{{month.pledged }}</td>
+        <td>{{month.pledged | currency:"$"}}</td>
         <td>{{month.unpledged | currency:"$"}}</td>
         <td>{{month.totalDonations | currency:"$"}}</td>
       </tr>

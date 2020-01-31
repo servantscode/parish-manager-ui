@@ -1,6 +1,6 @@
 <div class="user-menu">
-  <span mat-button [matMenuTriggerFor]="menu" class="user-name">{{userName}}</span>
-  <mat-menu #menu="matMenu">
+  <span [matMenuTriggerFor]="menu" class="user-name">{{userName}}&nbsp;&nbsp;<img height="12px" src="../../assets/images/menu.png"/></span>
+  <mat-menu #menu="matMenu" xPosition="before">
     <button mat-menu-item *ngIf="userCanSystem()"  [routerLink]="['/system']">System</button>
     <button mat-menu-item *ngIf="userCanAdmin()"  [routerLink]="['/admin']">Admin</button>
     <button mat-menu-item [routerLink]="['/account/reset']">Update Password</button>
