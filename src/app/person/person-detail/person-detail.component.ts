@@ -79,7 +79,7 @@ export class PersonDetailComponent implements OnInit {
         envelopeNumber: ['', Validators.pattern(SCValidation.NUMBER)],
         address: null,
         relationships: null
-      }),
+      }), 
     });
   
   filteredOptions: Observable<string[]>;

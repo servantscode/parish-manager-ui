@@ -35,6 +35,8 @@ import { ScCommonModule } from 'sc-common';
 import { FamilyMergeDialogComponent } from './family-merge-dialog/family-merge-dialog.component';
 import { SelectPersonDialogComponent } from './select-person-dialog/select-person-dialog.component';
 import { FamilyFinancialComponent } from './family-financial/family-financial.component';
+import { FamilySplitDialogComponent } from './family-split-dialog/family-split-dialog.component';
+import { FamilyFormComponent } from './family-form/family-form.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { FamilyFinancialComponent } from './family-financial/family-financial.co
     RegistrationReviewComponent,
     FamilyMergeDialogComponent,
     SelectPersonDialogComponent,
-    FamilyFinancialComponent
+    FamilyFinancialComponent,
+    FamilySplitDialogComponent,
+    FamilyFormComponent
   ],
   imports: [
     PersonRoutingModule,
@@ -85,7 +89,8 @@ import { FamilyFinancialComponent } from './family-financial/family-financial.co
     RelationshipDialogComponent,
     PersonDialogComponent,
     FamilyMergeDialogComponent,
-    SelectPersonDialogComponent
+    SelectPersonDialogComponent,
+    FamilySplitDialogComponent
   ]
 })
 export class PersonModule { }

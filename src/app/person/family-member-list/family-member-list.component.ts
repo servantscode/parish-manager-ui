@@ -3,16 +3,12 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { differenceInYears } from 'date-fns';
 
-import { LoginService } from 'sc-common';
-
-import { Person } from 'sc-common';
-import { doLater } from '../../sccommon/utils';
+import { FamilyService, LoginService, RelationshipService } from 'sc-common';
+import { Family, Person, Relationship } from 'sc-common';
 
 import { RelationshipDialogComponent } from '../relationship-dialog/relationship-dialog.component';
+import { FamilySplitDialogComponent } from '../family-split-dialog/family-split-dialog.component';
 
-import { RelationshipService } from 'sc-common';
-
-import { Relationship } from 'sc-common';
 
 @Component({
   selector: 'app-family-member-list',
@@ -30,6 +26,7 @@ export class FamilyMemberListComponent implements OnInit, OnChanges {
 
   constructor(private router: Router,
               private dialog: MatDialog,
+              public familyService: FamilyService,
               public loginService: LoginService,
               public relationshipService: RelationshipService) { }
 
@@ -108,6 +105,28 @@ export class FamilyMemberListComponent implements OnInit, OnChanges {
         return;
       this.router.navigate(['person', 'detail'], {queryParams: {familyId: this.familyId}});
     }
+  }
+
+  splitFamily(): void {
+    const selectedPeople = [];
+    if(this.person)
+      selectedPeople.push(this.person);
+
+    const dialogRef = this.dialog.open(FamilySplitDialogComponent, {
+        width: '800px',
+        data: {"title": "New Family Details",
+               "availablePeople": selectedPeople.concat(this.members),
+               "selectedPeople": selectedPeople
+              }
+      });
+
+    dialogRef.afterClosed().subscribe(newFamily => {
+        if(newFamily)
+          this.familyService.create(newFamily).subscribe(created => {
+              if(created && created.id > 0)
+                this.router.navigate(['family', 'detail', created.id]);
+            });
+      });
   }
 
   getAge(member: Person): number {    

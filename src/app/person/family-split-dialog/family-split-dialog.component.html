@@ -1,0 +1,32 @@
+<div> 
+  <h1  mat-dialog-title>Split Family</h1>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="familyForm">
+          <app-family-form formControlName="family"></app-family-form>
+        </form>
+      </div>
+      <div class="col">
+        <h3>Select People:</h3>
+        <div *ngFor="let person of availablePeople; index as i" class="rounded-rect" [ngClass]="{'selected' : selectedPeople.includes(person)}" (click)="toggleSelection(person)">
+          <table class="middle">
+            <td>
+              Name: {{person.name}}<span *ngIf="person.maidenName"> ({{person.maidenName}})</span>&nbsp;&nbsp;<img class="icon" *ngIf="person.headOfHousehold" src="assets/images/crown.png"/><br/>
+              Email: {{person.email}}<br/>
+              Primary Phone: {{(person.phoneNumbers && person.phoneNumbers.length > 0)? person.phoneNumbers[0].phoneNumber: ''}}<br/>
+              Birthdate: {{person.birthdate | date: 'd/M/yyyy'}} ({{currentAge(person.birthdate)}})<br/>
+            </td>
+            <td class="center">
+              <span><mat-checkbox *ngIf="selectedPeople.includes(person) && i != headIndex" [checked]="i == headIndex" (click)="selectHead($event, i)"></mat-checkbox><img *ngIf="selectedPeople.includes(person) && i == headIndex" class="big-icon" src="assets/images/crown.png"/></span>
+            </td>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" (click)="performSplit()" [disabled]="familyForm.value.family == null || selectedPeople.length == 0">Split</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+  </div>
+</div>

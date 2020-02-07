@@ -9,9 +9,9 @@ import { FamilyService, LoginService } from 'sc-common';
 import { SCValidation } from 'sc-common';
 import { Family, Person } from 'sc-common';
 
-import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
-
 import { DeleteDialogComponent } from '../../sccommon/delete-dialog/delete-dialog.component';
+
+import { FamilyMemberListComponent } from '../family-member-list/family-member-list.component';
 
 @Component({
   selector: 'app-family-detail',
@@ -25,15 +25,8 @@ export class FamilyDetailComponent implements OnInit {
   public editMode = false;
 
   familyForm = this.fb.group({
-      id: '',
-      surname: ['', Validators.required],
-      homePhone: ['', Validators.pattern(SCValidation.PHONE)],
-      envelopeNumber: ['', Validators.pattern(SCValidation.NUMBER)],
-      address: null,
-      preferences: {}
+      family: [null, Validators.required]
     });
-
-  filteredOptions: Observable<string[]>;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -44,6 +37,13 @@ export class FamilyDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getFamily();
+
+    this.route.params.subscribe(
+        params => {
+            this.getFamily();
+        }
+    );
+
   }
 
   getFamily(): void {
@@ -57,8 +57,7 @@ export class FamilyDetailComponent implements OnInit {
       this.familyService.get(id, true).
         subscribe(family => {
           this.family = family;
-          this.familyForm.patchValue(family);
-          this.familyService.getPreferences(id).subscribe(prefs => this.familyForm.get("preferences").setValue(prefs));
+          this.familyForm.get("family").setValue(this.family);
         });
 
       this.familyForm.disable();
@@ -69,11 +68,6 @@ export class FamilyDetailComponent implements OnInit {
 
       this.editMode = true;
     }
-  }
-
-
-  assignEnvelopeNumber() {
-    this.familyService.getNextEnvelope().subscribe(envelopeNum => this.familyForm.get('envelopeNumber').setValue(envelopeNum));
   }
 
   goBack(): void {
@@ -90,7 +84,7 @@ export class FamilyDetailComponent implements OnInit {
       if(!this.loginService.userCan('family.update'))
         this.router.navigate(['not-found']);
 
-      this.familyService.update(this.familyForm.value).
+      this.familyService.update(this.familyForm.get("family").value).
         subscribe(family => {
           this.family = family;
           this.familyForm.disable();
@@ -101,7 +95,7 @@ export class FamilyDetailComponent implements OnInit {
       if(!this.loginService.userCan('family.create'))
         this.router.navigate(['not-found']);
 
-      this.familyService.create(this.familyForm.value).
+      this.familyService.create(this.familyForm.get("family").value).
         subscribe(family => {
           this.family = family;
           this.familyForm.disable();
@@ -155,7 +149,6 @@ export class FamilyDetailComponent implements OnInit {
     });
   }
 
-
   activate(): void {
     if(!this.loginService.userCan('family.update'))
       return;
@@ -168,7 +161,7 @@ export class FamilyDetailComponent implements OnInit {
       });
     this.familyService.update(this.family).subscribe(family => {
       this.family = family;
-      this.familyForm.patchValue(family);
+      this.familyForm.get("family").setValue(family);
     });
   }
 

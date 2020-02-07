@@ -1,0 +1,46 @@
+<form [formGroup]="form">
+
+  <div *ngIf="disabled">
+    Family Name: {{form.value.surname}}<br/>
+    Home Phone: {{form.value.homePhone}}<br/>
+    Envelope Number: {{form.value.envelopeNumber > 0? form.value.envelopeNumber: ""}}<br/>
+    Address:<br/>
+    <div *ngIf="form.value.address.street1 !== '' && form.value.address.street1 !== null">
+      {{form.value.address.street1}}<br/>
+      {{form.value.address.city}}, {{form.value.address.state}} {{form.value.address.zip}}
+    </div>
+    <div *ngIf="form.value.address.street1 == ''">
+      No address on file.
+    </div>
+  </div>
+   
+  <div *ngIf="!disabled">
+    <input type="hidden" formControlName="id"/>
+
+    <mat-form-field appearance="standard" class="input-standard">
+      <mat-label>Family Name</mat-label>
+      <input matInput formControlName="surname" required/>
+    </mat-form-field><br/>
+
+    <app-sc-phone-number formControlName="homePhone"></app-sc-phone-number>  
+
+    <table>
+      <tr>
+        <td>
+          <mat-form-field appearance="standard" class="input-standard">
+            <mat-label>Envelope Number</mat-label>
+            <input matInput type="number" formControlName="envelopeNumber"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <div *ngIf="!form.value.envelopeNumber" class="actions icon add icon-padding" (click)="assignEnvelopeNumber()">&nbsp;</div>
+        </td>
+      </tr>
+    </table>
+
+    <app-address formControlName="address" required="true"></app-address>
+  </div>
+
+  <sc-preference-form type="family" formControlName='preferences'></sc-preference-form>
+</form>
+

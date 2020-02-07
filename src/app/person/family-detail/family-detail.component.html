@@ -7,23 +7,13 @@
 <h2 [ngClass]="{inactive: family.inactive}">{{family.surname}}</h2>
 
 <form [formGroup]="familyForm" (ngSubmit)="save()">
-  <div *ngIf="!editMode" class="container rounded-rect">
+  <div class="container rounded-rect">
     <div class="row">
       <div class="col">
         <h3>Family Details</h3>
         <div class="row">
           <div class="col">
-            Family Name: {{family.surname}}<br/>
-            Home Phone: {{family.homePhone}}<br/>
-            Envelope Number: {{family.envelopeNumber > 0? family.envelopeNumber: ""}}<br/>
-            Address:<br/>
-            <div *ngIf="family.address.street1 !== '' && family.address.street1 !== null">
-              {{family.address.street1}}<br/>
-              {{family.address.city}}, {{family.address.state}} {{family.address.zip}}
-            </div>
-            <div *ngIf="family.address.street1 == ''">
-              No address on file.
-            </div>
+            <app-family-form formControlName="family" required="true"></app-family-form>
           </div>
         </div>
       </div>
@@ -33,51 +23,13 @@
     </div>
   </div>
 
-  <div *ngIf="editMode" class="container rounded-rect">
-    <div class="row">
-      <div class="col">
-        <input type="hidden" formControlName="id"/>
-
-        <mat-form-field appearance="standard" class="input-standard">
-          <mat-label>Family Name</mat-label>
-          <input matInput formControlName="surname" required/>
-        </mat-form-field><br/>
-
-        <app-sc-phone-number formControlName="homePhone"></app-sc-phone-number>  
-
-        <table>
-          <tr>
-            <td>
-              <mat-form-field appearance="standard" class="input-standard">
-                <mat-label>Envelope Number</mat-label>
-                <input matInput type="number" formControlName="envelopeNumber"/>
-              </mat-form-field>
-            </td>
-            <td>
-              <div *ngIf="!familyForm.value.envelopeNumber" class="actions icon add icon-padding" (click)="assignEnvelopeNumber()">&nbsp;</div>
-            </td>
-          </tr>
-        </table>
-
-        <app-address formControlName="address"></app-address>
-      </div>
-      <div class="col-auto">
-        <app-photo class="portrait" [guid]="family.photoGuid" [altText]="family.surname"></app-photo>
-      </div>
-    </div>
-  </div>
-
-  <div class="container rounded-rect" *ngIf="family.id > 0">
-    <sc-preference-form type="family" formControlName='preferences'></sc-preference-form>
-  </div>
-
   <div *ngIf="family.id > 0" class="container rounded-rect">
     <app-family-member-list [members]="family.members" [familyId]="family.id"></app-family-member-list>
   </div>
   
-  <app-family-financial [family]="family"></app-family-financial>
+  <app-family-financial *ngIf="family.id > 0" [family]="family"></app-family-financial>
 
-  <div *ngIf="loginService.userCan('note.list')" class="container rounded-rect">
+  <div *ngIf="family.id > 0 && loginService.userCan('note.list')" class="container rounded-rect">
     <h3>Notes</h3>
     <app-notes [resourceType]="'family'" [resourceId]="family.id"></app-notes>
   </div>

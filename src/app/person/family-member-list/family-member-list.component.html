@@ -27,5 +27,6 @@
   </table>
 </div>
 <div class="container-fluid align-right">
+  <button *ngIf="familyId > 0 && loginService.userCan('family.create')" type="button" class="btn btn-primary" (click)="splitFamily()">Split Family</button>
   <button *ngIf="familyId > 0 && loginService.userCan('person.create')" type="button" class="btn btn-primary" (click)="updatePerson(0)">Add Family Member</button>
 </div>
