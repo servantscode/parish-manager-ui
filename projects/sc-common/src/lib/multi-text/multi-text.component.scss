@@ -1,0 +1,8 @@
+.clickable {
+  text-decoration: none;
+
+  &:hover {
+    color: #ff0000;
+    text-decoration: line-through;
+  }
+}

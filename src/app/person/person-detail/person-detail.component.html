@@ -57,7 +57,8 @@
                 </div>
                 <div class="col">
                   Religion: {{person.religion | scEnum}}<br/>
-                  Special Needs: <span *ngFor="let need of person.specialNeeds; let i=index">{{need | scEnum}}<span *ngIf="i < person.specialNeeds.length -1">,&nbsp;</span></span>
+                  Special Needs: <span *ngFor="let need of person.specialNeeds; let i=index">{{need | scEnum}}<span *ngIf="i < person.specialNeeds.length -1">,&nbsp;</span></span><br/>
+                  Allergies: <span *ngFor="let allergy of person.allergies; let i=index">{{allergy}}<span *ngIf="i < person.allergies.length -1">,&nbsp;</span></span>
                 </div>
               </div>
             </div>
@@ -198,6 +199,7 @@
             <div class="col">
               <app-sc-enum formControlName="religion" label="Religion" [valueSource]="religions"></app-sc-enum>
               <app-sc-multi-enum formControlName="specialNeeds" label="SpecialNeeds" [valueSource]="specialNeeds"></app-sc-multi-enum>
+              <sc-multi-text formControlName="allergies" label="Allergy"></sc-multi-text>
             </div>
           </div>
         </div>

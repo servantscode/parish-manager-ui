@@ -1,0 +1,11 @@
+<form [formGroup]="form" (submit)="addItem()">
+
+  <mat-form-field appearance="standard" class="input-standard">
+    <mat-label>Add {{label}}</mat-label>
+    <input matInput formControlName="item" (blur)="addItem()">
+  </mat-form-field><br/>
+
+  <span *ngFor="let item of value; let i=index" class="clickable" (click)="removeItem(i)">
+    {{item}}<span *ngIf="i < value.length - 1">, </span>
+  </span>
+</form>

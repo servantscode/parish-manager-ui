@@ -71,6 +71,7 @@ export class PersonDetailComponent implements OnInit {
       primaryLanguage: [null],
       religion: ['CATHOLIC'],
       specialNeeds: [[]],
+      allergies: [[]],
       occupation: [''],
       family: this.fb.group({
         id: [''],

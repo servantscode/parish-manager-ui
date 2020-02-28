@@ -45,6 +45,7 @@ import { IdentityPickerComponent } from './identity-picker/identity-picker.compo
 
 import { PhotoUploadDialogComponent } from './photo-upload-dialog/photo-upload-dialog.component';
 import { TimeComponent } from './time/time.component';
+import { MultiTextComponent } from './multi-text/multi-text.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,9 @@ import { TimeComponent } from './time/time.component';
 
     PhotoUploadDialogComponent,
 
-    TimeComponent
+    TimeComponent,
+
+    MultiTextComponent
   ],
   imports: [
     //Angular basics
@@ -112,6 +115,7 @@ import { TimeComponent } from './time/time.component';
     ScSelectComponent,
     DaysOfWeekComponent,
     IdentityPickerComponent,
+    MultiTextComponent,
 
     HttpClientModule,
     MatDialogModule
