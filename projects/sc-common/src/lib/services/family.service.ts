@@ -39,7 +39,7 @@ export class FamilyService extends PaginatedService<Family> {
   }
 
   public getPage(start = 0, count = 10, search = '', includeInactive=false, includeFamilyMembers=false): Observable<PaginatedResponse<Family>> {
-    return this.http.get<PaginatedResponse<Family>>(this.url+`?start=${start}&count=${count}&search=${encodeURI(search)}&include_inactive=${includeInactive}&members=${includeFamilyMembers}`).pipe(
+    return this.http.get<PaginatedResponse<Family>>(this.url+`?start=${start}&count=${count}&search=${encodeURIComponent(search)}&include_inactive=${includeInactive}&members=${includeFamilyMembers}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );
@@ -52,7 +52,7 @@ export class FamilyService extends PaginatedService<Family> {
   }
 
   public getReport(search = '', includeInactive=false): Observable<any> {
-    return this.http.get(this.url + `/report?search=${encodeURI(search)}&include_inactive=${includeInactive}`, PaginatedService.csvOptions).pipe(
+    return this.http.get(this.url + `/report?search=${encodeURIComponent(search)}&include_inactive=${includeInactive}`, PaginatedService.csvOptions).pipe(
         catchError(this.handleError('familyReport', null))
       );
   }

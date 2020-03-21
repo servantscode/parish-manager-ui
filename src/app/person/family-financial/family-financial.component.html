@@ -10,7 +10,7 @@
         </div>
       </div>  
       <div class="col align-right"> 
-        <button *ngIf="loginService.userCan('pledge.create')" class="btn btn-primary" (click)="openPledgeForm()">Add Pledge</button>   
+        <button type="button" *ngIf="loginService.userCan('pledge.create')" class="btn btn-primary" (click)="openPledgeForm()">Add Pledge</button>   
       </div>  
     </div>
     <div *ngIf="loginService.userCan('donation.read')">

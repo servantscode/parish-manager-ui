@@ -37,7 +37,7 @@ export class SearchService extends PaginatedService<SavedSearch> {
     if(pathVars && pathVars.type)
       url += `/type/${pathVars.type}`;
     
-    return this.http.get<PaginatedResponse<SavedSearch>>(url+`?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
+    return this.http.get<PaginatedResponse<SavedSearch>>(url+`?start=${start}&count=${count}&search=${encodeURIComponent(search)}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );

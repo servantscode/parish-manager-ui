@@ -28,7 +28,7 @@ export class CheckinService extends PaginatedService<Checkin> {
   }
 
   public getActiveCheckins(start = 0, count = 10, search = '', pathVars?: any): Observable<PaginatedResponse<Checkin>> {
-    return this.http.get<PaginatedResponse<Checkin>>(this.modifyUrl(this.url+"/active", pathVars)+`?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
+    return this.http.get<PaginatedResponse<Checkin>>(this.modifyUrl(this.url+"/active", pathVars)+`?start=${start}&count=${count}&search=${encodeURIComponent(search)}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getActiveCheckins', null))
       );

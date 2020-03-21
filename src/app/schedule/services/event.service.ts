@@ -38,7 +38,7 @@ export class EventService extends PaginatedService<Event> {
   }
 
   public getPage(start = 0, count = 0, search = '', pathVars?: any): Observable<PaginatedResponse<Event>> {
-    return this.http.get<PaginatedResponse<Event>>(this.modifyUrl(this.url, pathVars)+`?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
+    return this.http.get<PaginatedResponse<Event>>(this.modifyUrl(this.url, pathVars)+`?start=${start}&count=${count}&search=${encodeURIComponent(search)}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );
@@ -63,7 +63,7 @@ export class EventService extends PaginatedService<Event> {
   }
 
   public getReport(search = ''): Observable<any> {
-    return this.http.get(this.url + `/report?search=${encodeURI(search)}`, PaginatedService.csvOptions).pipe(
+    return this.http.get(this.url + `/report?search=${encodeURIComponent(search)}`, PaginatedService.csvOptions).pipe(
         catchError(this.handleError('eventReport', null))
       );
   }

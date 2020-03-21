@@ -43,14 +43,14 @@ export class DonationService extends PaginatedService<Donation> {
   public getPage(start = 0, count = 10, search = '', pathVars?: any): Observable<PaginatedResponse<Donation>> {
     const url = (pathVars && pathVars.familyId)? this.url+`/family/${pathVars.familyId}`: this.url;
 
-    return this.http.get<PaginatedResponse<Donation>>(url+`?start=${start}&count=${count}&search=${encodeURI(search)}`).pipe(
+    return this.http.get<PaginatedResponse<Donation>>(url+`?start=${start}&count=${count}&search=${encodeURIComponent(search)}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
       );
   }
 
   public getTotal(search = ''): Observable<number> {
-    return this.http.get<number>(this.url+`/total?search=${encodeURI(search)}`).pipe(
+    return this.http.get<number>(this.url+`/total?search=${encodeURIComponent(search)}`).pipe(
         catchError(this.handleError('getTotal', null))
       );
   }  
@@ -69,7 +69,7 @@ export class DonationService extends PaginatedService<Donation> {
   }
 
   public getReport(search = ''): Observable<any> {
-    return this.http.get(this.url + `/report?search=${encodeURI(search)}`, PaginatedService.csvOptions).pipe(
+    return this.http.get(this.url + `/report?search=${encodeURIComponent(search)}`, PaginatedService.csvOptions).pipe(
         catchError(this.handleError('donationReport', null))
       );
   }
