@@ -9,5 +9,7 @@
                     [pathParams]='{"programId":activeProgram}'
                     (onSelect)='sectionSelected($event)'>
 </app-paginated-list>
+  <div class="huge-icon download" (click)="downloadAttendanceSheets()">&nbsp;</div>
+
 
 <app-attendance *ngIf="selectedSection" [section]='selectedSection'></app-attendance>

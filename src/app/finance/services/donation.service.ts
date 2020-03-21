@@ -19,11 +19,6 @@ import { DonationPrediction } from '../donation-prediction';
 })
 export class DonationService extends PaginatedService<Donation> {
 
-  protected static pdfOptions = {
-      headers: new HttpHeaders({'Accept': 'application/pdf'}),
-      responseType: 'blob' as 'blob'
-    };
-
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected apiService: ApiLocatorService,
@@ -96,7 +91,7 @@ export class DonationService extends PaginatedService<Donation> {
   }
 
   annualReport(familyId: number, year:number): Observable<any> {
-    return this.http.get(this.url + `/record/${familyId}/annual/${year}`, DonationService.pdfOptions).pipe(
+    return this.http.get(this.url + `/record/${familyId}/annual/${year}`, PaginatedService.pdfOptions).pipe(
         catchError(this.handleError('annualRecord', null))
       );
   }

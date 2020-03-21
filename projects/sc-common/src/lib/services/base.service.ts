@@ -19,6 +19,11 @@ export class BaseService {
       responseType: 'text' as 'text'
     };
 
+  protected static pdfOptions = {
+    headers: new HttpHeaders({'Accept': 'application/pdf'}),
+    responseType: 'blob' as 'blob'
+  };
+
   constructor(protected http: HttpClient,
               protected messageService: MessageService,
               protected loginService: LoginService) { }

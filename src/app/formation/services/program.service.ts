@@ -23,6 +23,12 @@ export class ProgramService extends PaginatedService<Program> {
     super(apiService.prefaceUrl("/rest/program"), http, messageService, loginService);
   }
 
+  public getAttendanceSheets(programId: number): Observable<any> {
+    return this.http.get(this.url + `/${programId}/attendanceSheets`, PaginatedService.pdfOptions).pipe(
+        catchError(this.handleError('attendanceSheets', null))
+      );
+  }
+
   public getPermissionType(): string {
     return "program";
   }
