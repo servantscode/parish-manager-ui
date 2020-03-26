@@ -9,14 +9,14 @@ import { SCValidation } from 'sc-common';
 import { RoomService } from '../../schedule/services/room.service';
 
 import { ProgramService } from '../services/program.service';
-import { SectionService } from '../services/section.service';
+import { ClassroomService } from '../services/classroom.service';
 
 @Component({
-  selector: 'app-section-dialog',
-  templateUrl: './section-dialog.component.html',
-  styleUrls: ['./section-dialog.component.scss']
+  selector: 'app-classroom-dialog',
+  templateUrl: './classroom-dialog.component.html',
+  styleUrls: ['./classroom-dialog.component.scss']
 })
-export class SectionDialogComponent implements OnInit {
+export class ClassroomDialogComponent implements OnInit {
   form = this.fb.group({
       id: [0],
       name: ['', Validators.required],
@@ -26,11 +26,11 @@ export class SectionDialogComponent implements OnInit {
       complete: ['']
     });
 
-  constructor(public dialogRef: MatDialogRef<SectionDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<ClassroomDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               public programService: ProgramService,
-              public sectionService: SectionService,
+              public classroomService: ClassroomService,
               public roomService: RoomService,
               public personService: PersonService) { }
   
@@ -48,12 +48,12 @@ export class SectionDialogComponent implements OnInit {
 
     const value = this.form.value;
     if(this.form.get("id").value > 0) {
-      this.sectionService.update(value, {"programId": value.programId}).
+      this.classroomService.update(value, {"programId": value.programId}).
         subscribe(() => {
           this.dialogRef.close();
         });
     } else {
-      this.sectionService.create(value, {"programId": value.programId}).
+      this.classroomService.create(value, {"programId": value.programId}).
         subscribe(() => {
           this.dialogRef.close();
         });

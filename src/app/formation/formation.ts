@@ -87,7 +87,7 @@ export class ProgramGroup extends Autocompletable {
   }
 }
   
-export class Section extends Autocompletable {
+export class Classroom extends Autocompletable {
   constructor() {
     super();
   }
@@ -105,12 +105,12 @@ export class Section extends Autocompletable {
     return this.name;
   }
 
-  public identifyAs(identity: string): Section {
+  public identifyAs(identity: string): Classroom {
     this.name=identity;
     return this;
   }
 
-  public asTemplate(): Section {
+  public asTemplate(): Classroom {
     this.id=0;
     this.name="";
     this.programId=0;
@@ -155,8 +155,8 @@ export class Registration extends Identifiable {
   enrolleeId: number;
   enrolleeName: string;
   programId: number;
-  sectionId: number;
-  sectionName: string;
+  classroomId: number;
+  classroomName: string;
   enrolleeAge: number;
   schoolGrade: string;
   sacramentalGroupId: number;
@@ -171,8 +171,8 @@ export class Registration extends Identifiable {
     this.enrolleeId=0;
     this.enrolleeName="";
     this.programId=0;
-    this.sectionId=0;
-    this.sectionName='';
+    this.classroomId=0;
+    this.classroomName='';
     this.enrolleeAge=0;
     this.schoolGrade="";
     this.sacramentalGroupId=0;

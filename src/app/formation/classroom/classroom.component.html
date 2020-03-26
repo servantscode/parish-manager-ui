@@ -1,0 +1,15 @@
+<app-paginated-list [dataService]="classroomService" 
+                    [fields]="['name', 'instructorName', 'roomName', 'studentCount']" 
+                    [pageSize]='10' 
+                    [dialogComponent]="ClassroomDialogComponent"
+                    [type]="'Classroom'"
+                    [selectable]='true'
+                    [placeholderValue]="'Unassigned'"
+                    [newItemTemplate]='{"programId":activeProgram}'
+                    [pathParams]='{"programId":activeProgram}'
+                    (onSelect)='classroomSelected($event)'>
+</app-paginated-list>
+  <div class="huge-icon checkbox" (click)="downloadAttendanceSheets()">&nbsp;</div>
+
+
+<app-attendance *ngIf="selectedClassroom" [classroom]='selectedClassroom'></app-attendance>

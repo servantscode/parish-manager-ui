@@ -1,12 +1,12 @@
 <form [formGroup]="form" (ngSubmit)="save()">
-  <h1 *ngIf="data.item && data.item.id > 0" mat-dialog-title>Update Section</h1>
-  <h1 *ngIf="data.item == null || data.item.id == 0" mat-dialog-title>Create Section</h1>
+  <h1 *ngIf="data.item && data.item.id > 0" mat-dialog-title>Update Registration</h1>
+  <h1 *ngIf="data.item == null || data.item.id == 0" mat-dialog-title>New Registration</h1>
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="id"/>
     
     <app-sc-auto-complete formControlName="enrolleeId" label='Student' [autocompleteService]="personService"></app-sc-auto-complete>
     <app-sc-auto-complete formControlName="programId" label='Program' [autocompleteService]="programService"></app-sc-auto-complete>
-    <app-sc-auto-complete formControlName="sectionId" label='Section' [autocompleteService]="sectionService" [pathParams]="{'programId': form.value.programId}"></app-sc-auto-complete>
+    <app-sc-auto-complete formControlName="classroomId" label='Class' [autocompleteService]="classroomService" [pathParams]="{'programId': form.value.programId}"></app-sc-auto-complete>
 
     <mat-form-field appearance="standard" class="input-5">
       <mat-label>School Grade</mat-label>

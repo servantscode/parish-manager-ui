@@ -322,7 +322,6 @@ div.rounded-rect {
   }
 }
 
-
 .email {
   background-image: url('./assets/images/mail.png'); 
   &:hover {
@@ -334,6 +333,13 @@ div.rounded-rect {
   background-image: url('./assets/images/download.png'); 
   &:hover {
     background-image: url('./assets/images/download-active.png');
+  }
+}
+
+.checkbox {
+  background-image: url('./assets/images/checkbox.png'); 
+  &:hover {
+    background-image: url('./assets/images/checkbox-active.png');
   }
 }
 

@@ -9,7 +9,7 @@ import { SCValidation } from 'sc-common';
 import { RoomService } from '../../schedule/services/room.service';
 
 import { ProgramService } from '../services/program.service';
-import { SectionService } from '../services/section.service';
+import { ClassroomService } from '../services/classroom.service';
 import { RegistrationService } from '../services/registration.service';
 import { SacramentalGroupService } from '../services/sacramental-group.service';
 
@@ -23,7 +23,7 @@ export class RegistrationDialogComponent implements OnInit {
       id: [0],
       enrolleeId: ['', Validators.required],
       programId: ['', Validators.required],
-      sectionId: [''],
+      classroomId: [''],
       schoolGrade: [''],
       sacramentalGroupId: ['']
     });
@@ -32,7 +32,7 @@ export class RegistrationDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               public programService: ProgramService,
-              public sectionService: SectionService,
+              public classroomService: ClassroomService,
               public registrationService: RegistrationService,
               public sacramentalGroupService: SacramentalGroupService,
               public personService: PersonService) { }

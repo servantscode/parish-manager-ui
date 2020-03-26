@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SectionComponent } from './section.component';
+import { ClassroomDialogComponent } from './classroom-dialog.component';
 
-describe('SectionComponent', () => {
-  let component: SectionComponent;
-  let fixture: ComponentFixture<SectionComponent>;
+describe('ClassroomDialogComponent', () => {
+  let component: ClassroomDialogComponent;
+  let fixture: ComponentFixture<ClassroomDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SectionComponent ]
+      declarations: [ ClassroomDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SectionComponent);
+    fixture = TestBed.createComponent(ClassroomDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

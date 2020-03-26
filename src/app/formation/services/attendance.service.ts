@@ -22,17 +22,17 @@ export class AttendanceService extends BaseService {
               protected loginService: LoginService,
               protected apiService: ApiLocatorService) { 
     super(http, messageService, loginService);
-    this.url = apiService.prefaceUrl("/rest/program/:programId:/section/:sectionId:/attendance");
+    this.url = apiService.prefaceUrl("/rest/program/:programId:/classroom/:classroomId:/attendance");
   }
 
-  getAttendance(programId: number, sectionId: number): Observable<AttendanceReport> {
-    return this.http.get<AttendanceReport>(this.modifyUrl(this.url, {"programId": programId, "sectionId": sectionId})).pipe(
-        catchError(this.handleError('getSectionAttendance', null))
+  getAttendance(programId: number, classroomId: number): Observable<AttendanceReport> {
+    return this.http.get<AttendanceReport>(this.modifyUrl(this.url, {"programId": programId, "classroomId": classroomId})).pipe(
+        catchError(this.handleError('getclassroomAttendance', null))
       );
   }
 
   saveSessionAttendance(attendance: SessionAttendance): Observable<AttendanceReport> {
-    const url = this.modifyUrl(this.url, {"programId": attendance.programId, "sectionId": attendance.sectionId});
+    const url = this.modifyUrl(this.url, {"programId": attendance.programId, "classroomId": attendance.classroomId});
     return this.http.put<AttendanceReport>(url, attendance, this.httpOptions).pipe(
         catchError(this.handleError('saveSessionAttendance', null))
       );

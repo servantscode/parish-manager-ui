@@ -2,7 +2,7 @@ import { Session } from './formation';
 
 export class AttendanceReport {
   programId: number;
-  sectionId: number;
+  classroomId: number;
   sessions: Session[];
   attendance: AttendanceRecord[];
 }
@@ -15,7 +15,7 @@ export class AttendanceRecord {
 
 export class SessionAttendance {
   programId: number;
-  sectionId: number;
+  classroomId: number;
   sessionId: number;
   enrolleeAttendance: any;
 }

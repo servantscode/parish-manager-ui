@@ -1,5 +1,6 @@
 <app-paginated-list [dataService]="registrationService" 
-                    [fields]="[{'name':'enrolleeName', 'displayName':'Student'}, 'sectionName', {'name':'enrolleeAge', 'displayName':'Age'}, 'schoolGrade', 'sacramentalGroupName']" 
+                    [fields]="[{'name':'enrolleeName', 'displayName':'Student'}, {'name':'classroomName', 'dislpayName':'Class'},
+                               {'name':'enrolleeAge', 'displayName':'Age'}, 'schoolGrade', 'sacramentalGroupName']" 
                     [pageSize]='10' 
                     [dialogComponent]="RegistrationDialogComponent"
                     [type]="'Registration'"

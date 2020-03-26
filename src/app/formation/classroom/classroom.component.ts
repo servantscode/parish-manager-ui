@@ -4,27 +4,27 @@ import { formatDate } from '@angular/common';
 
 import { DownloadService } from 'sc-common';
 
-import { SectionDialogComponent } from '../section-dialog/section-dialog.component';
+import { ClassroomDialogComponent } from '../classroom-dialog/classroom-dialog.component';
 
-import { SectionService } from '../services/section.service';
+import { ClassroomService } from '../services/classroom.service';
 import { ProgramService } from '../services/program.service';
 
-import { Section } from '../formation';
+import { Classroom } from '../formation';
 
 @Component({
-  selector: 'app-section',
-  templateUrl: './section.component.html',
-  styleUrls: ['./section.component.scss']
+  selector: 'app-classroom',
+  templateUrl: './classroom.component.html',
+  styleUrls: ['./classroom.component.scss']
 })
-export class SectionComponent implements OnInit {
+export class ClassroomComponent implements OnInit {
 
-  SectionDialogComponent = SectionDialogComponent;
+  ClassroomDialogComponent = ClassroomDialogComponent;
 
   activeProgram: number;
 
-  selectedSection: Section;
+  selectedClassroom: Classroom;
 
-  constructor(public sectionService: SectionService,
+  constructor(public classroomService: ClassroomService,
               public downloadService: DownloadService,
               public programService: ProgramService,
               private route: ActivatedRoute) { }
@@ -33,8 +33,8 @@ export class SectionComponent implements OnInit {
     this.activeProgram = +this.route.snapshot.paramMap.get('id');
   }
 
-  sectionSelected(section: Section) {
-    this.selectedSection = section;
+  classroomSelected(classsroom: Classroom) {
+    this.selectedClassroom = classsroom;
   }
 
   downloadAttendanceSheets() {

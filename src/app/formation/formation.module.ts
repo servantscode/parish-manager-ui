@@ -23,8 +23,8 @@ import { FormationRoutingModule } from './formation-routing.module';
 import { ProgramComponent } from './program/program.component';
 import { ProgramDialogComponent } from './program-dialog/program-dialog.component';
 import { ProgramTabsComponent } from './program-tabs/program-tabs.component';
-import { SectionComponent } from './section/section.component';
-import { SectionDialogComponent } from './section-dialog/section-dialog.component';
+import { ClassroomComponent } from './classroom/classroom.component';
+import { ClassroomDialogComponent } from './classroom-dialog/classroom-dialog.component';
 import { ProgramGroupComponent } from './program-group/program-group.component';
 import { ProgramGroupDialogComponent } from './program-group-dialog/program-group-dialog.component';
 import { RegistrationComponent } from './registration/registration.component';
@@ -41,8 +41,18 @@ import { LinkSessionDialogComponent } from './link-session-dialog/link-session-d
     ProgramComponent, 
     ProgramDialogComponent, 
     ProgramTabsComponent, 
-    SectionComponent, 
-    SectionDialogComponent, ProgramGroupComponent, ProgramGroupDialogComponent, RegistrationComponent, RegistrationDialogComponent, SacramentalGroupComponent, SacramentalGroupDialogComponent, AttendanceComponent, AttendanceDialogComponent, SessionComponent, LinkSessionDialogComponent
+    ClassroomComponent, 
+    ClassroomDialogComponent, 
+    ProgramGroupComponent, 
+    ProgramGroupDialogComponent, 
+    RegistrationComponent, 
+    RegistrationDialogComponent, 
+    SacramentalGroupComponent, 
+    SacramentalGroupDialogComponent, 
+    AttendanceComponent, 
+    AttendanceDialogComponent, 
+    SessionComponent, 
+    LinkSessionDialogComponent
   ],
   imports: [
     FormationRoutingModule,
@@ -67,7 +77,7 @@ import { LinkSessionDialogComponent } from './link-session-dialog/link-session-d
   ],
   entryComponents: [
     ProgramDialogComponent,
-    SectionDialogComponent,
+    ClassroomDialogComponent,
     ProgramGroupDialogComponent,
     RegistrationDialogComponent,
     SacramentalGroupDialogComponent,

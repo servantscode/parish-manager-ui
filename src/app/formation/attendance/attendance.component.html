@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <h2>{{section.name}}</h2>
+      <h2>{{classroom.name}}</h2>
     </div>
     <div class="col align-right">
       <button *ngIf="loginService.userCan('attendance.record')" class="btn btn-primary edit-button" (click)="recordAttendance()">Record Attendance</button>

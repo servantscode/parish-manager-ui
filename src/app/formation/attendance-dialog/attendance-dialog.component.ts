@@ -5,7 +5,7 @@ import { FormBuilder, FormArray, Validators } from '@angular/forms';
 import { SCValidation } from 'sc-common';
 
 import { AttendanceService } from '../services/attendance.service';
-import { SectionService } from '../services/section.service';
+import { ClassroomService } from '../services/classroom.service';
 import { SessionService } from '../services/session.service';
 
 import { SessionAttendance } from '../attendance';
@@ -19,7 +19,7 @@ import { SessionAttendance } from '../attendance';
 export class AttendanceDialogComponent implements OnInit {
   form = this.fb.group({
       programId: [0, Validators.required],
-      sectionId: [0, Validators.required],
+      classroomId: [0, Validators.required],
       sessionId: [0, Validators.required],
       enrolleeAttendance: this.fb.array([])
     });
@@ -27,14 +27,14 @@ export class AttendanceDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<AttendanceDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
                 programId: number,
-                sectionId: number,
+                classroomId: number,
                 sessionId: number,
                 enrolleeIds: number[],
                 enrolleeNames: string[]
               },
               private fb: FormBuilder,
               private attendanceService: AttendanceService,
-              public sectionService: SectionService,
+              public classroomService: ClassroomService,
               public sessionService: SessionService) { }
   
   ngOnInit() {
@@ -44,7 +44,7 @@ export class AttendanceDialogComponent implements OnInit {
     }
 
     this.form.get('programId').setValue(this.data.programId);
-    this.form.get('sectionId').setValue(this.data.sectionId);
+    this.form.get('classroomId').setValue(this.data.classroomId);
     this.form.get('sessionId').setValue(this.data.sessionId);
 
     const control = this.enrolleeControls();
@@ -86,7 +86,7 @@ export class AttendanceDialogComponent implements OnInit {
   formatAttendanceRequest(data: any): SessionAttendance {
     var attendance = new SessionAttendance();
     attendance.programId = data.programId;
-    attendance.sectionId = data.sectionId;
+    attendance.classroomId = data.classroomId;
     attendance.sessionId = data.sessionId;
     attendance.enrolleeAttendance = {}
     for(let personAttended of data.enrolleeAttendance) {

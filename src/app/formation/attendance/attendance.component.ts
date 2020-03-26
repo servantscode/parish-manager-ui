@@ -8,7 +8,7 @@ import { AttendanceDialogComponent } from '../attendance-dialog/attendance-dialo
 import { AttendanceService } from '../services/attendance.service';
 
 import { AttendanceReport, AttendanceRecord } from '../attendance';
-import { Section } from '../formation';
+import { Classroom } from '../formation';
 
 @Component({
   selector: 'app-attendance',
@@ -16,7 +16,7 @@ import { Section } from '../formation';
   styleUrls: ['./attendance.component.scss']
 })
 export class AttendanceComponent implements OnChanges {
-  @Input() section: Section;
+  @Input() classroom: Classroom;
 
   attendance: AttendanceReport;
 
@@ -25,7 +25,7 @@ export class AttendanceComponent implements OnChanges {
               public loginService: LoginService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.attendanceService.getAttendance(this.section.programId, this.section.id).subscribe(a => this.attendance=a);
+    this.attendanceService.getAttendance(this.classroom.programId, this.classroom.id).subscribe(a => this.attendance=a);
   }
 
   countAttendance(student: AttendanceRecord): number {
@@ -48,8 +48,8 @@ export class AttendanceComponent implements OnChanges {
   recordAttendance() {
     const attendanceRef = this.dialog.open(AttendanceDialogComponent, {
       width: '400px',
-      data: {"programId": this.section.programId,
-             "sectionId": this.section.id,
+      data: {"programId": this.classroom.programId,
+             "classroomId": this.classroom.id,
              "enrolleeIds": this.attendance.attendance.map(a => a.enrolleeId),
              "enrolleeNames": this.attendance.attendance.map(a => a.enrolleeName)
         }
