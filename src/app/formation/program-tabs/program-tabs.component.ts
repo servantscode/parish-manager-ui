@@ -17,7 +17,7 @@ export class ProgramTabsComponent implements OnInit {
 
   ngOnInit() {
     var tab = this.route.snapshot.paramMap.get('tab');
-    this.selectedTab = tab? tab.toLowerCase(): 'classrooms';
+    this.selectedTab = tab? tab.toLowerCase(): 'classes';
   }
 
   public selectTab(tab: any): void {
