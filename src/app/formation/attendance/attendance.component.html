@@ -1,17 +1,17 @@
 <div class="container-fluid">
-  <div class="row">
+<!--   <div class="row">
     <div class="col">
     </div>
     <div class="col align-right">
       <button *ngIf="loginService.userCan('attendance.record')" class="btn btn-primary edit-button" (click)="recordAttendance()">Record Attendance</button>
     </div>
   </div>
-
+ -->
   <div class="slide">
     <table *ngIf="attendance" class="sc-table">
       <thead>
         <th class="sticky"><div class="right-border name">Student</div></th>
-        <th *ngFor="let session of attendance.sessions">{{session.startTime | date: "M/dd"}}</th>
+        <th *ngFor="let session of attendance.sessions" class="clickable" (click)="recordAttendance(session)">{{session.startTime | date: "M/dd"}}</th>
         <th class="endsticky"><div class="left-border count">#</div></th>
       </thead>
       <tr *ngFor="let student of attendance.attendance">

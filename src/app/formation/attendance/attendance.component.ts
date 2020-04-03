@@ -8,7 +8,7 @@ import { AttendanceDialogComponent } from '../attendance-dialog/attendance-dialo
 import { AttendanceService } from '../services/attendance.service';
 
 import { AttendanceReport, AttendanceRecord } from '../attendance';
-import { Classroom } from '../formation';
+import { Classroom, Session } from '../formation';
 
 @Component({
   selector: 'app-attendance',
@@ -45,11 +45,12 @@ export class AttendanceComponent implements OnChanges {
             "absent";
   }
 
-  recordAttendance() {
+  recordAttendance(session: Session) {
     const attendanceRef = this.dialog.open(AttendanceDialogComponent, {
       width: '400px',
       data: {"programId": this.classroom.programId,
              "classroomId": this.classroom.id,
+             "sessionId": session.id,
              "enrolleeIds": this.attendance.attendance.map(a => a.enrolleeId),
              "enrolleeNames": this.attendance.attendance.map(a => a.enrolleeName)
         }

@@ -48,7 +48,6 @@ export class Session extends Autocompletable {
   }
 
   public identifyAs(identity: string): Session {
-    /*Not sure if this will work... if you see it here, then it does ;) */
     return this;
   }
 

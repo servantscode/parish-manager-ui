@@ -21,6 +21,7 @@ export class AttendanceDialogComponent implements OnInit {
       programId: [0, Validators.required],
       classroomId: [0, Validators.required],
       sessionId: [0, Validators.required],
+      selectAll: [false],
       enrolleeAttendance: this.fb.array([])
     });
 
@@ -52,10 +53,18 @@ export class AttendanceDialogComponent implements OnInit {
     for(let id of this.data.enrolleeIds)
       control.push(this.newRow(id));
 
+    this.form.get('selectAll').valueChanges.subscribe(checked => this.selectAll(checked));
+
   }
 
   enrolleeControls(): FormArray {
     return <FormArray>this.form.controls['enrolleeAttendance'];
+  }
+
+  selectAll(checked: boolean) {
+    for( let row of this.enrolleeControls().controls) {
+      row.get('attended').setValue(checked);
+    }
   }
 
   newRow(enrolleeId: number) {
