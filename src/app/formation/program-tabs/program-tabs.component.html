@@ -1,6 +1,7 @@
 <mat-toolbar class="sc-toolbar">
   <span *ngIf="loginService.userCan('classroom.list')" class="tab clickable" (click)="selectTab('classes')" [ngClass]="{'highlighted': 'classes' === selectedTab}">Classes</span>
   <span *ngIf="loginService.userCan('classroom.list')" class="tab clickable" (click)="selectTab('sessions')" [ngClass]="{'highlighted': 'sessions' === selectedTab}">Sessions</span>
+  <span *ngIf="loginService.userCan('catechists.list')" class="tab clickable" (click)="selectTab('catechists')" [ngClass]="{'highlighted': 'catechists' === selectedTab}">Catechists</span>
   <span *ngIf="loginService.userCan('registration.list')" class="tab clickable" (click)="selectTab('registrations')" [ngClass]="{'highlighted': 'registrations' === selectedTab}">Registrations</span>
 </mat-toolbar>
 
@@ -8,6 +9,7 @@
   <div [ngSwitch]="selectedTab">
     <app-classroom *ngSwitchCase="'classes'"></app-classroom>
     <app-session *ngSwitchCase="'sessions'"></app-session>
+    <app-catechist *ngSwitchCase="'catechists'"></app-catechist>
     <app-registration *ngSwitchCase="'registrations'"></app-registration>
   </div>
 </div>

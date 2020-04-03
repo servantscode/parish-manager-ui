@@ -1,0 +1,16 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <h1 *ngIf="data.item && data.item.id > 0" mat-dialog-title>Update Registration</h1>
+  <h1 *ngIf="data.item == null || data.item.id == 0" mat-dialog-title>New Registration</h1>
+  <div mat-dialog-content>
+    <input type="hidden" autocomplete="off" formControlName="id"/>
+    
+    <app-sc-auto-complete formControlName="id" label='Catechist' [autocompleteService]="personService" required="true"></app-sc-auto-complete>
+    <app-sc-auto-complete formControlName="programId" label='Program' [autocompleteService]="programService" required="true"></app-sc-auto-complete>
+    <app-sc-auto-complete formControlName="classroomId" label='Class' [autocompleteService]="classroomService" [pathParams]="{'programId': form.value.programId}"></app-sc-auto-complete>
+  
+  </div>
+  <div mat-dialog-actions class="align-right">
+    <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+    <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+  </div>
+</form>

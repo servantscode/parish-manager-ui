@@ -1,0 +1,10 @@
+<app-paginated-list [dataService]="catechistService" 
+                    [fields]="[{'name':'name', 'displayName':'Catechist'}, {'name':'classroomName', 'dislpayName':'Class'},
+                               'phoneNumber', 'email']" 
+                    [pageSize]='10' 
+                    [dialogComponent]="CatechistDialogComponent"
+                    [type]="'Catechist'"
+                    placeholderValue="Unassigned"
+                    [pathParams]='{"programId":activeProgram}'
+                    [newItemTemplate]='{"programId":activeProgram}'>
+</app-paginated-list>

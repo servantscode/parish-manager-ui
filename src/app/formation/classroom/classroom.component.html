@@ -9,7 +9,14 @@
                     [pathParams]='{"programId":activeProgram}'
                     (onSelect)='classroomSelected($event)'>
 </app-paginated-list>
+<div class="container-fluid"> 
   <div class="huge-icon checkbox" (click)="downloadAttendanceSheets()">&nbsp;</div>
-
-
-<app-attendance *ngIf="selectedClassroom" [classroom]='selectedClassroom'></app-attendance>
+</div>
+<div *ngIf="selectedClassroom">
+     <h2>{{selectedClassroom.name}}</h2>
+  <div class="container-fluid">
+     <span> Instructor: {{selectedClassroom.instructorName}}</span>&nbsp;&nbsp;<div *ngIf="selectedClassroom.instructorEmails && selectedClassroom.instructorEmails.length > 0 && loginService.userCan('email.send')" class="big-icon email" (click)="openMailDialog()">&nbsp;</div>
+     <span *ngIf="selectedClassroom.additionalInstructorNames && selectedClassroom.additionalInstructorNames.length > 0"><br/>Additional Instructors: {{selectedClassroom.additionalInstructorNames}}</span>
+  </div>
+  <app-attendance [classroom]='selectedClassroom'></app-attendance>
+</div>

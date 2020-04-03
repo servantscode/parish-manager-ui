@@ -96,6 +96,9 @@ export class Classroom extends Autocompletable {
   programId: number;
   instructorId: number;
   instructorName: string;
+  additionalInstructorIds: number[];
+  additionalInstructorNames: string[];
+  instructorEmails: string[];
   roomId: number;
   roomName: string;
   studentCount: number;
@@ -116,6 +119,9 @@ export class Classroom extends Autocompletable {
     this.programId=0;
     this.instructorId=0;
     this.instructorName='';
+    this.additionalInstructorIds=[];
+    this.additionalInstructorNames=[];
+    this.instructorEmails=[];
     this.roomId=0;
     this.roomName='';
     this.studentCount=0;
@@ -177,6 +183,36 @@ export class Registration extends Identifiable {
     this.schoolGrade="";
     this.sacramentalGroupId=0;
     this.sacramentalGroupName='';
+    return this;
+  }
+}
+
+export class Catechist extends Identifiable {
+  constructor() {
+    super();
+  }
+
+  name: string;
+  programId: number;
+  classroomId: number;
+  classroomName: string;
+  primary: boolean;
+  email: string;
+  phoneNumber: string;
+  
+  public identify(): string {
+    return this.name;
+  }
+
+  public asTemplate(): Catechist {
+    this.id=0;
+    this.name="";
+    this.programId=0;
+    this.classroomId=0;
+    this.classroomName='';
+    this.primary=false;
+    this.email="";
+    this.phoneNumber="";
     return this;
   }
 }
