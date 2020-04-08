@@ -33,6 +33,41 @@ export class Program extends Autocompletable {
   }
 }
 
+export class DayTime {
+  dayOfWeek:string;
+  timeOfDay:string;
+}
+
+export class Section extends Autocompletable {
+  constructor() {
+    super();
+  }
+
+  name: string;
+  programId: number;
+  recurrenceId: number;
+  dayTime: DayTime;
+
+  public identify(): string {
+    return this.name;
+  }
+
+  public identifyAs(identity: string): Section {
+    this.name=identity;
+    return this;
+  }
+
+  public asTemplate(): Section {
+    this.id=0;
+    this.name="";
+    this.programId=0;
+    this.recurrenceId=0;
+    this.dayTime=null;
+    return this;
+  }
+
+}
+
 export class Session extends Autocompletable {
   constructor() {
     super();
@@ -93,6 +128,7 @@ export class Classroom extends Autocompletable {
 
   name: string;
   programId: number;
+  sectionId: number;
   instructorId: number;
   instructorName: string;
   additionalInstructorIds: number[];
@@ -116,6 +152,7 @@ export class Classroom extends Autocompletable {
     this.id=0;
     this.name="";
     this.programId=0;
+    this.sectionId=0;
     this.instructorId=0;
     this.instructorName='';
     this.additionalInstructorIds=[];

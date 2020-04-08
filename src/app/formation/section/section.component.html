@@ -1,0 +1,9 @@
+<app-paginated-list [dataService]="sectionService" 
+                    [fields]="['name']"
+                    [pageSize]='10' 
+                    [dialogComponent]="SectionDialogComponent"
+                    [type]="'Section'"
+                    placeholderValue="Unassigned"
+                    [pathParams]='{"programId":activeProgram}'
+                    [newItemTemplate]='{"programId":activeProgram}'>
+</app-paginated-list>

@@ -6,7 +6,10 @@ import { SCValidation } from 'sc-common';
 
 import { EventService } from '../../schedule/services/event.service';
 
+import { SectionService } from '../services/section.service';
 import { SessionService } from '../services/session.service';
+
+import { Section } from '../formation';
 
 @Component({
   selector: 'app-link-session-dialog',
@@ -15,23 +18,21 @@ import { SessionService } from '../services/session.service';
 })
 export class LinkSessionDialogComponent implements OnInit {
   form = this.fb.group({
-      programId: [0, Validators.required],
       event: ['', Validators.required]
     });
 
   constructor(public dialogRef: MatDialogRef<LinkSessionDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
-                programId: number
+                section: Section
               },
               private fb: FormBuilder,
+              private sectionService: SectionService,
               private sessionService: SessionService, 
               public eventService: EventService) { }
   
   ngOnInit() {
-    if(this.data.programId <= 0)
-      alert("No programId provided");
-    
-    this.form.patchValue(this.data);
+    if(!this.data.section)
+      alert("No section provided");
   }
 
   save() {
@@ -46,9 +47,14 @@ export class LinkSessionDialogComponent implements OnInit {
       alert("No recurring event selected.");
       this.cancel();
     }
+    // this.sessionService.link(formData.programId, formData.event.recurrence.id).
+    //   subscribe(() => this.dialogRef.close());
 
-    this.sessionService.link(formData.programId, formData.event.recurrence.id).
-      subscribe(() => this.dialogRef.close());
+    const section = this.data.section;
+
+    section.recurrenceId = formData.event.recurrence.id;
+    
+    this.sectionService.update(section, {"programId": section.programId}).subscribe(resp => this.dialogRef.close(resp));
   }
 
   cancel() {

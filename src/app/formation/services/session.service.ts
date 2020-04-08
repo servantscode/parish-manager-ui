@@ -20,7 +20,7 @@ export class SessionService extends PaginatedService<Session> {
               protected messageService: MessageService,
               protected apiService: ApiLocatorService,
               protected loginService: LoginService) {
-    super(apiService.prefaceUrl("/rest/program/:programId:/session"), http, messageService, loginService);
+    super(apiService.prefaceUrl("/rest/program/:programId:/section/:sectionId:/session"), http, messageService, loginService);
   }
 
   public getPermissionType(): string {

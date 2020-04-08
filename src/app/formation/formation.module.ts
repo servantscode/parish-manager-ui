@@ -37,6 +37,8 @@ import { SessionComponent } from './session/session.component';
 import { LinkSessionDialogComponent } from './link-session-dialog/link-session-dialog.component';
 import { CatechistComponent } from './catechist/catechist.component';
 import { CatechistDialogComponent } from './catechist-dialog/catechist-dialog.component';
+import { SectionDialogComponent } from './section-dialog/section-dialog.component';
+import { SectionComponent } from './section/section.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,10 @@ import { CatechistDialogComponent } from './catechist-dialog/catechist-dialog.co
     AttendanceComponent, 
     AttendanceDialogComponent, 
     SessionComponent, 
-    LinkSessionDialogComponent, CatechistComponent, CatechistDialogComponent
+    LinkSessionDialogComponent,
+    CatechistComponent, 
+    CatechistDialogComponent, 
+    SectionDialogComponent, SectionComponent
   ],
   imports: [
     FormationRoutingModule,
@@ -85,7 +90,8 @@ import { CatechistDialogComponent } from './catechist-dialog/catechist-dialog.co
     SacramentalGroupDialogComponent,
     AttendanceDialogComponent,
     LinkSessionDialogComponent,
-    CatechistDialogComponent
+    CatechistDialogComponent,
+    SectionDialogComponent
   ]
 })
 export class FormationModule { }

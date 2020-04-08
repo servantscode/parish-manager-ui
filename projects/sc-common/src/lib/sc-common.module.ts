@@ -27,6 +27,7 @@ import { OrganizationService } from './services/organization.service';
 import { PersonService } from './services/person.service';
 import { PhotoService } from './services/photo.service';
 import { PreferencesService } from './services/preferences.service';
+import { DateService } from './services/date.service';
 
 import { AddressComponent } from './address/address.component';
 import { DateTimeComponent } from './date-time/date-time.component';
@@ -116,6 +117,7 @@ import { MultiTextComponent } from './multi-text/multi-text.component';
     DaysOfWeekComponent,
     IdentityPickerComponent,
     MultiTextComponent,
+    TimeComponent,
 
     HttpClientModule,
     MatDialogModule
@@ -129,6 +131,7 @@ import { MultiTextComponent } from './multi-text/multi-text.component';
     PersonService,
     PhotoService,
     PreferencesService,
+    DateService
   ], 
   entryComponents: [
     PhotoUploadDialogComponent

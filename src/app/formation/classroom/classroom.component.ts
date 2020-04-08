@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 
 import { DownloadService, LoginService } from 'sc-common';
 
@@ -11,7 +12,7 @@ import { EmailDialogComponent } from '../../sccommon/email-dialog/email-dialog.c
 import { ClassroomService } from '../services/classroom.service';
 import { ProgramService } from '../services/program.service';
 
-import { Classroom } from '../formation';
+import { Classroom, Section } from '../formation';
 
 @Component({
   selector: 'app-classroom',
@@ -23,6 +24,8 @@ export class ClassroomComponent implements OnInit {
   ClassroomDialogComponent = ClassroomDialogComponent;
 
   activeProgram: number;
+  @Input('section') activeSection: Section;
+  changes: Subject<any> = new Subject<any>();
 
   selectedClassroom: Classroom;
 
@@ -36,6 +39,11 @@ export class ClassroomComponent implements OnInit {
   ngOnInit() {
     this.activeProgram = +this.route.snapshot.paramMap.get('id');
   }
+
+  ngOnChanges() {
+    this.changes.next();
+  }
+
 
   classroomSelected(classsroom: Classroom) {
     this.selectedClassroom = classsroom;

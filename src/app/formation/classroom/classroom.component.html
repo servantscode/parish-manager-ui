@@ -5,8 +5,9 @@
                     [type]="'Classroom'"
                     [selectable]='true'
                     [placeholderValue]="'Unassigned'"
-                    [newItemTemplate]='{"programId":activeProgram}'
-                    [pathParams]='{"programId":activeProgram}'
+                    [newItemTemplate]='{"programId":activeProgram, "sectionId":activeSection.id}'
+                    [pathParams]='{"programId":activeProgram, "sectionId":activeSection.id}'
+                    [refreshOn]='changes'
                     (onSelect)='classroomSelected($event)'>
 </app-paginated-list>
 <div class="container-fluid"> 

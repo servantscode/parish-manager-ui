@@ -5,6 +5,7 @@ import { distinctUntilChanged } from 'rxjs/operators'
 import { setHours, setMinutes, setSeconds, format } from 'date-fns';
 
 import { SCValidation } from '../validation';
+import { deepEqual } from '../utils';
 
 @Component({
   selector: 'sc-time',
@@ -21,7 +22,7 @@ import { SCValidation } from '../validation';
 export class TimeComponent implements OnInit {
 
   @Input() label = 'Some';
-  @Input('value') _value: Date;
+  @Input() value: string;
   @Input() required = false;
 
   onChange: any = () => { };
@@ -34,12 +35,12 @@ export class TimeComponent implements OnInit {
   @Input() autoFocus = false;
   @ViewChild('timeInput', {static: false}) input:ElementRef;
 
-  get value() {
-    return this._value;
-  }
+  notifyObservers(val: string) {
 
-  set value(val: Date) {
-    this._value = val;
+    if(deepEqual(val, this.value))
+      return;
+
+    this.value = val;
     this.onChange(val);
     this.onTouched();
   }
@@ -49,28 +50,14 @@ export class TimeComponent implements OnInit {
   ngOnInit() {
     if(this.autoFocus)
       this.input.nativeElement.focus();
-
-    this.form.get('time').valueChanges
-      .pipe(distinctUntilChanged())
-      .subscribe( value => {
-        if(!this.form.get('time').valid) {
-          this.value = this.calculateTime(this.form.get('time').value);
-          return;
-        }
-      }); 
   }
 
   public formatTime(): void {
-    var field = this.form.get('time');
-    const timeOnly: Date = this.calculateTime(field.value);
-    if(!timeOnly)
-      return;
-
-    field.setValue(this.formatTimeString(timeOnly));
+    this.updateTimeString(this.form.get('time').value);
   }
 
-  // ----- Private -----
-  private calculateTime(time: string): Date {
+  // ----- Private -----  
+  private updateTimeString(time: string) {
     const parser = /^(\d+)(:(\d+))?(:(\d+))?\s*(\w+)?$/;
     var match = parser.exec(time);
     if(match == null) 
@@ -86,18 +73,23 @@ export class TimeComponent implements OnInit {
     else if(dayHalf.toUpperCase().startsWith("P"))
       dayHalf = "PM"
     else
-      dayHalf = hours > 8 && hours !== 12? "AM": "PM"
+      dayHalf = hours > 8 && hours < 12? "AM": "PM"
 
     if(dayHalf === "AM" && hours >= 12)
       hours -= 12;
     if(dayHalf === "PM" && hours < 12)
       hours += 12;
 
-    return new Date(0, 0, 0, hours, minutes, seconds);
+    const displayHours = hours > 12? hours - 12: hours < 1? hours + 12: hours;
+    const displayString= seconds > 0? `${displayHours}:${this.pad(minutes)}:${this.pad(seconds)} ${dayHalf}`: `${displayHours}:${this.pad(minutes)} ${dayHalf}`;
+    this.form.get('time').setValue(displayString, {"notifyObservers": false});
+
+    const valueString= seconds > 0? `${hours}:${this.pad(minutes)}:${this.pad(seconds)}`: `${hours}:${this.pad(minutes)}`;
+    this.notifyObservers(valueString);
   }
 
-  private formatTimeString(date: Date): string {
-    return format(date, date.getSeconds() > 0? 'h:mm:ss A': 'h:mm A');
+  private pad(val: number): string {
+    return val < 10? '0'+val: ''+ val;
   }
 
   //ControlValueAccesssor
@@ -109,9 +101,8 @@ export class TimeComponent implements OnInit {
     this.onTouched = fn;
   }
 
-  writeValue(value: Date) {
-    this.form.get('time').setValue(this.formatTimeString(value), {emitEvent: false});
-    this.value = value;
+  writeValue(value: string) {
+    this.value = this.updateTimeString(value);
   }
 
   setDisabledState( isDisabled : boolean ) : void {

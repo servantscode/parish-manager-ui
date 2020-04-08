@@ -1,41 +1,40 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
-
-import { PersonService } from 'sc-common';
+import { format } from 'date-fns';
 
 import { SCValidation } from 'sc-common';
 
-import { RoomService } from '../../schedule/services/room.service';
+import { DateService } from 'sc-common';
 
 import { ProgramService } from '../services/program.service';
 import { SectionService } from '../services/section.service';
-import { ClassroomService } from '../services/classroom.service';
 
 @Component({
-  selector: 'app-classroom-dialog',
-  templateUrl: './classroom-dialog.component.html',
-  styleUrls: ['./classroom-dialog.component.scss']
+  selector: 'app-section-dialog',
+  templateUrl: './section-dialog.component.html',
+  styleUrls: ['./section-dialog.component.scss']
 })
-export class ClassroomDialogComponent implements OnInit {
+export class SectionDialogComponent implements OnInit {
   form = this.fb.group({
       id: [0],
       name: ['', Validators.required],
       programId: ['', Validators.required],
-      sectionId: ['', Validators.required],
-      instructorId: [''],
-      roomId: [''],
-      complete: ['']
+      recurrenceId: [''],
+      dayTime: this.fb.group({
+        dayOfWeek: '',
+        timeOfDay: '',
+      })
     });
 
-  constructor(public dialogRef: MatDialogRef<ClassroomDialogComponent>,
+  public days = this.dateService.daysOfWeek.bind(this.dateService);
+
+  constructor(public dialogRef: MatDialogRef<SectionDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               public programService: ProgramService,
-              public classroomService: ClassroomService,
               public sectionService: SectionService,
-              public roomService: RoomService,
-              public personService: PersonService) { }
+              public dateService: DateService) { }
   
   ngOnInit() {
     if(this.data.item != null) {
@@ -51,12 +50,12 @@ export class ClassroomDialogComponent implements OnInit {
 
     const value = this.form.value;
     if(this.form.get("id").value > 0) {
-      this.classroomService.update(value, {"programId": value.programId, "sectionId": value.sectionId}).
+      this.sectionService.update(value, {"programId": value.programId}).
         subscribe(() => {
           this.dialogRef.close();
         });
     } else {
-      this.classroomService.create(value, {"programId": value.programId, "sectionId": value.sectionId}).
+      this.sectionService.create(value, {"programId": value.programId}).
         subscribe(() => {
           this.dialogRef.close();
         });

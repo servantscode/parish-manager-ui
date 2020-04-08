@@ -115,7 +115,7 @@ export class DateTimeComponent implements ControlValueAccessor, OnInit {
     else if(dayHalf.toUpperCase().startsWith("P"))
       dayHalf = "PM"
     else
-      dayHalf = hours > 8 && hours !== 12? "AM": "PM"
+      dayHalf = hours > 8 && hours < 12? "AM": "PM"
 
     if(dayHalf === "AM" && hours >= 12)
       hours -= 12;

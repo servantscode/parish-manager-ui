@@ -42,13 +42,14 @@ export class ProgramDialogComponent implements OnInit {
       return;
     }
 
+    const section = this.form.value;
     if(this.form.get("id").value > 0) {
-      this.programService.update(this.form.value).
+      this.programService.update(section, {"programId": section.programId}).
         subscribe(() => {
           this.dialogRef.close();
         });
     } else {
-      this.programService.create(this.form.value).
+      this.programService.create(section, {"programId": section.programId}).
         subscribe(() => {
           this.dialogRef.close();
         });

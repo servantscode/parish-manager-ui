@@ -17,6 +17,7 @@ export * from './lib/services/person.service';
 export * from './lib/services/photo.service';
 export * from './lib/services/preferences.service';
 export * from './lib/services/relationship.service';
+export * from './lib/services/date.service';
 
 export * from './lib/address';
 export * from './lib/enum-value';

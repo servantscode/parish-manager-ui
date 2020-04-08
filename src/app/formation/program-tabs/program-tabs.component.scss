@@ -1,0 +1,21 @@
+$subtab-height: 30px;
+.row-2 {
+  background-color: #ffffff;
+  height: $subtab-height;
+  border-bottom: 1px solid #dddddd;
+
+  .subtab {
+    font-family: "Eras ITC", Arial, Verdana, sans-serif; 
+    font-size: 18px;
+    padding-right: 10px;
+    font-weight: 400;
+  }
+
+  .highlighted {
+    color: #ff0000;
+  }
+
+  .tab-content {
+    height: calc(100% - $subtab-height);
+  }
+}

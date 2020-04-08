@@ -1,10 +1,12 @@
 <mat-toolbar class="sc-toolbar">
-  <span *ngIf="loginService.userCan('donation.metrics')" class="tab clickable" (click)="selectTab('overview')" [ngClass]="{'highlighted': 'overview' === selectedTab}">Overview</span>
-  <span *ngIf="loginService.userCan('pledge.list')" class="tab clickable" (click)="selectTab('pledges')" [ngClass]="{'highlighted': 'pledges' === selectedTab}">Pledges</span>
-  <span *ngIf="loginService.userCan('donation.list')" class="tab clickable" (click)="selectTab('donations')" [ngClass]="{'highlighted': 'donations' === selectedTab}">Donations</span>
-  <span *ngIf="loginService.userCan('fund.list')" class="tab clickable" (click)="selectTab('funds')" [ngClass]="{'highlighted': 'funds' === selectedTab}">Funds</span>
-  <span *ngIf="loginService.userCan('donation.create')" class="tab clickable" (click)="selectTab('record')" [ngClass]="{'highlighted': 'record' === selectedTab}">Record</span>
-  <span *ngIf="loginService.userCan('donation.review')" class="tab clickable" (click)="selectTab('review')" [ngClass]="{'highlighted': 'review' === selectedTab}">Incoming Egifts</span>
+  <mat-toolbar-row>
+    <span *ngIf="loginService.userCan('donation.metrics')" class="tab clickable" (click)="selectTab('overview')" [ngClass]="{'highlighted': 'overview' === selectedTab}">Overview</span>
+    <span *ngIf="loginService.userCan('pledge.list')" class="tab clickable" (click)="selectTab('pledges')" [ngClass]="{'highlighted': 'pledges' === selectedTab}">Pledges</span>
+    <span *ngIf="loginService.userCan('donation.list')" class="tab clickable" (click)="selectTab('donations')" [ngClass]="{'highlighted': 'donations' === selectedTab}">Donations</span>
+    <span *ngIf="loginService.userCan('fund.list')" class="tab clickable" (click)="selectTab('funds')" [ngClass]="{'highlighted': 'funds' === selectedTab}">Funds</span>
+    <span *ngIf="loginService.userCan('donation.create')" class="tab clickable" (click)="selectTab('record')" [ngClass]="{'highlighted': 'record' === selectedTab}">Record</span>
+    <span *ngIf="loginService.userCan('donation.review')" class="tab clickable" (click)="selectTab('review')" [ngClass]="{'highlighted': 'review' === selectedTab}">Incoming Egifts</span>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <div class="tab-content scrollable">
