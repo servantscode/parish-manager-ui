@@ -36,8 +36,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
   @Input() selectable: boolean = false;
   @Input() allowCreate: boolean = true;
-  @Input() allowDelete: boolean = true;
-  @Output() onSelect: EventEmitter<T> = new EventEmitter<T>(); 
+  @Input() allowDelete: boolean = true; 
   @Input() refreshOn: Subject<any>;
 
   @Input() pathParams: any = null;
@@ -46,6 +45,8 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   @Input() type: string;
   @Input() placeholderValue: string = "";
 
+  @Input() search = '';
+  
   items: T[] = [];
 
   highlighted: T = null;
@@ -54,8 +55,10 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
   page = 1;
   totalCount = 0;
 
-  @Input() search = '';
+  
   @Output() onSearch: EventEmitter<string> = new EventEmitter<string>(); 
+  @Output() onSelect: EventEmitter<T> = new EventEmitter<T>();
+  @Output() onChange: EventEmitter<T> = new EventEmitter<T>();
 
   openDialogRef = null;
 
@@ -114,6 +117,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
    this.openDialogRef.afterClosed().subscribe(result => {
       this.openDialogRef= null;
+      this.onChange.emit(result);
       this.populateList();
     });
   }
@@ -138,6 +142,7 @@ export class PaginatedListComponent<T extends Identifiable> implements OnInit {
 
     this.openDialogRef.afterClosed().subscribe(result => {
       this.openDialogRef= null;
+      this.onChange.emit(null);  
       this.populateList();
     });
   }

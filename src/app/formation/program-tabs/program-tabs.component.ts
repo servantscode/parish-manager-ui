@@ -29,10 +29,10 @@ export class ProgramTabsComponent implements OnInit {
     var tab = this.route.snapshot.paramMap.get('tab');
     this.selectedTab = tab? tab.toLowerCase(): 'classes';
 
-    this.loadData();
+    this.loadSections();
   }
 
-  private loadData() {
+  loadSections() {
     this.sectionService.getPage(0, -1, '', {"programId": this.activeProgramId})
         .subscribe(resp => {
             this.sections = resp.results;

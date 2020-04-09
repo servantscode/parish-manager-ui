@@ -5,5 +5,6 @@
                     [type]="'Section'"
                     placeholderValue="Unassigned"
                     [pathParams]='{"programId":activeProgram}'
-                    [newItemTemplate]='{"programId":activeProgram}'>
+                    [newItemTemplate]='{"programId":activeProgram}'
+                    (onChange)="notifyChanged()">
 </app-paginated-list>

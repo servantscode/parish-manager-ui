@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { SectionDialogComponent } from '../section-dialog/section-dialog.component';
@@ -14,6 +14,8 @@ import { Section } from '../formation';
 })
 export class SectionComponent implements OnInit {
 
+  @Output() onChanged: EventEmitter<void> = new EventEmitter<void>();
+
   SectionDialogComponent = SectionDialogComponent;
 
   activeProgram: number;
@@ -23,5 +25,9 @@ export class SectionComponent implements OnInit {
 
   ngOnInit() {
     this.activeProgram = +this.route.snapshot.paramMap.get('id');
+  }
+
+  notifyChanged() {
+    this.onChanged.emit();
   }
 }

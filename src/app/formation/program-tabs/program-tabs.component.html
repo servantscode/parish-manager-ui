@@ -6,7 +6,7 @@
     <span *ngIf="loginService.userCan('registration.list')" class="tab clickable" (click)="selectTab('registrations')" [ngClass]="{'highlighted': 'registrations' === selectedTab}">Registrations</span>
     <span *ngIf="loginService.userCan('section.list')" class="tab clickable" (click)="selectTab('sections')" [ngClass]="{'highlighted': 'sections' === selectedTab}">Sections</span>
   </mat-toolbar-row>
-  <mat-toolbar-row *ngIf="selectedTab === 'classes' || selectedTab === 'sessions'" class="row-2">
+  <mat-toolbar-row *ngIf="sections.length > 1 && (selectedTab === 'classes' || selectedTab === 'sessions')" class="row-2">
     <span class="subtab">Sections:</span>
     <span *ngFor="let section of sections" class="subtab clickable" [ngClass]="{'highlighted' : section === activeSection}" (click)="selectSection(section)">{{section.name}}</span> 
   </mat-toolbar-row>
@@ -18,6 +18,6 @@
     <app-session *ngSwitchCase="'sessions'" [section]='activeSection'></app-session>
     <app-catechist *ngSwitchCase="'catechists'"></app-catechist>
     <app-registration *ngSwitchCase="'registrations'"></app-registration>
-    <app-section *ngSwitchCase="'sections'"></app-section>
+    <app-section *ngSwitchCase="'sections'" (onChanged)='loadSections()'></app-section>
   </div>
 </div>
