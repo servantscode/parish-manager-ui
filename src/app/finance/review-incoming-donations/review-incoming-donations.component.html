@@ -1,5 +1,4 @@
-<div class="container rounded-rect">
-  <h3>Review Incoming Donations</h3>
+<div class="container-fluid">
   <app-paginated-list [dataService]="incomingDonationService" 
                       [fields]="['donorName', 'fund', 
                                  {'name':'amount', 'type':'currency'}, 
@@ -10,7 +9,5 @@
                       [refreshOn]='refresh'
                       [customControls]="controls"
                       type="Incoming Donation">
-<!--                       [searchForm]="[{'name':'name', 'type':'text'},
-                                     {'name':'email', 'type':'text'}]">
- -->  </app-paginated-list>
+  </app-paginated-list>
 </div>

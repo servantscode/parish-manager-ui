@@ -1,7 +1,8 @@
-<div class="container rounded-rect">
+<div class="container-fluid">
   <h3>Sacramental Groups</h3>
   <app-paginated-list [dataService]="sacramentalGroupService" [fields]="['name']" [pageSize]='10' [dialogComponent]="SacramentalGroupDialogComponent"></app-paginated-list>
-</div>
-<div class="container">
-  <button class="btn btn-primary" (click)="goBack()">Ok</button> 
+
+  <div class="container">
+    <button class="btn btn-primary" (click)="goBack()">Ok</button> 
+  </div>
 </div>

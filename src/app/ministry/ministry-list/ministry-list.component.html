@@ -1,5 +1,10 @@
-<div class="container-fluid  controls align-right">
-  <button *ngIf="loginService.userCan('ministry.create')" type="button" class="btn btn-primary" [routerLink]="['/ministry/detail/']">Add Ministry</button>
+<div class="container-fluid row">
+  <div class="col">
+    <h2>Ministries</h2>
+  </div>
+  <div class="col controls align-right">  
+    <button *ngIf="loginService.userCan('ministry.create')" type="button" class="btn btn-primary" [routerLink]="['/ministry/detail/']">Add Ministry</button>
+  </div>
 </div>
 <div class="container-fluid">
   <div class="row">

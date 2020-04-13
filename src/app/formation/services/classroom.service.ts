@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { MessageService } from 'sc-common';
 
 import { ApiLocatorService } from 'sc-common';
 import { LoginService } from 'sc-common';
-import { PaginatedService } from 'sc-common';
+import { PaginatedService, PaginatedResponse } from 'sc-common';
 
 import { Classroom } from '../formation';
 
@@ -30,4 +30,16 @@ export class ClassroomService extends PaginatedService<Classroom> {
   public getTemplate(): Classroom {
     return new Classroom().asTemplate();
   }
+
+    public getPage(start = 0, count = 10, search = '', pathVars?: any): Observable<PaginatedResponse<Classroom>> {
+    var url = this.apiService.prefaceUrl('/rest/program/:programId:');
+    if(pathVars && pathVars.sectionId)
+      url += `/section/:sectionId:`;
+    
+    return this.http.get<PaginatedResponse<Classroom>>(this.modifyUrl(url, pathVars) +`/classroom?start=${start}&count=${count}&search=${encodeURIComponent(search)}`).pipe(
+        map(resp => this.mapResults(resp)),
+        catchError(this.handleError('getPage', null))
+      );
+  }
+
 }

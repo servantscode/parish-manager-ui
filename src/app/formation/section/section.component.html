@@ -1,4 +1,5 @@
-<app-paginated-list [dataService]="sectionService" 
+<div class="container-fluid">
+  <app-paginated-list [dataService]="sectionService" 
                     [fields]="['name']"
                     [pageSize]='10' 
                     [dialogComponent]="SectionDialogComponent"
@@ -7,4 +8,5 @@
                     [pathParams]='{"programId":activeProgram}'
                     [newItemTemplate]='{"programId":activeProgram}'
                     (onChange)="notifyChanged()">
-</app-paginated-list>
+  </app-paginated-list>
+</div>

@@ -1,14 +1,15 @@
-<h2>Sessions</h2>
-<table *ngIf="upcomingSessions && upcomingSessions.length > 0" class="sc-table">
-  <thead>
-    <th>Date</th>
-  </thead>
-  <tr *ngFor="let session of upcomingSessions">
-    {{session.startTime}}
-  </tr>
-</table>
+<div class="container-fluid">
+  <table *ngIf="upcomingSessions && upcomingSessions.length > 0" class="sc-table">
+    <thead>
+      <th>Date</th>
+    </thead>
+    <tr *ngFor="let session of upcomingSessions">
+      {{session.startTime}}
+    </tr>
+  </table>
 
-<div *ngIf="!upcomingSessions || upcomingSessions.length == 0" class="no-results">
-  <em>No sessions scheduled. </em> <br/>
-  <button *ngIf="loginService.userCan('session.create')" class="btn btn-primary edit-button" (click)="linkSessions()">Link an existing event</button>
+  <div *ngIf="!upcomingSessions || upcomingSessions.length == 0" class="no-results">
+    <em>No sessions scheduled. </em> <br/>
+    <button *ngIf="loginService.userCan('session.create')" class="btn btn-primary edit-button" (click)="linkSessions()">Link an existing event</button>
+  </div>
 </div>

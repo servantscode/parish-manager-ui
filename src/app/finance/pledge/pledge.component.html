@@ -1,6 +1,4 @@
 <div class="container-fluid">
-  <h3>Pledges</h3>
-
   <app-paginated-list [dataService]="pledgeService" 
                       [fields]="[{'name':'familyName', 'type':'string', 'linkTo':{'path':'/family/detail', 'idField':'familyId'}}, 
                                  'fundName', 

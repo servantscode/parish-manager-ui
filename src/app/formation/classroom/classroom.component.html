@@ -1,4 +1,5 @@
-<app-paginated-list [dataService]="classroomService" 
+<div class="container-fluid">
+  <app-paginated-list [dataService]="classroomService" 
                     [fields]="['name', 'instructorName', 'roomName', 'studentCount']" 
                     [pageSize]='10' 
                     [dialogComponent]="ClassroomDialogComponent"
@@ -9,15 +10,18 @@
                     [pathParams]='{"programId":activeProgram, "sectionId":activeSection.id}'
                     [refreshOn]='changes'
                     (onSelect)='classroomSelected($event)'>
-</app-paginated-list>
-<div class="container-fluid"> 
-  <div class="huge-icon checkbox" (click)="downloadAttendanceSheets()">&nbsp;</div>
-</div>
-<div *ngIf="selectedClassroom">
-  <h2>{{selectedClassroom.name}}</h2>
-  <div class="container-fluid">
-     <span> Instructor: {{selectedClassroom.instructorName}}</span>&nbsp;&nbsp;<div *ngIf="selectedClassroom.instructorEmails && selectedClassroom.instructorEmails.length > 0 && loginService.userCan('email.send')" class="big-icon email" (click)="openMailDialog()">&nbsp;</div>
-     <span *ngIf="selectedClassroom.additionalInstructorNames && selectedClassroom.additionalInstructorNames.length > 0"><br/>Additional Instructors: {{selectedClassroom.additionalInstructorNames}}</span>
+  </app-paginated-list>
+  <div class="container-fluid"> 
+    <div class="huge-icon checkbox" (click)="downloadAttendanceSheets()">&nbsp;</div>
   </div>
-  <app-attendance [classroom]='selectedClassroom'></app-attendance>
+  
+  <div *ngIf="selectedClassroom">
+    <hr/>
+    <h3>{{selectedClassroom.name}}</h3>
+    <div class="container-fluid">
+       <span> Instructor: {{selectedClassroom.instructorName}}</span>&nbsp;&nbsp;<div *ngIf="selectedClassroom.instructorEmails && selectedClassroom.instructorEmails.length > 0 && loginService.userCan('email.send')" class="big-icon email" (click)="openMailDialog()">&nbsp;</div>
+       <span *ngIf="selectedClassroom.additionalInstructorNames && selectedClassroom.additionalInstructorNames.length > 0"><br/>Additional Instructors: {{selectedClassroom.additionalInstructorNames}}</span>
+    </div>
+    <app-attendance [classroom]='selectedClassroom'></app-attendance>
+  </div>
 </div>

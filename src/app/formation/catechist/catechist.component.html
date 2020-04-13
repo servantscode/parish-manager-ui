@@ -1,4 +1,5 @@
-<app-paginated-list [dataService]="catechistService" 
+<div class="container-fluid">
+  <app-paginated-list [dataService]="catechistService" 
                     [fields]="[{'name':'name', 'displayName':'Catechist'}, {'name':'classroomName', 'dislpayName':'Class'},
                                'phoneNumber', 'email']" 
                     [pageSize]='10' 
@@ -7,4 +8,5 @@
                     placeholderValue="Unassigned"
                     [pathParams]='{"programId":activeProgram}'
                     [newItemTemplate]='{"programId":activeProgram}'>
-</app-paginated-list>
+  </app-paginated-list>
+</div>

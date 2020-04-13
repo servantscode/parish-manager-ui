@@ -1,5 +1,5 @@
-<h2>Volunteers</h2>
-<div class="container rounded-rect">
+<div class="container-fluid">
+  <h2>Volunteers</h2>
   <app-paginated-list [dataService]="checkinService" 
                       [pageImpl]="activeCheckins" 
                       [fields]="[{'name': 'personName', 'displayName':'Volunteer'},

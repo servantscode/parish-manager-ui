@@ -1,13 +1,11 @@
 <h2>Mass Intentions</h2>
-<div class="container rounded-rect">
-  <app-paginated-list [dataService]="massIntentionService" 
-                      [fields]="[{name: 'massTime', type:'dateTime'}, {name: 'person', type:'identity'}, {'name':'intentionType', 'type':'enum'}, {name:'requester', type:'identity'}, 'requesterPhone']" 
-                      [pageSize]='20' 
-                      [dialogComponent]="MassIntentionDialogComponent"
-                      type="Mass Intention"
-                      [searchForm]="[{'name':'massTime', 'type':'date'},
-                                     {'name':'person.name', 'type':'text', 'displayName':'Intention for'}, 
-                                     {'name':'intentionType', 'type':'text'},
-                                     {'name':'requester.name', 'type':'text', 'displayName':'Requester'}]">>
-  </app-paginated-list>
-</div>
+<app-paginated-list [dataService]="massIntentionService" 
+                    [fields]="[{name: 'massTime', type:'dateTime'}, {name: 'person', type:'identity'}, {'name':'intentionType', 'type':'enum'}, {name:'requester', type:'identity'}, 'requesterPhone']" 
+                    [pageSize]='20' 
+                    [dialogComponent]="MassIntentionDialogComponent"
+                    type="Mass Intention"
+                    [searchForm]="[{'name':'massTime', 'type':'date'},
+                                   {'name':'person.name', 'type':'text', 'displayName':'Intention for'}, 
+                                   {'name':'intentionType', 'type':'text'},
+                                   {'name':'requester.name', 'type':'text', 'displayName':'Requester'}]">>
+</app-paginated-list>

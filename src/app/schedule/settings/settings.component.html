@@ -1,5 +1,5 @@
 <h2>Facilities</h2>
-<div class="container rounded-rect">
+<div class="container-fluid">
   <h3>Rooms</h3>
   <app-paginated-list [dataService]="roomService" 
                       [fields]="['name',{'name':'type', 'type':'enum'},'capacity']" 
@@ -11,7 +11,8 @@
                                      {'name':'capacity', 'type':'numberRange'}]">>
   </app-paginated-list>
 </div>
-<div class="container rounded-rect">
+<hr/>
+<div class="container-fluid">
   <h3>Equipment</h3>
   <app-paginated-list [dataService]="equipmentService" 
                       [fields]="['name','manufacturer','description']" 

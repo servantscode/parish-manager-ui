@@ -3,8 +3,8 @@
     <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="small" [nullValue]="'All Funds'"></app-sc-select>
   </form>
 </div>
-
-<div *ngIf="loginService.userCan('pledge.metrics')" class="container rounded-rect clear-float">
+<hr/>
+<div *ngIf="loginService.userCan('pledge.metrics')" class="container-fluid clear-float">
   <h3>Donation Overview <span class="light">({{fyStart | date: 'MM-dd-yyyy'}} - {{fyEnd | date: 'MM-dd-yyyy'}})</span></h3>
   <div class='row'>
     <div class='col'>
@@ -26,8 +26,8 @@
     </div>
   </div>
 </div>
-
-<div *ngIf="loginService.userCan('donation.metrics')" class="container rounded-rect">
+<hr/>
+<div *ngIf="loginService.userCan('donation.metrics')" class="container-fluid">
   <h3>Monthly Donations</h3>
   <table class="sc-table">
     <thead>
@@ -51,8 +51,8 @@
     <div *ngIf="loginService.userCan('donation.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
   </div>
 </div>
-
-<div *ngIf="loginService.userCan('donation.metrics') && tierReport" class="container rounded-rect">
+<hr/>
+<div *ngIf="loginService.userCan('donation.metrics') && tierReport" class="container-fluid">
   <h3>Donation Tiers <span class="light">({{tierReport.startDate | date: 'MM-dd-yyyy'}} - {{tierReport.endDate | date: 'MM-dd-yyyy'}})</span></h3>
 
   <div class="row">

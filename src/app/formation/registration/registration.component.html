@@ -1,4 +1,5 @@
-<app-paginated-list [dataService]="registrationService" 
+<div class="container-fluid">
+  <app-paginated-list [dataService]="registrationService" 
                     [fields]="[{'name':'enrolleeName', 'displayName':'Student'}, {'name':'classroomName', 'dislpayName':'Class'},
                                {'name':'enrolleeAge', 'displayName':'Age'}, 'schoolGrade', 'sacramentalGroupName']" 
                     [pageSize]='10' 
@@ -7,4 +8,5 @@
                     placeholderValue="Unassigned"
                     [pathParams]='{"programId":activeProgram}'
                     [newItemTemplate]='{"programId":activeProgram}'>
-</app-paginated-list>
+  </app-paginated-list>
+</div>
