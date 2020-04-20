@@ -1,7 +1,7 @@
 <form [formGroup]="baptismForm" (submit)="submitForm()">
   <input type="hidden" formControlName="id"/>
 
-  <app-identity-picker formControlName="person" label='Name' [required]="true"></app-identity-picker>
+  <sc-identity-picker formControlName="person" label='Name' [required]="true"></sc-identity-picker>
 
   <mat-form-field appearance="standard" class="input-standard">
     <mat-label>Location of Baptism</mat-label>
@@ -25,25 +25,25 @@
     <mat-datepicker #birthDatePicker></mat-datepicker>
   </mat-form-field><br/>
 
-  <app-identity-picker formControlName="minister" label='Minister' [required]="true"></app-identity-picker>
+  <sc-identity-picker formControlName="minister" label='Minister' [required]="true"></sc-identity-picker>
   <div class="row">
     <div class="col">
-      <app-identity-picker formControlName="father" label='Father'></app-identity-picker>
+      <sc-identity-picker formControlName="father" label='Father'></sc-identity-picker>
     </div>
     <div class="col">
-      <app-identity-picker formControlName="mother" label='Mother'></app-identity-picker>
+      <sc-identity-picker formControlName="mother" label='Mother'></sc-identity-picker>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <app-identity-picker formControlName="godfather" label='Godfather'></app-identity-picker>
+      <sc-identity-picker formControlName="godfather" label='Godfather'></sc-identity-picker>
         </div>
         <div class="col">
-      <app-identity-picker formControlName="godmother" label='Godmother'></app-identity-picker>
+      <sc-identity-picker formControlName="godmother" label='Godmother'></sc-identity-picker>
     </div>
   </div>
-  <app-identity-picker formControlName="witness" label='Witness'></app-identity-picker>
+  <sc-identity-picker formControlName="witness" label='Witness'></sc-identity-picker>
 
   <mat-checkbox formControlName="conditional">Conditional Baptism?</mat-checkbox><br/>
   <mat-checkbox formControlName="reception">Formal Reception into the Catholic Church?</mat-checkbox><br/>

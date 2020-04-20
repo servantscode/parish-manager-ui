@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <form [formGroup]="fundForm">
-    <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="small" [nullValue]="'All Funds'"></app-sc-select>
+    <sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="small" [nullValue]="'All Funds'"></sc-select>
   </form>
 </div>
 <hr/>
@@ -58,7 +58,7 @@
   <div class="row">
     <div class="col">
       <form [formGroup]="annualReportForm">
-        <app-sc-enum formControlName="year" [valueSource]="availableYears" label="Year" fieldSize="small"></app-sc-enum>
+        <sc-enum formControlName="year" [valueSource]="availableYears" label="Year" fieldSize="small"></sc-enum>
       </form>
     </div>
     <div class="col">

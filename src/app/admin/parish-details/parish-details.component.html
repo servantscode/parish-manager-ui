@@ -7,7 +7,7 @@
           <input matInput formControlName="name" required/>
         </mat-form-field><br/>
 
-        <app-identity-picker formControlName="pastor"></app-identity-picker>
+        <sc-identity-picker formControlName="pastor"></sc-identity-picker>
 
         <span>Url: https://{{organization.hostName}}.servantscode.org</span><br/>
 
@@ -16,9 +16,9 @@
           <input matInput formControlName="website" required/>
         </mat-form-field><br/>
 
-        <app-sc-phone-number formControlName="phoneNumber"></app-sc-phone-number>  
+        <sc-phone-number formControlName="phoneNumber"></sc-phone-number>  
 
-        <app-address formControlName="address"></app-address>
+        <sc-address formControlName="address"></sc-address>
 
         <mat-form-field appearance="standard" class="input-standard">
           <mat-label>First month of Fiscal Year</mat-label>
@@ -50,7 +50,7 @@
       </div>
     </ng-template>
     <div class="col">
-      <app-photo class="portrait" [guid]="organization.photoGuid" [altText]="parish.name" [editable]="loginService.userCan('admin.organization.update')" [publicPhoto]="true" (photoStored)="attachPhoto($event)"></app-photo>
+      <sc-photo class="portrait" [guid]="organization.photoGuid" [altText]="parish.name" [editable]="loginService.userCan('admin.organization.update')" [publicPhoto]="true" (photoStored)="attachPhoto($event)"></sc-photo>
     </div>
   </div>
 </div>
@@ -59,11 +59,11 @@
   <div class="row">
     <div class="col">
       <strong>Banner</strong>
-      <app-photo class="portrait" [guid]="parish.bannerGuid" altText="banner" [editable]="loginService.userCan('admin.parish.update')" [publicPhoto]="true" (photoStored)="attachBannerPhoto($event)"></app-photo>
+      <sc-photo class="portrait" [guid]="parish.bannerGuid" altText="banner" [editable]="loginService.userCan('admin.parish.update')" [publicPhoto]="true" (photoStored)="attachBannerPhoto($event)"></sc-photo>
     </div>
     <div class="col">
       <strong>Portrait</strong>
-      <app-photo class="portrait" [guid]="parish.portraitGuid" altText="portrait" [editable]="loginService.userCan('admin.parish.update')" [publicPhoto]="true" (photoStored)="attachPortraitPhoto($event)"></app-photo>
+      <sc-photo class="portrait" [guid]="parish.portraitGuid" altText="portrait" [editable]="loginService.userCan('admin.parish.update')" [publicPhoto]="true" (photoStored)="attachPortraitPhoto($event)"></sc-photo>
     </div>
   </div>
 </div>

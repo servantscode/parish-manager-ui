@@ -13,7 +13,7 @@
       <tr *ngFor="let relationship of relationshipControls().controls; let i=index" formGroupName="{{i}}">
         <td>{{familyMembers[i].name}}</td>
         <td>
-          <app-sc-enum formControlName="relationship" [required]="true" [valueSource]="relationshipTypes"></app-sc-enum>
+          <sc-enum formControlName="relationship" [required]="true" [valueSource]="relationshipTypes"></sc-enum>
         </td>
         <td class="center">
           <mat-checkbox appearance="standard" formControlName="guardian"></mat-checkbox><br/>

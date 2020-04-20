@@ -1,7 +1,7 @@
 <form [formGroup]="confirmationForm" (submit)="submitForm()">
   <input type="hidden" formControlName="id"/>
 
-  <app-identity-picker formControlName="person" label='Name' [required]="true"></app-identity-picker>
+  <sc-identity-picker formControlName="person" label='Name' [required]="true"></sc-identity-picker>
 
   <mat-form-field appearance="standard" class="input-standard">
     <mat-label>Location of Confirmation</mat-label>
@@ -25,17 +25,17 @@
     <mat-datepicker #baptismDatePicker></mat-datepicker>
   </mat-form-field><br/>
 
-  <app-identity-picker formControlName="minister" label='Minister' [required]="true"></app-identity-picker>
+  <sc-identity-picker formControlName="minister" label='Minister' [required]="true"></sc-identity-picker>
   <div class="row">
     <div class="col">
-      <app-identity-picker formControlName="father" label='Father'></app-identity-picker>
+      <sc-identity-picker formControlName="father" label='Father'></sc-identity-picker>
     </div>
     <div class="col">
-      <app-identity-picker formControlName="mother" label='Mother'></app-identity-picker>
+      <sc-identity-picker formControlName="mother" label='Mother'></sc-identity-picker>
     </div>
   </div>
 
-  <app-identity-picker formControlName="sponsor" label='Sponsor' [required]="true"></app-identity-picker>
+  <sc-identity-picker formControlName="sponsor" label='Sponsor' [required]="true"></sc-identity-picker>
 
   <button class="btn btn-primary" type="submit" [disabled]="!confirmationForm.valid">Save</button>
   <button class="btn btn-outline-primary" type="button" (click)="close()">Close</button>

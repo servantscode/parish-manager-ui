@@ -9,7 +9,7 @@ import { LoginService } from '../services/login.service';
 import { PhotoService } from '../services/photo.service';
 
 @Component({
-  selector: 'app-photo-upload-dialog',
+  selector: 'sc-photo-upload-dialog',
   templateUrl: './photo-upload-dialog.component.html',
   styleUrls: ['./photo-upload-dialog.component.scss']
 })

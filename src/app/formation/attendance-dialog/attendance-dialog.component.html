@@ -3,8 +3,8 @@
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="programId"/>
 
-    <app-sc-auto-complete formControlName="classroomId" label='Classroom' [autocompleteService]="classroomService" [pathParams]="{'programId': data.programId}"></app-sc-auto-complete>
-    <app-sc-auto-complete formControlName="sessionId" autoOpen='true' label='Session Date' [autocompleteService]="sessionService" [pathParams]="{'programId': data.programId}"></app-sc-auto-complete>
+    <sc-auto-complete formControlName="classroomId" label='Classroom' [autocompleteService]="classroomService" [pathParams]="{'programId': data.programId}"></sc-auto-complete>
+    <sc-auto-complete formControlName="sessionId" autoOpen='true' label='Session Date' [autocompleteService]="sessionService" [pathParams]="{'programId': data.programId}"></sc-auto-complete>
 
     <table class="sc-table">
       <thead>

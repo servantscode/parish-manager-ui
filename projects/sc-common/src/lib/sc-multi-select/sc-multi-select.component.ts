@@ -10,7 +10,7 @@ import { PaginatedResponse } from '../paginated-response';
 import { doLater, deepEqual } from '../utils';
 
 @Component({
-  selector: 'app-sc-multi-select',
+  selector: 'sc-multi-select',
   templateUrl: './sc-multi-select.component.html',
   styleUrls: ['./sc-multi-select.component.scss'],
   providers: [

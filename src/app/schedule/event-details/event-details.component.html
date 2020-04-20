@@ -22,7 +22,7 @@
           <input type="text" matInput formControlName="description" autocomplete="off"/>
         </mat-form-field><br/>
 
-        <app-sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService"></app-sc-auto-complete>
+        <sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService"></sc-auto-complete>
 
         <mat-form-field appearance="standard" class="input-standard">
           <mat-label>Expected attendence</mat-label>
@@ -32,7 +32,7 @@
         <table>
           <tr>
             <td>
-              <app-sc-auto-complete formControlName="schedulerId" label='Scheduled by' [autocompleteService]="personService"></app-sc-auto-complete>
+              <sc-auto-complete formControlName="schedulerId" label='Scheduled by' [autocompleteService]="personService"></sc-auto-complete>
             </td>
             <td class="col">
               <div *ngIf="editMode" class="actions icon add icon-padding" (click)="openPersonDialog('schedulerId')">&nbsp;</div>
@@ -43,13 +43,13 @@
         <input type="hidden" autocomplete="off" formControlName="id"/>
       </div>
       <div class="col">
-        <app-sc-multi-select formControlName="departmentIds" label="Departments" [autocompleteService]="departmentService"></app-sc-multi-select>
-        <app-sc-multi-select formControlName="categoryIds" label="Categories" [autocompleteService]="categoryService"></app-sc-multi-select>
+        <sc-multi-select formControlName="departmentIds" label="Departments" [autocompleteService]="departmentService"></sc-multi-select>
+        <sc-multi-select formControlName="categoryIds" label="Categories" [autocompleteService]="categoryService"></sc-multi-select>
 
         <table>
           <tr>
             <td>
-              <app-sc-auto-complete formControlName="contactId" label='Contact' [autocompleteService]="personService"></app-sc-auto-complete>
+              <sc-auto-complete formControlName="contactId" label='Contact' [autocompleteService]="personService"></sc-auto-complete>
             </td>
             <td class="col">
               <div *ngIf="editMode" class="actions icon add icon-padding" (click)="openPersonDialog('contactId')">&nbsp;</div>
@@ -66,10 +66,10 @@
   <div *ngIf="!isCustomRecurrence()" class="container rounded-rect">
     <div class="row">
       <div class="col">
-        <app-date-time formControlName="startTime" [label]="'Start'" [required]="true"></app-date-time>
+        <sc-date-time formControlName="startTime" [label]="'Start'" [required]="true"></sc-date-time>
       </div>
       <div class="col">
-        <app-date-time formControlName="endTime" [label]="'End'" [required]="true"></app-date-time>
+        <sc-date-time formControlName="endTime" [label]="'End'" [required]="true"></sc-date-time>
       </div>
     </div>
 

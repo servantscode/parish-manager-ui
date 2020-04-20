@@ -65,7 +65,7 @@
           </div>
         </div>
         <div class="col-auto">
-          <app-photo class="portrait" [guid]="person.photoGuid" [altText]="person.name" [editable]="loginService.userCan('person.update')" (photoStored)="attachPhoto($event)"></app-photo>
+          <sc-photo class="portrait" [guid]="person.photoGuid" [altText]="person.name" [editable]="loginService.userCan('person.update')" (photoStored)="attachPhoto($event)"></sc-photo>
         </div>
       </div>
     </div>
@@ -168,7 +168,7 @@
           </mat-form-field>
         </div>
         <div class="col-auto">
-          <app-photo class="portrait" [guid]="person.photoGuid" [altText]="person.name"></app-photo>
+          <sc-photo class="portrait" [guid]="person.photoGuid" [altText]="person.name"></sc-photo>
         </div>
       </div>
 
@@ -181,15 +181,15 @@
           <mat-checkbox formControlName="confirmed"> Confirmed</mat-checkbox>&nbsp;&nbsp;
           <mat-checkbox formControlName="holyOrders"> Holy Orders</mat-checkbox><br/>
           
-          <app-sc-enum formControlName="maritalStatus" label="Marital Status" [valueSource]="maritalStatuses"></app-sc-enum>
+          <sc-enum formControlName="maritalStatus" label="Marital Status" [valueSource]="maritalStatuses"></sc-enum>
         </div>
 
         <div>
           <strong>Demographic Information</strong><br/>
           <div class="row">
             <div class="col">
-              <app-sc-enum formControlName="primaryLanguage" label="Primary Language" [valueSource]="languages"></app-sc-enum>
-              <app-sc-enum formControlName="ethnicity" label="Ethnicity" [valueSource]="ethnicities"></app-sc-enum>
+              <sc-enum formControlName="primaryLanguage" label="Primary Language" [valueSource]="languages"></sc-enum>
+              <sc-enum formControlName="ethnicity" label="Ethnicity" [valueSource]="ethnicities"></sc-enum>
               <mat-form-field appearance="standard" class="input-standard">
                 <mat-label>Occupation</mat-label>
                 <input matInput formControlName="occupation">
@@ -197,8 +197,8 @@
 
             </div>
             <div class="col">
-              <app-sc-enum formControlName="religion" label="Religion" [valueSource]="religions"></app-sc-enum>
-              <app-sc-multi-enum formControlName="specialNeeds" label="SpecialNeeds" [valueSource]="specialNeeds"></app-sc-multi-enum>
+              <sc-enum formControlName="religion" label="Religion" [valueSource]="religions"></sc-enum>
+              <sc-multi-enum formControlName="specialNeeds" label="SpecialNeeds" [valueSource]="specialNeeds"></sc-multi-enum>
               <sc-multi-text formControlName="allergies" label="Allergy"></sc-multi-text>
             </div>
           </div>
@@ -216,7 +216,7 @@
         <input matInput formControlName="surname" required/>
       </mat-form-field><br/>
 
-      <app-sc-phone-number formControlName="homePhone"></app-sc-phone-number>  
+      <sc-phone-number formControlName="homePhone"></sc-phone-number>  
 
       <table>
         <tr>
@@ -232,7 +232,7 @@
         </tr>
       </table>
 
-      <app-address formControlName="address"></app-address>
+      <sc-address formControlName="address"></sc-address>
       
       <app-family-relationships [person]="personForm.value" [familyMembers]="person.family.members" formControlName="relationships"></app-family-relationships>
     </div>

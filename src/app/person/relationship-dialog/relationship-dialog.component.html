@@ -5,7 +5,7 @@
     <input type="hidden" autocomplete="off" formControlName="otherId"/>
 
     <strong>{{ data.item.otherName }}</strong> is the 
-    <app-sc-enum formControlName="relationship" label="Relationship" [required]="true" [valueSource]="relationshipTypes"></app-sc-enum> of <strong>{{ data.item.personName }}</strong><br/><br/>
+    <sc-enum formControlName="relationship" label="Relationship" [required]="true" [valueSource]="relationshipTypes"></sc-enum> of <strong>{{ data.item.personName }}</strong><br/><br/>
 
     <mat-checkbox formControlName="guardian"> Guardian</mat-checkbox><br/>
 

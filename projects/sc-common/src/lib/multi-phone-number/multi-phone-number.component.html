@@ -10,10 +10,10 @@
     <tbody formArrayName="phoneNumbers">
       <tr *ngFor="let relationship of phoneNumberControls().controls; let i=index" formGroupName="{{i}}">
         <td>
-          <app-sc-phone-number formControlName="phoneNumber" [required]="true"></app-sc-phone-number>
+          <sc-phone-number formControlName="phoneNumber" [required]="true"></sc-phone-number>
         </td>
         <td>
-          <app-sc-enum formControlName="type" label="Type" [required]="true" [valueSource]="phoneNumberTypes" fieldSize='5'></app-sc-enum>
+          <sc-enum formControlName="type" label="Type" [required]="true" [valueSource]="phoneNumberTypes" fieldSize='5'></sc-enum>
         </td>
         <td>
           <mat-checkbox formControlName="primary"> Primary</mat-checkbox>

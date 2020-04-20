@@ -4,15 +4,15 @@
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="id"/>
     
-    <app-sc-auto-complete formControlName="eventId" label='Mass' [autocompleteService]="availabilityService" required></app-sc-auto-complete>
+    <sc-auto-complete formControlName="eventId" label='Mass' [autocompleteService]="availabilityService" required></sc-auto-complete>
 
-    <app-identity-picker formControlName="person" label="Intention for" [required]="true"></app-identity-picker>
+    <sc-identity-picker formControlName="person" label="Intention for" [required]="true"></sc-identity-picker>
 
-    <app-sc-enum formControlName="intentionType" label="Intention Type" [required]="true" [valueSource]="intentionTypes"></app-sc-enum>
+    <sc-enum formControlName="intentionType" label="Intention Type" [required]="true" [valueSource]="intentionTypes"></sc-enum>
 
-    <app-identity-picker formControlName="requester" label="Requested by" [required]="true"></app-identity-picker>
+    <sc-identity-picker formControlName="requester" label="Requested by" [required]="true"></sc-identity-picker>
 
-    <app-sc-phone-number formControlName="requesterPhone"></app-sc-phone-number>  
+    <sc-phone-number formControlName="requesterPhone"></sc-phone-number>  
  </div>
 
   <div mat-dialog-actions class="align-right">

@@ -9,7 +9,7 @@
       <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field>
 
-    <app-sc-enum formControlName="type" label="Room Type" [required]="true" [valueSource]="roomTypes"></app-sc-enum>
+    <sc-enum formControlName="type" label="Room Type" [required]="true" [valueSource]="roomTypes"></sc-enum>
 
     <mat-form-field appearance="standard" class="input-standard">
       <mat-label>Room Capacity</mat-label>

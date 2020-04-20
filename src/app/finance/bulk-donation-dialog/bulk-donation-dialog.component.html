@@ -10,7 +10,7 @@
         </mat-form-field>
       </div>
       <div class="col">
-      <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="small"></app-sc-select>
+      <sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="small"></sc-select>
       </div>
     </div>
     <table class="sc-table">
@@ -36,7 +36,7 @@
             </mat-form-field><br/>
           </td>
           <td>
-            <app-sc-auto-complete formControlName="familyId" label='Family Name' [autocompleteService]="familyService" [required]="true" fieldSize="small"></app-sc-auto-complete>
+            <sc-auto-complete formControlName="familyId" label='Family Name' [autocompleteService]="familyService" [required]="true" fieldSize="small"></sc-auto-complete>
           </td>
           <td>
             <mat-form-field appearance="standard" class="input-5">
@@ -45,7 +45,7 @@
             </mat-form-field>
           </td>
           <td>
-            <app-sc-enum formControlName="donationType" label="Type" fieldSize="small" [required]="true" [valueSource]="donationTypes"></app-sc-enum>
+            <sc-enum formControlName="donationType" label="Type" fieldSize="small" [required]="true" [valueSource]="donationTypes"></sc-enum>
           </td>
           <td>
             <mat-form-field *ngIf="donationType(i) === 'CHECK'" appearance="standard" class="input-5">

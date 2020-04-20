@@ -6,7 +6,7 @@ import { PreferencesService } from '../services/preferences.service';
 import { Preference, PreferenceSource } from '../preference';
 
 @Component({
-  selector: 'app-preferences',
+  selector: 'sc-preferences',
   templateUrl: './preferences.component.html',
   styleUrls: ['./preferences.component.scss']
 })

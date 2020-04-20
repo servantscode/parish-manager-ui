@@ -6,7 +6,7 @@ import { map, debounceTime, switchMap } from 'rxjs/operators'
 import { EnumValue } from '../enum-value';
 
 @Component({
-  selector: 'app-sc-enum',
+  selector: 'sc-enum',
   templateUrl: './sc-enum.component.html',
   styleUrls: ['./sc-enum.component.scss'],
   providers: [

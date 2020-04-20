@@ -5,7 +5,7 @@ import { deepEqual } from '../utils';
 
 
 @Component({
-  selector: 'app-days-of-week',
+  selector: 'sc-days-of-week',
   templateUrl: './days-of-week.component.html',
   styleUrls: ['./days-of-week.component.scss'],
   providers: [

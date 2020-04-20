@@ -9,8 +9,8 @@
       <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field><br/>
 
-    <app-sc-enum formControlName="type" label="Data Type" [required]="true" [valueSource]="preferenceTypes" ></app-sc-enum>
-    <app-sc-enum formControlName="objectType" label="Preference Type" [required]="true" [valueSource]="objectTypes" ></app-sc-enum>
+    <sc-enum formControlName="type" label="Data Type" [required]="true" [valueSource]="preferenceTypes" ></sc-enum>
+    <sc-enum formControlName="objectType" label="Preference Type" [required]="true" [valueSource]="objectTypes" ></sc-enum>
 
     <mat-form-field appearance="standard" class="input-standard">
       <mat-label>Default Value</mat-label>

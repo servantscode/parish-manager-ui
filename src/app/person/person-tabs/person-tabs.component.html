@@ -8,7 +8,7 @@
   <div [ngSwitch]="selectedTab">
     <app-person-detail *ngSwitchCase="'detail'"></app-person-detail>
     <div class="container rounded-rect" *ngSwitchCase="'preferences'">
-      <app-preferences [id]="getId()" [type]="'person'" [preferenceSource]="personService"></app-preferences>
+      <sc-preferences [id]="getId()" [type]="'person'" [preferenceSource]="personService"></sc-preferences>
     </div>
     <app-sacraments *ngSwitchCase="'sacraments'"></app-sacraments>
   </div>

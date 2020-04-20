@@ -3,7 +3,7 @@
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="programId"/>
 
-    <app-sc-auto-complete formControlName="event" label='event' selectObject="true" [autocompleteService]="eventService"></app-sc-auto-complete>
+    <sc-auto-complete formControlName="event" label='event' selectObject="true" [autocompleteService]="eventService"></sc-auto-complete>
   </div>
   <div mat-dialog-actions class="align-right">
     <button mat-button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>

@@ -6,7 +6,7 @@ import { map, debounceTime, switchMap } from 'rxjs/operators'
 import { SCValidation } from '../validation';
 
 @Component({
-  selector: 'app-sc-phone-number',
+  selector: 'sc-phone-number',
   templateUrl: './sc-phone-number.component.html',
   styleUrls: ['./sc-phone-number.component.scss'],
   providers: [

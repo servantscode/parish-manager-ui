@@ -7,7 +7,7 @@ import { deepEqual } from '../utils';
 import { EnumValue } from '../enum-value';
 
 @Component({
-  selector: 'app-sc-multi-enum',
+  selector: 'sc-multi-enum',
   templateUrl: './sc-multi-enum.component.html',
   styleUrls: ['./sc-multi-enum.component.scss'],
   providers: [

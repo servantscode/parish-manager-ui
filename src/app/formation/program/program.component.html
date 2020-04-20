@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col">
       <form [formGroup]="groupForm">
-        <app-sc-select formControlName="groupId" [autocompleteService]="programGroupService" label="Groups" fieldSize="small" [nullValue]="'Active groups'"></app-sc-select>
+        <sc-select formControlName="groupId" [autocompleteService]="programGroupService" label="Groups" fieldSize="small" [nullValue]="'Active groups'"></sc-select>
       </form>
     </div>
     <div class="col align-right">

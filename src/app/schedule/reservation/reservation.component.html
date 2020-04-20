@@ -38,7 +38,7 @@
   </div>
   <div class="row" *ngIf="!disabled">
     <div class="col-4">
-      <app-sc-auto-complete formControlName="room" label='+ Room' [selectObject]="true" [autocompleteService]="roomService" [filter]="roomFilter()"></app-sc-auto-complete>
+      <sc-auto-complete formControlName="room" label='+ Room' [selectObject]="true" [autocompleteService]="roomService" [filter]="roomFilter()"></sc-auto-complete>
         <button mat-button type="button" class="btn btn-outline-primary" (click)="findAvailableRooms()">Available Rooms</button>
 
     </div>
@@ -61,7 +61,7 @@
   </div>
   <div class="row" *ngIf="!disabled">
     <div class="col-4">
-      <app-sc-auto-complete formControlName="equipment" label='+ Equipment' [selectObject]="true" [autocompleteService]="equipmentService" [filter]="equipmentFilter()"></app-sc-auto-complete>
+      <sc-auto-complete formControlName="equipment" label='+ Equipment' [selectObject]="true" [autocompleteService]="equipmentService" [filter]="equipmentFilter()"></sc-auto-complete>
     </div>
   </div>
 </form>

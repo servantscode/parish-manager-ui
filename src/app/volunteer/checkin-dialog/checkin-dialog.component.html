@@ -4,9 +4,9 @@
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="id"/>
     
-    <app-sc-auto-complete formControlName="personId" label='Volunteer Name' [autocompleteService]="personService"></app-sc-auto-complete>
+    <sc-auto-complete formControlName="personId" label='Volunteer Name' [autocompleteService]="personService"></sc-auto-complete>
 
-    <app-date-time formControlName="expiration" required='true' label='Until'></app-date-time>
+    <sc-date-time formControlName="expiration" required='true' label='Until'></sc-date-time>
   </div>
 
   <div mat-dialog-actions class="align-right">

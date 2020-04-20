@@ -8,7 +8,7 @@ import { Address } from '../address';
 import { deepEqual } from '../utils';
 
 @Component({
-  selector: 'app-address',
+  selector: 'sc-address',
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss'],
   providers: [

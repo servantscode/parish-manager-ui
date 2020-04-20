@@ -10,7 +10,7 @@ import { PaginatedResponse } from '../paginated-response';
 import { doLater, deepEqual } from '../utils';
 
 @Component({
-  selector: 'app-sc-auto-complete',
+  selector: 'sc-auto-complete',
   templateUrl: './sc-auto-complete.component.html',
   styleUrls: ['./sc-auto-complete.component.scss'],
   providers: [

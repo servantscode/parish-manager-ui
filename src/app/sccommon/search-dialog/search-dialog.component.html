@@ -35,24 +35,24 @@
               </mat-radio-group>
             </div>
             <div *ngSwitchCase="'multiselect'">
-              <app-sc-multi-select formControlName="{{fieldName(field)}}" 
+              <sc-multi-select formControlName="{{fieldName(field)}}" 
                                    [label]="field.displayName? field.displayName: field.name | displaycamelcase" 
                                    [autocompleteService]="field.service" 
                                    selectIdentity="true">
-              </app-sc-multi-select>
+              </sc-multi-select>
             </div>
             <div *ngSwitchCase="'autocomplete'">
-              <app-sc-auto-complete formControlName="{{fieldName(field)}}"
+              <sc-auto-complete formControlName="{{fieldName(field)}}"
                                     [label]="field.displayName? field.displayName: field.name | displaycamelcase" 
                                     [autocompleteService]="field.service"
                                     [selectIdentity]="field.selectIdentity">
-              </app-sc-auto-complete>
+              </sc-auto-complete>
             </div>
             <div *ngSwitchCase="'enum'">
-              <app-sc-enum formControlName="{{fieldName(field)}}"
+              <sc-enum formControlName="{{fieldName(field)}}"
                            [label]="field.displayName? field.displayName: field.name | displaycamelcase" 
                            [valueSource]="field.valueSource">
-              </app-sc-enum>
+              </sc-enum>
             </div>
             <div *ngSwitchCase="'date'">
               <strong>{{field.displayName? field.displayName: field.name | displaycamelcase}}</strong><br/>     

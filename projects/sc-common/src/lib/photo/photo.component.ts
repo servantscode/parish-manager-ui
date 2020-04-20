@@ -7,7 +7,7 @@ import { PhotoService } from '../services/photo.service';
 import { PhotoUploadDialogComponent } from '../photo-upload-dialog/photo-upload-dialog.component'
 
 @Component({
-  selector: 'app-photo',
+  selector: 'sc-photo',
   templateUrl: './photo.component.html',
   styleUrls: ['./photo.component.scss']
 })

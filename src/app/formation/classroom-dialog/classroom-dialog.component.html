@@ -9,10 +9,10 @@
       <input type="text" matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field><br/>
 
-    <app-sc-auto-complete formControlName="programId" label='Program' [autocompleteService]="programService"></app-sc-auto-complete>
-    <app-sc-auto-complete formControlName="sectionId" label='Section' [autocompleteService]="sectionService" [pathParams]="{'programId':form.get('programId').value}"></app-sc-auto-complete>
-    <app-sc-auto-complete formControlName="instructorId" label='Instructor' [autocompleteService]="personService"></app-sc-auto-complete>
-    <app-sc-auto-complete formControlName="roomId" label='Room' [autocompleteService]="roomService"></app-sc-auto-complete>
+    <sc-auto-complete formControlName="programId" label='Program' [autocompleteService]="programService"></sc-auto-complete>
+    <sc-auto-complete formControlName="sectionId" label='Section' [autocompleteService]="sectionService" [pathParams]="{'programId':form.get('programId').value}"></sc-auto-complete>
+    <sc-auto-complete formControlName="instructorId" label='Instructor' [autocompleteService]="personService"></sc-auto-complete>
+    <sc-auto-complete formControlName="roomId" label='Room' [autocompleteService]="roomService"></sc-auto-complete>
 
     <mat-checkbox formControlName="complete"> Completed</mat-checkbox>
   </div>

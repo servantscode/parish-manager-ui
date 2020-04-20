@@ -4,16 +4,16 @@
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="id"/>
     
-    <app-sc-auto-complete formControlName="enrolleeId" label='Student' [autocompleteService]="personService"></app-sc-auto-complete>
-    <app-sc-auto-complete formControlName="programId" label='Program' [autocompleteService]="programService"></app-sc-auto-complete>
-    <app-sc-auto-complete formControlName="classroomId" label='Class' [autocompleteService]="classroomService" [pathParams]="{'programId': form.value.programId}"></app-sc-auto-complete>
+    <sc-auto-complete formControlName="enrolleeId" label='Student' [autocompleteService]="personService"></sc-auto-complete>
+    <sc-auto-complete formControlName="programId" label='Program' [autocompleteService]="programService"></sc-auto-complete>
+    <sc-auto-complete formControlName="classroomId" label='Class' [autocompleteService]="classroomService" [pathParams]="{'programId': form.value.programId}"></sc-auto-complete>
 
     <mat-form-field appearance="standard" class="input-5">
       <mat-label>School Grade</mat-label>
       <input maxlength="2" matInput formControlName="schoolGrade" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field><br/>
 
-    <app-sc-auto-complete formControlName="sacramentalGroupId" label='Sacramental Group' [autocompleteService]="sacramentalGroupService"></app-sc-auto-complete>
+    <sc-auto-complete formControlName="sacramentalGroupId" label='Sacramental Group' [autocompleteService]="sacramentalGroupService"></sc-auto-complete>
   </div>
 
   <div mat-dialog-actions class="align-right">

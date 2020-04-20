@@ -21,11 +21,11 @@
 
     <div *ngIf="form.get('cycle').value === 'WEEKLY'">
       On...<br/>
-      <app-days-of-week formControlName="weeklyDays"></app-days-of-week>
+      <sc-days-of-week formControlName="weeklyDays"></sc-days-of-week>
     </div>
 
     First sync at...<br/>
-    <app-date-time label="First" formControlName="scheduleStart"></app-date-time>
+    <sc-date-time label="First" formControlName="scheduleStart"></sc-date-time>
 
   </div>
   <div mat-dialog-actions class="align-right">

@@ -7,7 +7,7 @@ import { setHours, setMinutes, setSeconds, format } from 'date-fns';
 import { SCValidation } from '../validation';
 
 @Component({
-  selector: 'app-date-time',
+  selector: 'sc-date-time',
   templateUrl: './date-time.component.html',
   styleUrls: ['./date-time.component.scss'],
     providers: [

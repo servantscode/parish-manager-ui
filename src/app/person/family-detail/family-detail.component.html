@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="col-auto">
-        <app-photo class="portrait" [guid]="family.photoGuid" [altText]="family.surname" [editable]="loginService.userCan('family.update')" (photoStored)="attachPhoto($event)"></app-photo>
+        <sc-photo class="portrait" [guid]="family.photoGuid" [altText]="family.surname" [editable]="loginService.userCan('family.update')" (photoStored)="attachPhoto($event)"></sc-photo>
       </div>
     </div>
   </div>

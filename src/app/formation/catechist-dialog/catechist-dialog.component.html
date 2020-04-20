@@ -4,9 +4,9 @@
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="id"/>
     
-    <app-sc-auto-complete formControlName="id" label='Catechist' [autocompleteService]="personService" required="true"></app-sc-auto-complete>
-    <app-sc-auto-complete formControlName="programId" label='Program' [autocompleteService]="programService" required="true"></app-sc-auto-complete>
-    <app-sc-auto-complete formControlName="classroomId" label='Class' [autocompleteService]="classroomService" [pathParams]="{'programId': form.value.programId}"></app-sc-auto-complete>
+    <sc-auto-complete formControlName="id" label='Catechist' [autocompleteService]="personService" required="true"></sc-auto-complete>
+    <sc-auto-complete formControlName="programId" label='Program' [autocompleteService]="programService" required="true"></sc-auto-complete>
+    <sc-auto-complete formControlName="classroomId" label='Class' [autocompleteService]="classroomService" [pathParams]="{'programId': form.value.programId}"></sc-auto-complete>
   
   </div>
   <div mat-dialog-actions class="align-right">

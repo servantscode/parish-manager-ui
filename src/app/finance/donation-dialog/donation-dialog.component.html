@@ -11,9 +11,9 @@
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="familyId"/>
 
-    <app-sc-auto-complete *ngIf="!data.item || !data.item.familyId" formControlName="familyId" label='Family' [autocompleteService]="familyService" [required]="true" fieldSize="standard" [itemTemplate]="familyChoice" autoFocus='true'></app-sc-auto-complete>
+    <sc-auto-complete *ngIf="!data.item || !data.item.familyId" formControlName="familyId" label='Family' [autocompleteService]="familyService" [required]="true" fieldSize="standard" [itemTemplate]="familyChoice" autoFocus='true'></sc-auto-complete>
     
-    <app-sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="standard"></app-sc-select>
+    <sc-select formControlName="fundId" [autocompleteService]="fundService" label="Fund" fieldSize="standard"></sc-select>
 
     <mat-form-field appearance="standard" class="input-small">
       <mat-label>Amount</mat-label>
@@ -31,7 +31,7 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field><br/>
 
-    <app-sc-enum formControlName="donationType" label="Donation Type" [required]="true" [valueSource]="donationTypes" ></app-sc-enum>
+    <sc-enum formControlName="donationType" label="Donation Type" [required]="true" [valueSource]="donationTypes" ></sc-enum>
 
     <mat-form-field *ngIf="donationType() === 'CHECK'" appearance="standard" class="input-standard">
       <mat-label>Check Number</mat-label>

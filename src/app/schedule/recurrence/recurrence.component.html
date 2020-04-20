@@ -20,7 +20,7 @@
 
         <div *ngIf="getCycle() === 'WEEKLY'">
           On...<br/>
-          <app-days-of-week formControlName="weeklyDays"></app-days-of-week>
+          <sc-days-of-week formControlName="weeklyDays"></sc-days-of-week>
         </div>
 
         <mat-form-field  *ngIf="getCycle() != 'CUSTOM'" appearance="standard">

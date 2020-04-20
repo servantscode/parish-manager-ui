@@ -3,7 +3,7 @@
     <div class="col-10 no-pad">
       <input *ngIf="!findSearch" type="text" class="form-control" formControlName="input" placeholder="Search..." aria-label="Search">
 
-      <app-sc-auto-complete #savedSearchInput
+      <sc-auto-complete #savedSearchInput
                             *ngIf="findSearch"
                             type="bordered"
                             autoOpen="true"
@@ -12,7 +12,7 @@
                             selectObject="true"
                             [pathParams]="{'type': type}"
                             [autocompleteService]="searchService">
-      </app-sc-auto-complete>
+      </sc-auto-complete>
 
       <div *ngIf="searchForm" class="huge-icon floating search-history" [ngClass]="findSearch? 'history-active': 'history'" (click)="toggleSavedSearchMode()">&nbsp;&nbsp;</div>
 

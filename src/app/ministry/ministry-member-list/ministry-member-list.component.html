@@ -25,13 +25,13 @@
         </tr>
         <tr *ngIf="newEnrollment || editingEnrollment">
           <td *ngIf="columns.includes('ministry')">
-            <app-sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService" [required]="true" [filter]="ministryFilter()"></app-sc-auto-complete>
+            <sc-auto-complete formControlName="ministryId" label='Ministry' [autocompleteService]="ministryService" [required]="true" [filter]="ministryFilter()"></sc-auto-complete>
           </td>
           <td *ngIf="columns.includes('member')">
-            <app-sc-auto-complete formControlName="personId" label='Name' [autocompleteService]="personService" [required]="true" [filter]="peopleFilter()"></app-sc-auto-complete>            
+            <sc-auto-complete formControlName="personId" label='Name' [autocompleteService]="personService" [required]="true" [filter]="peopleFilter()"></sc-auto-complete>            
           </td>
           <td *ngIf="columns.includes('role')">
-            <app-sc-auto-complete formControlName="roleId" label='Role' [autocompleteService]="ministryRoleService" [required]="true" [pathParams]="{'id': activeMinistryId}" autoOpen='true'></app-sc-auto-complete> 
+            <sc-auto-complete formControlName="roleId" label='Role' [autocompleteService]="ministryRoleService" [required]="true" [pathParams]="{'id': activeMinistryId}" autoOpen='true'></sc-auto-complete> 
           </td>
           <td *ngIf="columns.includes('controls') && loginService.userCan('ministry.enrollment.update')"></td>
           <td *ngIf="columns.includes('controls') && loginService.userCan('ministry.enrollment.delete')"></td>

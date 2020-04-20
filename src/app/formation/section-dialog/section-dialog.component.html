@@ -9,10 +9,10 @@
       <input matInput formControlName="name" autocomplete="off" cdkFocusInitial required/>
     </mat-form-field><br/>
 
-    <app-sc-auto-complete formControlName="programId" label='Program' [autocompleteService]="programService"></app-sc-auto-complete>
+    <sc-auto-complete formControlName="programId" label='Program' [autocompleteService]="programService"></sc-auto-complete>
 
     <div formGroupName="dayTime">
-      <app-sc-enum formControlName="dayOfWeek" label="Day" [required]="true" [valueSource]="days"></app-sc-enum>
+      <sc-enum formControlName="dayOfWeek" label="Day" [required]="true" [valueSource]="days"></sc-enum>
 
       <sc-time formControlName="timeOfDay" label="Start"></sc-time>
     </div>

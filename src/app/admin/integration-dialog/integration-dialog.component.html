@@ -2,7 +2,7 @@
   <h1 mat-dialog-title>Configure Integration</h1>
   <div mat-dialog-content>
 
-    <app-sc-auto-complete formControlName="integration" label='Available Integrations' [autocompleteService]="aailableIntegrationService" selectObject="true" autoOpen="true"></app-sc-auto-complete>
+    <sc-auto-complete formControlName="integration" label='Available Integrations' [autocompleteService]="aailableIntegrationService" selectObject="true" autoOpen="true"></sc-auto-complete>
 
     <div *ngIf="selectedIntegration && selectedIntegration.authorizationUrl">
       <span>This integration requires your authorization.</span><br/>

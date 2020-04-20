@@ -7,7 +7,7 @@ import { PaginatedService } from '../services/paginated.service';
 import { Identifiable } from '../identifiable';
 
 @Component({
-  selector: 'app-sc-select',
+  selector: 'sc-select',
   templateUrl: './sc-select.component.html',
   styleUrls: ['./sc-select.component.scss'],
   providers: [

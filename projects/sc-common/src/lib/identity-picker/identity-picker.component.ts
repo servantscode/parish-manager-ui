@@ -9,7 +9,7 @@ import { Identity } from '../identity';
 import { Person } from '../person';
 
 @Component({
-  selector: 'app-identity-picker',
+  selector: 'sc-identity-picker',
   templateUrl: './identity-picker.component.html',
   styleUrls: ['./identity-picker.component.scss'],
   providers: [
