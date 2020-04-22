@@ -8,8 +8,21 @@
     </tr>
   </table>
 
-  <div *ngIf="!upcomingSessions || upcomingSessions.length == 0" class="no-results">
+<!--   <div *ngIf="!upcomingSessions || upcomingSessions.length == 0" class="no-results">
     <em>No sessions scheduled. </em> <br/>
     <button *ngIf="loginService.userCan('session.create')" class="btn btn-primary edit-button" (click)="linkSessions()">Link an existing event</button>
   </div>
+ -->
+  <div *ngIf="(!upcomingSessions || upcomingSessions.length == 0) && !modifySchedule" class="no-results">
+    <em>No sessions scheduled. </em> <br/>
+    <button *ngIf="loginService.userCan('session.create') && loginService.userCan('event.create')" class="btn btn-primary edit-button" (click)="schedule()">Schedule sessions</button>
+  </div>
+
+  <form *ngIf="modifySchedule" [formGroup]="eventForm" (submit)="storeEvent()">
+    <app-event-form formControlName="event"></app-event-form>
+    <div class="container">
+      <button mat-button type="submit" class="btn btn-primary" [disabled]="!eventForm.valid">Save</button>
+      <button mat-button type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+    </div>
+  </form>
 </div>

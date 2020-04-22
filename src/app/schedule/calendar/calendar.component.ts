@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { formatDate, Location } from '@angular/common';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isToday, isSameMonth, startOfYear, endOfYear, startOfHour, addHours, differenceInMilliseconds, addMilliseconds, parse, format, isEqual } from 'date-fns';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarEventTitleFormatter } from 'angular-calendar';
@@ -54,7 +53,6 @@ export class CalendarComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private location: Location,
-              private dialog: MatDialog,
               private eventService: EventService,
               public loginService: LoginService,
               private downloadService: DownloadService,
@@ -108,32 +106,46 @@ export class CalendarComponent implements OnInit {
     this.eventService.getPage(0, 32768, this.query()).
       subscribe(eventResponse => {
         this.events = eventResponse.results.map(serverEvent => {
-            return {
-              start: serverEvent.startTime,
-              end: serverEvent.endTime,
-              title: serverEvent.title,
-              description: serverEvent.description,
-              color: this.hasConflict(serverEvent, eventResponse.results)?
+            const mapped: any = serverEvent;
+            mapped.start = mapped.startTime;
+            mapped.end = mapped.endTime;
+            mapped.color = this.hasConflict(serverEvent, eventResponse.results)?
                         ColorService.CALENDAR_COLORS.red:
-                        ColorService.CALENDAR_COLORS.blue,
-              allDay: false,
-              resizable: {
+                        ColorService.CALENDAR_COLORS.blue;
+            mapped.allDay = false;
+            mapped.resizable = {
                 beforeStart: true,
                 afterEnd: true
-              },
-              draggable: isDraggable,
-              privateEvent: serverEvent.privateEvent,
-              schedulerId: serverEvent.schedulerId,
-              contactId: serverEvent.contactId,
-              ministryName: serverEvent.ministryName,
-              ministryId: serverEvent.ministryId,
-              attendees: serverEvent.attendees,
-              departmentIds: serverEvent.departmentIds,
-              categoryIds: serverEvent.categoryIds,
-              id: serverEvent.id,
-              reservations: serverEvent.reservations,
-              recurrence: serverEvent.recurrence
-            };
+              };
+            mapped.draggable = isDraggable;
+            return mapped;
+
+            // return {
+            //   start: serverEvent.startTime,
+            //   end: serverEvent.endTime,
+            //   color: this.hasConflict(serverEvent, eventResponse.results)?
+            //             ColorService.CALENDAR_COLORS.red:
+            //             ColorService.CALENDAR_COLORS.blue,
+            //   allDay: false,
+            //   resizable: {
+            //     beforeStart: true,
+            //     afterEnd: true
+            //   },
+            //   draggable: isDraggable,
+            //   title: serverEvent.title,
+            //   description: serverEvent.description,
+            //   privateEvent: serverEvent.privateEvent,
+            //   schedulerId: serverEvent.schedulerId,
+            //   contactId: serverEvent.contactId,
+            //   ministryName: serverEvent.ministryName,
+            //   ministryId: serverEvent.ministryId,
+            //   attendees: serverEvent.attendees,
+            //   departmentIds: serverEvent.departmentIds,
+            //   categoryIds: serverEvent.categoryIds,
+            //   id: serverEvent.id,
+            //   reservations: serverEvent.reservations,
+            //   recurrence: serverEvent.recurrence
+            // };
           });
         this.filterEvents();
       });
@@ -254,7 +266,6 @@ export class CalendarComponent implements OnInit {
   }
 
   showAll(): void {
-    console.log("showing all");
     this.displayAll = true;
   }
 

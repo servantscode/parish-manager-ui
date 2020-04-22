@@ -1,5 +1,6 @@
 <div class="container-fluid">
-  <app-paginated-list [dataService]="classroomService" 
+  <app-paginated-list *ngIf="activeSection"
+                    [dataService]="classroomService" 
                     [fields]="['name', 'instructorName', 'roomName', 'studentCount']" 
                     [pageSize]='10' 
                     [dialogComponent]="ClassroomDialogComponent"

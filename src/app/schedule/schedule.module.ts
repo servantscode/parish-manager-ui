@@ -38,6 +38,7 @@ import { ReservationComponent } from './reservation/reservation.component';
 import { DateSeriesComponent } from './date-series/date-series.component';
 import { CustomDateSeriesComponent } from './custom-date-series/custom-date-series.component';
 import { CustomEventDialogComponent } from './custom-event-dialog/custom-event-dialog.component';
+import { EventFormComponent } from './event-form/event-form.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { CustomEventDialogComponent } from './custom-event-dialog/custom-event-d
     ReservationComponent,
     DateSeriesComponent,
     CustomDateSeriesComponent,
-    CustomEventDialogComponent
+    CustomEventDialogComponent,
+    EventFormComponent
   ],
   imports: [
     ScheduleRoutingModule,
@@ -85,6 +87,9 @@ import { CustomEventDialogComponent } from './custom-event-dialog/custom-event-d
       useFactory: adapterFactory
     })
 
+  ],
+  exports: [
+    EventFormComponent
   ],
   entryComponents: [
     RoomDialogComponent,
