@@ -26,9 +26,9 @@ import { PersonService } from 'sc-common';
 
 import { PersonDialogComponent } from '../../person/person-dialog/person-dialog.component';
 
-import { Event, Recurrence, SelectedEvent, EventConflict } from '../event';
-import { Reservation } from '../reservation';
-import { EventService } from '../services/event.service';
+import { Event, Recurrence, SelectedEvent, EventConflict } from '../../sccommon/event';
+import { Reservation } from '../../sccommon/reservation';
+import { EventService } from '../../sccommon/services/event.service';
 import { RecurringEditDialogComponent } from '../recurring-edit-dialog/recurring-edit-dialog.component';
 
 @Component({

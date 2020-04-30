@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { distinctUntilChanged  } from 'rxjs/operators';
 import { addSeconds } from 'date-fns';
 
-import { Event } from '../event';
+import { Event } from '../../sccommon/event';
 
 @Component({
   selector: 'app-custom-event-dialog',

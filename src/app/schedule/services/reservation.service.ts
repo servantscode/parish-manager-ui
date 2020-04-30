@@ -10,8 +10,8 @@ import { ApiLocatorService } from 'sc-common';
 import { BaseService } from 'sc-common';
 import { LoginService } from 'sc-common';
 
-import { Reservation } from '../reservation';
-import { Event, EventConflict } from '../event';
+import { Reservation } from '../../sccommon/reservation';
+import { Event, EventConflict } from '../../sccommon/event';
 import { AvailabilityResponse } from '../availability-response';
 
 @Injectable({

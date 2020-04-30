@@ -4,10 +4,10 @@ import { startOfDay, isEqual, compareAsc, isBefore } from 'date-fns';
 
 import { deepEqual } from '../../sccommon/utils';
 
-import { EventService } from '../services/event.service';
+import { EventService } from '../../sccommon/services/event.service';
 import { ReservationService } from '../services/reservation.service';
 
-import { Event, EventConflict } from '../event';
+import { Event, EventConflict } from '../../sccommon/event';
 
 @Component({
   selector: 'app-date-series',

@@ -1,0 +1,131 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="btn-group">
+        <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month"> 
+          Month
+        </div>
+        <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+          Week
+        </div>
+        <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+          Day
+        </div>
+        <div class="btn btn-primary" (click)="toggleListView()" [class.active]="listView">
+          List
+        </div>
+      </div>
+    </div>
+    <div class="col text-center">
+      <h3>
+        <span class="calendar-control clickable" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="navigateAndLoad()">&lt;&lt;</span>
+        <span>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</span>
+        <span class="calendar-control clickable" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="navigateAndLoad()">&gt;&gt;</span>
+      </h3>
+      <span class="clickable" mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="navigateAndLoad()">Today</span>
+    </div>
+    <div class="col">
+      &nbsp;
+    </div>
+  </div>
+</div>
+
+<div class="container calendar-container scrollable">
+  <ng-template
+    #cellTemplate
+    let-day="day"
+    let-openDay="openDay"
+    let-locale="locale"
+    let-tooltipPlacement="tooltipPlacement"
+    let-highlightDay="highlightDay"
+    let-unhighlightDay="unhighlightDay"
+    let-eventClicked="eventClicked"
+    let-tooltipTemplate="tooltipTemplate"
+    let-tooltipAppendToBody="tooltipAppendToBody">
+    <div class="whole-cell">
+      <span class="day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+      <div *ngFor="let event of day.events" 
+        class="event-title" 
+        [style.backgroundColor]="event.color?.secondary"
+        [style.color]="event.color?.primary"
+        [style.border-color]="event.color?.primary"
+        [ngClass]="event?.cssClass"
+        (mouseenter)="highlightEvent(event)"
+        (mouseleave)="unhighlightEvent(event)"
+        [mwlCalendarTooltip]="event.title | calendarEventTitle:'monthTooltip':event"
+        [tooltipPlacement]="tooltipPlacement"
+        [tooltipEvent]="event"
+        [tooltipTemplate]="tooltipTemplate"
+        [tooltipAppendToBody]="tooltipAppendToBody"
+        mwlDraggable
+        [class.cal-draggable]="event.draggable"
+        dragActiveClass="cal-drag-active"
+        [dropData]="{event: event, draggedFrom: day}"
+        [dragAxis]="{x: event.draggable, y: event.draggable}"
+        (mwlClick)="eventClicked.emit({ event: event })"
+        >
+        {{event.title}}
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #eventTemplate let-event="event">
+    <strong>{{event.title}}</strong> <br/>
+    <div *ngFor="let room of event.reservations">
+      {{room.resourceName}}
+    </div>
+  </ng-template>
+
+  <div *ngIf="!listView" [ngSwitch]="view">
+    <mwl-calendar-month-view
+      *ngSwitchCase="CalendarView.Month"
+      [viewDate]="viewDate"
+      [events]="filteredEvents"
+      (dayClicked)="dayClicked($event.day)"
+      (eventClicked)="viewEvent($event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+      [cellTemplate]="cellTemplate">
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view
+      *ngSwitchCase="CalendarView.Week"
+      [viewDate]="viewDate"
+      [events]="filteredEvents"
+      [dayStartHour]="6"
+      [dayEndHour]="22"
+      [eventTitleTemplate]="eventTemplate"
+      (hourSegmentClicked)="hourClicked($event.date)"
+      (eventClicked)="viewEvent($event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view
+      *ngSwitchCase="CalendarView.Day"
+      [viewDate]="viewDate"
+      [events]="filteredEvents"
+      [dayStartHour]="6"
+      [dayEndHour]="22"
+      [eventTitleTemplate]="eventTemplate"
+      (hourSegmentClicked)="hourClicked($event.date)"
+      (eventClicked)="viewEvent($event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-day-view>
+  </div>
+  <div *ngIf="listView">
+    <div *ngFor="let date of groupByDate(filteredEvents)">
+      <div class="day-header">{{date.day | date: 'EEEE MMM dd, yyyy'}}</div>
+      <div *ngFor="let event of date.events" class="event-details" (click)="viewEvent(event)">
+        <div class="row">
+          <div class="col-3 time">
+            {{event.start | date: 'h:mma'}} - {{event.end | date: 'h:mma'}}
+          </div>
+          <div class="col title">
+            <strong>{{event.title}}</strong>
+          </div>
+        </div>
+        <div class="indented">
+          <span *ngIf="event.description">{{event.description}} <br/></span>
+          <span class="reservations" *ngIf="event.reservations">{{event.reservations.map(getResourceName).join(', ')}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

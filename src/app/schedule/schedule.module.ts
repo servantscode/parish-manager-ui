@@ -31,7 +31,7 @@ import { AvailabilityComponent } from './availability/availability.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { RecurringEditDialogComponent } from './recurring-edit-dialog/recurring-edit-dialog.component';
 
-import { SelectedEvent } from './event';
+import { SelectedEvent } from '../sccommon/event';
 import { RoomAvailabilityDialogComponent } from './room-availability-dialog/room-availability-dialog.component';
 import { RecurrenceComponent } from './recurrence/recurrence.component';
 import { ReservationComponent } from './reservation/reservation.component';

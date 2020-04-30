@@ -4,7 +4,7 @@ import { FormBuilder, FormArray, Validators } from '@angular/forms';
 
 import { SCValidation } from 'sc-common';
 
-import { EventService } from '../../schedule/services/event.service';
+import { EventService } from '../../sccommon/services/event.service';
 
 import { SectionService } from '../services/section.service';
 import { SessionService } from '../services/session.service';

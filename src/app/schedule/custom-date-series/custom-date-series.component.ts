@@ -6,12 +6,12 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 import { deepEqual } from '../../sccommon/utils';
 
-import { EventService } from '../services/event.service';
+import { EventService } from '../../sccommon/services/event.service';
 import { ReservationService } from '../services/reservation.service';
 
 import { CustomEventDialogComponent } from '../custom-event-dialog/custom-event-dialog.component';
-import { Event, EventConflict } from '../event';
-import { Reservation } from '../reservation';
+import { Event, EventConflict } from '../../sccommon/event';
+import { Reservation } from '../../sccommon/reservation';
 
 @Component({
   selector: 'app-custom-date-series',

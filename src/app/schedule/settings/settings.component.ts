@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { RoomService } from '../services/room.service';
-import { EquipmentService } from '../services/equipment.service';
+import { RoomService } from '../../sccommon/services/room.service';
+import { EquipmentService } from '../../sccommon/services/equipment.service';
 import { RoomDialogComponent } from '../room-dialog/room-dialog.component';
 import { EquipmentDialogComponent } from '../equipment-dialog/equipment-dialog.component';
 

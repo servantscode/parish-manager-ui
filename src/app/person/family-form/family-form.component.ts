@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { map, startWith, reduce } from 'rxjs/operators'
 
 import { SCValidation } from 'sc-common';
-import { Family, Person } from 'sc-common';
+import { Family, Person, Address } from 'sc-common';
 import { FamilyService } from 'sc-common';
 
 import { deepEqual } from 'sc-common';
@@ -29,7 +29,7 @@ export class FamilyFormComponent implements OnInit {
       surname: ['', Validators.required],
       homePhone: ['', Validators.pattern(SCValidation.PHONE)],
       envelopeNumber: ['', Validators.pattern(SCValidation.NUMBER)],
-      address: [null, Validators.required],
+      address: [new Address(), Validators.required],
       preferences: {}
     });
 
@@ -43,7 +43,7 @@ export class FamilyFormComponent implements OnInit {
               public familyService: FamilyService) { }
 
   ngOnInit() {
-      this.form.valueChanges.subscribe(family => {
+    this.form.valueChanges.subscribe(family => {
         this.detectChanges(this.form.valid? family: null);
       });
   }
@@ -75,7 +75,7 @@ export class FamilyFormComponent implements OnInit {
       return;
     
     this.value = value;
-    this.form.patchValue(value);
+    this.form.patchValue(value, {"emitEvent": false});
   }
 
   setDisabledState( isDisabled : boolean ) : void {

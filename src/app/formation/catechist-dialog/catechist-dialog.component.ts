@@ -6,7 +6,7 @@ import { PersonService } from 'sc-common';
 
 import { SCValidation } from 'sc-common';
 
-import { RoomService } from '../../schedule/services/room.service';
+import { RoomService } from '../../sccommon/services/room.service';
 
 import { ProgramService } from '../services/program.service';
 import { ClassroomService } from '../services/classroom.service';

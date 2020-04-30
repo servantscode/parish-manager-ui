@@ -1,4 +1,4 @@
-import { Reservation } from './reservation';
+import { Reservation } from './../sccommon/reservation';
 
 export class AvailabilityResponse {
   availability: AvailabilityWindow[];

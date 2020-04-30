@@ -10,13 +10,13 @@ import { deepEqual, doLater } from '../../sccommon/utils';
 
 import { DataCleanupService } from '../../sccommon/services/data-cleanup.service';
 
-import { EquipmentService } from '../services/equipment.service';
-import { RoomService } from '../services/room.service';
+import { EquipmentService } from '../../sccommon/services/equipment.service';
+import { RoomService } from '../../sccommon/services/room.service';
 import { RoomAvailabilityDialogComponent } from '../room-availability-dialog/room-availability-dialog.component';
 
-import { Equipment } from '../equipment';
-import { Reservation } from '../reservation';
-import { Room } from '../room';
+import { Equipment } from '../../sccommon/equipment';
+import { Reservation } from '../../sccommon/reservation';
+import { Room } from '../../sccommon/room';
 
 export enum TimeScale { 
   MINUTES = 1, 

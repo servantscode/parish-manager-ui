@@ -9,7 +9,7 @@ import { ApiLocatorService } from 'sc-common';
 import { BaseService } from 'sc-common';
 import { LoginService } from 'sc-common';
 
-import { Room } from '../room';
+import { Room } from '../../sccommon/room';
 
 @Injectable({
   providedIn: 'root'

@@ -13,6 +13,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
@@ -31,6 +34,9 @@ import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { EmailService } from './services/email.service';
 import { DepartmentService } from './services/department.service';
 import { CategoryService } from './services/category.service';
+import { EventService } from './services/event.service';
+import { RoomService } from './services/room.service';
+import { EquipmentService } from './services/equipment.service';
 
 import { AdminOverrideDialogComponent } from './admin-override-dialog/admin-override-dialog.component';
 import { SearchDialogComponent } from './search-dialog/search-dialog.component';
@@ -39,6 +45,7 @@ import { ScSearchBarComponent } from './sc-search-bar/sc-search-bar.component';
 import { SaveSearchDialogComponent } from './save-search-dialog/save-search-dialog.component';
 
 import { ScCommonModule } from 'sc-common';
+import { CalendarComponent } from './calendar/calendar.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt-token');
@@ -55,7 +62,8 @@ export function tokenGetter() {
     AdminOverrideDialogComponent,
     SearchDialogComponent,
     SaveSearchDialogComponent,
-    ScSearchBarComponent
+    ScSearchBarComponent,
+    CalendarComponent
   ],
   imports: [
     SCCommonRoutingModule,
@@ -80,6 +88,12 @@ export function tokenGetter() {
     MatSelectModule,
     MatRadioModule,
 
+    //Calendar
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    }),
+
     //JWT
     JwtModule.forRoot({
       config: {
@@ -97,12 +111,16 @@ export function tokenGetter() {
     LoginComponent,
     NotesComponent,
     ScSearchBarComponent,
-    MessagesComponent
+    MessagesComponent, 
+    CalendarComponent
   ],
   providers: [ 
     EmailService,
     DepartmentService,
-    CategoryService
+    CategoryService, 
+    EventService,
+    RoomService,
+    EquipmentService
   ],
   entryComponents: [
     EmailDialogComponent,

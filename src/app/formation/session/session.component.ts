@@ -1,12 +1,13 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnChanges, Input } from '@angular/core';
 import { FormBuilder, Validator } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 
 import { LoginService } from 'sc-common';
 
-import { EventService } from '../../schedule/services/event.service';
-import { Event }from '../../schedule/event';
+import { EventService } from '../../sccommon/services/event.service';
+import { Event }from '../../sccommon/event';
 
 import { LinkSessionDialogComponent } from '../link-session-dialog/link-session-dialog.component';
 import { SectionDialogComponent } from '../section-dialog/section-dialog.component';
@@ -21,12 +22,14 @@ import { Section, Session } from '../formation';
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss']
 })
-export class SessionComponent implements OnInit, OnChanges {
+export class SessionComponent implements OnChanges {
 
   @Input('section') activeSection: Section;
 
   activeProgramId: number;
   upcomingSessions: Session[];
+
+  events = [];
 
   modifySchedule = false;
 
@@ -40,29 +43,21 @@ export class SessionComponent implements OnInit, OnChanges {
               private route: ActivatedRoute,
               private dialog: MatDialog) { }
 
-  ngOnInit() {
-  }
-
   ngOnChanges() {
     this.activeProgramId = +this.route.snapshot.paramMap.get('id');
     this.loadSessions();
   }
 
   private loadSessions() {
-    if(this.activeSection)
+    if(this.activeSection) {
       this.sessionService.getPage(0, -1, '', {"programId": this.activeProgramId, "sectionId": this.activeSection.id})
-          .subscribe(resp => this.upcomingSessions = resp.results);
-  }
-
-  linkSessions() {
-    const ref = this.dialog.open(LinkSessionDialogComponent, {
-      width: '400px',
-      data: { "section": this.activeSection }
-    });
-
-    ref.afterClosed().subscribe(result => {
-      this.loadSessions();
-    });
+          .subscribe(resp => {
+            this.upcomingSessions = resp.results;
+            const ids = resp.results.map(s => s.eventId);
+            if(ids && ids.length > 0)
+              this.eventService.getByIds(ids).subscribe(e => this.events = e);
+          });
+    }
   }
 
   private storeEvent() {

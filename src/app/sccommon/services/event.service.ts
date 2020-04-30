@@ -3,11 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { MessageService } from 'sc-common';
-
-import { ApiLocatorService } from 'sc-common';
-import { LoginService } from 'sc-common';
-import { PaginatedService } from 'sc-common';
+import { ApiLocatorService, LoginService, MessageService, PaginatedService } from 'sc-common';
 
 import { PaginatedResponse } from 'sc-common';
 
@@ -41,6 +37,13 @@ export class EventService extends PaginatedService<Event> {
     return this.http.get<PaginatedResponse<Event>>(this.modifyUrl(this.url, pathVars)+`?start=${start}&count=${count}&search=${encodeURIComponent(search)}`).pipe(
         map(resp => this.mapResults(resp)),
         catchError(this.handleError('getPage', null))
+      );
+  }
+
+  public getByIds(ids: number[], pathVars?: any): Observable<Event[]> {
+    return this.http.get<Event[]>(this.modifyUrl(this.url, pathVars)+`/bulk?ids=${ids.join(',')}`).pipe(
+        map(resp => this.mapObjects(resp)),
+        catchError(this.handleError('getByIds', null))
       );
   }
 

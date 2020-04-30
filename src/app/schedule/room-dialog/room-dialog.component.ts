@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { SCValidation } from 'sc-common';
 
-import { RoomService } from '../services/room.service';
+import { RoomService } from '../../sccommon/services/room.service';
 
 @Component({
   selector: 'app-room-dialog',

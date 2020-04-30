@@ -6,7 +6,7 @@ import { map, filter, debounceTime, switchMap } from 'rxjs/operators'
 
 import { SCValidation } from 'sc-common';
 
-import { EquipmentService } from '../services/equipment.service';
+import { EquipmentService } from '../../sccommon/services/equipment.service';
 
 @Component({
   selector: 'app-equipment-dialog',

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 import { Router } from '@angular/router';
 
 import { ReservationService } from '../services/reservation.service';
-import { Reservation } from '../reservation';
+import { Reservation } from '../../sccommon/reservation';
 import { AvailabilityResponse, AvailabilityWindow } from '../availability-response';
 import { startOfDay, endOfDay, differenceInMinutes, addDays, addMinutes, addHours, isBefore, min, max } from 'date-fns';
 

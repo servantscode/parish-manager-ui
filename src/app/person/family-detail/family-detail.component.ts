@@ -57,7 +57,7 @@ export class FamilyDetailComponent implements OnInit {
       this.familyService.get(id, true).
         subscribe(family => {
           this.family = family;
-          this.familyForm.get("family").setValue(this.family);
+          this.familyForm.get("family").patchValue(this.family);
         });
 
       this.familyForm.disable();

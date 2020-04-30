@@ -8,8 +8,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LoginService } from 'sc-common';
 import { SCValidation } from 'sc-common';
 
-import { Event } from '../../schedule/event';
-import { EventService } from '../../schedule/services/event.service';
+import { Event } from '../../sccommon/event';
+import { EventService } from '../../sccommon/services/event.service';
 
 import { MetricsService } from '../../metrics/services/metrics.service';
 import { MinistryEnrollmentStats } from '../../metrics/metrics-response';

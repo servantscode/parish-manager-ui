@@ -67,8 +67,12 @@ export abstract class PaginatedService<T extends Identifiable> extends BaseServi
   }
 
   protected mapResults(resp: PaginatedResponse<T>): PaginatedResponse<T> {
-    resp.results = resp.results.map(result => this.mapObject(result));
+    resp.results = this.mapObjects(resp.results);
     return resp;
+  }
+
+  protected mapObjects(results: T[]): T[] {
+    return results.map(result => this.mapObject(result));
   }
 
   protected mapObject(obj: T): T {

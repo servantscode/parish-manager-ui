@@ -6,8 +6,8 @@ import { map, debounceTime, switchMap } from 'rxjs/operators'
 
 
 import { AvailabilityService } from '../services/availability.service';
-import { Room } from '../room';
-import { Event } from '../event';
+import { Room } from '../../sccommon/room';
+import { Event } from '../../sccommon/event';
 
 @Component({
   selector: 'app-room-availability-dialog',

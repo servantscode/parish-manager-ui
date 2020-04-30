@@ -5,11 +5,11 @@
     Home Phone: {{form.value.homePhone}}<br/>
     Envelope Number: {{form.value.envelopeNumber > 0? form.value.envelopeNumber: ""}}<br/>
     Address:<br/>
-    <div *ngIf="form.value.address.street1 !== '' && form.value.address.street1 !== null">
+    <div *ngIf="form.value.address && form.value.address.street1 !== '' && form.value.address.street1 !== null">
       {{form.value.address.street1}}<br/>
       {{form.value.address.city}}, {{form.value.address.state}} {{form.value.address.zip}}
     </div>
-    <div *ngIf="form.value.address.street1 == ''">
+    <div *ngIf="!form.value.address || form.value.address.street1 == ''">
       No address on file.
     </div>
   </div>

@@ -9,7 +9,7 @@ import { DataCleanupService } from '../../sccommon/services/data-cleanup.service
 import { SCValidation } from 'sc-common';
 import { deepEqual, doLater } from '../../sccommon/utils';
 
-import { Event, Recurrence } from '../event';
+import { Event, Recurrence } from '../../sccommon/event';
 
 @Component({
   selector: 'app-recurrence',

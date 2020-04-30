@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, ViewChild, TemplateRef, HostListener, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { formatDate, Location } from '@angular/common';
 import { Subject } from 'rxjs';
@@ -12,9 +12,9 @@ import { CategoryService } from '../../sccommon/services/category.service';
 import { DepartmentService } from '../../sccommon/services/department.service';
 import { PersonService } from 'sc-common';
 
-import { Event, SelectedEvent } from '../../sccommon/event';
-import { Reservation } from '../../sccommon/reservation';
-import { EventService } from '../../sccommon/services/event.service';
+import { Event, SelectedEvent } from '../event';
+import { Reservation } from '../reservation';
+import { EventService } from '../services/event.service';
 
 import { TooltipFormatter } from './tooltip-formatter.provider';
 
@@ -24,7 +24,7 @@ export enum KEY_CODE {
 }
 
 @Component({
-  selector: 'app-calendar',
+  selector: 'sc-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
   providers: [
@@ -34,31 +34,24 @@ export enum KEY_CODE {
     }
   ]
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnChanges {
+  CalendarView = CalendarView; //Export CalendarView for html
+
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
-  CalendarView = CalendarView; //Export CalendarView for html
-  events: CalendarEvent[] = [];
-  filteredEvents: CalendarEvent[] = [];
-  openDialogRef = null;
+
+  isDraggable = this.loginService.userCan('event.update');
+
+  @Input() events = [];
+  filteredEvents = [];
 
   listView: boolean = false;
-
-  search: string = "";
-  roomFilter: string = null;
-
-  _displayCount = 5;
-  displayAll = true;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               private location: Location,
               private eventService: EventService,
               public loginService: LoginService,
-              private downloadService: DownloadService,
-              public categoryService: CategoryService,
-              public departmentService: DepartmentService,
-              public personService: PersonService,
               private selectedEvent: SelectedEvent) {}
 
   @HostListener('window:keyup', ['$event'])
@@ -70,17 +63,10 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit() {
-    const view = this.route.snapshot.paramMap.get('view');
-    if(view) {
-      const viewName = view.charAt(0).toUpperCase() + view.slice(1).toLowerCase();
-      this.view = CalendarView[viewName];
-    }
+  }
 
-    const date = this.route.snapshot.paramMap.get('date');
-    if(date)
-      this.viewDate = parse(date);
-
-    this.loadEvents();
+  ngOnChanges(changes: SimpleChanges) {
+    this.filteredEvents = this.events.map(event => this.mapEvent(event));
   }
 
   setView(view: CalendarView): void {
@@ -94,94 +80,36 @@ export class CalendarComponent implements OnInit {
 
   navigateAndLoad(): void {
     this.gotoView(this.view, this.viewDate);
-    this.loadEvents();
+    // this.loadEvents();
   }
 
   loadEvents(): void {
     if(!this.loginService.userCan('event.list'))
         this.router.navigate(['not-found']);
 
-    const isDraggable = this.loginService.userCan('event.update');
-
-    this.eventService.getPage(0, 32768, this.query()).
+    this.eventService.getPage(0, 32768).
       subscribe(eventResponse => {
-        this.events = eventResponse.results.map(serverEvent => {
-            const mapped: any = serverEvent;
-            mapped.start = mapped.startTime;
-            mapped.end = mapped.endTime;
-            mapped.color = this.hasConflict(serverEvent, eventResponse.results)?
-                        ColorService.CALENDAR_COLORS.red:
-                        ColorService.CALENDAR_COLORS.blue;
-            mapped.allDay = false;
-            mapped.resizable = {
-                beforeStart: true,
-                afterEnd: true
-              };
-            mapped.draggable = isDraggable;
-            return mapped;
-          });
-        this.filterEvents();
+        this.events = eventResponse.results;
+        this.filteredEvents = eventResponse.results.map(serverEvent => this.mapEvent);
       });
   }
 
-  collectRoomNames(): string[] {
-    var roomNames = [];
-    this.events.forEach(e => {
-          const event: any = e;
-          if(event.reservations)
-            event.reservations.forEach(r => {
-                if(r.resourceType == "ROOM" && !roomNames.includes(r.resourceName))
-                  roomNames.push(r.resourceName);
-              });
-        });
-    roomNames.sort();  
-    return roomNames;
-  }
-
-  selectRoomFilter(roomName: string) {
-    if(roomName == this.roomFilter)
-      return;
-
-    this.roomFilter = roomName;
-    this.filterEvents();
-  }
-
-  private filterEvents() {
-    if(!this.roomFilter || !this.events) {
-      this.filteredEvents = this.events
-      return;
-    }
-
-    this.filteredEvents = this.events.filter(e => {
-        const event: any = e;
-        return event.reservations.some(r => r.resourceType == "ROOM" && r.resourceName == this.roomFilter);
-      });
+  mapEvent(serverEvent: Event) {
+    const mapped: any = serverEvent;
+    mapped.start = mapped.startTime;
+    mapped.end = mapped.endTime;
+    mapped.color = ColorService.CALENDAR_COLORS.blue;
+    mapped.allDay = false;
+    mapped.resizable = {
+        beforeStart: true,
+        afterEnd: true
+      };
+    mapped.draggable = this.isDraggable;
+    return mapped;
   }
 
   getResourceName(res: Reservation): string {
     return res.resourceName;
-  }
-
-  hasConflict(event: Event, allEvents: Event[]) {
-    var conflicts = allEvents.filter(e => e !== event && this.overlaps(e, event) && this.sharedResources(e, event));
-    return conflicts.length > 0;
-  }
-
-  private overlaps(win1: any, win2: any): boolean {
-    return !(win1.startTime <= win2.startTime && win1.endTime <= win2.startTime) &&
-           !(win1.startTime >= win2.endTime && win1.endTime >= win2.endTime);
-  }
-
-  private sharedResources(e1: Event, e2: Event): boolean {
-    if(!e1.reservations)
-      return false;
-
-    const sharedResources = e1.reservations.filter(r => {
-        if(!e2.reservations)
-          return false;
-        return e2.reservations.filter(r2 => r.resourceId === r2.resourceId && r.resourceType == r2.resourceType).length > 0;
-      });
-    return sharedResources.length > 0;
   }
 
   newEvent() {
@@ -229,19 +157,6 @@ export class CalendarComponent implements OnInit {
     this.router.navigate(['calendar', 'event', event.id]);
   }
 
-  displayCount(): number {
-    return this.displayAll? 1000: this._displayCount;
-  }
-
-  updateSearch(search:string) {
-    this.search = search;
-    this.loadEvents();
-  }
-
-  showAll(): void {
-    this.displayAll = true;
-  }
-
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate))
       this.gotoView(CalendarView.Day, date);
@@ -250,7 +165,7 @@ export class CalendarComponent implements OnInit {
   gotoView(view: CalendarView, date: Date) {
     this.viewDate = date;
     this.view = view;
-    this.location.replaceState(`/calendar/${view.toLowerCase()}/${format(date, "YYYY-MM-DD")}`);
+    // this.location.replaceState(`/calendar/${view.toLowerCase()}/${format(date, "YYYY-MM-DD")}`);
   }
 
   hourClicked(date: Date) {
@@ -293,16 +208,6 @@ export class CalendarComponent implements OnInit {
     event.color = event.color === ColorService.CALENDAR_COLORS.darkBlue?
       ColorService.CALENDAR_COLORS.blue:
       ColorService.CALENDAR_COLORS.red;
-  }
-
-  query(): string {
-    const dateRange = this.calculateRange(this.viewDate, this.view);
-    return this.eventService.timeRangeQuery(this.search, dateRange.start, dateRange.end)
-  }
-
-  downloadReport() {
-    const filename = "event-report-" + formatDate(new Date(), "yyyy-MM-dd", "en_US") + ".csv";
-    this.downloadService.downloadReport(this.eventService.getReport(this.query()), filename);
   }
 
   private calculateRange(date: Date, view: CalendarView) {
