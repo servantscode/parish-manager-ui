@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { Registration } from 'sc-common';
+
 import { RegistrationDialogComponent } from '../registration-dialog/registration-dialog.component';
 
 import { RegistrationService } from '../services/registration.service';
-
-import { Registration } from '../formation';
 
 @Component({
   selector: 'app-registration',

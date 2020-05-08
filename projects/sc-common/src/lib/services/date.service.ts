@@ -8,7 +8,7 @@ export class DateService {
 
   constructor() { }
 
-  weekdays: string[] = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+  weekdays: string[] = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
 
   daysOfWeek(): Observable<string[]> {
     return of<string[]>(this.weekdays);

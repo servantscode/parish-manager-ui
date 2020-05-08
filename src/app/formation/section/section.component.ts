@@ -1,11 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { SectionService } from 'sc-common';
+import { Section } from 'sc-common';
+
 import { SectionDialogComponent } from '../section-dialog/section-dialog.component';
-
-import { SectionService } from '../services/section.service';
-
-import { Section } from '../formation';
 
 @Component({
   selector: 'app-section',

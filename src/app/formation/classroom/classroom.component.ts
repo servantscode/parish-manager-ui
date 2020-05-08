@@ -4,15 +4,13 @@ import { formatDate } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 
-import { DownloadService, LoginService } from 'sc-common';
+import { DownloadService, LoginService,  ProgramService } from 'sc-common';
+import { Classroom, Section } from 'sc-common';
 
 import { ClassroomDialogComponent } from '../classroom-dialog/classroom-dialog.component';
 import { EmailDialogComponent } from '../../sccommon/email-dialog/email-dialog.component';
 
 import { ClassroomService } from '../services/classroom.service';
-import { ProgramService } from '../services/program.service';
-
-import { Classroom, Section } from '../formation';
 
 @Component({
   selector: 'app-classroom',

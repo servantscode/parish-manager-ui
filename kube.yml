@@ -31,6 +31,13 @@ spec:
         env:
         - name: ES_JAVA_OPTS 
           value: "-Xmx128m -Xms128m"
+        volumeMounts:
+        - name: app-config
+          mountPath: /usr/share/nginx/html/config
+      volumes:
+      - name: app-config
+        configMap:
+          name: app-config
 ---
 kind: Service
 apiVersion: v1

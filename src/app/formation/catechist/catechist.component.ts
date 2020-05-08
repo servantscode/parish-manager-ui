@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { Catechist } from 'sc-common';
+
 import { CatechistDialogComponent } from '../catechist-dialog/catechist-dialog.component';
 
 import { CatechistService } from '../services/catechist.service';
 
-import { Catechist } from '../formation';
 
 @Component({
   selector: 'app-catechist',

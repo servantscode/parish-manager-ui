@@ -3,11 +3,11 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { MessageService } from 'sc-common';
+import { MessageService } from './message.service';
 
-import { ApiLocatorService } from 'sc-common';
-import { LoginService } from 'sc-common';
-import { PaginatedService } from 'sc-common';
+import { ApiLocatorService } from './api-locator.service';
+import { LoginService } from './login.service';
+import { PaginatedService } from './paginated.service';
 
 import { Section } from '../formation';
 

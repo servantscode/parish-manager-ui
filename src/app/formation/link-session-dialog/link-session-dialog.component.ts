@@ -3,13 +3,13 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { FormBuilder, FormArray, Validators } from '@angular/forms';
 
 import { SCValidation } from 'sc-common';
+import { SectionService } from 'sc-common';
+import { Section } from 'sc-common';
 
 import { EventService } from '../../sccommon/services/event.service';
 
-import { SectionService } from '../services/section.service';
 import { SessionService } from '../services/session.service';
 
-import { Section } from '../formation';
 
 @Component({
   selector: 'app-link-session-dialog',

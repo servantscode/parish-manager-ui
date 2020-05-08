@@ -2,13 +2,13 @@ import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/cor
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { LoginService } from 'sc-common';
+import { Classroom, Session } from 'sc-common';
 
 import { AttendanceDialogComponent } from '../attendance-dialog/attendance-dialog.component';
 
 import { AttendanceService } from '../services/attendance.service';
 
 import { AttendanceReport, AttendanceRecord } from '../attendance';
-import { Classroom, Session } from '../formation';
 
 @Component({
   selector: 'app-attendance',

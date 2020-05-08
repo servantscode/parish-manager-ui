@@ -1,17 +1,18 @@
 import { Injectable, Inject } from '@angular/core';
+import { ConfigurationService } from './configuration.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiLocatorService {  
 
-  private environment;
-
-  constructor(@Inject('environment') environment) {
-    this.environment = environment;
-  }
+  constructor(private configurationService: ConfigurationService) {}
 
   prefaceUrl(path: string): string {
-    return this.environment.serviceUrlPrefix + path;
+    const settings = this.configurationService.settings;
+    if(!settings)
+      console.error("No configuration settings available!");
+    
+    return settings.serviceUrlPrefix + path;
   }
 }

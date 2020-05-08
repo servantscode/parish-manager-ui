@@ -1,4 +1,4 @@
-import { Session } from './formation';
+import { Session } from 'sc-common';
 
 export class AttendanceReport {
   programId: number;

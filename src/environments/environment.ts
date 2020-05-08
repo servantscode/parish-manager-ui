@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  serviceUrlPrefix: "http://localhost",
-  whitelistedDomains: [/localhost(:\d+)?/i]
+  apiUrl: window["env"]["apiUrl"],
+  whitelistedDomains: [ window["env"]["apiUrl"].split("\/")[2] ]
+  // whitelistedDomains: [/localhost(:\d+)?/i]
 };
 
 /*

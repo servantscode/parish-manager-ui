@@ -4,7 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { map } from 'rxjs/operators';
 
-import { LoginService } from 'sc-common';
+import { LoginService, SectionService } from 'sc-common';
+import { Section, Session } from 'sc-common';
 
 import { EventService } from '../../sccommon/services/event.service';
 import { Event }from '../../sccommon/event';
@@ -13,9 +14,6 @@ import { LinkSessionDialogComponent } from '../link-session-dialog/link-session-
 import { SectionDialogComponent } from '../section-dialog/section-dialog.component';
 
 import { SessionService } from '../services/session.service';
-import { SectionService } from '../services/section.service';
-
-import { Section, Session } from '../formation';
 
 @Component({
   selector: 'app-session',

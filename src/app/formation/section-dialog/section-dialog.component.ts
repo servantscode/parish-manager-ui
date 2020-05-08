@@ -5,10 +5,7 @@ import { format } from 'date-fns';
 
 import { SCValidation } from 'sc-common';
 
-import { DateService } from 'sc-common';
-
-import { ProgramService } from '../services/program.service';
-import { SectionService } from '../services/section.service';
+import { DateService, ProgramService, SectionService } from 'sc-common';
 
 @Component({
   selector: 'app-section-dialog',

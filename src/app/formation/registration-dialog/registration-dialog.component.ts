@@ -2,13 +2,12 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { PersonService } from 'sc-common';
+import { PersonService, ProgramService } from 'sc-common';
 
 import { SCValidation } from 'sc-common';
 
 import { RoomService } from '../../sccommon/services/room.service';
 
-import { ProgramService } from '../services/program.service';
 import { ClassroomService } from '../services/classroom.service';
 import { RegistrationService } from '../services/registration.service';
 import { SacramentalGroupService } from '../services/sacramental-group.service';

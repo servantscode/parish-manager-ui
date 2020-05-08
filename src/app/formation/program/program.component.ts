@@ -3,10 +3,8 @@ import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 
+import { LoginService, ProgramService } from 'sc-common';
 
-import { LoginService } from 'sc-common';
-
-import { ProgramService } from '../services/program.service';
 import { ProgramGroupService } from '../services/program-group.service';
 
 import { ProgramDialogComponent } from '../program-dialog/program-dialog.component';

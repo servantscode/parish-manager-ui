@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  serviceUrlPrefix: "",
-  whitelistedDomains: []
+  apiUrl: window["env"]["apiUrl"],
+  whitelistedDomains: [ window["env"]["apiUrl"].split("\/")[2] ]
 };

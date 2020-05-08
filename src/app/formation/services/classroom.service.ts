@@ -3,13 +3,9 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 
-import { MessageService } from 'sc-common';
+import { ApiLocatorService, LoginService, MessageService, PaginatedService, PaginatedResponse } from 'sc-common';
 
-import { ApiLocatorService } from 'sc-common';
-import { LoginService } from 'sc-common';
-import { PaginatedService, PaginatedResponse } from 'sc-common';
-
-import { Classroom } from '../formation';
+import { Classroom } from 'sc-common';
 
 @Injectable({
   providedIn: 'root'

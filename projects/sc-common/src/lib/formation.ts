@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 
-import { Autocompletable, Identifiable } from 'sc-common';
+import { Autocompletable, Identifiable } from './identifiable';
 
 export class Program extends Autocompletable {
   constructor() {

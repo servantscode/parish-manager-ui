@@ -16,7 +16,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
-import { JwtModule } from '@auth0/angular-jwt';
+import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
@@ -47,8 +47,16 @@ import { SaveSearchDialogComponent } from './save-search-dialog/save-search-dial
 import { ScCommonModule } from 'sc-common';
 import { CalendarComponent } from './calendar/calendar.component';
 
-export function tokenGetter() {
-  return localStorage.getItem('jwt-token');
+export function jwtOptionsFactory() {
+  const domains = environment.whitelistedDomains;
+  console.log("apiUrl is: " + environment.apiUrl);
+  console.log("api domains are " + JSON.stringify(domains));
+  return {
+    tokenGetter: () => {
+      return localStorage.getItem('jwt-token');
+    },
+    whitelistedDomains: domains
+  }
 }
 
 @NgModule({
@@ -95,11 +103,17 @@ export function tokenGetter() {
     }),
 
     //JWT
+    // JwtModule.forRoot({
+    //   config: {
+    //     tokenGetter: tokenGetter,
+    //     whitelistedDomains: environment.whitelistedDomains,
+    //     blacklistedRoutes: []
+    //   }
+    // }),
     JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        whitelistedDomains: environment.whitelistedDomains,
-        blacklistedRoutes: []
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptionsFactory
       }
     }),
 

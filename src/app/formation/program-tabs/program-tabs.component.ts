@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { LoginService } from 'sc-common';
-
-import { SectionService } from '../services/section.service';
-
-import { Section } from '../formation';
+import { LoginService, SectionService } from 'sc-common';
+import { Section } from 'sc-common';
 
 @Component({
   selector: 'app-program-tabs',

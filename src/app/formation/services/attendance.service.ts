@@ -3,11 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { MessageService } from 'sc-common';
-
-import { ApiLocatorService } from 'sc-common';
-import { LoginService } from 'sc-common';
-import { BaseService } from 'sc-common';
+import { ApiLocatorService, BaseService, LoginService, MessageService } from 'sc-common';
 
 import { AttendanceReport, SessionAttendance } from '../attendance';
 

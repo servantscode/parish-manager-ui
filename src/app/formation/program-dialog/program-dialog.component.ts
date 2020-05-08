@@ -2,11 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { PersonService } from 'sc-common';
-
+import { PersonService, ProgramService } from 'sc-common';
 import { SCValidation } from 'sc-common';
 
-import { ProgramService } from '../services/program.service';
 import { ProgramGroupService } from '../services/program-group.service';
 
 
