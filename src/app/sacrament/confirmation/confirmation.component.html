@@ -1,4 +1,4 @@
-<div class="container rounded-rect">
+<div class="container-fluid">
   <button *ngIf="confirmation && loginService.userCan('admin.confirmation.edit') && !showForm" class="btn btn-primary float-right" (click)="openForm()">Edit</button>
   <button *ngIf="!confirmation && loginService.userCan('sacrament.confirmation.create') && !showForm" class="btn btn-primary float-right" (click)="openForm()">Record Confirmation</button>
   <h3>Confirmation</h3> 

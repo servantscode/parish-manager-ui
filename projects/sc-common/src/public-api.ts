@@ -6,7 +6,6 @@ export * from './lib/sc-common.module';
 
 export * from './lib/services/api-locator.service';
 export * from './lib/services/base.service';
-export * from './lib/services/configuration.service';
 export * from './lib/services/date.service';
 export * from './lib/services/download.service';
 export * from './lib/services/family.service';

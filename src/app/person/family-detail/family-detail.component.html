@@ -7,7 +7,7 @@
 <h2 [ngClass]="{inactive: family.inactive}">{{family.surname}}</h2>
 
 <form [formGroup]="familyForm" (ngSubmit)="save()">
-  <div class="container rounded-rect">
+  <div class="container-fluid">
     <div class="row">
       <div class="col">
         <h3>Family Details</h3>
@@ -23,17 +23,24 @@
     </div>
   </div>
 
-  <div *ngIf="family.id > 0" class="container rounded-rect">
+  <hr/>
+  
+  <div *ngIf="family.id > 0" class="container-fluid">
     <app-family-member-list [members]="family.members" [familyId]="family.id"></app-family-member-list>
   </div>
   
+  <hr/>
+
   <app-family-financial *ngIf="family.id > 0" [family]="family"></app-family-financial>
 
-  <div *ngIf="family.id > 0 && loginService.userCan('note.list')" class="container rounded-rect">
+  <hr/>
+  
+  <div *ngIf="family.id > 0 && loginService.userCan('note.list')" class="container-fluid">
     <h3>Notes</h3>
     <app-notes [resourceType]="'family'" [resourceId]="family.id"></app-notes>
   </div>
 
+  <hr/>
 
   <div *ngIf="!editMode" class="container">
     <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 

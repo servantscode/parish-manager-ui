@@ -6,7 +6,6 @@ export const environment = {
   production: false,
   apiUrl: window["env"]["apiUrl"],
   whitelistedDomains: [ window["env"]["apiUrl"].split("\/")[2] ]
-  // whitelistedDomains: [/localhost(:\d+)?/i]
 };
 
 /*

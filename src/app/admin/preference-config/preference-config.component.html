@@ -1,4 +1,4 @@
-<div class="container rounded-rect">
+<div class="container-fluid">
   <app-paginated-list [dataService]="preferencesService" 
                       [fields]="['name', {'name':'type', 'type':'enum'}, {'name':'objectType', 'type':'enum'}, 'defaultValue']" 
                       [pageSize]='20' 

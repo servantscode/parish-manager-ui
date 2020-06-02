@@ -9,7 +9,7 @@
   <h2 *ngIf="(event && event.id > 0) && editMode">Update Event</h2>
   <h2 *ngIf="(!event || !event.id) && editMode">New Event</h2>
 
-  <div class="container rounded-rect">
+  <div class="container-fluid">
     <div class="row">
       <div class="col">
         <mat-form-field appearance="standard" class="input-standard">
@@ -63,48 +63,59 @@
     </div>
   </div>
 
-  <div *ngIf="!isCustomRecurrence()" class="container rounded-rect">
-    <div class="row">
-      <div class="col">
-        <sc-date-time formControlName="startTime" [label]="'Start'" [required]="true"></sc-date-time>
+  <div *ngIf="!isCustomRecurrence()">
+    <hr/>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <sc-date-time formControlName="startTime" [label]="'Start'" [required]="true"></sc-date-time>
+        </div>
+        <div class="col">
+          <sc-date-time formControlName="endTime" [label]="'End'" [required]="true"></sc-date-time>
+        </div>
       </div>
-      <div class="col">
-        <sc-date-time formControlName="endTime" [label]="'End'" [required]="true"></sc-date-time>
-      </div>
+
+      <app-reservation formControlName="reservations" 
+        [startTime]="eventForm.get('startTime').value" 
+        [endTime]="eventForm.get('endTime').value" 
+        [capacity]="eventForm.get('attendees').value"
+        [eventId]="eventForm.get('id').value"
+        [schedulerId]="eventForm.get('schedulerId').value"
+        [eventTitle]="eventForm.get('title').value"
+        (availabilityConflictsChange)="updateConflictCount($event)">
+      </app-reservation>
     </div>
-
-    <app-reservation formControlName="reservations" 
-      [startTime]="eventForm.get('startTime').value" 
-      [endTime]="eventForm.get('endTime').value" 
-      [capacity]="eventForm.get('attendees').value"
-      [eventId]="eventForm.get('id').value"
-      [schedulerId]="eventForm.get('schedulerId').value"
-      [eventTitle]="eventForm.get('title').value"
-      (availabilityConflictsChange)="updateConflictCount($event)">
-    </app-reservation>
   </div>
 
-  <div class="container rounded-rect">
-    <mat-checkbox formControlName="recurringMeeting">Recurring Meeting</mat-checkbox>
-    <app-recurrence *ngIf="eventForm.get('recurringMeeting').value" 
-      formControlName="recurrence" 
-      [event]="event"
-      [(customEvents)]="customEvents"
-      (futureDatesChange)="updateFutureDates($event)"
-      (futureConflictsChange)="updateFutureConflictCount($event)">
-    </app-recurrence>
+  <div>
+    <hr/>
+    <div class="container-fluid">
+      <mat-checkbox formControlName="recurringMeeting">Recurring Meeting</mat-checkbox>
+      <app-recurrence *ngIf="eventForm.get('recurringMeeting').value" 
+        formControlName="recurrence" 
+        [event]="event"
+        [(customEvents)]="customEvents"
+        (futureDatesChange)="updateFutureDates($event)"
+        (futureConflictsChange)="updateFutureConflictCount($event)">
+      </app-recurrence>
+    </div>
   </div>
 
-  <div *ngIf="event.id > 0 && loginService.userCan('note.list')" class="container rounded-rect">
-    <h3>Notes</h3>
-    <app-notes [resourceType]="'event'" [resourceId]="event.id"></app-notes>
+  <div *ngIf="event.id > 0 && loginService.userCan('note.list')">
+    <hr/>
+    <div class="container-fluid">
+      <h3>Notes</h3>
+      <app-notes [resourceType]="'event'" [resourceId]="event.id"></app-notes>
+    </div>
   </div>
 
-
-  <div class="container">
-    <button mat-button *ngIf="editMode" type="submit" class="btn btn-primary" [disabled]="!eventForm.valid || !canSave()">Save</button>
-    <button mat-button *ngIf="(eventForm.get('id').value > 0 && loginService.userCan('event.update')) || loginService.userCan('event.create')" type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
- 
-    <button mat-button *ngIf="(eventForm.get('id').value > 0 && !loginService.userCan('event.update'))" type="button" class="btn btn-primary" (click)="cancel()">Ok</button>
+  <div>
+    <hr/>
+    <div class="container-fluid">
+      <button mat-button *ngIf="editMode" type="submit" class="btn btn-primary" [disabled]="!eventForm.valid || !canSave()">Save</button>
+      <button mat-button *ngIf="(eventForm.get('id').value > 0 && loginService.userCan('event.update')) || loginService.userCan('event.create')" type="button" class="btn btn-outline-primary" (click)="cancel()">Close</button>
+   
+      <button mat-button *ngIf="(eventForm.get('id').value > 0 && !loginService.userCan('event.update'))" type="button" class="btn btn-primary" (click)="cancel()">Ok</button>
+    </div>
   </div>
 </form>

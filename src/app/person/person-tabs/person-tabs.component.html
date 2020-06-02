@@ -7,7 +7,7 @@
 <div class="tab-content scrollable">
   <div [ngSwitch]="selectedTab">
     <app-person-detail *ngSwitchCase="'detail'"></app-person-detail>
-    <div class="container rounded-rect" *ngSwitchCase="'preferences'">
+    <div class="container-fluid" *ngSwitchCase="'preferences'">
       <sc-preferences [id]="getId()" [type]="'person'" [preferenceSource]="personService"></sc-preferences>
     </div>
     <app-sacraments *ngSwitchCase="'sacraments'"></app-sacraments>

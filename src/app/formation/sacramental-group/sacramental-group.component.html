@@ -2,7 +2,9 @@
   <h3>Sacramental Groups</h3>
   <app-paginated-list [dataService]="sacramentalGroupService" [fields]="['name']" [pageSize]='10' [dialogComponent]="SacramentalGroupDialogComponent"></app-paginated-list>
 
-  <div class="container">
+  <hr/>
+
+  <div class="container-fluid">
     <button class="btn btn-primary" (click)="goBack()">Ok</button> 
   </div>
 </div>

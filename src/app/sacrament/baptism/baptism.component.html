@@ -1,4 +1,4 @@
-<div class="container rounded-rect">
+<div class="container-fluid">
   <button *ngIf="baptism && loginService.userCan('admin.baptism.edit')" class="btn btn-primary float-right" (click)="openForm()">Edit</button>
   <button *ngIf="!baptism && loginService.userCan('sacrament.baptism.create')" class="btn btn-primary float-right" (click)="openForm()">Record Baptism</button>
   <h3>Baptism</h3> 

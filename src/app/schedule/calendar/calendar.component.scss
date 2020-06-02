@@ -31,6 +31,12 @@ pre {
   font-size: 12px;
 }
 
+.bounding-box {
+  width: calc(100% - 155px);
+  height: calc(100% - 200px);
+  position: fixed;
+}
+
 .event-title {
   font-size: 12px;
   white-space: nowrap;
@@ -54,7 +60,7 @@ h3 {
 .calendar-container {
   height: calc(100% - 68px);
   border-top: #dddddd solid 1px;
-  width: calc(100% - 170px);
+  /*width: calc(100% - 170px);*/
 }
 
 .event-details {

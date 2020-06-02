@@ -1,4 +1,4 @@
-<div class="container rounded-rect">
+<div class="container-fluid">
   <app-paginated-list [dataService]="roleService" 
                       [fields]="['name']" 
                       [pageSize]='10' 
@@ -9,18 +9,22 @@
                       type="Roles">
   </app-paginated-list>
 </div>
-<div *ngIf="selectedRole" class="container rounded-rect">
-  <h3>{{selectedRole.name | titlecase }} Access</h3>
-  <app-paginated-list [dataService]="credentialService" 
-                      [pageImpl]="bindCredsPage()" 
-                      [fields]="['name', 'email']" 
-                      [pageSize]='10' 
-                      [dialogComponent]="CredentialDialogComponent" 
-                      [newItemTemplate]="{'role':selectedRole.identify()}" 
-                      [refreshOn]="refreshNeeded" 
-                      [customControls]="controls"
-                      type="{{selectedRole.name | titlecase }} Users"
-                      [searchForm]="[{'name':'name', 'type':'text'},
-                                     {'name':'email', 'type':'text'}]">
-  </app-paginated-list>
+
+<div *ngIf="selectedRole">
+  <hr/>
+  <div class="container-fluid">
+    <h3>{{selectedRole.name | titlecase }} Access</h3>
+    <app-paginated-list [dataService]="credentialService" 
+                        [pageImpl]="bindCredsPage()" 
+                        [fields]="['name', 'email']" 
+                        [pageSize]='10' 
+                        [dialogComponent]="CredentialDialogComponent" 
+                        [newItemTemplate]="{'role':selectedRole.identify()}" 
+                        [refreshOn]="refreshNeeded" 
+                        [customControls]="controls"
+                        type="{{selectedRole.name | titlecase }} Users"
+                        [searchForm]="[{'name':'name', 'type':'text'},
+                                       {'name':'email', 'type':'text'}]">
+    </app-paginated-list>
+  </div>
 </div>

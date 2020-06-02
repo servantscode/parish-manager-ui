@@ -1,4 +1,4 @@
-<div class="container rounded-rect">
+<div class="container-fluid">
   <app-paginated-list [dataService]="integrationService" 
                       [fields]="['name', 'failure', {'name':'lastSync', 'type':'dateTime'}, 
                                  {'name':'nextScheduledSync', 'type':'dateTime', 'displayName':'Next Sync'}]" 

@@ -1,4 +1,4 @@
-<div class="container rounded-rect">
+<div class="container-fluid">
   <div class="row">
     <div *ngIf="editMode; else displayOnly" class="col">
       <form [formGroup]="form" (ngSubmit)="save()">
@@ -54,7 +54,9 @@
     </div>
   </div>
 </div>
-<div class="container rounded-rect">
+
+<hr/>
+<div class="container-fluid">
   <h3>Registration configuration</h3>
   <div class="row">
     <div class="col">
@@ -67,7 +69,9 @@
     </div>
   </div>
 </div>
-<div class="container rounded-rect">
+
+<hr/>
+<div class="container-fluid">
   <h3>Departments</h3>
   <app-paginated-list [dataService]="departmentService" 
                       [fields]="['name',{'name':'departmentHeadName', 'type':'text'}]" 
@@ -78,7 +82,9 @@
                                      {'name':'departmentHeadName', 'type':'text'}]">
   </app-paginated-list>
 </div>
-<div class="container rounded-rect">
+
+<hr/>
+<div class="container-fluid">
   <h3>Categories</h3>
   <app-paginated-list [dataService]="categoryService" 
                       [fields]="['name']" 

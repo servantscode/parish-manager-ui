@@ -5,7 +5,7 @@
 
 <form [formGroup]="ministryForm" (ngSubmit)="save()">
   <div *ngIf="!editMode">
-    <div class="container rounded-rect">
+    <div class="container-fluid">
       <div class="row">
         <div class="col">
           Name: {{ministry.name}}<br/>
@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <div *ngIf="editMode" class="container rounded-rect">
+  <div *ngIf="editMode" class="container-fluid">
     <input type="hidden" formControlName="id"/>
 
     <mat-form-field appearance="standard" class="input-standard">
@@ -35,7 +35,9 @@
     </mat-form-field><br/>
   </div>
 
-  <div *ngIf="loginService.userCan('ministry.enrollment.list')" class="container rounded-rect">
+  <hr/>
+
+  <div *ngIf="loginService.userCan('ministry.enrollment.list')" class="container-fluid">
     <h3>Membership</h3>  
     <app-ministry-member-list [ministryId]="ministry.id" 
       [columns]="['member', 'role', 'controls']"
@@ -43,7 +45,9 @@
     </app-ministry-member-list>
   </div>
 
-  <div class="container rounded-rect">
+  <hr/>
+
+  <div class="container-fluid">
     <h3>Upcoming Events</h3>  
     <table class="sc-table">
       <thead>
@@ -61,12 +65,16 @@
     </table>
   </div>
 
-  <div *ngIf="loginService.userCan('note.list')" class="container rounded-rect">
+  <hr/>
+
+  <div *ngIf="loginService.userCan('note.list')" class="container-fluid">
     <h3>Notes</h3>
     <app-notes [resourceType]="'ministry'" [resourceId]="ministry.id"></app-notes>
   </div>
 
-  <div *ngIf="!editMode" class="container">
+  <hr/>
+
+  <div *ngIf="!editMode" class="container-fluid">
     <button class="btn btn-outline-primary" (click)="goBack()">Close</button> 
   </div>
 

@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -28,13 +28,9 @@ import { DateInterceptor } from './services/date-interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
-// import { environment } from '../environments/environment'
+import { environment } from '../environments/environment'
 
-import { ScCommonModule, AddOrgRequestInterceptor, ConfigurationService } from 'sc-common';
-
-export function init_app(configurationService: ConfigurationService) {
-  return () => configurationService.load();
-}
+import { ScCommonModule, AddOrgRequestInterceptor } from 'sc-common';
 
 @NgModule({
   declarations: [
@@ -69,7 +65,7 @@ export function init_app(configurationService: ConfigurationService) {
     MatNativeDateModule
   ],
   providers: [
-    { provide: APP_INITIALIZER, useFactory: init_app, deps: [ConfigurationService], multi:true},
+    { provide: 'environment', useValue: environment },
     { provide: HTTP_INTERCEPTORS, useClass: DateInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AddOrgRequestInterceptor, multi: true}
   ],
