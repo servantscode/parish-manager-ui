@@ -37,6 +37,7 @@ export class RecordDonationComponent implements OnInit {
         ])
     });
 
+  envChecksum: number = 0;
   total:number = 0;
 
   constructor(private fb: FormBuilder,
@@ -84,7 +85,7 @@ export class RecordDonationComponent implements OnInit {
     if(control.length == 0) {
       this.donationControls().push(this.newRow());
     }
-    this.calculateTotal();
+    this.calculateTotals();
   }
 
   newRow() {
@@ -123,14 +124,18 @@ export class RecordDonationComponent implements OnInit {
       .subscribe(() => this.predictGroup(group, 'familyId'));
 
     group.get('amount').valueChanges.pipe(distinctUntilChanged())
-      .subscribe(() => this.calculateTotal());
+      .subscribe(() => this.calculateTotals());
 
     return group;
   }
 
-  calculateTotal() {
+  calculateTotals() {
     this.total = 0;
-    this.donationControls().controls.forEach(c => this.total += c.get("amount").value);
+    this.envChecksum = 0;
+    this.donationControls().controls.forEach(c => {
+      this.total += c.get("amount").value;
+      this.envChecksum += c.get("envelopeNumber").value;
+    });
   }
 
   hasDirtyOrInvalidFields(donation: FormGroup): boolean {
@@ -168,6 +173,7 @@ export class RecordDonationComponent implements OnInit {
         const controls = this.donationControls();
         controls.clear();
         controls.push(this.newRow());
+        this.calculateTotals();
       });
   }
 
@@ -191,7 +197,7 @@ export class RecordDonationComponent implements OnInit {
             this.clearZero(group.get("envelopeNumber"));
             this.clearZero(group.get("amount"));
           }
-          this.calculateTotal();
+          this.calculateTotals();
         });
   }
 

@@ -3,8 +3,9 @@
   <h1 *ngIf="data.item == null || data.item.id == 0" mat-dialog-title>Record Mass Intention</h1>
   <div mat-dialog-content>
     <input type="hidden" autocomplete="off" formControlName="id"/>
+    <input type="hidden" autocomplete="off" formControlName="eventId"/>
     
-    <sc-auto-complete formControlName="eventId" label='Mass' [autocompleteService]="availabilityService" required></sc-auto-complete>
+    <!-- <sc-auto-complete formControlName="eventId" label='Mass' [autocompleteService]="eventService" required></sc-auto-complete> -->
 
     <sc-identity-picker formControlName="person" label="Intention for" [required]="true"></sc-identity-picker>
 
@@ -13,6 +14,12 @@
     <sc-identity-picker formControlName="requester" label="Requested by" [required]="true"></sc-identity-picker>
 
     <sc-phone-number formControlName="requesterPhone"></sc-phone-number>  
+
+    <mat-form-field appearance="standard" class="input-5">
+      <mat-label>Stipend</mat-label>
+      <input type="number" matInput formControlName="stipend" autocomplete="off" required/>
+    </mat-form-field>
+
  </div>
 
   <div mat-dialog-actions class="align-right">

@@ -76,6 +76,9 @@
         <button mat-button type="submit" class="btn btn-primary" [disabled]="!donationForm.valid">Save</button>
       </div>
       <div class="col">
+        <span>Envelope Checksum: <strong>{{envChecksum}}</strong></span>
+      </div>
+      <div class="col">
         <span>Total: <strong>{{total | currency:"$"}}</strong></span>
       </div>
       <div class="col align-right">

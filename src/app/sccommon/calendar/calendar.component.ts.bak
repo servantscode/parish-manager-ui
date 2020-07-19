@@ -7,12 +7,17 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, Cal
 
 import { LoginService } from 'sc-common';
 import { ColorService } from '../../sccommon/services/color.service';
+import { DownloadService } from 'sc-common';
+import { CategoryService } from '../../sccommon/services/category.service';
+import { DepartmentService } from '../../sccommon/services/department.service';
+import { PersonService } from 'sc-common';
 
 import { Event, SelectedEvent } from '../event';
 import { Reservation } from '../reservation';
 import { EventService } from '../services/event.service';
 
 import { TooltipFormatter } from './tooltip-formatter.provider';
+
 
 @Component({
   selector: 'sc-calendar',
@@ -31,16 +36,17 @@ export class CalendarComponent implements OnInit, OnChanges {
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
 
-  isDraggable = this.loginService.userCan('event.update');
 
-  @Input() events = [];
+  @Input() events: Event[] = [];
+  filteredEvents = [];
+
+  @Input() selectHandler:() => void;
   @Input() retrieveEvents: (start: Date, end: Date) => void;
-  @Input() onEventSelect:(event: Event) => void;
-
   @Input() allowEventCreation: boolean = true;
   @Input() allowEventEdit: boolean = true;
 
-  filteredEvents = [];
+  isDraggable = this.loginService.userCan('event.update') && this.allowEventEdit;
+
   listView: boolean = false;
 
   constructor(private router: Router,
@@ -51,12 +57,15 @@ export class CalendarComponent implements OnInit, OnChanges {
               private selectedEvent: SelectedEvent) {}
 
   ngOnInit() {
-    this.loadEvents();
+    // this.loadEvents();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(this.events)
-      this.filteredEvents = this.events.map(event => this.mapEvent(event));
+    alert("Got changes " + JSON.stringify(changes));
+
+    this.isDraggable = this.loginService.userCan('event.update') && this.allowEventEdit;
+    // if(this.events)
+    //   this.filteredEvents = this.events.map(event => this.mapEvent(event));
   }
 
   setView(view: CalendarView): void {
@@ -74,9 +83,19 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   loadEvents(): void {
+    const dateRange = this.calculateRange(this.viewDate, this.view);
     if(this.retrieveEvents) {
-      const dateRange = this.calculateRange(this.viewDate, this.view);
       this.retrieveEvents(dateRange.start, dateRange.end);
+      return;
+    } else {
+      if(!this.loginService.userCan('event.list'))
+        this.router.navigate(['not-found']);
+
+      this.eventService.getPage(0, 32768, this.eventService.timeRangeQuery("", dateRange.start, dateRange.end)).
+        subscribe(eventResponse => {
+          this.events = eventResponse.results;
+          this.filteredEvents = eventResponse.results.map(serverEvent => this.mapEvent);
+        });
     }
   }
 
@@ -91,12 +110,30 @@ export class CalendarComponent implements OnInit, OnChanges {
         afterEnd: true
       };
     mapped.draggable = this.isDraggable;
+    alert("Mapped value is: " + JSON.stringify(mapped));
     return mapped;
   }
 
   getResourceName(res: Reservation): string {
     return res.resourceName;
   }
+
+  // newEvent() {
+  //   if(!this.allowEventCreation)
+  //     return;
+
+  //   var date = isToday(this.viewDate) ? 
+  //       startOfHour(addHours(new Date(), 1)): 
+  //       addHours(startOfDay(this.viewDate), 8);
+
+  //   this.editEvent({
+  //       id: 0,
+  //       startTime: date,
+  //       endTime: addHours(date, 1),
+  //       title: '',
+  //       schedulerId: this.loginService.getUserId()
+  //     });
+  // }
 
   groupByDate(events: any[]): any {
     var eventGroups: any[] = [];
@@ -116,41 +153,23 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   eventClicked(event: any) {
-    if(this.onEventSelect) {
-      this.onEventSelect(event);
-    } else {
-      event.startTime = event.start;
-      event.endTime = event.end;
-      this.selectedEvent.event = event;
-      this.selectedEvent.edit = false;
-      this.router.navigate(['calendar', 'event', event.id]);
-    }
-  }
-
-  newEvent() {
-    if(!this.allowEventCreation)
-      return;
-
-    var date = isToday(this.viewDate) ? 
-        startOfHour(addHours(new Date(), 1)): 
-        addHours(startOfDay(this.viewDate), 8);
-
-    this.openEventEditor({
-        id: 0,
-        startTime: date,
-        endTime: addHours(date, 1),
-        title: '',
-        schedulerId: this.loginService.getUserId()
-      });
-  }
-
-  openEventEditor(event: any) {
     if(!this.allowEventEdit)
       return;
 
+    event.startTime = event.start;
+    event.endTime = event.end;
+    this.navToEventEditor(event);
+  }
+
+  private navToEventEditor(event: any) {
     this.selectedEvent.event = event;
     this.selectedEvent.edit = true;
     this.router.navigate(['calendar', 'event', event.id]);
+  }
+
+  gotoView(view: CalendarView, date: Date) {
+    this.viewDate = date;
+    this.view = view;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -158,17 +177,11 @@ export class CalendarComponent implements OnInit, OnChanges {
       this.gotoView(CalendarView.Day, date);
   }
 
-  gotoView(view: CalendarView, date: Date) {
-    this.viewDate = date;
-    this.view = view;
-    // this.location.replaceState(`/calendar/${view.toLowerCase()}/${format(date, "YYYY-MM-DD")}`);
-  }
-
   hourClicked(date: Date) {
     if(!this.allowEventCreation)
       return;
 
-    this.openEventEditor({
+    this.navToEventEditor({
         id: 0,
         startTime: date,
         endTime: addHours(date, 1),
@@ -197,7 +210,7 @@ export class CalendarComponent implements OnInit, OnChanges {
 
     event.startTime = newStart;
     event.endTime = newEnd;
-    this.openEventEditor(event); 
+    this.navToEventEditor(event); 
   }
 
   highlightEvent(event) {

@@ -1,6 +1,6 @@
 <h2>Mass Intentions</h2>
 <app-paginated-list [dataService]="massIntentionService" 
-                    [fields]="[{name: 'massTime', type:'dateTime'}, {name: 'person', type:'identity'}, {'name':'intentionType', 'type':'enum'}, {name:'requester', type:'identity'}, 'requesterPhone']" 
+                    [fields]="[{name: 'massTime', type:'dateTime'}, {name: 'person', type:'identity'}, {'name':'intentionType', 'type':'enum'}, {name:'requester', type:'identity'}, 'requesterPhone', {name: 'stipend', type:'currency'}]" 
                     [pageSize]='20' 
                     [dialogComponent]="MassIntentionDialogComponent"
                     type="Mass Intention"

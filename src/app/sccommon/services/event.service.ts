@@ -70,7 +70,15 @@ export class EventService extends PaginatedService<Event> {
         catchError(this.handleError('eventReport', null))
       );
   }
-  
+
+  public getMasses(start = 0, count = 0, search = '', pathVars?: any): Observable<PaginatedResponse<Event>> {
+    const url = this.modifyUrl(this.url + '/sacrament/mass', pathVars);
+    return this.http.get<PaginatedResponse<Event>>(url+`?start=${start}&count=${count}&search=${encodeURIComponent(search)}`).pipe(
+        map(resp => this.mapResults(resp)),
+        catchError(this.handleError('getMasses', null))
+      );
+  }
+
   delete(item: Event, deleteFutureEvents: boolean = false, deletePermenantly: boolean = false, pathVars?: any): Observable<void> {
     var finalUrl = this.modifyUrl(this.url, pathVars) + `/${item.id}?deleteFutureEvents=${deleteFutureEvents}`;
     if(deletePermenantly) finalUrl += "&delete_permenantly=true";

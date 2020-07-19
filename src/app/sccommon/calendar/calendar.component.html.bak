@@ -64,14 +64,13 @@
         [dragAxis]="{x: event.draggable, y: event.draggable}"
         (mwlClick)="eventClicked.emit({ event: event })"
         >
-        {{event.title}} <span *ngIf="event.additionalDetail"> - <i>{{event.additionalDetail}}</i></span>
+        {{event.title}}
       </div>
     </div>
   </ng-template>
 
   <ng-template #eventTemplate let-event="event">
     <strong>{{event.title}}</strong> <br/>
-    <span *ngIf="event.additionalDetail"> <i>{{event.additionalDetail}}</i><br/></span>
     <div *ngFor="let room of event.reservations">
       {{room.resourceName}}
     </div>
@@ -113,7 +112,7 @@
   <div *ngIf="listView">
     <div *ngFor="let date of groupByDate(filteredEvents)">
       <div class="day-header">{{date.day | date: 'EEEE MMM dd, yyyy'}}</div>
-      <div *ngFor="let event of date.events" class="event-details" (click)="eventClicked(event)">
+      <div *ngFor="let event of date.events" class="event-details" (click)="viewEvent(event)">
         <div class="row">
           <div class="col-3 time">
             {{event.start | date: 'h:mma'}} - {{event.end | date: 'h:mma'}}

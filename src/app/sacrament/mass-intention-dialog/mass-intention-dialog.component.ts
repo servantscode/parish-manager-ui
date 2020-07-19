@@ -8,8 +8,10 @@ import { PaginatedResponse } from 'sc-common';
 
 import { PersonService } from 'sc-common';
 
+import { EventService } from '../../sccommon/services/event.service';
+
 import { MassIntentionService } from '../services/mass-intention.service';
-import { MassAvailabilityService } from '../services/mass-availability.service';
+// import { MassAvailabilityService } from '../services/mass-availability.service';
 
 
 @Component({
@@ -24,7 +26,8 @@ export class MassIntentionDialogComponent implements OnInit {
       person: [null, Validators.required],
       intentionType: ['', Validators.required],
       requester: [null, Validators.required],
-      requesterPhone: ['', Validators.pattern(SCValidation.PHONE)]
+      requesterPhone: ['', Validators.pattern(SCValidation.PHONE)],
+      stipend: [0]
     });
 
   public intentionTypes = this.massIntentionService.getIntentionTypes.bind(this.massIntentionService);
@@ -33,8 +36,9 @@ export class MassIntentionDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               private massIntentionService: MassIntentionService,
-              private personService: PersonService,
-              public availabilityService: MassAvailabilityService) { }
+              public eventService: EventService,
+              // public availabilityService: MassAvailabilityService,
+              private personService: PersonService) { }
   
   ngOnInit() {
     if(this.data.item)
@@ -59,13 +63,13 @@ export class MassIntentionDialogComponent implements OnInit {
 
     if(this.form.get("id").value > 0) {
       this.massIntentionService.update(this.form.value).
-        subscribe(() => {
-          this.dialogRef.close();
+        subscribe(intention => {
+          this.dialogRef.close(intention);
         });
     } else {
       this.massIntentionService.create(this.form.value).
-        subscribe(() => {
-          this.dialogRef.close();
+        subscribe(intention => {
+          this.dialogRef.close(intention);
         });
     }
   }

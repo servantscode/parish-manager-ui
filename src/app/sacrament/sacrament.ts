@@ -150,6 +150,7 @@ export class MassIntention extends Identifiable {
   intentionType: string;
   requester: Identity;
   requesterPhone: string;
+  stipend: number;
 
   identify(): string {
     return this.person.name;
@@ -163,6 +164,7 @@ export class MassIntention extends Identifiable {
     this.intentionType = null;
     this.requester = null;
     this.requesterPhone = null;
+    this.stipend = 0;
     return this;
   }
 }

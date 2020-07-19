@@ -27,6 +27,7 @@ import { MarriageDetailsComponent } from './marriage-details/marriage-details.co
 import { MarriageFormComponent } from './marriage-form/marriage-form.component';
 import { MassIntentionComponent } from './mass-intention/mass-intention.component';
 import { MassIntentionDialogComponent } from './mass-intention-dialog/mass-intention-dialog.component';
+import { MassScheduleComponent } from './mass-schedule/mass-schedule.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { MassIntentionDialogComponent } from './mass-intention-dialog/mass-inten
     MarriageDetailsComponent,
     MarriageFormComponent,
     MassIntentionComponent,
-    MassIntentionDialogComponent
+    MassIntentionDialogComponent,
+    MassScheduleComponent
   ],
   imports: [
     SacramentRoutingModule,

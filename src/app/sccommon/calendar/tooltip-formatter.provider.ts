@@ -8,6 +8,8 @@ export class TooltipFormatter extends CalendarEventTitleFormatter {
     var tooltip = "<strong>" + event.title + "</strong><br/>" + format(event.start, 'h:mm a');
     if(event.reservations)
       event.reservations.forEach(res => tooltip += "<br/>" + res.resourceName);
+    if(event.additionalDetail)
+      tooltip += "<br/><i>" + event.additionalDetail + "</i>";
     return tooltip;
   }
 
@@ -15,6 +17,8 @@ export class TooltipFormatter extends CalendarEventTitleFormatter {
     var tooltip = "<strong>" + event.title + "</strong>";
     if(event.reservations)
       event.reservations.forEach(res => tooltip += "<br/>" + res.resourceName);
+    if(event.additionalDetail)
+      tooltip += "<br/><i>" + event.additionalDetail + "</i>";
     return tooltip;
   }
 
@@ -22,6 +26,8 @@ export class TooltipFormatter extends CalendarEventTitleFormatter {
     var tooltip = "<strong>" + event.title + "</strong>";
     if(event.reservations)
       event.reservations.forEach(res => tooltip += "<br/>" + res.resourceName);
+    if(event.additionalDetail)
+      tooltip += "<br/><i>" + event.additionalDetail + "</i>";
     return tooltip;
   }
 }
