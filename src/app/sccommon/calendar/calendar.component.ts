@@ -12,7 +12,7 @@ import { Event, SelectedEvent } from '../event';
 import { Reservation } from '../reservation';
 import { EventService } from '../services/event.service';
 
-import { TooltipFormatter } from './tooltip-formatter.provider';
+import { ScTooltipFormatter } from './tooltip-formatter.provider';
 
 @Component({
   selector: 'sc-calendar',
@@ -21,7 +21,7 @@ import { TooltipFormatter } from './tooltip-formatter.provider';
   providers: [
     {
       provide: CalendarEventTitleFormatter,
-      useClass: TooltipFormatter
+      useClass: ScTooltipFormatter
     }
   ]
 })

@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <h3>Family contributions this year</h3>
+
+  <app-paginated-list [dataService]="contributionService" 
+                      [fields]="[{'name':'familyName', 'type':'string', 'linkTo':{'path':'/family/detail', 'idField':'familyId'}},
+                                 {'name':'totalDonations', 'type':'number'}, 
+                                 {'name':'totalDonationValue', 'type':'currency'}]" 
+                      [pageSize]='20' 
+                      type="FamilyContribution"
+                      (onSearch)="processUpdate($event)"
+                      [searchForm]="[{'name':'familyName', 'type':'autocomplete', 'service':familyService, 'selectIdentity':true},
+                                     {'name':'totalDonations', 'type':'number'},
+                                     {'name':'totalDonationValue', 'type':'numberRange'}]">                    
+  </app-paginated-list>
+  <div *ngIf="loginService.userCan('donation.export')" class="huge-icon download" (click)="downloadReport()">&nbsp;</div>
+</div>

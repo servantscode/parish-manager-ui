@@ -79,6 +79,13 @@ export class EventService extends PaginatedService<Event> {
       );
   }
 
+  public getSacramentTypes(): Observable<string[]> {
+    return this.http.get(this.url + '/sacrament/types').pipe(
+        catchError(this.handleError('getSacramentTypes', null))
+      );
+  }
+
+
   delete(item: Event, deleteFutureEvents: boolean = false, deletePermenantly: boolean = false, pathVars?: any): Observable<void> {
     var finalUrl = this.modifyUrl(this.url, pathVars) + `/${item.id}?deleteFutureEvents=${deleteFutureEvents}`;
     if(deletePermenantly) finalUrl += "&delete_permenantly=true";

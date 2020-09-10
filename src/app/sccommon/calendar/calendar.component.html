@@ -64,14 +64,14 @@
         [dragAxis]="{x: event.draggable, y: event.draggable}"
         (mwlClick)="eventClicked.emit({ event: event })"
         >
-        {{event.title}} <span *ngIf="event.additionalDetail"> - <i>{{event.additionalDetail}}</i></span>
+        {{event.title}} <span *ngIf="event.additionalDetails"> - <i>{{event.additionalDetails[0]}}</i></span>
       </div>
     </div>
   </ng-template>
 
   <ng-template #eventTemplate let-event="event">
     <strong>{{event.title}}</strong> <br/>
-    <span *ngIf="event.additionalDetail"> <i>{{event.additionalDetail}}</i><br/></span>
+    <span *ngFor="let detail of event.additionalDetails"> <i>{{detail}}</i><br/></span>
     <div *ngFor="let room of event.reservations">
       {{room.resourceName}}
     </div>

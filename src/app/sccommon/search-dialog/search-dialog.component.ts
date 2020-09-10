@@ -57,8 +57,13 @@ export class SearchDialogComponent implements OnInit {
           case "numberRange":  
             var start = this.form.get(fieldName + "Start").value;
             var end = this.form.get(fieldName + "End").value;
-            if(start || end)
+            if(start || start === 0 || end || end === 0)
               searchString += field.name + ":[" + this.formatNumber(start) + " TO " + this.formatNumber(end) + "] ";
+            break;
+          case "number":  
+            var value = this.form.get(fieldName).value;
+            if(value || value === 0)
+              searchString += field.name + ":" + value + " ";
             break;
           case "multiselect":
             var selected = this.form.get(fieldName).value;
@@ -81,7 +86,7 @@ export class SearchDialogComponent implements OnInit {
   }
 
   private formatNumber(number: number) {
-    return number? number: "*";
+    return number || number === 0 ? number: "*";
   }
 
   private formatDate(date: Date): string {

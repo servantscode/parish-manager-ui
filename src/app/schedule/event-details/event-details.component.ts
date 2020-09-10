@@ -51,6 +51,7 @@ export class EventDetailsComponent implements OnInit {
       departmentIds: [],
       categories: [],
       categoryIds: [],
+      sacramentType: [],
       recurringMeeting: [false],
       recurrence: null,
       reservations: []
@@ -59,6 +60,8 @@ export class EventDetailsComponent implements OnInit {
   static SHARED_FIELDS = ['title', 'description', 'privateEvent', 
                          'schedulerId', 'contactId', 'ministryId', 
                          'departments', 'categories'];
+
+  public sacramentTypes = this.eventService.getSacramentTypes.bind(this.eventService);
 
   event: Event;
   customEvents : Event[];

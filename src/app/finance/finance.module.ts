@@ -30,6 +30,7 @@ import { FinanceTabsComponent } from './finance-tabs/finance-tabs.component';
 import { RecordDonationComponent } from './record-donation/record-donation.component';
 import { PledgeComponent } from './pledge/pledge.component';
 import { ReviewIncomingDonationsComponent } from './review-incoming-donations/review-incoming-donations.component';
+import { FamilyContributionComponent } from './family-contribution/family-contribution.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ReviewIncomingDonationsComponent } from './review-incoming-donations/re
     RecordDonationComponent,
     DonationComponent,
     PledgeComponent,
-    ReviewIncomingDonationsComponent
+    ReviewIncomingDonationsComponent,
+    FamilyContributionComponent
   ],
   imports: [
     FinanceRoutingModule,

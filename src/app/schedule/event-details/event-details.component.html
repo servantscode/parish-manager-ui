@@ -43,6 +43,8 @@
         <input type="hidden" autocomplete="off" formControlName="id"/>
       </div>
       <div class="col">
+        <sc-enum formControlName="sacramentType" label="Sacrament Type" [required]="false" [valueSource]="sacramentTypes"></sc-enum>
+
         <sc-multi-select formControlName="departmentIds" label="Departments" [autocompleteService]="departmentService"></sc-multi-select>
         <sc-multi-select formControlName="categoryIds" label="Categories" [autocompleteService]="categoryService"></sc-multi-select>
 

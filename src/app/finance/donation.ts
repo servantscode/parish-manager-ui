@@ -35,3 +35,26 @@ export class Donation extends Identifiable {
     return this;
   }
 }
+
+export class FamilyContribution extends Identifiable {
+  familyId: number;
+  familyName: string;
+  headName: string;
+  spouseName: string;
+  totalDonations: number;
+  totalDonationValue: number;
+
+  public identify(): string {
+    return this.familyName;
+  }
+
+  public asTemplate(): FamilyContribution {
+    this.familyId=0;
+    this.familyName=null;
+    this.headName=null;
+    this.spouseName=null;
+    this.totalDonations=0;
+    this.totalDonationValue=0;
+    return this;
+  }
+}

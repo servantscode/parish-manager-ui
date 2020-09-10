@@ -49,7 +49,10 @@ export class MassScheduleComponent implements OnInit {
           const mass: any = this.masses.find(m => m.id == intention.eventId);
           if(mass) {
             mass.intention = intention;
-            mass.additionalDetail = "for " + intention.person.name;
+            if(!mass.additionalDetails)
+              mass.additionalDetails = [];
+            mass.additionalDetails.push("for " + intention.person.name + (intention.intentionType == "DECEASED"? " †": ""));
+            mass.additionalDetails.push("requested by " + intention.requester.name);
           }
         }
       });
@@ -76,7 +79,9 @@ export class MassScheduleComponent implements OnInit {
     dialogRef.afterClosed().subscribe(intention => {
         if(intention)
           e.intention = intention;
-          e.additionalDetail = "for " + intention.person.name;
+          e.additionalDetails = [];
+          e.additionalDetails.push("for " + intention.person.name + (intention.intentionType == "DECEASED"? " †": " (sp)"));
+          e.additionalDetails.push("requested by " + intention.requester.name);
       });
   }
 }
